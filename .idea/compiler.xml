@@ -7,10 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="backend" />
+        <module name="frontend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="backend" target="17" />
+      <module name="frontend" target="1.5" />
+      <module name="opensoundqueue" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
