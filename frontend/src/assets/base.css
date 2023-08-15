@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "Comfortaa";
+    font-style: normal;
+    font-weight: 300;
+    src: local("Comfortaa Light"), local("Comfortaa-Light"), url("fonts/Comfortaa-Light.woff2") format("woff2"), url("fonts/Comfortaa-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    src: local("Roboto Light"), local("Roboto-Light"), url("fonts/Roboto-Light.woff2") format("woff2"), url("fonts/Roboto-Light.ttf") format("truetype");
+}
+
+:root {
+    --primary-font: Roboto;
+    --secondary-font: Comfortaa;
+}

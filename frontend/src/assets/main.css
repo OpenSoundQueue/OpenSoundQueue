@@ -1,1 +1,8 @@
 @import "@/assets/base.css";
+
+body {
+    font-family: var(--primary-font);
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+}
