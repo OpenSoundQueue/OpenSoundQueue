@@ -1,15 +1,18 @@
 <template>
   <div class="page-selector-wrapper">
-    <button @click="previousPage" class="change-page-button">
-      <img alt="arrow left" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
-    </button>
-    <div v-for="page in selection">
+    <div class="selector-element">
+      <button @click="previousPage" class="change-page-button">
+        <img alt="arrow left" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
+      </button>
+    </div>
+    <div v-for="page in selection" class="selector-element">
       <SelectPage @select-page="setSelectedPage(page)" :label="page" :selected="isPageSelected(page)"/>
     </div>
-    <div>{{ }}</div>
-    <button @click="nextPage" class="change-page-button">
-      <img alt="arrow right" src="@/assets/icons/arrows/keyboard_arrow_right.svg">
-    </button>
+    <div class="selector-element">
+      <button @click="nextPage" class="change-page-button">
+        <img alt="arrow right" src="@/assets/icons/arrows/keyboard_arrow_right.svg">
+      </button>
+    </div>
   </div>
 </template>
 
@@ -18,37 +21,22 @@ import {computed, ref} from "vue";
 import type {Ref} from "vue";
 import SelectPage from "@/components/Paging/SelectPage.vue";
 
-const buttonCount = 7;
-const pageCount = 122;
+const buttonCount = 5;
+const pageCount = 12;
 const selectedPage: Ref<number> = ref(1);
 
-
-const selection = computed((): (number | string)[] => {
+const selection = computed((): number[] => {
   // first pages
-  if (selectedPage.value <= buttonCount / 2) {
-    return [
-      ...getFirstNPages(buttonCount - 2),
-      getPlaceHolder(),
-      getLastPage()
-    ]
+  if (selectedPage.value <= Math.round(buttonCount / 2)) {
+    return getFirstNPages(buttonCount);
   }
 
   // last pages
   if (selectedPage.value > pageCount - buttonCount / 2) {
-    return [
-      getFirstPage(),
-      getPlaceHolder(),
-      ...getLastNPages(buttonCount - 3)
-    ];
+    return getLastNPages(buttonCount);
   }
 
-  return [
-    getFirstPage(),
-    getPlaceHolder(),
-    ...getSelectedPageInTheMiddle(selectedPage.value, buttonCount - 4),
-    getPlaceHolder(),
-    getLastPage()
-  ];
+  return getSelectedPageInTheMiddle(selectedPage.value, buttonCount);
 });
 
 function nextPage(): void {
@@ -61,29 +49,32 @@ function previousPage(): void {
   selectedPage.value--;
 }
 
-function setSelectedPage(page: string | number): void {
-  if (typeof page === "string") {
-    return;
-  }
+function setSelectedPage(page: number): void {
   selectedPage.value = page;
 }
 
-function isPageSelected(page: string | number): boolean {
-  if (typeof page === "string") {
-    return false;
-  }
-
+function isPageSelected(page: number): boolean {
   return page === selectedPage.value;
 }
 
 function getSelectedPageInTheMiddle(selectedPage: number, length: number): number[] {
   const pageArray = [];
 
-  if (length % 2 === 0) return [];
+  let distanceToSelected: {before: number, after: number};
 
-  const distanceToSelected = (length - 1) / 2;
+  if (length % 2 === 0) {
+    distanceToSelected = {
+      before: length / 2,
+      after: length / 2 - 1
+    };
+  } else {
+    distanceToSelected = {
+      before: Math.floor(length / 2),
+      after: Math.floor(length / 2)
+    };
+  }
 
-  for (let i = selectedPage - distanceToSelected; i <= selectedPage + distanceToSelected; i++) {
+  for (let i = selectedPage - distanceToSelected.before; i <= selectedPage + distanceToSelected.after; i++) {
     pageArray.push(i);
   }
 
@@ -93,7 +84,7 @@ function getSelectedPageInTheMiddle(selectedPage: number, length: number): numbe
 function getLastNPages(n: number): number[] {
   const pages = [];
 
-  for (let i = pageCount - n; i <= pageCount; i++) {
+  for (let i = pageCount - n + 1; i <= pageCount; i++) {
     pages.push(i);
   }
 
@@ -108,41 +99,33 @@ function getFirstNPages(n: number): number[] {
 
   return pages;
 }
-
-function getPlaceHolder(): string {
-  return "...";
-}
-
-function getFirstPage(): number {
-  return 1;
-}
-
-function getLastPage(): number {
-  return pageCount;
-}
 </script>
 
 <style scoped>
 .page-selector-wrapper {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 300px;
   margin: auto;
 }
 
-.change-page-button {
+.selector-element > button {
   display: flex;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
   justify-content: center;
   align-items: center;
-  border: none;
   border-radius: 50%;
   color: var(--text-color);
-  background: none;;
+  border: solid 2px var(--secondary-color);
 }
 
-.change-page-button img {
+.change-page-button {
+  background: transparent;
+}
+
+.selector-element > button img {
   width: 22px;
   height: 22px;
 }

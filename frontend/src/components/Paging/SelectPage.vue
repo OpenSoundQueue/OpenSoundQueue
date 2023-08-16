@@ -1,10 +1,10 @@
 <template>
-  <button @click="emit('selectPage')" :class="[selected ? 'selected' : '']">{{ label }}</button>
+  <button @click="emit('selectPage')" :class="[selected ? 'selected' : 'not-selected']">{{ label }}</button>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  label: string | number,
+  label: number,
   selected: boolean
 }>();
 
@@ -14,17 +14,8 @@ const emit = defineEmits<{
 </script>
 
 <style scoped>
-button {
-  font-size: 15px;
-  display: flex;
-  width: 32px;
-  height: 32px;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 50%;
-  color: var(--text-color);
-  background: none;
+.not-selected {
+  background: transparent;
 }
 
 .selected {
