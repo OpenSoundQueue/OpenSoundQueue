@@ -19,28 +19,33 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
 import type {Ref} from "vue";
-import SelectPage from "@/components/Paging/SelectPage.vue";
+import SelectPage from "@/components/paging/SelectPage.vue";
 
-const buttonCount = 5;
-const pageCount = 12;
+const props = defineProps<{
+  selectablePagesCount: number,
+  pageCount: number,
+}>();
+// const selectablePagesCount = 5;
+// const pageCount = 12;
+
 const selectedPage: Ref<number> = ref(1);
 
 const selection = computed((): number[] => {
   // first pages
-  if (selectedPage.value <= Math.round(buttonCount / 2)) {
-    return getFirstNPages(buttonCount);
+  if (selectedPage.value <= Math.round(props.selectablePagesCount / 2)) {
+    return getFirstNPages(props.selectablePagesCount);
   }
 
   // last pages
-  if (selectedPage.value > pageCount - buttonCount / 2) {
-    return getLastNPages(buttonCount);
+  if (selectedPage.value > props.pageCount - props.selectablePagesCount / 2) {
+    return getLastNPages(props.selectablePagesCount);
   }
 
-  return getSelectedPageInTheMiddle(selectedPage.value, buttonCount);
+  return getSelectedPageInTheMiddle(selectedPage.value, props.selectablePagesCount);
 });
 
 function nextPage(): void {
-  if (selectedPage.value === pageCount) return;
+  if (selectedPage.value === props.pageCount) return;
   selectedPage.value++;
 }
 
@@ -84,7 +89,7 @@ function getSelectedPageInTheMiddle(selectedPage: number, length: number): numbe
 function getLastNPages(n: number): number[] {
   const pages = [];
 
-  for (let i = pageCount - n + 1; i <= pageCount; i++) {
+  for (let i = props.pageCount - n + 1; i <= props.pageCount; i++) {
     pages.push(i);
   }
 
