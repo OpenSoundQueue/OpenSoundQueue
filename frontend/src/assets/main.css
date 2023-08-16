@@ -2,7 +2,13 @@
 
 body {
     font-family: var(--primary-font);
+    background: var(--background-color);
+    color: var(--text-color);
     font-size: 14px;
     padding: 0;
     margin: 0;
+}
+
+button {
+    font-family: var(--primary-font);
 }

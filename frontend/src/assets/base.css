@@ -15,4 +15,18 @@
 :root {
     --primary-font: Roboto;
     --secondary-font: Comfortaa;
+    --text-color: white;
+    --background-color: var(--dark-blue);
+    --primary-color: var(--magenta);
+    --secondary-color: var(--grayish-blue);
+}
+
+:root {
+    --light-gray: #D9D9D9;
+    --dark-gray: #7A7A7A;
+    --pink: #BB86FF;
+    --magenta: #9747FF;
+    --violet: #2D1966;
+    --grayish-blue: #2E364F;
+    --dark-blue: #191E2D;
 }
