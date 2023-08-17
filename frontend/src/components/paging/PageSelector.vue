@@ -25,8 +25,6 @@ const props = defineProps<{
   selectablePagesCount: number,
   pageCount: number,
 }>();
-// const selectablePagesCount = 5;
-// const pageCount = 12;
 
 const selectedPage: Ref<number> = ref(1);
 
