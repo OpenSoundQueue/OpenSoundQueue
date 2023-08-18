@@ -6,7 +6,7 @@
       </button>
     </div>
     <div v-for="page in selection" class="selector-element">
-      <SelectPage @select-page="setSelectedPage(page)" :label="page" :selected="isPageSelected(page)"/>
+      <SelectPage @select-page="setSelectedPage(page)" :label="page + 1" :selected="isPageSelected(page)"/>
     </div>
     <div class="selector-element">
       <button @click="nextPage" class="change-page-button">
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import type {Ref} from "vue";
 import SelectPage from "@/components/paging/SelectPage.vue";
 
@@ -26,11 +26,15 @@ const props = defineProps<{
   pageCount: number,
 }>();
 
-const selectedPage: Ref<number> = ref(1);
+const emit = defineEmits<{
+  selectPage: [pageNumber: number]
+}>();
+
+const selectedPage: Ref<number> = ref(0);
 
 const selection = computed((): number[] => {
   // first pages
-  if (selectedPage.value <= Math.round(props.selectablePagesCount / 2)) {
+  if (selectedPage.value <= Math.round(props.selectablePagesCount / 2) - 1) {
     return getFirstNPages(props.selectablePagesCount);
   }
 
@@ -42,13 +46,17 @@ const selection = computed((): number[] => {
   return getSelectedPageInTheMiddle(selectedPage.value, props.selectablePagesCount);
 });
 
+watch(selectedPage, () => {
+  emit("selectPage", selectedPage.value);
+})
+
 function nextPage(): void {
-  if (selectedPage.value === props.pageCount) return;
+  if (selectedPage.value === props.pageCount - 1) return;
   selectedPage.value++;
 }
 
 function previousPage(): void {
-  if (selectedPage.value === 1) return;
+  if (selectedPage.value === 0) return;
   selectedPage.value--;
 }
 
@@ -63,7 +71,7 @@ function isPageSelected(page: number): boolean {
 function getSelectedPageInTheMiddle(selectedPage: number, length: number): number[] {
   const pageArray = [];
 
-  let distanceToSelected: {before: number, after: number};
+  let distanceToSelected: { before: number, after: number };
 
   if (length % 2 === 0) {
     distanceToSelected = {
@@ -87,7 +95,7 @@ function getSelectedPageInTheMiddle(selectedPage: number, length: number): numbe
 function getLastNPages(n: number): number[] {
   const pages = [];
 
-  for (let i = props.pageCount - n + 1; i <= props.pageCount; i++) {
+  for (let i = props.pageCount - n; i < props.pageCount; i++) {
     pages.push(i);
   }
 
@@ -96,7 +104,7 @@ function getLastNPages(n: number): number[] {
 
 function getFirstNPages(n: number): number[] {
   const pages = [];
-  for (let i = 1; i <= n; i++) {
+  for (let i = 0; i < n; i++) {
     pages.push(i);
   }
 
