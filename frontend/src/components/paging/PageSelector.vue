@@ -116,8 +116,7 @@ function getFirstNPages(n: number): number[] {
 .page-selector-wrapper {
   display: flex;
   justify-content: space-between;
-  width: 300px;
-  margin: auto;
+  width: 100%;
 }
 
 .selector-element > button {
