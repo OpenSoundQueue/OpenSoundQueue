@@ -4,20 +4,20 @@ import {Song} from "@/models/Song";
 const httpClient = new HttpClient();
 
 export class HttpService {
-    postQueue(pageNumber: number, pageSize: number) {
+    postQueuePage(pageNumber: number, pageSize: number) {
         const data = {
             pageNumber: pageNumber,
             pageSize: pageSize
         }
 
-        return httpClient.post("/queue", data)
+        return httpClient.post("/queue-page", data)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
                 return response.json();
-            }).then((data: Song[]) => {
+            }).then((data: {page: Song[], numberOfPages: number}) => {
                 return data;
             });
     }

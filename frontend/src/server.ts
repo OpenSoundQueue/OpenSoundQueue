@@ -33,7 +33,7 @@ export function makeServer({environment = "development"} = {}) {
             type AppRegistry = Registry<{ song: typeof SongModel}, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
-            this.post("/queue", (schema: AppSchema, request) => {
+            this.post("/queue-page", (schema: AppSchema, request) => {
                 let requestBody = JSON.parse(request.requestBody);
 
                 const songs = schema.db.songs;
@@ -41,7 +41,10 @@ export function makeServer({environment = "development"} = {}) {
                 let start = requestBody.pageSize * requestBody.pageNumber;
                 let end = start + requestBody.pageSize;
 
-                return songs.slice(start, end);
+                return {
+                    page: songs.slice(start, end),
+                    numberOfPages: Math.ceil(songs.length / requestBody.pageSize)
+                };
             })
         },
     })
