@@ -5,6 +5,14 @@ const httpClient = new HttpClient();
 
 export class HttpService {
     postQueuePage(pageNumber: number, pageSize: number) {
+        type QueuePage = {
+            page: [{
+                numberInQueue: number,
+                song: Song
+            }],
+            numberOfPages: number
+        }
+
         const data = {
             pageNumber: pageNumber,
             pageSize: pageSize
@@ -17,7 +25,7 @@ export class HttpService {
                 }
 
                 return response.json();
-            }).then((data: {page: Song[], numberOfPages: number}) => {
+            }).then((data: QueuePage) => {
                 return data;
             });
     }

@@ -5,7 +5,7 @@
         <img alt="arrow left" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
       </button>
     </div>
-    <div v-for="page in selection" class="selector-element">
+    <div v-for="(page, index) in selection" :key="index" class="selector-element">
       <SelectPage @select-page="setSelectedPage(page)" :label="page + 1" :selected="isPageSelected(page)"/>
     </div>
     <div class="selector-element">
@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
-import type {Ref} from "vue";
 import SelectPage from "@/components/paging/SelectPage.vue";
+import type {Ref} from "vue";
 
 const props = defineProps<{
   selectablePagesCount: number,

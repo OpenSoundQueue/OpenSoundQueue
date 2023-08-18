@@ -26,12 +26,4 @@ export class Song {
     get duration() {
         return this._duration;
     }
-
-    static fromDto(dto: SongDto): Song {
-        return new Song(
-            dto.title,
-            dto.artist,
-            dto.duration
-        );
-    }
 }

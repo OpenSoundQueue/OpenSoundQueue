@@ -42,7 +42,12 @@ export function makeServer({environment = "development"} = {}) {
                 let end = start + requestBody.pageSize;
 
                 return {
-                    page: songs.slice(start, end),
+                    page: songs.slice(start, end).map((song, index) => {
+                        return {
+                            song: song,
+                            numberInQueue: index + requestBody.pageSize * requestBody.pageNumber
+                        }
+                    }),
                     numberOfPages: Math.ceil(songs.length / requestBody.pageSize)
                 };
             })
