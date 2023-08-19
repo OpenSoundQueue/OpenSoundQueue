@@ -2,19 +2,14 @@
   <main>
     <div class="queue-wrapper">
       <div class="queue-container">
-        <div v-for="(songData, index) in queuePage" :key="index" class="song-container">
-          <div class="queue-number">{{ songData.numberInQueue + 1 }}</div>
-          <div class="song-details-container">
-            <div class="song-title">
-              {{ songData.song.title }}
-            </div>
-            <div class="song-artist">
-              {{ songData.song.artist }}
-            </div>
-          </div>
-          <div class="song-duration">
-            {{ getDurationString(songData.song.duration) }}
-          </div>
+        <div v-for="(songData, index) in queuePage" :key="index">
+          <Entry v-if="!queuePageIsLoading"
+              :number-in-queue="songData.numberInQueue"
+              :title="songData.song.title"
+              :artist="songData.song.title"
+              :duration="songData.song.duration"
+          />
+          <EntrySkeleton v-else/>
         </div>
       </div>
       <PageSelector @select-page="(pageNumber) => selectQueuePage(pageNumber)" :page-count="numberOfQueuePages"
@@ -27,27 +22,29 @@
 import {onMounted, ref} from "vue";
 import PageSelector from "@/components/paging/PageSelector.vue";
 import {HttpService} from "@/services/HttpService";
+import Entry from "@/components/queue/Entry.vue"
 import {Song} from "@/models/Song";
 import type {Ref} from "vue";
+import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 
 const httpService = new HttpService();
 const queuePage: Ref<Array<{ numberInQueue: number, song: Song }>> = ref([]);
 const numberOfQueuePages = ref(5);
+const queuePageIsLoading = ref(false);
 
 onMounted(() => {
   selectQueuePage(0);
 })
 
 function selectQueuePage(pageNumber: number) {
+  queuePageIsLoading.value = true;
+
   httpService.postQueuePage(pageNumber, 10)
       .then((data) => {
         queuePage.value = data.page;
         numberOfQueuePages.value = data.numberOfPages;
+        queuePageIsLoading.value = false;
       });
-}
-
-function getDurationString(durationInSeconds: number): string {
-  return `${Math.floor(durationInSeconds / 60) ?? 0}:${durationInSeconds % 60 < 10 ? "00" : durationInSeconds % 60}`
 }
 </script>
 
@@ -59,54 +56,7 @@ function getDurationString(durationInSeconds: number): string {
 }
 
 .queue-container {
-  min-height: 440px;
+  min-height: 445px;
   margin-bottom: 20px;
-}
-
-.song-container {
-  width: 100%;
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.queue-number {
-  font-size: 16px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 28px;
-}
-
-.song-details-container {
-  width: 90%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.song-artist {
-  width: 100%;
-  margin-top: 3px;
-  font-size: 11px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.song-title {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.song-duration {
-  margin-left: auto;
-  font-size: 11px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }
 </style>
