@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: OpenSoundQueue API
+  description: Documentation of all API endpoints
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /queue-page:
+    post:
+      tags:
+        - public
+      description: receive a page of the queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                pageNumber: 0
+                pageSize: 3
+      responses:
+        201:
+          description: data of the requested page
+          content:
+            application/json:
+              schema:
+                example:
+                  numberOfPages: 12
+                  page:
+                    - numberInQueue: 0
+                      song:
+                        artist: Giveon
+                        duration: 200
+                        title: For Tonight
+                    - numberInQueue: 1
+                      song:
+                        artist: The Kid LAROI & Justin Bieber
+                        duration: 69
+                        title: Stay
+                    - numberInQueue: 2
+                      song:
+                        artist: Lil Nas X & Jack Harlow
+                        duration: 157
+                        title: Industry Baby
+
