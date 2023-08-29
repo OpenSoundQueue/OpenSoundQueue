@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Collapse label="In Queue">
+    <Collapse label="In Queue" :is-collapsed="false">
       <Queue></Queue>
     </Collapse>
   </main>

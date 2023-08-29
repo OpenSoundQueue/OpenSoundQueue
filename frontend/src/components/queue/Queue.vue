@@ -1,6 +1,9 @@
 <template>
   <div class="queue-wrapper">
     <div class="queue-container">
+      <div v-if="!queuePage.length">
+        <EntrySkeleton v-for="(index) in pageSize" :key="index"/>
+      </div>
       <div v-for="(songData, index) in queuePage" :key="index">
         <Entry v-if="!queuePageIsLoading"
                :number-in-queue="songData.numberInQueue"
@@ -29,6 +32,7 @@ const httpService = new HttpService();
 const queuePage: Ref<Array<{ numberInQueue: number, song: Song }>> = ref([]);
 const numberOfQueuePages = ref(5);
 const queuePageIsLoading = ref(false);
+const pageSize = 10;
 
 onMounted(() => {
   selectQueuePage(0);
@@ -37,7 +41,7 @@ onMounted(() => {
 function selectQueuePage(pageNumber: number) {
   queuePageIsLoading.value = true;
 
-  httpService.postQueuePage(pageNumber, 10)
+  httpService.postQueuePage(pageNumber, pageSize)
       .then((data) => {
         queuePage.value = data.page;
         numberOfQueuePages.value = data.numberOfPages;
@@ -49,7 +53,6 @@ function selectQueuePage(pageNumber: number) {
 <style scoped>
 .queue-wrapper {
   width: 300px;
-  margin: auto;
   font-size: 16px;
 }
 
