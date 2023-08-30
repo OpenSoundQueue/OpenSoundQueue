@@ -1,15 +1,15 @@
 <template>
   <div class="page-selector-wrapper">
-    <div class="selector-element">
+    <div class="page-change">
       <button @click="previousPage" class="change-page-button">
         <img alt="arrow left" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
       </button>
     </div>
-    <div v-for="(page, index) in selection" :key="index" class="selector-element">
+    <div v-for="(page, index) in selection" :key="index" class="page-select">
       <SelectPage @select-page="setSelectedPage(page)" :label="page + 1" :selected="isPageSelected(page)"/>
     </div>
-    <div class="selector-element">
-      <button @click="nextPage" class="change-page-button">
+    <div class="page-change">
+      <button @click="nextPage">
         <img alt="arrow right" src="@/assets/icons/arrows/keyboard_arrow_right.svg">
       </button>
     </div>
@@ -115,11 +115,28 @@ function getFirstNPages(n: number): number[] {
 <style scoped>
 .page-selector-wrapper {
   display: flex;
+  gap: 5px;
   justify-content: space-between;
   width: 100%;
 }
 
-.selector-element > button {
+.page-select {
+  width: 100%;
+}
+
+.page-select > button {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  color: var(--text-color);
+  border: solid 2px var(--secondary-color);
+}
+
+.page-change > button {
   display: flex;
   width: 40px;
   height: 40px;
@@ -131,11 +148,11 @@ function getFirstNPages(n: number): number[] {
   border: solid 2px var(--secondary-color);
 }
 
-.change-page-button {
+.page-change > button {
   background: transparent;
 }
 
-.selector-element > button img {
+.page-change > button img {
   width: 22px;
   height: 22px;
 }

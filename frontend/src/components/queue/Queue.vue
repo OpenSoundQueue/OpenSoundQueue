@@ -15,7 +15,7 @@
       </div>
     </div>
     <PageSelector @select-page="(pageNumber) => selectQueuePage(pageNumber)" :page-count="numberOfQueuePages"
-                  :selectable-pages-count="5"/>
+                  :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
   </div>
 </template>
 
