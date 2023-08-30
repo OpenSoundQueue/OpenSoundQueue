@@ -30,7 +30,7 @@ export function makeServer({environment = "development"} = {}) {
         routes() {
             this.namespace = "api"
 
-            type AppRegistry = Registry<{ song: typeof SongModel}, { /* factories can be defined here */ }>
+            type AppRegistry = Registry<{ song: typeof SongModel }, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
             this.post("/queue-page", (schema: AppSchema, request) => {
@@ -49,6 +49,34 @@ export function makeServer({environment = "development"} = {}) {
                         }
                     }),
                     numberOfPages: Math.ceil(songs.length / requestBody.pageSize)
+                };
+            })
+
+            let start = Date.now();
+            this.get("/queue-current", (schema: AppSchema) => {
+                const songs = schema.db.songs;
+
+                if (Date.now() - start > 100_000) {
+                    start = Date.now();
+                }
+
+                return {
+                    isPlaying: true,
+                    time: Date.now() - start,
+                    stamp: Date.now(),
+                    song: songs[0]
+                }
+            })
+
+
+            this.get("/test", () => {
+                if (Date.now() - start > 100_000) {
+                    start = Date.now();
+                }
+
+                return {
+                    time: Date.now() - start,
+                    stamp: Date.now()
                 };
             })
         },

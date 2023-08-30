@@ -29,4 +29,17 @@ export class HttpService {
                 return data;
             });
     }
+
+    getQueueCurrent() {
+        return httpClient.get("/queue-current")
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
 }

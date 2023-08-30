@@ -18,6 +18,10 @@ export default class HttpClient {
         return this.request(url, data, method, headers);
     }
 
+    get(path: string) {
+        return this.rest(path, undefined, "GET");
+    }
+
     post(path: string, data: unknown) {
         return this.rest(path, data, "POST");
     }

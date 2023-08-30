@@ -8,7 +8,7 @@
         <Entry v-if="!queuePageIsLoading"
                :number-in-queue="songData.numberInQueue"
                :title="songData.song.title"
-               :artist="songData.song.title"
+               :artist="songData.song.artist"
                :duration="songData.song.duration"
         />
         <EntrySkeleton v-else/>
