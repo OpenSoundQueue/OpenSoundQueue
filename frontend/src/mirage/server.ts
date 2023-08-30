@@ -64,20 +64,8 @@ export function makeServer({environment = "development"} = {}) {
                     isPlaying: true,
                     time: Date.now() - start,
                     stamp: Date.now(),
-                    song: songs[0]
+                    song: songs[1]
                 }
-            })
-
-
-            this.get("/test", () => {
-                if (Date.now() - start > 100_000) {
-                    start = Date.now();
-                }
-
-                return {
-                    time: Date.now() - start,
-                    stamp: Date.now()
-                };
             })
         },
     })
