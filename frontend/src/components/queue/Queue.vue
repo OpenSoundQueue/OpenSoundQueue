@@ -53,7 +53,7 @@ function selectQueuePage(pageNumber: number) {
 <style scoped>
 .queue-wrapper {
   width: 100%;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
 }
 
 .queue-container {

@@ -31,7 +31,7 @@ function toggleCollapse() {
 <style scoped>
 .collapse-wrapper {
   width: 100%;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   margin-bottom: 20px;
 }
 

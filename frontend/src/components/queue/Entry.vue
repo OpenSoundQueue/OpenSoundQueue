@@ -39,7 +39,7 @@ function getDurationString(durationInSeconds: number): string {
 }
 
 .queue-number {
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -56,7 +56,7 @@ function getDurationString(durationInSeconds: number): string {
 .song-artist {
   width: 100%;
   margin-top: 3px;
-  font-size: 11px;
+  font-size: var(--font-size-small);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -71,7 +71,7 @@ function getDurationString(durationInSeconds: number): string {
 
 .song-duration {
   margin-left: auto;
-  font-size: 11px;
+  font-size: var(--font-size-small);
   display: flex;
   justify-content: flex-start;
   align-items: center;

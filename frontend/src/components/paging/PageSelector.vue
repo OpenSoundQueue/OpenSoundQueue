@@ -128,7 +128,7 @@ function getFirstNPages(n: number): number[] {
   display: flex;
   width: 100%;
   height: 40px;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   justify-content: center;
   align-items: center;
   border-radius: 20px;
@@ -140,7 +140,7 @@ function getFirstNPages(n: number): number[] {
   display: flex;
   width: 40px;
   height: 40px;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   justify-content: center;
   align-items: center;
   border-radius: 50%;

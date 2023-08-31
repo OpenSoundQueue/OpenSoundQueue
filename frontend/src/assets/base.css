@@ -22,6 +22,9 @@
 :root {
     --primary-font: Roboto;
     --secondary-font: Comfortaa;
+    --font-size-big: 22px;
+    --font-size-medium: 16px;
+    --font-size-small: 11px;
     --text-color: white;
     --background-color: var(--dark-blue);
     --primary-color: var(--magenta);

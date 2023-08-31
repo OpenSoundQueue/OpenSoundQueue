@@ -65,13 +65,13 @@ function secondsToTimeString(time: number): string {
 
 .title {
   height: 30px;
-  font-size: 22px;
+  font-size: var(--font-size-big);
   margin-bottom: 5px;
 }
 
 .artist {
   height: 20px;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   margin-bottom: 20px;
 }
 </style>
