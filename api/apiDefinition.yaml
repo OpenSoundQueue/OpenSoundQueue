@@ -6,21 +6,21 @@ info:
 servers:
   - url: 'https'
 paths:
-  /queue-page:
-    post:
+  /queue-page/{page-number}:
+    get:
       tags:
         - public
-      description: receive a page of the queue
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              example:
-                pageNumber: 0
-                pageSize: 3
+      description: receive a page of the queue with default page size
+      parameters:
+        - in: path
+          name: page-number
+          schema:
+            type: integer
+            example: 2
+          required: true
+          description: Number of page
       responses:
-        201:
+        200:
           description: data of the requested page
           content:
             application/json:
@@ -43,4 +43,84 @@ paths:
                         artist: Lil Nas X & Jack Harlow
                         duration: 157
                         title: Industry Baby
-
+        400:
+          description: page number does not exist
+          content:
+            application/json:
+              schema:
+                example:
+                  error: The requested page number does not exist
+  /queue-page/{page-number}/page-size/{page-size}:
+    get:
+      tags:
+        - public
+      description: receive a page of the queue with custom page size
+      parameters:
+        - in: path
+          name: page-number
+          schema:
+            type: integer
+            example: 2
+          required: true
+          description: Number of page
+        - in: path
+          name: page-size
+          schema:
+            type: integer
+            example: 10
+          required: true
+          description: Size of page
+      responses:
+        200:
+          description: data of the requested page
+          content:
+            application/json:
+              schema:
+                example:
+                  numberOfPages: 12
+                  page:
+                    - numberInQueue: 0
+                      song:
+                        artist: Giveon
+                        duration: 200
+                        title: For Tonight
+                    - numberInQueue: 1
+                      song:
+                        artist: The Kid LAROI & Justin Bieber
+                        duration: 69
+                        title: Stay
+                    - numberInQueue: 2
+                      song:
+                        artist: Lil Nas X & Jack Harlow
+                        duration: 157
+                        title: Industry Baby
+        400:
+          description: page number does not exist
+          content:
+            application/json:
+              schema:
+                example:
+                  error: The requested page number does not exist
+  /queue/now-playing:
+    get:
+      tags:
+        - public
+      description: receive the song that is currently playing and metadata of it
+      responses:
+        200:
+          description: data of the currently playing song and its metadata
+          content:
+            application/json:
+              schema:
+                example:
+                  isPlaying: true,
+                  time: 61
+                  stamp: 1693508721172
+                  song:
+        400:
+          description: no song currently playing
+          content:
+            application/json:
+              schema:
+                example:
+                  error: no song currently playing
