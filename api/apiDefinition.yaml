@@ -113,14 +113,17 @@ paths:
             application/json:
               schema:
                 example:
-                  isPlaying: true,
+                  isPlaying: True
                   time: 61
                   stamp: 1693508721172
                   song:
+                    artist: The Kid LAROI & Justin Bieber
+                    title: Stay
+                    duration: 60
         400:
           description: no song currently playing
           content:
             application/json:
               schema:
                 example:
-                  error: no song currently playing
+                  error: No song currently playing
