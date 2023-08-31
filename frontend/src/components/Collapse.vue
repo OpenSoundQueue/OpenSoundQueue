@@ -3,11 +3,10 @@
    <div class="open-close-container" @click="toggleCollapse">
      <div class="label">{{ label }}</div>
      <div class="icon">
-       <img alt="arrow down" v-if="isCollapsed" src="@/assets/icons/arrows/keyboard_arrow_down.svg">
-       <img alt="arrow up" v-else src="@/assets/icons/arrows/keyboard_arrow_up.svg">
+       <img alt="arrow down" :style="{transform: `rotate(${isCollapsed ? 180 : 0}deg)`}" src="@/assets/icons/arrows/keyboard_arrow_up.svg">
      </div>
    </div>
-   <div class="collapse-container" v-if="!isCollapsed">
+   <div class="collapse-container" v-show="!isCollapsed">
      <slot></slot>
    </div>
  </div>
@@ -32,6 +31,7 @@ function toggleCollapse() {
 .collapse-wrapper {
   width: 100%;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
 .open-close-container {
@@ -41,5 +41,15 @@ function toggleCollapse() {
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
+}
+
+.collapse-container {
+  margin: auto;
+  width: calc(100% - 40px);
+  padding-top: 10px;
+}
+
+.icon img {
+  transition: transform 0.2s ease;
 }
 </style>
