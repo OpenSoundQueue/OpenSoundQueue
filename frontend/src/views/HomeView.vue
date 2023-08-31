@@ -1,12 +1,18 @@
 <template>
   <main>
+    <ProgressBar :label-left="getCurrentTime"
+                 :label-right="getDuration"
+                 :value="progress"
+                 :min="0"
+                 :max="100"
+    />
     <p>{{ currentSong?.title }}</p>
     <p>{{ currentSong?.artist }}</p>
     <p>{{ getCurrentTime }}</p>
     <input type="range" :value="progress" min="0" max="100" step="1">
     <p>{{ getDuration }}</p>
     <Collapse label="In Queue" :is-collapsed="false">
-      <Queue></Queue>
+      <Queue/>
     </Collapse>
   </main>
 </template>
@@ -19,6 +25,7 @@ import {computed, ref} from "vue";
 import {Song} from "@/models/Song";
 
 import type {Ref} from "vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 
 const progress = ref(0);
 const currentTime = ref(0);
@@ -56,4 +63,15 @@ function secondsToTimeString(time: number): string {
 
 </script>
 
-<style></style>
+<style>
+main {
+  width: 320px;
+  margin: auto;
+}
+
+@media screen and (min-width: 800px) {
+  main {
+    width: 550px;
+  }
+}
+</style>
