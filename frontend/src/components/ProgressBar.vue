@@ -2,7 +2,7 @@
   <div class="progress-bar-wrapper">
     <div class="label">{{ labelLeft }}</div>
     <div class="progress-bar-container">
-      <div class="progress-bar" :style="{transform: `translateX(${getValue}%)`}"></div>
+      <div class="progress-bar" :style="{transform: `translateX(${getValue - 100}%)`}"></div>
     </div>
     <div class="label">{{ labelRight }}</div>
   </div>
@@ -20,6 +20,12 @@ const props = defineProps<{
 }>();
 
 const getValue = computed(() => {
+  const valueInBounds = (props.value - props.min) / props.max * 100;
+
+  if (valueInBounds > props.max) {
+    return props.max;
+  }
+
   return (props.value - props.min) / props.max * 100;
 });
 </script>
@@ -34,7 +40,7 @@ const getValue = computed(() => {
 .progress-bar-container {
   overflow: hidden;
   border-radius: var(--border-radius-small);
-  background: var(--text-color);
+  background: var(--secondary-color);
   height: 5px;
   width: 100%;
 }
@@ -46,7 +52,8 @@ const getValue = computed(() => {
 }
 
 .progress-bar {
-  background: var(--secondary-color);
+  background: var(--text-color);
+  border-radius: var(--border-radius-small);
   position: relative;
   height: 5px;
   top: 0;
