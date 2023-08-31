@@ -20,10 +20,6 @@ import {computed, onMounted, ref} from "vue";
 import {Song} from "@/models/Song";
 
 import type {Ref} from "vue";
-<<<<<<< HEAD
-=======
-import ProgressBar from "@/components/ProgressBar.vue";
->>>>>>> origin/public_queue
 
 const progress = ref(0);
 const currentTime = ref(0);
