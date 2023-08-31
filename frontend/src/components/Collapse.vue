@@ -9,6 +9,7 @@
    <div class="collapse-container" v-show="!isCollapsed">
      <slot></slot>
    </div>
+   <div class="end-indicator" v-show="!isCollapsed"></div>
  </div>
 </template>
 
@@ -43,13 +44,21 @@ function toggleCollapse() {
   padding: 10px 10px;
 }
 
+.icon img {
+  transition: transform 0.2s ease;
+}
+
 .collapse-container {
   margin: auto;
   width: calc(100% - 40px);
   padding-top: 10px;
 }
 
-.icon img {
-  transition: transform 0.2s ease;
+.end-indicator {
+  border-radius: 0 0 var(--border-radius-big) var(--border-radius-medium);
+  height: 20px;
+  margin-top: 20px;
+  border: var(--secondary-color) 3px dashed;
+  border-top: none;
 }
 </style>
