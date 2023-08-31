@@ -1,0 +1,15 @@
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+${AnsiColor.MAGENTA}       ____                  ${AnsiColor.BLUE}  _____                       _ ${AnsiColor.MAGENTA} ____                        ${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}      / __ \                 ${AnsiColor.BLUE} / ____|                     | |${AnsiColor.MAGENTA}/ __ \                       ${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}     | |  | |_ __   ___ _ __ ${AnsiColor.BLUE}| (___   ___  _   _ _ __   __| |${AnsiColor.MAGENTA} |  | |_   _  ___ _   _  ___ ${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}     | |  | | '_ \ / _ \ '_ \${AnsiColor.BLUE} \___ \ / _ \| | | | '_ \ / _` |${AnsiColor.MAGENTA} |  | | | | |/ _ \ | | |/ _ \${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}     | |__| | |_) |  __/ | | |${AnsiColor.BLUE}____) | (_) | |_| | | | | (_| |${AnsiColor.MAGENTA} |__| | |_| |  __/ |_| |  __/${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}      \____/| .__/ \___|_| |_|${AnsiColor.BLUE}_____/ \___/ \__,_|_| |_|\__,_|${AnsiColor.MAGENTA}\___\_\\__,_|\___|\__,_|\___|${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}            | |              ${AnsiColor.BLUE}                                ${AnsiColor.MAGENTA}                             ${AnsiColor.DEFAULT}
+${AnsiColor.MAGENTA}            |_|              ${AnsiColor.BLUE}                                ${AnsiColor.MAGENTA}                             ${AnsiColor.DEFAULT}
+
+A software project made by ${AnsiColor.BRIGHT_YELLOW}Daniel Pillwein${AnsiColor.DEFAULT}, ${AnsiColor.BRIGHT_YELLOW}Lukas Schodl${AnsiColor.DEFAULT} and ${AnsiColor.BRIGHT_YELLOW}Markus Wizany${AnsiColor.DEFAULT}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

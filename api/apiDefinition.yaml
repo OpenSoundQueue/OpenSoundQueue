@@ -4,9 +4,9 @@ info:
   description: Documentation of all API endpoints
   version: 1.0.0
 servers:
-  - url: 'https'
+  - url: 'https://localhost:8080'
 paths:
-  /queue-page/{page-number}:
+  /queue/page/{page-number}:
     get:
       tags:
         - public
@@ -50,7 +50,7 @@ paths:
               schema:
                 example:
                   error: The requested page number does not exist
-  /queue-page/{page-number}/page-size/{page-size}:
+  /queue/page/{page-number}/page-size/{page-size}:
     get:
       tags:
         - public

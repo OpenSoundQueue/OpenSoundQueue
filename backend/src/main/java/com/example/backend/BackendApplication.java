@@ -1,6 +1,12 @@
 package com.example.backend;
 
 import com.example.backend.exceptions.UnsupportedSystemException;
+import com.example.backend.streaming.SongQueueService;
+import com.example.backend.streaming.youtube.SongImplYoutube;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,14 +16,20 @@ import java.io.InputStreamReader;
 
 @SpringBootApplication
 public class BackendApplication {
+    private static final Logger LOG = LoggerFactory.getLogger(BackendApplication.class);
 
-    public static void main(String[] args) throws UnsupportedSystemException {
-        installYT_DLP();
+    @Autowired
+    private SongQueueService songQueueService;
 
+    public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @PostConstruct
     private static void installYT_DLP() throws UnsupportedSystemException {
+        LOG.info("Installing YT-DLP");
+        Long timestamp = System.currentTimeMillis();
+
         String currentOs = System.getProperty("os.name");
 
         if (currentOs.contains("Windows")) {
@@ -29,6 +41,8 @@ public class BackendApplication {
         } else {
             throw new UnsupportedSystemException("Your current System is not supported");
         }
+
+        LOG.info("Installed YT-DLP in " + (System.currentTimeMillis() - timestamp) + "ms");
     }
 
     private static void ytdlpLinuxSetup() {
@@ -40,12 +54,10 @@ public class BackendApplication {
                     new BufferedReader(new InputStreamReader(p.getInputStream()));
 
             String line = "";
-            System.out.println("cmd output:");
-            System.out.println("------------------------");
             while ((line = reader.readLine())!= null) {
-                System.out.println(line);
+                if (line.length() == 0 || line.charAt(0) == ' ') continue;
+                LOG.info("YT-DLP: " + line);
             }
-            System.out.println("------------------------");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,8 +76,6 @@ public class BackendApplication {
         }
         BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String line;
-        System.out.println("cmd output:");
-        System.out.println("------------------------");
         while (true) {
             try {
                 line = r.readLine();
@@ -73,9 +83,31 @@ public class BackendApplication {
                 throw new RuntimeException(e);
             }
             if (line == null) { break; }
-            System.out.println(line);
+            if (line.length() == 0 || line.charAt(0) == ' ') continue;
+            LOG.info("YT-DLP: " + line);
         }
-        System.out.println("------------------------");
+    }
+
+    @PostConstruct
+    private void feedTestData() {
+        LOG.warn("Feeding song queue with test data... (might take a while)");
+        for (int i = 0; i < 3; i++) {
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=_t431MAUQlQ"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=zJj__pWtpug"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=tsmPCi7NKrg"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=rcVb6l4TpHw"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=MW_5jZ67z9E"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=SlPhMPnQ58k"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=VtGpN6dRADY"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=yasj3j76SyM"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=UnyLfqpyi94"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=RBV3YFf76ow"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=ds6o9in_y-o"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=Y7ix6RITXM0"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=pgN-vvVVxMA"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=dvgZkm1xWPE"));
+            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=hTWKbfoikeg"));
+        }
     }
 
 }
