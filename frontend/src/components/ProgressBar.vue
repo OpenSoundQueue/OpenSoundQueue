@@ -47,7 +47,7 @@ const getValue = computed(() => {
 
 .label {
   text-align: center;
-  width: 5%;
+  width: 25px;
   font-size: 11px;
 }
 
