@@ -1,7 +1,9 @@
 package com.example.backend.streaming;
 
 public interface Song {
-    void play();
+    Object play();
     void stop();
-    String getInfo();
+    void close();
+    void downloadDependencies();
+    SongInfo getInfo();
 }
