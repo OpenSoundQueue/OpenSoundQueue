@@ -27,29 +27,29 @@ const getValue = computed(() => {
 <style scoped>
 .progress-bar-wrapper {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
 .progress-bar-container {
   overflow: hidden;
-  height: 20px;
-  background: red;
+  border-radius: var(--border-radius-small);
+  background: var(--text-color);
+  height: 5px;
   width: 100%;
 }
 
 .label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   width: 5%;
   font-size: 11px;
 }
 
 .progress-bar {
+  background: var(--secondary-color);
   position: relative;
-  height: 20px;
+  height: 5px;
   top: 0;
-  background: blue;
   transition: transform 0.1s linear;
 }
 </style>
