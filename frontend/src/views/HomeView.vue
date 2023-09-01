@@ -1,9 +1,9 @@
 <template>
   <main>
-    <Collapse label="Now Playing" :is-collapsed="false">
+    <Collapse :label="$translate('nowPlaying')" :is-collapsed="false">
       <NowPlaying/>
     </Collapse>
-    <Collapse label="In Queue" :is-collapsed="false">
+    <Collapse :label="$translate('inQueue')" :is-collapsed="false">
       <Queue/>
     </Collapse>
   </main>
