@@ -212,4 +212,9 @@ public class SongImplYoutube implements Song {
         }
         return counter > 2;
     }
+
+    @Override
+    public int getCurrentTime() {
+        return (int)this.clip.getMicrosecondPosition()/1_000_000;
+    }
 }

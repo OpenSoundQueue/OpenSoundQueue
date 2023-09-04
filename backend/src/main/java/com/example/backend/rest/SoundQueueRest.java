@@ -30,4 +30,10 @@ public class SoundQueueRest {
         if (pagedSongs == null) return new ResponseEntity<>(new ErrorDto("page number does not exist"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(new QueuePageDto(pageNumber, songQueueService.getTotalPages(pageSize), pagedSongs, pageSize), HttpStatus.OK);
     }
+
+    @GetMapping("/queue/now-playing")
+    public ResponseEntity<Object> getNowPlaying() {
+        if (!songQueueService.isPlaying()) return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(songQueueService.getCurrentPlayingSong(), HttpStatus.OK);
+    }
 }
