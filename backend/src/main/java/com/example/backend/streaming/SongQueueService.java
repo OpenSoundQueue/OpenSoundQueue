@@ -1,5 +1,6 @@
 package com.example.backend.streaming;
 
+import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ public class SongQueueService {
     private int defaultPageSize;
 
     List<Song> songQueue = new LinkedList<>();
+    private boolean isPlaying = false;
 
     public void addSong(Song song) {
         songQueue.add(song);
@@ -62,10 +64,10 @@ public class SongQueueService {
         }
         Object songStream = songQueue.get(0).play();
         if (songQueue.size() > 1) {
-            new Thread(() -> {
-                songQueue.get(1).downloadDependencies();
-            }).start();
+            new Thread(() -> songQueue.get(1).downloadDependencies()).start();
         }
+
+        isPlaying = true;
 
         // handle what happens after song is finished and next should start
         if (songStream instanceof Clip songStreamClip) {
@@ -84,6 +86,7 @@ public class SongQueueService {
 
     public void stop() {
         songQueue.get(0).stop();
+        isPlaying = false;
     }
 
     public SongInfo getInfo() {
@@ -100,5 +103,13 @@ public class SongQueueService {
 
     public int getDefaultPageSize() {
         return this.defaultPageSize;
+    }
+
+    public boolean isPlaying() {
+        return this.isPlaying;
+    }
+
+    public CurrentlyPlayingDto getCurrentPlayingSong() {
+        return new CurrentlyPlayingDto(isPlaying, songQueue.get(0).getCurrentTime(), System.currentTimeMillis(), songQueue.get(0).getInfo());
     }
 }

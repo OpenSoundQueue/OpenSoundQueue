@@ -6,4 +6,5 @@ public interface Song {
     void close();
     void downloadDependencies();
     SongInfo getInfo();
+    int getCurrentTime();
 }
