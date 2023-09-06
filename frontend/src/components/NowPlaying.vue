@@ -50,7 +50,6 @@ const getDuration = computed(() => {
 
 function getTime() {
   httpService.getNowPlaying().then(data => {
-    console.log(data);
     currentSong.value = data.song;
 
     currentTime.value = (data.time + Date.now() - data.stamp) / 1000;

@@ -33,7 +33,7 @@ export function makeServer({environment = "development"} = {}) {
             type AppRegistry = Registry<{ song: typeof SongModel }, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
-            this.post("/queue-page", (schema: AppSchema, request) => {
+            this.post("/queue/page", (schema: AppSchema, request) => {
                 let requestBody = JSON.parse(request.requestBody);
 
                 const songs = schema.db.songs;
@@ -53,7 +53,7 @@ export function makeServer({environment = "development"} = {}) {
             })
 
             let start = Date.now();
-            this.get("/queue-current", (schema: AppSchema) => {
+            this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
                 if (Date.now() - start > 100_000) {
