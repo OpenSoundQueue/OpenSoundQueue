@@ -12,9 +12,14 @@ export default class HttpClient {
     }
 
     rest(path: string, data: unknown, method: httpMethod) {
-        let headers = {"Content-Type": "application/json"};
+        let headers = {"Content-Type": "application/json", "mode": "cors"};
 
-        const url = "/api" + path;
+        if (import.meta.env.DEV) {
+            const url = "/api" + path;
+            return this.request(url, data, method, headers);
+        }
+
+        const url = "http://localhost:8080/api" + path;
         return this.request(url, data, method, headers);
     }
 

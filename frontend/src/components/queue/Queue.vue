@@ -41,7 +41,7 @@ onMounted(() => {
 function selectQueuePage(pageNumber: number) {
   queuePageIsLoading.value = true;
 
-  httpService.postQueuePage(pageNumber, pageSize)
+  httpService.getQueuePage(pageNumber, pageSize)
       .then((data) => {
         queuePage.value = data.page;
         numberOfQueuePages.value = data.numberOfPages;

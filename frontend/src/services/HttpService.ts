@@ -4,7 +4,7 @@ import {Song} from "@/models/Song";
 const httpClient = new HttpClient();
 
 export class HttpService {
-    postQueuePage(pageNumber: number, pageSize: number) {
+    getQueuePage(pageNumber: number, pageSize: number) {
         type QueuePage = {
             page: [{
                 numberInQueue: number,
@@ -13,12 +13,7 @@ export class HttpService {
             numberOfPages: number
         }
 
-        const data = {
-            pageNumber: pageNumber,
-            pageSize: pageSize
-        }
-
-        return httpClient.post("/queue-page", data)
+        return httpClient.get(`/queue/page/${pageNumber}/page-size/${pageSize}`)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -30,8 +25,8 @@ export class HttpService {
             });
     }
 
-    getQueueCurrent() {
-        return httpClient.get("/queue-current")
+    getNowPlaying() {
+        return httpClient.get("/queue/now-playing")
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
