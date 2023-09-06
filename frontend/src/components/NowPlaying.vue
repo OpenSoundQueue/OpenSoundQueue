@@ -1,8 +1,14 @@
 <template>
   <div class="now-playing-wrapper">
     <div class="title-artist-wrapper">
-      <div class="title">{{ currentSong?.title }}</div>
-      <div class="artist">{{ currentSong?.artist }}</div>
+      <div class="title-container">
+        <div v-if="currentSong" class="title">{{ currentSong?.title }}</div>
+        <div v-else class="skeleton"></div>
+      </div>
+      <div class="artist-container">
+        <div v-if="currentSong" class="artist">{{ currentSong?.artist }}</div>
+        <div v-else class="skeleton"></div>
+      </div>
     </div>
     <ProgressBar :label-left="getCurrentTime"
                  :label-right="getDuration"
@@ -63,15 +69,27 @@ function secondsToTimeString(time: number): string {
   margin: 10px 0 10px 0;
 }
 
-.title {
+.title-container .title {
   height: 30px;
   font-size: var(--font-size-big);
   margin-bottom: 5px;
 }
 
-.artist {
+.title-container .skeleton {
+  height: 30px;
+  width: 30%;
+  margin-bottom: 5px;
+}
+
+.artist-container .artist {
   height: 20px;
   font-size: var(--font-size-medium);
+  margin-bottom: 20px;
+}
+
+.artist-container .skeleton {
+  height: 20px;
+  width: 50%;
   margin-bottom: 20px;
 }
 </style>
