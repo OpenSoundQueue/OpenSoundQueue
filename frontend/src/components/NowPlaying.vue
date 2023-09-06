@@ -74,6 +74,9 @@ function secondsToTimeString(time: number): string {
   height: 30px;
   font-size: var(--font-size-big);
   margin-bottom: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .title-container .skeleton {
@@ -86,6 +89,9 @@ function secondsToTimeString(time: number): string {
   height: 20px;
   font-size: var(--font-size-medium);
   margin-bottom: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .artist-container .skeleton {
