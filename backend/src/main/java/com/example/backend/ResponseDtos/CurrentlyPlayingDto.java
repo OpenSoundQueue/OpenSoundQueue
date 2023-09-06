@@ -40,4 +40,12 @@ public class CurrentlyPlayingDto {
     public void setSong(SongInfo song) {
         this.song = song;
     }
+
+    public int getTime() {
+        return time;
+    }
+
+    public Long getStamp() {
+        return stamp;
+    }
 }
