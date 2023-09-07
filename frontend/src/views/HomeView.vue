@@ -4,7 +4,7 @@
       <NowPlaying/>
     </Collapse>
     <Collapse :label="$translate('inQueue')" :is-collapsed="false">
-      <Queue/>
+      <Queue :page-reload-interval="4000"/>
     </Collapse>
   </main>
 </template>

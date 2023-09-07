@@ -14,7 +14,7 @@
         <EntrySkeleton v-else/>
       </div>
     </div>
-    <PageSelector @select-page="(pageNumber) => selectQueuePage(pageNumber)" :page-count="numberOfQueuePages"
+    <PageSelector @select-page="(pageNumber) => selectNewPage(pageNumber)" :page-count="numberOfQueuePages"
                   :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
   </div>
 </template>
@@ -28,24 +28,41 @@ import Entry from "@/components/queue/Entry.vue";
 import PageSelector from "@/components/paging/PageSelector.vue";
 import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 
+const props = defineProps<{
+  pageUpdateInterval: number
+}>();
+
 const httpService = new HttpService();
 const queuePage: Ref<Array<{ numberInQueue: number, song: Song }>> = ref([]);
 const numberOfQueuePages = ref(5);
 const queuePageIsLoading = ref(false);
+const currentPage = ref(0);
 const pageSize = 10;
 
 onMounted(() => {
-  selectQueuePage(0);
+  selectNewPage(currentPage.value);
+
+  setInterval(() => reloadPage(), props.pageUpdateInterval);
 })
 
-function selectQueuePage(pageNumber: number) {
+function selectNewPage(pageNumber: number) {
   queuePageIsLoading.value = true;
+  currentPage.value = pageNumber;
 
-  httpService.getQueuePage(pageNumber, pageSize)
+  requestPage(pageNumber).then(() => {
+    queuePageIsLoading.value = false;
+  });
+}
+
+function reloadPage() {
+  requestPage(currentPage.value);
+}
+
+async function requestPage(pageNumber: number) {
+  return httpService.getQueuePage(pageNumber, pageSize)
       .then((data) => {
         queuePage.value = data.page;
         numberOfQueuePages.value = data.numberOfPages;
-        queuePageIsLoading.value = false;
       });
 }
 </script>
