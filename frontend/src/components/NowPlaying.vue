@@ -27,13 +27,17 @@ import {Song} from "@/models/Song";
 
 import type {Ref} from "vue";
 
+const props = defineProps<{
+  updateInterval: number
+}>();
+
 const progress = ref(0);
 const currentTime = ref(0);
 const currentSong: Ref<Song | undefined> = ref();
 const httpService = new HttpService();
 
 onMounted(() => {
-  setInterval(getTime, 1000);
+  setInterval(getTime, props.updateInterval);
 });
 
 const getCurrentTime = computed(() => {

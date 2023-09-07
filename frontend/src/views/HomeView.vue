@@ -1,10 +1,10 @@
 <template>
   <main>
     <Collapse :label="$translate('nowPlaying')" :is-collapsed="false">
-      <NowPlaying/>
+      <NowPlaying :update-interval="1000"/>
     </Collapse>
     <Collapse :label="$translate('inQueue')" :is-collapsed="false">
-      <Queue :page-reload-interval="4000"/>
+      <Queue :page-update-interval="4000"/>
     </Collapse>
   </main>
 </template>
