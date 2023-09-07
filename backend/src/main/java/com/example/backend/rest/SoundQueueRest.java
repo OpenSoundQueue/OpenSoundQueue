@@ -33,7 +33,7 @@ public class SoundQueueRest {
 
     @GetMapping("/queue/now-playing")
     public ResponseEntity<Object> getNowPlaying() {
-        if (!songQueueService.isPlaying()) return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
+        if (songQueueService.getQueue().size() == 0) return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(songQueueService.getCurrentPlayingSong(), HttpStatus.OK);
     }
 }

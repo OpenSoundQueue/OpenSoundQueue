@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +28,7 @@ public class BackendApplication {
     }
 
     @PostConstruct
+    @Order(1)
     private static void installYT_DLP() throws UnsupportedSystemException {
         LOG.info("Installing YT-DLP");
         Long timestamp = System.currentTimeMillis();
@@ -88,6 +91,8 @@ public class BackendApplication {
         }
     }
 
+    @Profile("!prod")
+    @Order(2)
     @PostConstruct
     private void feedTestData() {
         LOG.warn("Feeding song queue with test data... (might take a while)");

@@ -7,4 +7,5 @@ public interface Song {
     void downloadDependencies();
     SongInfo getInfo();
     int getCurrentTime();
+    boolean isFetchingInfos();
 }
