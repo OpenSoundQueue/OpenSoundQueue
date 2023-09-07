@@ -32,20 +32,31 @@ public class SongImplYoutube implements Song {
     private Long duration = null;
     private String artist = null;
 
+    private boolean isFetchingInfos = true;
+
     public SongImplYoutube(String link) {
         this.link = link;
 
         new Thread(() -> {
+            this.isFetchingInfos = true;
             SongInfo info = getInfo();
-            title = info.getTitle().replaceAll("#?\\\\", "");
+            title = info.getTitle().replaceAll("#?\\\\", "").replaceAll(":", " ");
             duration = info.getDuration();
             artist = info.getArtist();
             fileName = this.artist + " - " + this.title + ".wav";
+            this.isFetchingInfos = false;
         }).start();
     }
 
     @Override
     public Clip play() {
+        while (this.isFetchingInfos) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         if (isStarted) {
             this.clip.start();
             return this.clip;
@@ -215,6 +226,10 @@ public class SongImplYoutube implements Song {
 
     @Override
     public int getCurrentTime() {
-        return (int)this.clip.getMicrosecondPosition()/1_000_000;
+        return (int)this.clip.getMicrosecondPosition()/1_000;
+    }
+
+    public boolean isFetchingInfos() {
+        return this.isFetchingInfos;
     }
 }

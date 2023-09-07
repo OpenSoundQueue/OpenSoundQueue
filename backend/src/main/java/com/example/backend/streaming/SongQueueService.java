@@ -23,6 +23,9 @@ public class SongQueueService {
 
     public void addSong(Song song) {
         songQueue.add(song);
+        if (songQueue.size() == 1) {
+            new Thread(this::play).start();
+        }
     }
 
     public void skip() {
