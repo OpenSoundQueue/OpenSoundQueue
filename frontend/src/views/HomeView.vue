@@ -1,9 +1,16 @@
 <template>
-<div class="wrapper">
-  <div class="button"></div>
-  <div class="slider"></div>
-  <div class="label">4/5</div>
-</div>
+  <main>
+    <div class="wrapper">
+      <div class="slider">
+        <div class="button-label-container">
+          <div class="button">
+            <img src="@/assets/icons/music/skip.svg" alt="skip icon">
+          </div>
+          <div class="label">4/5</div>
+        </div>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -13,23 +20,39 @@
 <style scoped>
 .wrapper {
   height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background: red;
+  display: flex;
+  align-items: center;
+}
+
+.button-label-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .button {
-  position: relative;
-  z-index: 1;
-  top: 25px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.slider {
-  position: relative;
-  width: 100px;
-  height: 20px;
-  background: red;
-  bottom: calc(35px - 10px);
+.label {
+  width: calc(100% - 50px);
+  text-align: center;
 }
+
 </style>
