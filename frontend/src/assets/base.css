@@ -8,11 +8,38 @@
 @font-face {
     font-family: "Roboto";
     font-style: normal;
-    font-weight: 300;
+    font-weight: normal;
     src: local("Roboto Light"), local("Roboto-Light"), url("fonts/Roboto-Light.woff2") format("woff2"), url("fonts/Roboto-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: bold;
+    src: local("Roboto Regular"), local("Roboto-Regular"), url("fonts/Roboto-Regular.woff2") format("woff2"), url("fonts/Roboto-Regular.ttf") format("truetype");
 }
 
 :root {
     --primary-font: Roboto;
     --secondary-font: Comfortaa;
+    --font-size-big: 22px;
+    --font-size-medium: 16px;
+    --font-size-small: 11px;
+    --text-color: white;
+    --background-color: var(--dark-blue);
+    --primary-color: var(--magenta);
+    --secondary-color: var(--grayish-blue);
+    --border-radius-small: 3px;
+    --border-radius-medium: 5px;
+    --border-radius-big: 10px;
+}
+
+:root {
+    --light-gray: #D9D9D9;
+    --dark-gray: #7A7A7A;
+    --pink: #BB86FF;
+    --magenta: #9747FF;
+    --violet: #2D1966;
+    --grayish-blue: #2E364F;
+    --dark-blue: #191E2D;
 }
