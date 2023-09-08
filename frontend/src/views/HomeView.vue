@@ -3,10 +3,10 @@
     <div @click="activate" class="wrapper">
       <div class="slider" :class="[isActive ? 'active' : 'inactive']">
         <div class="button-label-container">
-          <div class="button" :class="[isActive ? 'active' : 'inactive']">
+          <div class="button unselectable" :class="[isActive ? 'active' : 'inactive']">
             <img src="@/assets/icons/music/skip.svg" alt="skip icon">
           </div>
-          <div class="label" :class="[isActive ? 'active' : 'inactive']">4 / 5</div>
+          <div class="label unselectable" :class="[isActive ? 'active' : 'inactive']">4 / 5</div>
         </div>
       </div>
     </div>
