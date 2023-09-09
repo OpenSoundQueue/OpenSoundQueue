@@ -1,12 +1,18 @@
 <template>
-  <main>
-    <VoteSkip/>
-  </main>
+  <div @click="activate" class="wrapper">
+    <div class="slider" :class="[isActive ? 'active' : 'inactive']">
+      <div class="button-label-container">
+        <div class="button unselectable" :class="[isActive ? 'active' : 'inactive']">
+          <img src="@/assets/icons/music/skip.svg" alt="skip icon">
+        </div>
+        <div class="label unselectable" :class="[isActive ? 'active' : 'inactive']">4 / 5</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
-import VoteSkip from "@/components/control/VoteSkip.vue";
 
 const isActive = ref(false);
 
@@ -17,7 +23,9 @@ function activate() {
 }
 </script>
 
+
 <style scoped>
+
 .wrapper {
   height: 70px;
   width: 100px;
@@ -85,5 +93,6 @@ function activate() {
   color: var(--background-color);
   font-weight: bold;
 }
+
 
 </style>
