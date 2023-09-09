@@ -1,25 +1,97 @@
 <template>
   <div @click="activate" class="wrapper">
-    <div class="slider" :class="[isActive ? 'active' : 'inactive']">
+    <div class="slider" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
       <div class="button-label-container">
-        <div class="button unselectable" :class="[isActive ? 'active' : 'inactive']">
+        <div class="button unselectable" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
           <img src="@/assets/icons/music/skip.svg" alt="skip icon">
         </div>
-        <div class="label unselectable" :class="[isActive ? 'active' : 'inactive']">4 / 5</div>
+        <div class="label unselectable" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
+          {{ voteSkipData.received }} / {{ voteSkipData.required }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {HttpService} from "@/services/HttpService";
 
-const isActive = ref(false);
+type VoteSkipDto = {
+  isActive: boolean,
+  required: number,
+  received: number
+}
+
+const props = defineProps<{
+  updateInterval: number
+}>();
+
+const httpService = new HttpService();
+
+const voteSkipData = ref({
+  isActive: false,
+  required: 0,
+  received: 0
+});
+
+let interval: number;
+
+onMounted(() => {
+  requestStatus();
+
+  interval = setInterval(() => {
+    requestStatus();
+  }, props.updateInterval);
+})
+
+function requestStatus() {
+  httpService.getVoteSkipStatus()
+      .then((data: VoteSkipDto) => {
+        voteSkipData.value = data;
+      })
+}
+
+function requestVote() {
+  voteSkipData.value.received ++;
+
+  httpService.getVoteSkipVote()
+      .then((data: VoteSkipDto) => {
+        voteSkipData.value = data;
+      })
+}
+
+function withdrawVote() {
+  voteSkipData.value.received --;
+
+  httpService.getVoteSkipWithdraw()
+      .then((data: VoteSkipDto) => {
+        voteSkipData.value = data;
+      })
+}
 
 function activate() {
-  console.log(isActive.value);
-  isActive.value = !isActive.value;
-  console.log(isActive.value);
+  resetInterval();
+
+  if (voteSkipData.value.isActive) {
+    withdrawVote();
+
+    voteSkipData.value.isActive = false;
+
+    return;
+  }
+
+  requestVote();
+
+  voteSkipData.value.isActive = true;
+}
+
+function resetInterval() {
+  clearInterval(interval);
+
+  interval = setInterval(() => {
+    requestStatus()
+  }, props.updateInterval);
 }
 </script>
 

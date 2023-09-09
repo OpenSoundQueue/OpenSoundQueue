@@ -63,4 +63,17 @@ export class HttpService {
                 return data;
             })
     }
+
+    getVoteSkipWithdraw() {
+        return httpClient.get("/vote-skip/withdraw")
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
 }

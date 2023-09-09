@@ -70,8 +70,10 @@ export function makeServer({environment = "development"} = {}) {
             })
 
             let votes = 0;
+            let isActive = false;
             this.get("vote-skip/status", () => {
                return {
+                   isActive: isActive,
                    received: votes,
                    required: 5
                };
@@ -79,8 +81,21 @@ export function makeServer({environment = "development"} = {}) {
 
             this.get("vote-skip/vote", () => {
                 votes++;
+                isActive = true;
 
                 return {
+                    isActive: isActive,
+                    received: votes,
+                    required: 5
+                };
+            })
+
+            this.get("vote-skip/withdraw", () => {
+                votes--;
+                isActive = false;
+
+                return {
+                    isActive: isActive,
                     received: votes,
                     required: 5
                 };
