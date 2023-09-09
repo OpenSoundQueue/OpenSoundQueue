@@ -19,18 +19,22 @@ public class SongQueueService {
     private int defaultPageSize;
 
     List<Song> songQueue = new LinkedList<>();
+    Song currentSong = null;
     private boolean isPlaying = false;
 
     public void addSong(Song song) {
-        songQueue.add(song);
-        if (songQueue.size() == 1) {
+        if (currentSong == null) {
+            currentSong = song;
             new Thread(this::play).start();
+        } else {
+            songQueue.add(song);
         }
     }
 
     public void skip() {
-        this.songQueue.get(0).close();
-        this.songQueue.remove(0);
+        this.currentSong.close();
+        currentSong = songQueue.get(0);
+        songQueue.remove(0);
         this.play();
     }
 
@@ -65,9 +69,10 @@ public class SongQueueService {
             LOG.info("Song queue is empty!");
             return;
         }
-        Object songStream = songQueue.get(0).play();
-        if (songQueue.size() > 1) {
-            new Thread(() -> songQueue.get(1).downloadDependencies()).start();
+        Object songStream = currentSong.play();
+
+        if (songQueue.size() > 0) {
+            new Thread(() -> songQueue.get(0).downloadDependencies()).start();
         }
 
         isPlaying = true;
@@ -88,12 +93,12 @@ public class SongQueueService {
     }
 
     public void stop() {
-        songQueue.get(0).stop();
+        currentSong.stop();
         isPlaying = false;
     }
 
     public SongInfo getInfo() {
-        return songQueue.get(0).getInfo();
+        return currentSong.getInfo();
     }
 
     public int getTotalPages() {
@@ -113,6 +118,6 @@ public class SongQueueService {
     }
 
     public CurrentlyPlayingDto getCurrentPlayingSong() {
-        return new CurrentlyPlayingDto(isPlaying, songQueue.get(0).getCurrentTime(), System.currentTimeMillis(), songQueue.get(0).getInfo());
+        return new CurrentlyPlayingDto(isPlaying, currentSong.getCurrentTime(), System.currentTimeMillis(), currentSong.getInfo());
     }
 }
