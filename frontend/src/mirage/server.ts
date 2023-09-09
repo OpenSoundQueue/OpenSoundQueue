@@ -68,6 +68,23 @@ export function makeServer({environment = "development"} = {}) {
                     song: songs[1]
                 }
             })
+
+            let votes = 0;
+            this.get("vote-skip/status", () => {
+               return {
+                   received: votes,
+                   required: 5
+               };
+            })
+
+            this.get("vote-skip/vote", () => {
+                votes++;
+
+                return {
+                    received: votes,
+                    required: 5
+                };
+            })
         },
     })
 }
