@@ -127,3 +127,69 @@ paths:
               schema:
                 example:
                   error: No song currently playing
+  /vote-skip/status:
+    get:
+      tags:
+        - auth
+      description: receives the status of the vote skip for the playing song
+      responses:
+        200:
+          description: vote skip data
+          content:
+            application/json:
+              schema:
+                example:
+                  isActive: True
+                  received: 1
+                  required: 5
+        400:
+          description: no active vote skip
+          content:
+            application/json:
+              schema:
+                example:
+                  error: No active vote skip
+  /vote-skip/vote:
+    get:
+      tags:
+        - auth
+      description: requests vote for the current vote skip
+      responses:
+        200:
+          description: vote skip data
+          content:
+            application/json:
+              schema:
+                example:
+                  isActive: True
+                  received: 1
+                  required: 5
+        400:
+          description: no active vote skip
+          content:
+            application/json:
+              schema:
+                example:
+                  error: No active vote skip
+  /vote-skip/withdraw:
+    get:
+      tags:
+        - auth
+      description: withdraws the vote for the current vote skip
+      responses:
+        200:
+          description: vote skip data
+          content:
+            application/json:
+              schema:
+                example:
+                  isActive: True
+                  received: 1
+                  required: 5
+        400:
+          description: no active vote skip
+          content:
+            application/json:
+              schema:
+                example:
+                  error: No active vote skip
