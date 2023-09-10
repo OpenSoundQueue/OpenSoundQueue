@@ -3,17 +3,19 @@ package com.example.backend.streaming;
 import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class SongQueueService {
     private static final Logger LOG = LoggerFactory.getLogger(SongQueueService.class);
+
+    @Autowired
+    SongService songService;
 
     @Value("${queue.page.size.default}")
     private int defaultPageSize;
@@ -23,6 +25,7 @@ public class SongQueueService {
     private boolean isPlaying = false;
 
     public void addSong(Song song) {
+        songService.initializeSong(song);
         if (currentSong == null) {
             currentSong = song;
             new Thread(this::play).start();
@@ -32,7 +35,7 @@ public class SongQueueService {
     }
 
     public void skip() {
-        this.currentSong.close();
+        songService.close(currentSong);
         currentSong = songQueue.get(0);
         songQueue.remove(0);
         this.play();
@@ -69,31 +72,17 @@ public class SongQueueService {
             LOG.info("Song queue is empty!");
             return;
         }
-        Object songStream = currentSong.play();
+        songService.play(currentSong);
 
         if (songQueue.size() > 0) {
-            new Thread(() -> songQueue.get(0).downloadDependencies()).start();
+            new Thread(() -> songService.downloadDependencies(songQueue.get(0))).start();
         }
 
         isPlaying = true;
-
-        // handle what happens after song is finished and next should start
-        if (songStream instanceof Clip songStreamClip) {
-            songStreamClip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP) {
-                    if (songStreamClip.getMicrosecondPosition() == songStreamClip.getMicrosecondLength()) {
-                        songStreamClip.close();
-                        skip();
-                    }
-                }
-            });
-        } else {
-            LOG.error("Unknown song stream type!");
-        }
     }
 
     public void stop() {
-        currentSong.stop();
+        songService.stop(currentSong);
         isPlaying = false;
     }
 
