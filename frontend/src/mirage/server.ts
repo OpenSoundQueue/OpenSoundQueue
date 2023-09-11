@@ -81,7 +81,7 @@ export function makeServer({environment = "development"} = {}) {
 
             this.get("vote-skip/vote", () => {
                 if (isActive) {
-                    return;
+                    return {};
                 }
 
                 votes++;
@@ -96,7 +96,7 @@ export function makeServer({environment = "development"} = {}) {
 
             this.get("vote-skip/withdraw", () => {
                 if (!isActive) {
-                    return;
+                    return {};
                 }
 
                 votes--;
