@@ -11,7 +11,9 @@
       </div>
     </div>
     <div v-show="!isCollapsed" class="collapse-container drop-shadow">
-      <slot></slot>
+      <div class="slot-wrapper">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -76,5 +78,10 @@ function toggleCollapse() {
   background: var(--secondary-color);
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
   padding-top: 1px;
+}
+
+.slot-wrapper {
+  display: flex;
+  justify-content: center;
 }
 </style>
