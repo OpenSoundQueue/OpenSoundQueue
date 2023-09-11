@@ -68,6 +68,46 @@ export function makeServer({environment = "development"} = {}) {
                     song: songs[1]
                 }
             })
+
+            let votes = 0;
+            let isActive = false;
+            this.get("vote-skip/status", () => {
+               return {
+                   isActive: isActive,
+                   received: votes,
+                   required: 5
+               };
+            })
+
+            this.get("vote-skip/vote", () => {
+                if (isActive) {
+                    return {};
+                }
+
+                votes++;
+                isActive = true;
+
+                return {
+                    isActive: isActive,
+                    received: votes,
+                    required: 5
+                };
+            })
+
+            this.get("vote-skip/withdraw", () => {
+                if (!isActive) {
+                    return {};
+                }
+
+                votes--;
+                isActive = false;
+
+                return {
+                    isActive: isActive,
+                    received: votes,
+                    required: 5
+                };
+            })
         },
     })
 }

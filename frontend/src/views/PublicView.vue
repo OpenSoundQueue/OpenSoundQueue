@@ -1,0 +1,30 @@
+<template>
+  <main>
+    <ExpandCollapse :label="$translate('nowPlaying')" :is-collapsed="false">
+      <NowPlaying :update-interval="1000"/>
+    </ExpandCollapse>
+    <ExpandCollapse :label="$translate('inQueue')" :is-collapsed="false">
+      <Queue :page-update-interval="4000"/>
+    </ExpandCollapse>
+  </main>
+</template>
+
+<script setup lang="ts">
+import Queue from "@/components/queue/Queue.vue";
+import ExpandCollapse from "@/components/collapse/ExpandCollapse.vue";
+import NowPlaying from "@/components/NowPlaying.vue";
+</script>
+
+<style>
+main {
+  padding-top: 20px;
+  width: 90%;
+  margin: auto;
+}
+
+@media screen and (min-width: 800px) {
+  main {
+    width: 750px;
+  }
+}
+</style>

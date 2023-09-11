@@ -37,4 +37,43 @@ export class HttpService {
                 return data;
             })
     }
+
+    getVoteSkipStatus() {
+        return httpClient.get("/vote-skip/status")
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
+
+    getVoteSkipVote() {
+        return httpClient.get("/vote-skip/vote")
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
+
+    getVoteSkipWithdraw() {
+        return httpClient.get("/vote-skip/withdraw")
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
 }
