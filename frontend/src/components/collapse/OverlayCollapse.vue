@@ -1,6 +1,6 @@
 <template>
   <div class="collapse-wrapper">
-    <div class="open-close-container" @click="toggleCollapse">
+    <div @click="toggleCollapse" class="open-close-container drop-shadow" :class="[isCollapsed ? 'closed' : 'opened']">
       <div class="custom-icon">
         <img v-if="icon" alt="custom icon" :src="icon">
       </div>
@@ -10,7 +10,7 @@
              :src="resolveFilePath('/icons/arrows/keyboard_arrow_up.svg')">
       </div>
     </div>
-    <div class="collapse-container" v-show="!isCollapsed">
+    <div v-show="!isCollapsed" class="collapse-container drop-shadow">
       <slot></slot>
     </div>
   </div>
@@ -44,12 +44,19 @@ function toggleCollapse() {
 
 .open-close-container {
   background: var(--secondary-color);
-  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 10px 10px;
   gap: 10px;
+}
+
+.open-close-container.closed {
+  border-radius: var(--border-radius-medium);
+}
+
+.open-close-container.opened {
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
 }
 
 .open-close-icon {
@@ -67,5 +74,7 @@ function toggleCollapse() {
   width: 100%;
   z-index: 2;
   background: var(--secondary-color);
+  border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
+  padding-top: 1px;
 }
 </style>
