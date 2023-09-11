@@ -2,7 +2,7 @@
   <div class="page-selector-wrapper">
     <div class="page-change">
       <button @click="previousPage" class="change-page-button">
-        <img alt="arrow left" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
+        <img alt="arrow left" :src="resolveFilePath('/icons/arrows/keyboard_arrow_left.svg')">
       </button>
     </div>
     <div v-for="(page, index) in selection" :key="index" class="page-select">
@@ -10,7 +10,7 @@
     </div>
     <div class="page-change">
       <button @click="nextPage">
-        <img alt="arrow right" src="@/assets/icons/arrows/keyboard_arrow_right.svg">
+        <img alt="arrow right" :src="resolveFilePath('/icons/arrows/keyboard_arrow_right.svg')">
       </button>
     </div>
   </div>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
 import SelectPage from "@/components/paging/SelectPage.vue";
+import {resolveFilePath} from "@/services/urlService";
 import type {Ref} from "vue";
 
 const props = defineProps<{

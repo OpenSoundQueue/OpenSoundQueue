@@ -3,7 +3,7 @@
     <div class="slider" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
       <div class="button-label-container">
         <div class="button unselectable" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
-          <img src="@/assets/icons/music/skip.svg" alt="skip icon">
+          <img :src="resolveFilePath('/icons/music/skip.svg')" alt="skip icon">
         </div>
         <div class="label unselectable" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
           {{ voteSkipData.received }} / {{ voteSkipData.required }}
@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
+import {resolveFilePath} from "@/services/urlService";
 
 type VoteSkipDto = {
   isActive: boolean,
