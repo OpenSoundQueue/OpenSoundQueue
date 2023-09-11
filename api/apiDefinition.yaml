@@ -139,7 +139,7 @@ paths:
             application/json:
               schema:
                 example:
-                  isActive: True
+                  hasVoted: True
                   received: 1
                   required: 5
         400:
@@ -161,7 +161,7 @@ paths:
             application/json:
               schema:
                 example:
-                  isActive: True
+                  hasVoted: True
                   received: 1
                   required: 5
         400:
@@ -183,7 +183,7 @@ paths:
             application/json:
               schema:
                 example:
-                  isActive: True
+                  hasVoted: True
                   received: 1
                   required: 5
         400:

@@ -37,4 +37,19 @@ public class SoundQueueRest {
         if (songQueueService.getQueue().size() == 0) return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(songQueueService.getCurrentPlayingSong(), HttpStatus.OK);
     }
+
+    @GetMapping("/vote-skip/status")
+    public ResponseEntity<Object> getVoteSkipStatus() {
+        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(), HttpStatus.OK);
+    }
+
+    @GetMapping("/vote-skip/vote")
+    public ResponseEntity<Object> setVoteSkip() {
+        return new ResponseEntity<>(songQueueService.setVoteSkip(), HttpStatus.OK);
+    }
+
+    @GetMapping("/vote-skip/withdraw")
+    public ResponseEntity<Object> withdrawVoteSkip() {
+        return new ResponseEntity<>(songQueueService.withdrawVoteSkip(), HttpStatus.OK);
+    }
 }
