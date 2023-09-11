@@ -1,6 +1,7 @@
 package com.example.backend.streaming;
 
 import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
+import com.example.backend.ResponseDtos.VoteSkipStatusDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class SongQueueService {
     List<Song> songQueue = new LinkedList<>();
     Song currentSong = null;
     private boolean isPlaying = false;
+
+    private int voteSkipRequired = 5;
+    private int voteSkipCurrent = 0;
+
+    // TODO: implement users to authenticate
+    // private List<Users> voteSkipUserList;
 
     public void addSong(Song song) {
         songService.initializeSong(song);
@@ -108,5 +115,25 @@ public class SongQueueService {
 
     public CurrentlyPlayingDto getCurrentPlayingSong() {
         return new CurrentlyPlayingDto(isPlaying, currentSong.getCurrentTime(), System.currentTimeMillis(), currentSong.getInfo());
+    }
+
+    public VoteSkipStatusDto getVoteSkipStatus() {
+        return new VoteSkipStatusDto(false, voteSkipCurrent, voteSkipRequired);
+    }
+
+    public VoteSkipStatusDto setVoteSkip() {
+        if (voteSkipCurrent+1 >= voteSkipRequired) {
+            this.skip();
+            voteSkipCurrent = 0;
+        } else {
+            voteSkipCurrent++;
+        }
+
+        return getVoteSkipStatus();
+    }
+
+    public VoteSkipStatusDto withdrawVoteSkip() {
+        voteSkipCurrent--;
+        return getVoteSkipStatus();
     }
 }
