@@ -1,6 +1,6 @@
 <template>
   <div class="collapse-wrapper">
-    <div class="open-close-container drop-shadow" @click="toggleCollapse">
+    <div class="open-close-container" @click="toggleCollapse">
       <div class="custom-icon">
         <img v-if="icon" alt="custom icon" :src="icon">
       </div>
@@ -13,7 +13,6 @@
     <div class="collapse-container" v-show="!isCollapsed">
       <slot></slot>
     </div>
-    <div class="end-indicator" v-show="!isCollapsed"></div>
   </div>
 </template>
 
@@ -45,11 +44,16 @@ function toggleCollapse() {
 
 .open-close-container {
   background: var(--secondary-color);
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 10px 10px;
+  gap: 10px;
+}
+
+.open-close-icon {
+  margin-left: auto;
 }
 
 .open-close-icon img {
@@ -57,17 +61,11 @@ function toggleCollapse() {
 }
 
 .collapse-container {
-  margin: auto;
-  width: calc(100% - 40px);
-  padding-top: 10px;
+  position: relative;
+  height: 400px;
+  margin-bottom: -400px;
+  width: 100%;
+  z-index: 2;
+  background: var(--secondary-color);
 }
-
-.end-indicator {
-  border-radius: 0 0 var(--border-radius-big) var(--border-radius-medium);
-  height: 20px;
-  margin-top: 20px;
-  border: var(--secondary-color) 3px dashed;
-  border-top: none;
-}
-
 </style>
