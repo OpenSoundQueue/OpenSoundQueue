@@ -1,6 +1,6 @@
 <template>
   <div class="input-field-wrapper">
-    <label class="input-field-label" :for="passedId">{{ label }} <span v-if="required">*</span></label>
+    <label class="input-field-label" :for="inputId">{{ label }} <span v-if="required">*</span></label>
     <div class="input-element-wrapper">
       <div v-if="inputType === 'password'" @click="toggleVisibility" class="password-icon-wrapper">
         <img v-if="showPassword" :src="resolveFilePath('/icons/input/hide.svg')" title="Hide" class="password-icon"
@@ -12,7 +12,7 @@
         <img :src="iconPath" class="input-icon" :alt="iconAlt">
       </div>
       <input class="input-field" :class="[iconPath || inputType === 'password' ? 'has-icon' : 'no-icon']"
-             :id="passedId"
+             :id="inputId"
              :type="inputTypeDynamic"
              :value="inputValue"
              @input="setValue">
@@ -26,9 +26,9 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
 import {resolveFilePath} from "@/services/urlService";
+import {generateUUID} from "@/services/uuidService";
 
 interface Props {
-  inputId: string | number
   modelValue?: string | number
   label?: string
   validationFunction?: Function
@@ -61,8 +61,9 @@ const showPassword = ref(false);
 const displayError = ref(false);
 
 const manualValue = computed(() => props.manualValue);
-const passedId = computed(() => {
-  return props.inputId ? props.inputId.toString() : ''
+
+const inputId = computed(() => {
+  return generateUUID();
 })
 
 function setValue(event: Event) {
