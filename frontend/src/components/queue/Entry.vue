@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  numberInQueue: number,
+  numberInQueue?: number,
   title: string,
   artist: string,
   duration: number

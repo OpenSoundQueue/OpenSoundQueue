@@ -28,7 +28,7 @@ import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import {resolveFilePath} from "@/services/urlService";
 import Tabs from "@/components/Tabs.vue";
 import InputField from "@/components/inputs/InputField.vue";
-import Button from "@/components/buttons/Button.vue";
+import Button from "@/components/buttons/DefaultButton.vue";
 import HistorySearch from "@/components/search/HistorySearch.vue";
 </script>
 
