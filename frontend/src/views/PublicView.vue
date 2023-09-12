@@ -18,7 +18,7 @@ import NowPlaying from "@/components/NowPlaying.vue";
 <style>
 main {
   padding-top: 20px;
-  width: 90%;
+  width: calc(100% - 30px);
   margin: auto;
 }
 

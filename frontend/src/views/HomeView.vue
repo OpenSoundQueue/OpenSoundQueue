@@ -1,7 +1,7 @@
 <template>
   <main>
     <OverlayCollapse label="Add Song" :icon="resolveFilePath('/icons/music/playlist_add.svg')" :is-collapsed="false">
-      <Tabs>
+      <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
         <template #tab-0>
           <p>hallo</p>
         </template>

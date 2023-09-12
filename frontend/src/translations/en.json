@@ -1,4 +1,6 @@
 {
   "nowPlaying": "Now Playing",
-  "inQueue": "In Queue"
+  "inQueue": "In Queue",
+  "byLink": "By Link",
+  "bySearch": "By Search"
 }

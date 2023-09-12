@@ -24,11 +24,14 @@
 <script setup lang="ts">
 import {ref} from "vue";
 
-const tabs = ref(["test1", "test2"])
+const props = defineProps<{
+  tabs: string[]
+}>()
+
 const activeTab = ref(0);
 
 function setActiveTab(index: number) {
-  if (index < 0 || index > tabs.value.length - 1) {
+  if (index < 0 || index > props.tabs.length - 1) {
     return;
   }
 
@@ -40,7 +43,7 @@ function setActiveTab(index: number) {
 <style scoped>
 
 .tab-switcher-wrapper {
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   height: 100px;
 }
 
@@ -62,7 +65,6 @@ function setActiveTab(index: number) {
   cursor: pointer;
   border: var(--tertiary-color) 2px solid;
   border-bottom: none;
-  box-sizing: border-box;
 }
 
 .tab.active {
