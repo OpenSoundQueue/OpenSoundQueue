@@ -96,6 +96,7 @@ watch(manualValue, (newValue) => {
 <style scoped>
 .input-field-label {
   padding-left: 2px;
+  margin-bottom: 5px;
 }
 
 .input-field-wrapper {
@@ -116,7 +117,17 @@ watch(manualValue, (newValue) => {
 
 .input-field {
   width: 100%;
-  padding-right: 40px;
+  padding: 0 40px 0 5px;
+  height: 41px;
+  font-size: var(--font-size-medium);
+  background: none;
+  border: 2px solid white;
+  color: var(--text-color);
+  border-radius: 5px;
+}
+
+.input-field:focus {
+  outline: 2px solid var(--primary-color);
 }
 
 .input-field.has-icon {
