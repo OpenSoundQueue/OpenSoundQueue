@@ -1,6 +1,6 @@
 <template>
   <div class="entry-wrapper">
-    <div class="queue-number">{{ numberInQueue + 1 }}</div>
+    <div v-if="numberInQueue" class="queue-number">{{ numberInQueue + 1 }}</div>
 
     <div class="song-details-container">
       <div class="song-title">
