@@ -4,7 +4,7 @@ import {Song} from "@/models/Song";
 const httpClient = new HttpClient();
 
 export class HttpService {
-    getQueuePage(pageNumber: number, pageSize: number) {
+    async getQueuePage(pageNumber: number, pageSize: number) {
         type QueuePage = {
             page: [{
                 numberInQueue: number,
@@ -25,7 +25,7 @@ export class HttpService {
             });
     }
 
-    getNowPlaying() {
+    async getNowPlaying() {
         return httpClient.get("/queue/now-playing")
             .then((response) => {
                 if (!response.ok) {
@@ -38,7 +38,7 @@ export class HttpService {
             })
     }
 
-    getVoteSkipStatus() {
+    async getVoteSkipStatus() {
         return httpClient.get("/vote-skip/status")
             .then((response) => {
                 if (!response.ok) {
@@ -51,7 +51,7 @@ export class HttpService {
             })
     }
 
-    getVoteSkipVote() {
+    async getVoteSkipVote() {
         return httpClient.get("/vote-skip/vote")
             .then((response) => {
                 if (!response.ok) {
@@ -64,7 +64,7 @@ export class HttpService {
             })
     }
 
-    getVoteSkipWithdraw() {
+    async getVoteSkipWithdraw() {
         return httpClient.get("/vote-skip/withdraw")
             .then((response) => {
                 if (!response.ok) {
@@ -75,5 +75,18 @@ export class HttpService {
             }).then((data) => {
                 return data;
             })
+    }
+
+    async getSearchHistory(searchTerm: string) {
+        return httpClient.get(`/search/history/${searchTerm}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Song[]) => {
+                return data;
+            });
     }
 }

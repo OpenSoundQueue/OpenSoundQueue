@@ -41,9 +41,9 @@ let interval: number;
 onMounted(() => {
   requestStatus();
 
-  interval = setInterval(() => {
-    requestStatus();
-  }, props.updateInterval);
+  // interval = setInterval(() => {
+    // requestStatus();
+  // }, props.updateInterval);
 })
 
 function requestStatus() {

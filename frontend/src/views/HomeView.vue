@@ -1,15 +1,25 @@
 <template>
   <main>
-    <OverlayCollapse label="Add Song" :icon="resolveFilePath('/icons/music/playlist_add.svg')" :is-collapsed="false">
+    <OverlayCollapse label="Add Song"
+                     :icon="resolveFilePath('/icons/music/playlist_add.svg')"
+                     :is-collapsed="false"
+    >
       <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
         <template #tab-0>
-          <div class="song-link-tab">
-            <InputField input-id="asdf" label="Song Link" input-type="text"/>
+          <div class="tab-wrapper">
+            <InputField label="Song Link" input-type="text"/>
             <Button text="Add to queue" icon-path="" icon-alt=""/>
           </div>
         </template>
         <template #tab-1>
-          <p>hallo2</p>
+          <div class="tab-wrapper">
+            <InputField :icon-path="resolveFilePath('/icons/input/search.svg')"
+                        input-type="text"
+                        v-model="searchTerm"
+                        @user-input="data => processChange(data)"
+            />
+            <div v-for="(result, index) in searchResults" :key="index">{{ result.title }}</div>
+          </div>
         </template>
       </Tabs>
     </OverlayCollapse>
@@ -24,11 +34,48 @@ import {resolveFilePath} from "@/services/urlService";
 import Tabs from "@/components/Tabs.vue";
 import InputField from "@/components/inputs/InputField.vue";
 import Button from "@/components/buttons/Button.vue";
+import {onMounted, ref} from "vue";
+import {HttpService} from "@/services/HttpService";
+import {Song} from "@/models/Song";
+import type {Ref} from "vue";
+
+const httpService = new HttpService();
+const searchTerm = ref("");
+
+const searchResults: Ref<Song[]> = ref([]);
+
+const processChange = debounce(() => {
+  if (!searchTerm.value) {
+    searchResults.value = [];
+
+    return;
+  }
+
+  searchHistory(searchTerm.value);
+});
+
+function searchHistory(searchTerm: string) {
+  httpService.getSearchHistory(searchTerm)
+      .then((data) => searchResults.value = data);
+}
+
+function debounce<T extends Function>(func: T, timeout: number = 300): (...args: unknown[]) => void {
+  let timer: number | null = null;
+
+  return function(this: ThisParameterType<T>, ...args: unknown[]): void {
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
+
+    timer = window.setTimeout(() => {
+      func.apply(this, args);
+    }, timeout);
+  };
+}
 </script>
 
 <style scoped>
-.song-link-tab {
-  max-width: 250px;
+.tab-wrapper {
   margin: auto;
 }
 </style>
