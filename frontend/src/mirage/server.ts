@@ -137,6 +137,24 @@ export function makeServer({environment = "development"} = {}) {
                     ...results
                 };
             })
+
+            this.get("search/history/:searchTerm/max-results/:maxResults", (schema: AppSchema, request) => {
+                const searchTerm = request.params.searchTerm;
+                const maxResults = parseInt(request.params.maxResults);
+
+                const songs: any[] = schema.db.songs;
+
+                const searchByTitle = fuzzySearch(songs, "title")
+                const results = searchByTitle(searchTerm);
+
+                if (results.length > maxResults) {
+                    return results.slice(0, maxResults);
+                }
+
+                return {
+                    ...results
+                };
+            })
         },
     })
 }

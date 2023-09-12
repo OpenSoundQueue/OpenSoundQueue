@@ -34,10 +34,12 @@ import {resolveFilePath} from "@/services/urlService";
 import Tabs from "@/components/Tabs.vue";
 import InputField from "@/components/inputs/InputField.vue";
 import Button from "@/components/buttons/Button.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
 import type {Ref} from "vue";
+
+const maxSearchResults = 10;
 
 const httpService = new HttpService();
 const searchTerm = ref("");
@@ -55,7 +57,7 @@ const processChange = debounce(() => {
 });
 
 function searchHistory(searchTerm: string) {
-  httpService.getSearchHistory(searchTerm)
+  httpService.getSearchHistory(searchTerm, maxSearchResults)
       .then((data) => searchResults.value = data);
 }
 

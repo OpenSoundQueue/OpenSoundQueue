@@ -77,8 +77,8 @@ export class HttpService {
             })
     }
 
-    async getSearchHistory(searchTerm: string) {
-        return httpClient.get(`/search/history/${searchTerm}`)
+    async getSearchHistory(searchTerm: string, maxResults: number) {
+        return httpClient.get(`/search/history/${searchTerm}/max-results/${maxResults}`)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
