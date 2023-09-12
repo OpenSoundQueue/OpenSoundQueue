@@ -4,7 +4,8 @@
       <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
         <template #tab-0>
           <div class="song-link-tab">
-            <InputField input-id="asdf" label="Song Link" input-type="text"></InputField>
+            <InputField input-id="asdf" label="Song Link" input-type="text"/>
+            <Button text="Add to queue" icon-path="" icon-alt=""/>
           </div>
         </template>
         <template #tab-1>
@@ -22,10 +23,12 @@ import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import {resolveFilePath} from "@/services/urlService";
 import Tabs from "@/components/Tabs.vue";
 import InputField from "@/components/inputs/InputField.vue";
+import Button from "@/components/buttons/Button.vue";
 </script>
 
 <style scoped>
 .song-link-tab {
-  width: 250px;
+  max-width: 250px;
+  margin: auto;
 }
 </style>

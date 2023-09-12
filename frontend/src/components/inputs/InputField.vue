@@ -118,12 +118,12 @@ watch(manualValue, (newValue) => {
 .input-field {
   width: 100%;
   padding: 0 40px 0 5px;
-  height: 41px;
+  height: 40px;
   font-size: var(--font-size-medium);
   background: none;
   border: 2px solid white;
   color: var(--text-color);
-  border-radius: 5px;
+  border-radius: var(--border-radius-medium);
 }
 
 .input-field:focus {
