@@ -20,6 +20,15 @@ button {
     animation: 1.5s shine linear infinite;
 }
 
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 @keyframes shine {
     to {
         background-position-x: -200%;
