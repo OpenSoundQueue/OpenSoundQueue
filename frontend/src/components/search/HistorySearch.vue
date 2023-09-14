@@ -3,6 +3,7 @@
               input-type="text"
               v-model="searchTerm"
               @user-input="data => processChange(data)"
+              placeholder="Search in History"
   />
   <div v-for="(result, index) in searchResults" :key="index">
     <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>

@@ -15,7 +15,9 @@
              :id="inputId"
              :type="inputTypeDynamic"
              :value="inputValue"
-             @input="setValue">
+             @input="setValue"
+             :placeholder="placeholder"
+      >
     </div>
     <p v-if="displayError" class="error-message">
       {{ errorMessage }}
@@ -37,7 +39,8 @@ interface Props {
   required?: boolean
   iconPath?: string
   iconAlt?: string
-  manualValue?: string | undefined
+  manualValue?: string | undefined,
+  placeholder?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -125,6 +128,10 @@ watch(manualValue, (newValue) => {
   border: 2px solid white;
   color: var(--text-color);
   border-radius: var(--border-radius-medium);
+}
+
+.input-field::placeholder {
+  color: var(--tertiary-color);
 }
 
 .input-field:focus {
