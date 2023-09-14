@@ -6,7 +6,7 @@
                 @user-input="data => processChange(data)"
                 placeholder="Search in History"
     />
-    <div class="result-container">
+    <div class="result-container scrollbar">
       <div v-for="(result, index) in searchResults" :key="index" class="search-result">
         <img :src="resolveFilePath('/icons/input/search.svg')"/>
         <div class="song-data">
