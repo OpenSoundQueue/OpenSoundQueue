@@ -85,6 +85,7 @@ function setActiveTab(index: number) {
   border: var(--tertiary-color) 5px solid;
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
   padding: 15px 20px;
+  height: 300px;
 }
 
 .tab-wrapper.active {

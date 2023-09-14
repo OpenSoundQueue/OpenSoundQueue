@@ -8,7 +8,7 @@
         <template #tab-0>
           <div class="tab-wrapper">
             <InputField label="Song Link" input-type="text"/>
-            <Button text="Add to queue" icon-path="" icon-alt=""/>
+            <Button text="Add to queue" :icon-path="resolveFilePath('/icons/music/playlist_add.svg')" icon-alt=""/>
           </div>
         </template>
         <template #tab-1>
