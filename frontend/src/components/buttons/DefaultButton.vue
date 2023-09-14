@@ -1,6 +1,6 @@
 <template>
   <div class="button-wrapper">
-    <button>
+    <button :disabled="isDisabled">
       <img :src="iconPath" :alt="iconAlt"/>
       {{ text }}
     </button>
@@ -11,7 +11,8 @@
 defineProps<{
   text: string,
   iconPath: string,
-  iconAlt: string
+  iconAlt: string,
+  isDisabled: boolean
 }>();
 </script>
 
@@ -30,9 +31,17 @@ button {
   border-radius: var(--border-radius-medium);
   color: var(--text-color);
   font-size: var(--font-size-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 button:hover {
   cursor: pointer;
+}
+
+button:disabled {
+  background: var(--dark-gray);
 }
 </style>

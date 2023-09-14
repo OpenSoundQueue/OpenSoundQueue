@@ -13,7 +13,7 @@
           <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>
         </div>
         <div class="add-to-queue-button">
-          <DefaultButton text="" :icon-path="resolveFilePath('/icons/music/playlist_add.svg')" icon-alt=""/>
+          <DefaultButton :is-disabled="false" text="" :icon-path="resolveFilePath('/icons/music/playlist_add.svg')" icon-alt=""/>
         </div>
       </div>
     </div>
@@ -94,6 +94,7 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
 .search-result .add-to-queue-button {
   padding-right: 10px;
   margin-left: auto;
+  width: 100px;
 }
 
 .search-result .song-data {

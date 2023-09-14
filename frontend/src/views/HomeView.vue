@@ -8,7 +8,7 @@
         <template #tab-0>
           <div class="tab-wrapper">
             <InputField label="Song Link" input-type="text"/>
-            <Button text="Add to queue" :icon-path="resolveFilePath('/icons/music/playlist_add.svg')" icon-alt=""/>
+            <DefaultButton :is-disabled="false" text="Add to queue" :icon-path="resolveFilePath('/icons/music/playlist_add.svg')" icon-alt=""/>
           </div>
         </template>
         <template #tab-1>
@@ -28,8 +28,8 @@ import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import {resolveFilePath} from "@/services/urlService";
 import Tabs from "@/components/Tabs.vue";
 import InputField from "@/components/inputs/InputField.vue";
-import Button from "@/components/buttons/DefaultButton.vue";
 import HistorySearch from "@/components/search/HistorySearch.vue";
+import DefaultButton from "@/components/buttons/DefaultButton.vue";
 </script>
 
 <style scoped>
