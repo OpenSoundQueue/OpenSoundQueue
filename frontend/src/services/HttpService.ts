@@ -39,7 +39,7 @@ export class HttpService {
     }
 
     async postQueueAdd(link: string) {
-       return httpClient.post("/queue/add", link)
+       return httpClient.post("/queue/add", {link: link})
            .then((response) => {
                if (!response.ok) {
                    return Promise.reject(response.status);
