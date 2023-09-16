@@ -69,7 +69,7 @@ export function makeServer({environment = "development"} = {}) {
                 }
             })
 
-            this.post("/queue/add/:link", (schema: AppSchema) => {
+            this.post("/queue/add/", (schema: AppSchema) => {
                 const songs = schema.db.songs;
                 const random = Math.floor(Math.random() * songs.length);
 

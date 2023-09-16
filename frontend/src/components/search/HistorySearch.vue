@@ -15,7 +15,7 @@
           <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>
         </div>
         <div class="add-to-queue-button">
-          <DefaultButton :is-disabled="false" text="">
+          <DefaultButton @click="addSong(result.link)" :is-disabled="false" text="">
             <img src="@/assets/icons/music/playlist_add.svg">
           </DefaultButton>
         </div>
@@ -53,6 +53,11 @@ const processChange = debounce(() => {
 function searchHistory(searchTerm: string) {
   httpService.getSearchHistory(searchTerm, maxSearchResults)
       .then((data: Song[]) => searchResults.value = data);
+}
+
+function addSong(link: string) {
+  httpService.postQueueAdd(link)
+      .then((data) => console.log(data));
 }
 
 function debounce<T extends Function>(func: T, timeout: number = 300): (...args: unknown[]) => void {

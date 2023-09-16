@@ -10,8 +10,8 @@
         <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
           <template #tab-0>
             <div class="tab-wrapper">
-              <InputField label="Song Link" input-type="text"/>
-              <DefaultButton :is-disabled="false" text="Add to queue">
+              <InputField v-model="songLink" label="Song Link" input-type="text"/>
+              <DefaultButton @click="addSong(songLink)" :is-disabled="false" text="Add to queue">
                 <img src="@/assets/icons/music/playlist_add.svg">
               </DefaultButton>
             </div>
@@ -35,6 +35,16 @@ import Tabs from "@/components/Tabs.vue";
 import InputField from "@/components/inputs/InputField.vue";
 import HistorySearch from "@/components/search/HistorySearch.vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
+import {HttpService} from "@/services/HttpService";
+import {ref} from "vue";
+
+const httpService = new HttpService();
+const songLink = ref("");
+
+function addSong(link: string) {
+  httpService.postQueueAdd(link)
+      .then((data) => console.log(data));
+}
 </script>
 
 <style scoped>
