@@ -91,6 +91,51 @@ public class BackendApplication {
         }
     }
 
+    @PostConstruct
+    private void installFFMPEG() throws UnsupportedSystemException {
+        LOG.info("Installing FFMPEG");
+        Long timestamp = System.currentTimeMillis();
+
+        String currentOs = System.getProperty("os.name");
+
+        if (currentOs.contains("Windows")) {
+            ffmpegWindowsSetup();
+        } else if (currentOs.contains("Linux")) {
+            throw new UnsupportedSystemException("Linux is currently not supported");
+            //ffmpegLinuxSetup();
+            // TODO: add linux support
+        } else {
+            throw new UnsupportedSystemException("Your current System is not supported");
+        }
+
+        LOG.info("Installed FFMPEG in " + (System.currentTimeMillis() - timestamp) + "ms");
+    }
+
+    @PostConstruct
+    private void ffmpegWindowsSetup() {
+        ProcessBuilder builder = new ProcessBuilder(
+                "cmd.exe", "/c", "winget install ffmpeg");
+        builder.redirectErrorStream(true);
+        Process p = null;
+        try {
+            p = builder.start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line;
+        while (true) {
+            try {
+                line = r.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if (line == null) { break; }
+            if (line.length() == 0 || line.charAt(0) == ' ') continue;
+            LOG.info("FFMPEG: " + line);
+        }
+    }
+
     @Profile("!prod")
     @Order(2)
     @PostConstruct
