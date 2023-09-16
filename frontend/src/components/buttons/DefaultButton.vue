@@ -1,7 +1,7 @@
 <template>
   <div class="button-wrapper">
     <button :disabled="isDisabled">
-      <img :src="iconPath" :alt="iconAlt"/>
+      <slot></slot>
       {{ text }}
     </button>
   </div>
@@ -10,8 +10,6 @@
 <script setup lang="ts">
 defineProps<{
   text: string,
-  iconPath: string,
-  iconAlt: string,
   isDisabled: boolean
 }>();
 </script>

@@ -2,17 +2,17 @@
   <div class="collapse-wrapper">
     <div @click="toggleCollapse" class="open-close-container drop-shadow" :class="[isCollapsed ? 'closed' : 'opened']">
       <div class="custom-icon">
-        <img v-if="icon" alt="custom icon" :src="icon">
+        <slot name="custom-icon"></slot>
       </div>
       <div class="label">{{ label }}</div>
       <div class="open-close-icon">
         <img alt="arrow down" :style="{transform: `rotate(${isCollapsed ? 180 : 0}deg)`}"
-             :src="resolveFilePath('/icons/arrows/keyboard_arrow_up.svg')">
+             src="@/assets/icons/arrows/keyboard_arrow_up.svg">
       </div>
     </div>
     <div v-show="!isCollapsed" class="collapse-container drop-shadow">
       <div class="slot-wrapper">
-        <slot></slot>
+        <slot name="content"></slot>
       </div>
     </div>
   </div>
@@ -20,12 +20,10 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {resolveFilePath} from "@/services/urlService";
 
 const props = defineProps<{
   label: string,
-  isCollapsed: boolean,
-  icon: string
+  isCollapsed: boolean
 }>();
 
 const isCollapsed = ref(props.isCollapsed);

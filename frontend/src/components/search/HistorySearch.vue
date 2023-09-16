@@ -1,19 +1,23 @@
 <template>
   <div class="history-search-wrapper">
-    <InputField :icon-path="resolveFilePath('/icons/input/search.svg')"
-                input-type="text"
+    <InputField input-type="text"
                 v-model="searchTerm"
                 @user-input="data => processChange(data)"
                 placeholder="Search in History"
-    />
+                :custom-icon="true"
+    >
+      <img src="@/assets/icons/input/search.svg">
+    </InputField>
     <div class="result-container scrollbar">
       <div v-for="(result, index) in searchResults" :key="index" class="search-result">
-        <img :src="resolveFilePath('/icons/input/search.svg')"/>
+        <img src="@/assets/icons/input/search.svg"/>
         <div class="song-data">
           <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>
         </div>
         <div class="add-to-queue-button">
-          <DefaultButton :is-disabled="false" text="" :icon-path="resolveFilePath('/icons/music/playlist_add.svg')" icon-alt=""/>
+          <DefaultButton :is-disabled="false" text="">
+            <img src="@/assets/icons/music/playlist_add.svg">
+          </DefaultButton>
         </div>
       </div>
     </div>
@@ -21,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import {resolveFilePath} from "@/services/urlService";
 import InputField from "@/components/inputs/InputField.vue";
 import type {Ref} from "vue";
 import {ref} from "vue";

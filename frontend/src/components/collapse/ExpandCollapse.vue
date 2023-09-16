@@ -3,7 +3,7 @@
    <div class="open-close-container drop-shadow" @click="toggleCollapse">
      <div class="label">{{ label }}</div>
      <div class="icon">
-       <img alt="arrow down" :style="{transform: `rotate(${isCollapsed ? 180 : 0}deg)`}" :src="resolveFilePath('/icons/arrows/keyboard_arrow_up.svg')">
+       <img alt="arrow down" :style="{transform: `rotate(${isCollapsed ? 180 : 0}deg)`}" src="@/assets/icons/arrows/keyboard_arrow_down.svg">
      </div>
    </div>
    <div class="collapse-container" v-show="!isCollapsed">
@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {resolveFilePath} from "@/services/urlService";
 
 const props = defineProps<{
   label: string,

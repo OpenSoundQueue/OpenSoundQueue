@@ -3,15 +3,17 @@
     <label class="input-field-label" :for="inputId">{{ label }} <span v-if="required">*</span></label>
     <div class="input-element-wrapper">
       <div v-if="inputType === 'password'" @click="toggleVisibility" class="password-icon-wrapper">
-        <img v-if="showPassword" :src="resolveFilePath('/icons/input/hide.svg')" title="Hide" class="password-icon"
+        <img v-if="showPassword" src="@/assets/icons/input/hide.svg" title="Hide" class="password-icon"
              alt="Show Password">
-        <img v-else :src="resolveFilePath('/icons/input/show.svg')" title="Show" class="password-icon" alt="Hide Password">
+        <img v-else src="@/assets/icons/input/show.svg" title="Show" class="password-icon" alt="Hide Password">
       </div>
       <div v-else class="default-icon-wrapper">
-        <img v-if="inputValue" @click="clearInput" :src="resolveFilePath('/icons/input/delete.svg')" class="close-icon" alt="clear input">
-        <img :src="iconPath" class="input-icon" :alt="iconAlt">
+        <img v-if="inputValue" @click="clearInput" src="@/assets/icons/input/delete.svg" class="close-icon" alt="clear input">
+        <div class="input-icon">
+          <slot></slot>
+        </div>
       </div>
-      <input class="input-field" :class="[iconPath || inputType === 'password' ? 'has-icon' : 'no-icon']"
+      <input class="input-field" :class="[customIcon || inputType === 'password' ? 'has-icon' : 'no-icon']"
              :id="inputId"
              :type="inputTypeDynamic"
              :value="inputValue"
@@ -27,7 +29,6 @@
 
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
-import {resolveFilePath} from "@/services/urlService";
 import {generateUUID} from "@/services/uuidService";
 
 interface Props {
@@ -37,7 +38,7 @@ interface Props {
   errorMessage?: string
   inputType?: string
   required?: boolean
-  iconPath?: string
+  customIcon?: boolean
   iconAlt?: string
   manualValue?: string | undefined,
   placeholder?: string
@@ -45,7 +46,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   label: "",
-  inputType: "text"
+  inputType: "text",
+  customIcon: false
 });
 
 const emit = defineEmits<{

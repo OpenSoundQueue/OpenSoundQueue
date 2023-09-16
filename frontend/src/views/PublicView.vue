@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import Queue from "@/components/queue/Queue.vue";
+import Queue from "@/components/queue/QueuePaged.vue";
 import ExpandCollapse from "@/components/collapse/ExpandCollapse.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 </script>
