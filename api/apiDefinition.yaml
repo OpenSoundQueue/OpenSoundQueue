@@ -101,6 +101,65 @@ paths:
               schema:
                 example:
                   error: The requested page number does not exist
+  /queue/all:
+    get:
+      tags:
+        - public
+      description: returns all songs that are in the queue
+      responses:
+        200:
+          description: all songs in queue
+          content:
+            application/json:
+              schema:
+                example:
+                  - numberInQueue: 0
+                    song:
+                      artist: Giveon
+                      duration: 200
+                      title: For Tonight
+                  - numberInQueue: 1
+                    song:
+                      artist: The Kid LAROI & Justin Bieber
+                      duration: 69
+                      title: Stay
+                  - numberInQueue: 2
+                    song:
+                      artist: Lil Nas X & Jack Harlow
+                      duration: 157
+                      title: Industry Baby
+        400:
+          description: something did not work
+
+  /queue/add:
+    post:
+      tags:
+        - auth
+      description: use a song link to add a song to the queue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                link: https://youtu.be/dQw4w9WgXcQ?si=wBE7G0lWPWkYC8xZ
+      responses:
+        200:
+          description: song added to queue
+          content:
+            application/json:
+              schema:
+                example:
+                  song:
+                    artist: Giveon
+                    title: For Tonight
+                    duration: 200
+        400:
+          description: song could not be added
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Song could not be added
   /queue/now-playing:
     get:
       tags:
@@ -193,3 +252,57 @@ paths:
               schema:
                 example:
                   error: No active vote skip
+  /search/history/{search-term}/max-results/{max-results}:
+    get:
+      tags:
+        - auth
+      description: fuzzy search history
+      parameters:
+        - in: path
+          name: search-term
+          schema:
+            type: string
+            example: so high
+          required: true
+          description: Search term
+        - in: path
+          name: max-results
+          schema:
+            type: integer
+            example: 20
+          required: true
+          description: maximum number of results returned by the request important when for example search is only "e"
+      responses:
+        200:
+          description: array of songs
+          content:
+            application/json:
+              example:
+                - title: Easy On Me
+                  artist: Adele
+                  duration: 176
+                  link: https://youtu.be/hicmpizont
+                - title: Stay
+                  artist: The Kid LAROI
+                  duration: 70
+                  link: https://youtu.be/ihdrntudol
+                - title: Industry Baby
+                  artist: Lil Nax X
+                  duration: 115
+                  link: https://youtu.be/ihdrntudol
+                - title: Bad Habits
+                  artist: Ed Sheeran
+                  duration: 232
+                  link: https://youtu.be/ihdrntudol
+                - title: Way 2 Sexy
+                  artist: Drake
+                  duration: 193
+                  link: https://youtu.be/ihdrntudol
+        400:
+          description: search did not work
+          content:
+            application/json:
+              schema:
+                example:
+                  error: search did not work
+
