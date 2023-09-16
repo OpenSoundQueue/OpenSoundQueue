@@ -69,14 +69,23 @@ export function makeServer({environment = "development"} = {}) {
                 }
             })
 
+            this.post("/queue/add/:link", (schema: AppSchema) => {
+                const songs = schema.db.songs;
+                const random = Math.floor(Math.random() * songs.length);
+
+                return {
+                    ...songs[random]
+                };
+            })
+
             let votes = 0;
             let isActive = false;
             this.get("vote-skip/status", () => {
-               return {
-                   isActive: isActive,
-                   received: votes,
-                   required: 5
-               };
+                return {
+                    isActive: isActive,
+                    received: votes,
+                    required: 5
+                };
             })
 
             this.get("vote-skip/vote", () => {
@@ -109,16 +118,16 @@ export function makeServer({environment = "development"} = {}) {
                 };
             })
 
-            function fuzzySearch (items: any[], key: any) {
+            function fuzzySearch(items: any[], key: any) {
                 // Returns a method that you can use to create your own reusable fuzzy search.
 
-                return function(query: string) {
-                    const words  = query.toLowerCase().split(' ');
+                return function (query: string) {
+                    const words = query.toLowerCase().split(' ');
 
-                    return items.filter(function(item: string) {
+                    return items.filter(function (item: string) {
                         const normalizedTerm = item[key].toLowerCase();
 
-                        return words.every(function(word) {
+                        return words.every(function (word) {
                             return (normalizedTerm.indexOf(word) > -1);
                         });
                     });

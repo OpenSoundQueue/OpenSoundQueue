@@ -38,6 +38,19 @@ export class HttpService {
             })
     }
 
+    async postQueueAdd(link: string) {
+       return httpClient.post("/queue/add", link)
+           .then((response) => {
+               if (!response.ok) {
+                   return Promise.reject(response.status);
+               }
+
+               return response.json();
+           }).then((data) => {
+               return data;
+           })
+    }
+
     async getVoteSkipStatus() {
         return httpClient.get("/vote-skip/status")
             .then((response) => {

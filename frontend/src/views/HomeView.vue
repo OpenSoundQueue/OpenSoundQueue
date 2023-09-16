@@ -2,7 +2,7 @@
   <main>
     <OverlayCollapse label="Add Song"
                      :icon="resolveFilePath('/icons/music/playlist_add.svg')"
-                     :is-collapsed="false"
+                     :is-collapsed="true"
     >
       <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
         <template #tab-0>
