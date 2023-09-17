@@ -1,56 +1,51 @@
 <template>
   <main>
-    <OverlayCollapse label="Add Song"
-                     :is-collapsed="true"
-    >
-      <template #custom-icon>
-        <img src="@/assets/icons/music/playlist_add.svg">
-      </template>
-      <template #content>
-        <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
-          <template #tab-0>
-            <div class="tab-wrapper">
-              <InputField v-model="songLink" label="Song Link" input-type="text"/>
-              <DefaultButton @click="addSong(songLink)" :is-disabled="false" text="Add to queue">
-                <img src="@/assets/icons/music/playlist_add.svg">
-              </DefaultButton>
-            </div>
-          </template>
-          <template #tab-1>
-            <div class="tab-wrapper">
-              <HistorySearch/>
-            </div>
-          </template>
-        </Tabs>
-      </template>
-    </OverlayCollapse>
-    <QueueScroll/>
-    <VoteSkip :update-interval="4000"/>
+    <div class="add-song-container">
+      <AddSong/>
+    </div>
+    <div class="queue-scroll-container">
+      <QueueScroll update-interval="4000"/>
+    </div>
+    <div class="now-playing-container">
+      <NowPlaying :update-interval="1000"/>
+    </div>
+    <div class="control-panel-container">
+      <VoteSkip :update-interval="4000"/>
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
 import VoteSkip from "@/components/control/VoteSkip.vue";
-import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
-import Tabs from "@/components/Tabs.vue";
-import InputField from "@/components/inputs/InputField.vue";
-import HistorySearch from "@/components/search/HistorySearch.vue";
-import DefaultButton from "@/components/buttons/DefaultButton.vue";
-import {HttpService} from "@/services/HttpService";
-import {ref} from "vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
-
-const httpService = new HttpService();
-const songLink = ref("");
-
-function addSong(link: string) {
-  httpService.postQueueAdd(link)
-      .then((data) => console.log(data));
-}
+import NowPlaying from "@/components/NowPlaying.vue";
+import AddSong from "@/components/control/AddSong.vue";
 </script>
 
 <style scoped>
-.tab-wrapper {
-  margin: auto;
+main {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-song-container {
+  height: 10%;
+}
+
+.queue-scroll-container {
+  height: 60%;
+}
+
+.now-playing-container {
+  margin-top: 20px;
+  height: 15%;
+}
+
+.control-panel-container {
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 </style>

@@ -53,7 +53,7 @@ export function makeServer({environment = "development"} = {}) {
                 };
             })
 
-            this.get("/queue/all", (schema: AppSchema, request) => {
+            this.get("/queue/all", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
                 return songs.map((song, index) => {

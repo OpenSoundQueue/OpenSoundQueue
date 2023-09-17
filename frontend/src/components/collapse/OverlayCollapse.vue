@@ -70,7 +70,7 @@ function toggleCollapse() {
 .collapse-container {
   position: relative;
   height: 400px;
-  margin-bottom: -400px;
+  margin-bottom: -410px;
   width: 100%;
   z-index: 2;
   background: var(--secondary-color);
