@@ -24,6 +24,7 @@
         </Tabs>
       </template>
     </OverlayCollapse>
+    <QueueScroll/>
     <VoteSkip :update-interval="4000"/>
   </main>
 </template>
@@ -37,6 +38,7 @@ import HistorySearch from "@/components/search/HistorySearch.vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {HttpService} from "@/services/HttpService";
 import {ref} from "vue";
+import QueueScroll from "@/components/queue/QueueScroll.vue";
 
 const httpService = new HttpService();
 const songLink = ref("");

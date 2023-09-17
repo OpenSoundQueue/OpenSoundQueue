@@ -25,6 +25,24 @@ export class HttpService {
             });
     }
 
+    async getQueueAll() {
+        type Queue = [
+            song: Song,
+            numberInQueue: number
+        ]
+
+        return httpClient.get(`/queue/all`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Queue) => {
+                return data;
+            });
+    }
+
     async getNowPlaying() {
         return httpClient.get("/queue/now-playing")
             .then((response) => {
@@ -39,16 +57,16 @@ export class HttpService {
     }
 
     async postQueueAdd(link: string) {
-       return httpClient.post("/queue/add", {link: link})
-           .then((response) => {
-               if (!response.ok) {
-                   return Promise.reject(response.status);
-               }
+        return httpClient.post("/queue/add", {link: link})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
 
-               return response.json();
-           }).then((data) => {
-               return data;
-           })
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
     }
 
     async getVoteSkipStatus() {
