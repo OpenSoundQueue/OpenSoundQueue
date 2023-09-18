@@ -55,7 +55,11 @@ function searchHistory(searchTerm: string) {
       .then((data: Song[]) => searchResults.value = data);
 }
 
-function addSong(link: string) {
+function addSong(link?: string) {
+  if (!link) {
+    return;
+  }
+
   httpService.postQueueAdd(link)
       .then((data) => console.log(data));
 }

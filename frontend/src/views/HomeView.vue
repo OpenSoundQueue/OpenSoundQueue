@@ -4,7 +4,7 @@
       <AddSong/>
     </div>
     <div class="queue-scroll-container">
-      <QueueScroll update-interval="4000"/>
+      <QueueScroll :update-interval="4000"/>
     </div>
     <div class="now-playing-container">
       <NowPlaying :update-interval="1000"/>

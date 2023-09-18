@@ -26,10 +26,7 @@ export class HttpService {
     }
 
     async getQueueAll() {
-        type Queue = [
-            song: Song,
-            numberInQueue: number
-        ]
+        type Queue = Array<{ numberInQueue: number, song: Song }>;
 
         return httpClient.get(`/queue/all`)
             .then((response) => {
