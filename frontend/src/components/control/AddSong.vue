@@ -11,7 +11,7 @@
           <template #tab-0>
             <div class="tab-wrapper">
               <InputField v-model="songLink" label="Song Link" input-type="text"/>
-              <DefaultButton @click="addSong(songLink)" :is-disabled="false" text="Add to queue">
+              <DefaultButton @click="addSong(songLink)" :is-disabled="waitingForResponse" text="Add to queue">
                 <img src="@/assets/icons/music/playlist_add.svg">
               </DefaultButton>
             </div>
@@ -38,10 +38,19 @@ import {ref} from "vue";
 
 const httpService = new HttpService();
 const songLink = ref("");
+const waitingForResponse = ref(false);
 
 function addSong(link: string) {
+  waitingForResponse.value = true;
+
   httpService.postQueueAdd(link)
-      .then((data) => console.log(data));
+      .then((data: { link: string }) => {
+        waitingForResponse.value = false;
+        console.log(data)
+      })
+      .catch(() => {
+        waitingForResponse.value = false;
+      });
 }
 </script>
 

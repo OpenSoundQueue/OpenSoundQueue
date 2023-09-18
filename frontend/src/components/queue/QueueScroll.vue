@@ -41,7 +41,6 @@ onMounted(() => {
 function requestQueue() {
   httpService.getQueueAll()
       .then((data: Array<{ numberInQueue: number, song: Song }>) => {
-        console.log(data)
         queue.value = data;
       })
 }
