@@ -149,10 +149,9 @@ paths:
             application/json:
               schema:
                 example:
-                  song:
-                    artist: Giveon
-                    title: For Tonight
-                    duration: 200
+                  artist: Giveon
+                  title: For Tonight
+                  duration: 200
         400:
           description: song could not be added
           content:

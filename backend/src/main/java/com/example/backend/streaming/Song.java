@@ -4,4 +4,5 @@ public interface Song {
     SongInfo getInfo();
     int getCurrentTime();
     boolean isFetchingInfos();
+    String getLink();
 }

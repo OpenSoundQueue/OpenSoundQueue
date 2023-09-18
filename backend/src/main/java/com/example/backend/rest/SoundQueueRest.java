@@ -2,6 +2,7 @@ package com.example.backend.rest;
 
 import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.ResponseDtos.QueuePageDto;
+import com.example.backend.ResponseDtos.SongQueueItem;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -17,6 +20,19 @@ import java.util.List;
 public class SoundQueueRest {
     @Autowired
     private SongQueueService songQueueService;
+
+    @GetMapping("/queue/all")
+    public ResponseEntity<Object> getSongQueue() {
+        List<Song> songList = songQueueService.getQueue();
+        List<SongQueueItem> responseBody = new ArrayList<>();
+
+        for (int i = 0; i < songList.size(); i++) {
+            Song s = songList.get(i);
+            responseBody.add(new SongQueueItem(i, s.getInfo()));
+        }
+
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
 
     @GetMapping("/queue/page/{page-number}")
     public ResponseEntity<Object> getPageWithDefaultSize(@PathVariable(required=true,name="page-number") int pageNumber) {
@@ -37,6 +53,18 @@ public class SoundQueueRest {
         if (songQueueService.getQueue().size() == 0) return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(songQueueService.getCurrentPlayingSong(), HttpStatus.OK);
     }
+
+    @PostMapping("/queue/add")
+    public ResponseEntity<Object> addSongToQueue(@RequestBody Map<String, String> requestBody) {
+        Song song = songQueueService.addSong(requestBody.get("link"));
+
+        if (song != null) {
+            return new ResponseEntity<>(song.getInfo(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ErrorDto("Song could not be added"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @GetMapping("/vote-skip/status")
     public ResponseEntity<Object> getVoteSkipStatus() {

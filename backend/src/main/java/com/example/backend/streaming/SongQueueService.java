@@ -31,14 +31,19 @@ public class SongQueueService {
     // TODO: implement users to authenticate
     // private List<Users> voteSkipUserList;
 
-    public void addSong(Song song) {
-        songService.initializeSong(song);
+    public Song addSong(String link) {
+        Song song = songService.validateSong(link);
+
+        if (song == null) return null;
+
         if (currentSong == null) {
             currentSong = song;
             new Thread(this::play).start();
         } else {
             songQueue.add(song);
         }
+
+        return song;
     }
 
     public void skip() {
@@ -75,7 +80,7 @@ public class SongQueueService {
     }
 
     public void play() {
-        if (songQueue.size() == 0) {
+        if (songQueue.size() == 0 && currentSong == null) {
             LOG.info("Song queue is empty!");
             return;
         }
