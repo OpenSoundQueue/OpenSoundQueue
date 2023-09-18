@@ -1,5 +1,5 @@
 <template>
-  <div class="queue-scroll-wrapper">
+  <div class="queue-scroll-wrapper scrollbar">
     <div v-if="!queue.length">
       <div v-for="(index) in 15" :key="index">
         <EntrySkeleton/>
@@ -50,7 +50,7 @@ function requestQueue() {
 <style scoped>
 .queue-scroll-wrapper {
   padding: 0 20px 0 10px;
-  overflow: scroll;
+  overflow-y: scroll;
   height: 100%;
 }
 </style>
