@@ -2,7 +2,6 @@ package com.example.backend;
 
 import com.example.backend.exceptions.UnsupportedSystemException;
 import com.example.backend.streaming.SongQueueService;
-import com.example.backend.streaming.youtube.SongImplYoutube;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +91,7 @@ public class BackendApplication {
     }
 
     @PostConstruct
+    @Order(3)
     private void installFFMPEG() throws UnsupportedSystemException {
         LOG.info("Installing FFMPEG");
         Long timestamp = System.currentTimeMillis();
@@ -111,7 +111,6 @@ public class BackendApplication {
         LOG.info("Installed FFMPEG in " + (System.currentTimeMillis() - timestamp) + "ms");
     }
 
-    @PostConstruct
     private void ffmpegWindowsSetup() {
         ProcessBuilder builder = new ProcessBuilder(
                 "cmd.exe", "/c", "winget install ffmpeg");
@@ -142,21 +141,21 @@ public class BackendApplication {
     private void feedTestData() {
         LOG.warn("Feeding song queue with test data... (might take a while)");
         for (int i = 0; i < 3; i++) {
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=_t431MAUQlQ"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=zJj__pWtpug"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=tsmPCi7NKrg"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=rcVb6l4TpHw"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=MW_5jZ67z9E"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=SlPhMPnQ58k"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=VtGpN6dRADY"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=yasj3j76SyM"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=UnyLfqpyi94"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=RBV3YFf76ow"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=ds6o9in_y-o"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=Y7ix6RITXM0"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=pgN-vvVVxMA"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=dvgZkm1xWPE"));
-            songQueueService.addSong(new SongImplYoutube("https://www.youtube.com/watch?v=hTWKbfoikeg"));
+            songQueueService.addSong("https://www.youtube.com/watch?v=_t431MAUQlQ");
+            songQueueService.addSong("https://www.youtube.com/watch?v=zJj__pWtpug");
+            songQueueService.addSong("https://www.youtube.com/watch?v=tsmPCi7NKrg");
+            songQueueService.addSong("https://www.youtube.com/watch?v=rcVb6l4TpHw");
+            songQueueService.addSong("https://www.youtube.com/watch?v=MW_5jZ67z9E");
+            songQueueService.addSong("https://www.youtube.com/watch?v=SlPhMPnQ58k");
+            songQueueService.addSong("https://www.youtube.com/watch?v=VtGpN6dRADY");
+            songQueueService.addSong("https://www.youtube.com/watch?v=yasj3j76SyM");
+            songQueueService.addSong("https://www.youtube.com/watch?v=UnyLfqpyi94");
+            songQueueService.addSong("https://www.youtube.com/watch?v=RBV3YFf76ow");
+            songQueueService.addSong("https://www.youtube.com/watch?v=ds6o9in_y-o");
+            songQueueService.addSong("https://www.youtube.com/watch?v=Y7ix6RITXM0");
+            songQueueService.addSong("https://www.youtube.com/watch?v=pgN-vvVVxMA");
+            songQueueService.addSong("https://www.youtube.com/watch?v=dvgZkm1xWPE");
+            songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
         }
     }
 

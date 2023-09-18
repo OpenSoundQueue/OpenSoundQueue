@@ -1,7 +1,7 @@
 package com.example.backend.streaming;
 
 public interface SongServiceInterface {
-    void initializeSong(Song song);
+    Song validateSong(String link);
     void play(Song song);
     void stop(Song song);
     void close(Song song);

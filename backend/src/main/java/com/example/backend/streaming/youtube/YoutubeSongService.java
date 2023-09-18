@@ -26,6 +26,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -38,31 +39,40 @@ public class YoutubeSongService implements SongServiceInterface {
     @Autowired
     SongInfoRepository songInfoRepository;
 
+    public Song validateSong(String link) {
+        SongImplYoutube newSong = new SongImplYoutube(link);
+        try {
+            initializeSong(newSong);
+        } catch (UnsupportedOperationException e) {
+            return null;
+        }
+
+        return newSong;
+    }
+
     public void initializeSong(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
 
-        new Thread(() -> {
-            song.setFetchingInfos(true);
-            List<SongInfoHistoryEntity> foundSongs = songInfoRepository.findBySongLink(song.getLink());
-            if (foundSongs.size() == 0) {
-                SongInfo info = this.getInfos(song);
-                song.setTitle(info.getTitle().replaceAll("#?\\\\", "").replaceAll(":", " "));
-                song.setDuration(info.getDuration());
-                song.setArtist(info.getArtist());
-                song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
+        song.setFetchingInfos(true);
+        List<SongInfoHistoryEntity> foundSongs = songInfoRepository.findBySongLink(song.getLink());
+        if (foundSongs.size() == 0) {
+            SongInfo info = this.getInfos(song);
+            song.setTitle(info.getTitle().replaceAll("#?\\\\", "").replaceAll(":", " "));
+            song.setDuration(info.getDuration());
+            song.setArtist(info.getArtist());
+            song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
 
-                SongInfoHistoryEntity songInfoHistoryEntity = new SongInfoHistoryEntity(song.getTitle(), song.getArtist(), song.getLink(), song.getDuration());
-                songInfoRepository.save(songInfoHistoryEntity);
-            } else {
-                SongInfoHistoryEntity songHistory = foundSongs.get(0);
-                song.setTitle(songHistory.getTitle());
-                song.setDuration(songHistory.getDuration());
-                song.setArtist(songHistory.getArtist());
-                song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
-            }
+            SongInfoHistoryEntity songInfoHistoryEntity = new SongInfoHistoryEntity(song.getTitle(), song.getArtist(), song.getLink(), song.getDuration());
+            songInfoRepository.save(songInfoHistoryEntity);
+        } else {
+            SongInfoHistoryEntity songHistory = foundSongs.get(0);
+            song.setTitle(songHistory.getTitle());
+            song.setDuration(songHistory.getDuration());
+            song.setArtist(songHistory.getArtist());
+            song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
+        }
 
-            song.setFetchingInfos(false);
-        }).start();
+        song.setFetchingInfos(false);
     }
 
     @Override
@@ -144,7 +154,7 @@ public class YoutubeSongService implements SongServiceInterface {
         String url = song.getLink();
 
         ProcessBuilder builder = new ProcessBuilder(
-                "cmd.exe", "/c", "yt-dlp --output \""+ song.getDOWNLOAD_PATH() + song.getArtist() + " - " + song.getTitle() + ".%(ext)s\" --extract-audio --audio-format wav \"" + url +"\"");
+                "cmd.exe", "/c", "yt-dlp --output \"" + song.getDOWNLOAD_PATH() + song.getArtist() + " - " + song.getTitle() + ".%(ext)s\" --extract-audio --audio-format wav \"" + url + "\"");
         builder.redirectErrorStream(true);
         Process p;
         try {
@@ -161,7 +171,9 @@ public class YoutubeSongService implements SongServiceInterface {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            if (line == null) { break; }
+            if (line == null) {
+                break;
+            }
         }
         LOG.info("Finished song download for link: " + song.getLink());
 
@@ -172,7 +184,8 @@ public class YoutubeSongService implements SongServiceInterface {
     public SongInfo getInfos(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
 
-        if (song.getArtist() != null && song.getDuration() != null && song.getTitle() != null) return new SongInfo(song.getArtist(), song.getDuration(), song.getTitle());
+        if (song.getArtist() != null && song.getDuration() != null && song.getTitle() != null)
+            return new SongInfo(song.getArtist(), song.getDuration(), song.getTitle());
 
         ProcessBuilder processBuilder = new ProcessBuilder().redirectErrorStream(false);
 
@@ -185,7 +198,7 @@ public class YoutubeSongService implements SongServiceInterface {
         String thumbnail = "";
         String artistFromTitle;
 
-        processBuilder.command("cmd.exe", "/c", "yt-dlp --dump-single-json \"" + song.getLink() +"\"");
+        processBuilder.command("cmd.exe", "/c", "yt-dlp --dump-single-json \"" + song.getLink() + "\"");
         StringBuilder stdout = new StringBuilder();
         try {
             Process process = processBuilder.start();
