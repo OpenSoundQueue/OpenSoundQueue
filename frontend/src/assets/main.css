@@ -23,7 +23,6 @@ button {
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -html-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -44,6 +43,9 @@ button {
 .scrollbar::-webkit-scrollbar-thumb {
     background: var(--light-gray);
     border-radius: 1rem;
+}
+.scrollbar:hover{
+    cursor: pointer;
 }
 
 @keyframes shine {
