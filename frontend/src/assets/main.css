@@ -23,10 +23,29 @@ button {
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.scrollbar {
+    -ms-overflow-style: -ms-autohiding-scrollbar;  /* IE and Edge */
+    scrollbar-width: thin;  /* Firefox */
+    overflow-y: scroll;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background: none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: var(--light-gray);
+    border-radius: 1rem;
+}
+.scrollbar:hover{
+    cursor: pointer;
 }
 
 @keyframes shine {

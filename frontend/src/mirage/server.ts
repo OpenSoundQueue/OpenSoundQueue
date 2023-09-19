@@ -53,6 +53,17 @@ export function makeServer({environment = "development"} = {}) {
                 };
             })
 
+            this.get("/queue/all", (schema: AppSchema) => {
+                const songs = schema.db.songs;
+
+                return songs.map((song, index) => {
+                    return {
+                        song: song,
+                        numberInQueue: index
+                    }
+                });
+            })
+
             let start = Date.now();
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
@@ -69,14 +80,23 @@ export function makeServer({environment = "development"} = {}) {
                 }
             })
 
+            this.post("/queue/add/", (schema: AppSchema) => {
+                const songs = schema.db.songs;
+                const random = Math.floor(Math.random() * songs.length);
+
+                return {
+                    ...songs[random]
+                };
+            })
+
             let votes = 0;
             let isActive = false;
             this.get("vote-skip/status", () => {
-               return {
-                   isActive: isActive,
-                   received: votes,
-                   required: 5
-               };
+                return {
+                    isActive: isActive,
+                    received: votes,
+                    required: 5
+                };
             })
 
             this.get("vote-skip/vote", () => {
@@ -106,6 +126,53 @@ export function makeServer({environment = "development"} = {}) {
                     isActive: isActive,
                     received: votes,
                     required: 5
+                };
+            })
+
+            function fuzzySearch(items: any[], key: any) {
+                // Returns a method that you can use to create your own reusable fuzzy search.
+
+                return function (query: string) {
+                    const words = query.toLowerCase().split(' ');
+
+                    return items.filter(function (item: string) {
+                        const normalizedTerm = item[key].toLowerCase();
+
+                        return words.every(function (word) {
+                            return (normalizedTerm.indexOf(word) > -1);
+                        });
+                    });
+                };
+            }
+
+            this.get("search/history/:searchTerm", (schema: AppSchema, request) => {
+                const searchTerm = request.params.searchTerm;
+
+                const songs: any[] = schema.db.songs;
+
+                const searchByTitle = fuzzySearch(songs, "title")
+                const results = searchByTitle(searchTerm);
+
+                return {
+                    ...results
+                };
+            })
+
+            this.get("search/history/:searchTerm/max-results/:maxResults", (schema: AppSchema, request) => {
+                const searchTerm = request.params.searchTerm;
+                const maxResults = parseInt(request.params.maxResults);
+
+                const songs: any[] = schema.db.songs;
+
+                const searchByTitle = fuzzySearch(songs, "title")
+                const results = searchByTitle(searchTerm);
+
+                if (results.length > maxResults) {
+                    return results.slice(0, maxResults);
+                }
+
+                return {
+                    ...results
                 };
             })
         },

@@ -1,6 +1,8 @@
 <template>
   <div class="entry-wrapper">
-    <div class="queue-number">{{ numberInQueue + 1 }}</div>
+    <div v-if="typeof numberInQueue !== 'undefined'" class="queue-number">
+      {{ numberInQueue + 1 }}
+    </div>
 
     <div class="song-details-container">
       <div class="song-title">
@@ -18,7 +20,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  numberInQueue: number,
+  numberInQueue?: number,
   title: string,
   artist: string,
   duration: number

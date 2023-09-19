@@ -35,14 +35,10 @@ const voteSkipData = ref({
   received: 0
 });
 
-let interval: number;
+let interval: any;
 
 onMounted(() => {
   requestStatus();
-
-  interval = setInterval(() => {
-    requestStatus();
-  }, props.updateInterval);
 })
 
 function requestStatus() {
