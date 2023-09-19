@@ -142,9 +142,9 @@ public class BackendApplication {
         LOG.warn("Feeding song queue with test data... (might take a while)");
         for (int i = 0; i < 3; i++) {
             songQueueService.addSong("https://www.youtube.com/watch?v=_t431MAUQlQ");
-            songQueueService.addSong("https://www.youtube.com/watch?v=zJj__pWtpug");
+            songQueueService.addSong("https://www.youtube.com/watch?v=dvgZkm1xWPE");
             songQueueService.addSong("https://www.youtube.com/watch?v=tsmPCi7NKrg");
-            songQueueService.addSong("https://www.youtube.com/watch?v=rcVb6l4TpHw");
+            songQueueService.addSong("https://www.youtube.com/watch?v=OMOGaugKpzs");
             songQueueService.addSong("https://www.youtube.com/watch?v=MW_5jZ67z9E");
             songQueueService.addSong("https://www.youtube.com/watch?v=SlPhMPnQ58k");
             songQueueService.addSong("https://www.youtube.com/watch?v=VtGpN6dRADY");
@@ -154,7 +154,7 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=ds6o9in_y-o");
             songQueueService.addSong("https://www.youtube.com/watch?v=Y7ix6RITXM0");
             songQueueService.addSong("https://www.youtube.com/watch?v=pgN-vvVVxMA");
-            songQueueService.addSong("https://www.youtube.com/watch?v=dvgZkm1xWPE");
+            songQueueService.addSong("https://www.youtube.com/watch?v=lxRwEPvL-mQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
         }
     }
