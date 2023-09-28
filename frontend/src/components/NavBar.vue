@@ -2,7 +2,7 @@
   <nav class="navbar">
     <img class="menu-icon" :src="menuIcon" @click="toggleMenu">
     <router-link to="/">
-      <img class="logo" src="/menu/logo.svg">
+      <img class="logo" src="@/assets/menu/logo.svg">
     </router-link>
     <div class="menu-wrapper" :class="[menuOpen ? 'menu-opened' : 'menu-closed']">
       <div class="menu-items-container">
@@ -12,14 +12,12 @@
         <div class="current-page-container">
           <p class="menu-title">{{ $translate("menuCurrentPage") }}</p>
           <router-link class="menu-item" :to="currentPage.link">
-            <img class="album-cover" src="/menu/cover.svg">
             <p>{{ $translate(currentPage.translationKey) }}</p>
           </router-link>
         </div>
         <div class="next-pages-container">
           <p class="menu-title">{{ $translate("menuNextPages") }}</p>
           <router-link v-for="(page, index) in nextPages" class="menu-item" :to="page.link" :key="index">
-            <img class="album-cover" src="/menu/cover.svg">
             <p>{{ $translate(page.translationKey) }}</p>
           </router-link>
         </div>
@@ -36,14 +34,13 @@
 </template>
 
 <script setup lang="ts">
-import TranslateButton from "@/components/TranslateButton.vue";
+import TranslateButton from "@/components/buttons/TranslateButton.vue";
 import {ref} from "vue";
 import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 
-const props = defineProps(['pageIndex']);
 
 const menuOpen = ref(false);
-const menuIcon = ref("menu/menu.svg");
+const menuIcon = ref("src/assets/menu/menu.svg");
 
 type Page = {
   translationKey: TranslationsKey,
@@ -55,23 +52,15 @@ const pages: Array<Page> = [
   {translationKey: "menuFeatures", link: "/features"},
 ];
 
-const nextPages: Array<Page> = Object.assign([], pages);
-let currentPage: Page;
-if (props.pageIndex == -1) {
-  currentPage = {translationKey: "menuLandingPage", link: "/"}
-} else if (props.pageIndex == -2) {
-  currentPage = {translationKey: "menuImprint", link: "/imprint"}
-} else {
-  currentPage = Object.assign(ref(pages[props.pageIndex]));
-  nextPages.splice(props.pageIndex, 1)
-}
+const nextPages: Array<Page> = Object.assign([], pages).splice(0, 1);
+let currentPage: Page = pages[0];
 
 function toggleMenu(): void {
   menuOpen.value = !menuOpen.value;
   if (menuOpen.value) {
-    menuIcon.value = "/menu/close.svg";
+    menuIcon.value = "src/assets/menu/close.svg";
   } else {
-    menuIcon.value = "/menu/menu.svg";
+    menuIcon.value = "src/assets/menu/menu.svg";
   }
 }
 </script>
@@ -88,6 +77,7 @@ function toggleMenu(): void {
   align-items: center;
   justify-content: space-between;
   background: var(--background-color);
+  z-index: 999;
 }
 
 .next-pages-container {
@@ -128,7 +118,8 @@ function toggleMenu(): void {
 
 .menu-items-container {
   height: 100%;
-  background: linear-gradient(180deg, var(--background-color) 59.9%, #2C1965 100%);
+  background: var(--magenta);
+  opacity: 0.75;
   display: flex;
   flex-direction: column;
   gap: 10px;
