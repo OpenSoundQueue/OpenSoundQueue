@@ -2,5 +2,9 @@
   "nowPlaying": "Now Playing",
   "inQueue": "In Queue",
   "byLink": "By Link",
-  "bySearch": "By Search"
+  "bySearch": "By Search",
+  "documentation": "Docs",
+  "team": "Team",
+  "imprint": "Imprint",
+  "about": "About"
 }
