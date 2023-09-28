@@ -51,7 +51,7 @@ function linktToEasyname(): void {
   margin: auto 0 auto 0;
 }
 
-.link-container>*{
+.link-container > * {
   flex-basis: calc(50% - 10px);
   margin-right: 20px;
   margin-bottom: 20px;

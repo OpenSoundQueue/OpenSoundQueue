@@ -35,13 +35,13 @@ const languages: Array<Language> = [
   }
 ];
 
-onMounted(()=>{
+onMounted(() => {
   const storeLang: string | null = sessionStorage.getItem("lang");
 
 
   if (storeLang == null) {
     sessionStorage.setItem("lang", "en");
-  }else if(languages.map(x => x.name).includes(storeLang)){
+  } else if (languages.map(x => x.name).includes(storeLang)) {
     setLanguage(storeLang)
     currentLangIndex = languages.findIndex(x => x.name == storeLang);
     currentLangPath.value = languages[currentLangIndex].imgPath;
@@ -49,7 +49,7 @@ onMounted(()=>{
 })
 
 languages.forEach((x, index) => {
-  if (x.name == getCurrentLanguage().value){
+  if (x.name == getCurrentLanguage().value) {
     currentLangIndex = index
   }
 })
