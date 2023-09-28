@@ -2,7 +2,7 @@
   <div class="translation-container">
     <div class="dropdown-header" @click="toggleMenu()">
       <img class="menu-icon" :src="currentLangPath">
-      <img class="dropdown-arrow" :class="rotationClass" src="/translations/dropdown.svg">
+      <img class="dropdown-arrow" :class="rotationClass" src="@/assets/translations/dropdown.svg">
     </div>
     <div class="dropdown-content" v-show="contentVisibility">
       <template v-for="(lang, index) in languages">
@@ -27,11 +27,11 @@ const contentVisibility = ref(false);
 const languages: Array<Language> = [
   {
     name: "en",
-    imgPath: "/translations/en.png"
+    imgPath: "src/assets/translations/en.png"
   },
   {
     name: "de",
-    imgPath: "/translations/de.png"
+    imgPath: "src/assets/translations/de.png"
   }
 ];
 
