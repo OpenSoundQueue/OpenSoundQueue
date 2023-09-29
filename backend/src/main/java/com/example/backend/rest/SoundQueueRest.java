@@ -1,14 +1,11 @@
 package com.example.backend.rest;
 
-import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.*;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
-import com.example.backend.user_management.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,12 +18,6 @@ import java.util.Map;
 public class SoundQueueRest {
     @Autowired
     private SongQueueService songQueueService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/queue/all")
     public ResponseEntity<Object> getSongQueue() {
@@ -89,38 +80,5 @@ public class SoundQueueRest {
     @GetMapping("/vote-skip/withdraw")
     public ResponseEntity<Object> withdrawVoteSkip() {
         return new ResponseEntity<>(songQueueService.withdrawVoteSkip(), HttpStatus.OK);
-    }
-
-
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody Map<String, String> requestBody) {
-        String username = requestBody.get("username");
-        String password = requestBody.get("password");
-
-        UserInfoEntity userInfoEntity = userService.getUserByUsername(username);
-
-        if (userInfoEntity == null) {
-            return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
-        }
-
-        if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
-            String token = userService.generateToken();
-
-            userService.updateToken(userInfoEntity.getId(), token);
-            return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping("/verify")
-    public ResponseEntity<Object> verify(@RequestHeader(value = "X-API-KEY") String token) {
-        UserInfoEntity userInfoEntity = userService.getUserByToken(token);
-
-        if (userInfoEntity == null) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(new UserDto(userInfoEntity.getUsername()), HttpStatus.OK);
     }
 }

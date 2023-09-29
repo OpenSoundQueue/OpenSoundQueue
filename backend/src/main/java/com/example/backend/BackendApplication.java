@@ -165,6 +165,7 @@ public class BackendApplication {
         }
     }
 
+    @Profile("!prod")
     @Order(2)
     @PostConstruct
     private void feedTestUsers() {
