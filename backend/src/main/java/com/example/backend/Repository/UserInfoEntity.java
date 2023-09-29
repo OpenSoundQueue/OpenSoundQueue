@@ -15,7 +15,7 @@ public class UserInfoEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "token")
+    @Column(name = "token", unique = true)
     private String token;
 
     public UserInfoEntity() {

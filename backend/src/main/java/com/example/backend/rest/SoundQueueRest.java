@@ -96,7 +96,7 @@ public class SoundQueueRest {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Object> getUser(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Object> login(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
 
@@ -107,12 +107,23 @@ public class SoundQueueRest {
         }
 
         if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
-            String token = "asdfjaklslökasdoihagsdfiohvd";
+            String token = userService.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
             return new ResponseEntity<>(new SessionKeyDto(token), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<Object> verify(@RequestHeader(value = "X-API-KEY") String token) {
+        UserInfoEntity userInfoEntity = userService.getUserByToken(token);
+
+        if (userInfoEntity == null) {
+            return new ResponseEntity<>(new ErrorDto("Token not found"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(userInfoEntity, HttpStatus.OK);
     }
 }
