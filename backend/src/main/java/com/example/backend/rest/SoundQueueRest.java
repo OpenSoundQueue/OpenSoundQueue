@@ -1,10 +1,7 @@
 package com.example.backend.rest;
 
 import com.example.backend.Repository.UserInfoEntity;
-import com.example.backend.ResponseDtos.ErrorDto;
-import com.example.backend.ResponseDtos.QueuePageDto;
-import com.example.backend.ResponseDtos.SessionKeyDto;
-import com.example.backend.ResponseDtos.SongQueueItem;
+import com.example.backend.ResponseDtos.*;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
@@ -110,7 +107,7 @@ public class SoundQueueRest {
             String token = userService.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
-            return new ResponseEntity<>(new SessionKeyDto(token), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
@@ -121,9 +118,9 @@ public class SoundQueueRest {
         UserInfoEntity userInfoEntity = userService.getUserByToken(token);
 
         if (userInfoEntity == null) {
-            return new ResponseEntity<>(new ErrorDto("Token not found"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(userInfoEntity, HttpStatus.OK);
+        return new ResponseEntity<>(new UserDto(userInfoEntity.getUsername()), HttpStatus.OK);
     }
 }
