@@ -29,19 +29,12 @@ paths:
             application/json:
               example:
                 sessionKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
-                firstLogin: true
         400:
           description: Incorrect username or password
           content:
             application/json:
               example:
                 error: Incorrect username or password
-        401:
-          description: The email address has not been verified yet
-          content:
-            application/json:
-              example:
-                error: The email address has not been verified yet
   /verify:
     get:
       tags:
