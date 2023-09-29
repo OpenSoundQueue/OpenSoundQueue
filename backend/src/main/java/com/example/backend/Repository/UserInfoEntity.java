@@ -3,10 +3,10 @@ package com.example.backend.Repository;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "UserEntity")
-public class UserEntity {
+@Table(name = "UserInfo")
+public class UserInfoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
@@ -18,22 +18,17 @@ public class UserEntity {
     @Column(name = "token")
     private String token;
 
-    public UserEntity() {
+    public UserInfoEntity() {
 
     }
 
-    public UserEntity(String username, String password, String token) {
+    public UserInfoEntity(String username, String password) {
         this.username = username;
         this.password = password;
-        this.token = token;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
