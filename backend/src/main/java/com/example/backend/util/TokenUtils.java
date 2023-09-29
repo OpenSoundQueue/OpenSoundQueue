@@ -1,11 +1,16 @@
 package com.example.backend.util;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Component
 public class TokenUtils {
 
-    public static String generateToken() {
+    @Bean
+    public String generateToken() {
         String characterPool = "123467890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
         StringBuilder token = new StringBuilder();
@@ -19,7 +24,8 @@ public class TokenUtils {
         return token.toString();
     }
 
-    public static String hashWithSHA512(String input) {
+    @Bean
+    public String hashWithSHA512(String input) {
         try {
             MessageDigest sha512Digest = MessageDigest.getInstance("SHA-512");
             byte[] hashedBytes = sha512Digest.digest(input.getBytes());

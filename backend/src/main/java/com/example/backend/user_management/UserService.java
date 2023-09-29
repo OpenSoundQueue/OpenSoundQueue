@@ -2,14 +2,11 @@ package com.example.backend.user_management;
 
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.Repository.UserInfoRepository;
+import com.example.backend.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import static com.example.backend.util.TokenUtils.hashWithSHA512;
 
 @Service
 public class UserService {
@@ -19,6 +16,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TokenUtils tokenUtils;
+
     public UserInfoEntity getUserByUsername(String username) {
        UserInfoEntity user = userInfoRepository.findByUsername(username);
 
@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public UserInfoEntity getUserByToken(String token) {
-        UserInfoEntity user = userInfoRepository.findByToken(hashWithSHA512(token));
+        UserInfoEntity user = userInfoRepository.findByToken(tokenUtils.hashWithSHA512(token));
 
         return user;
     }
@@ -45,7 +45,7 @@ public class UserService {
             return;
         }
 
-        user.setToken(hashWithSHA512(token));
+        user.setToken(tokenUtils.hashWithSHA512(token));
 
         userInfoRepository.save(user);
     }

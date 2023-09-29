@@ -5,12 +5,12 @@ import com.example.backend.ResponseDtos.ApiKeyDto;
 import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.ResponseDtos.UserDto;
 import com.example.backend.user_management.UserService;
+import com.example.backend.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import static com.example.backend.util.TokenUtils.generateToken;
 
 import java.util.Map;
 
@@ -25,6 +25,9 @@ public class UserRest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TokenUtils tokenUtils;
+
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
@@ -37,7 +40,7 @@ public class UserRest {
         }
 
         if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
-            String token = generateToken();
+            String token = tokenUtils.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
