@@ -1,4 +1,4 @@
-package com.example.backend.user_management;
+package com.example.backend.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

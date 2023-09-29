@@ -17,9 +17,9 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserInfoEntity getUserByUsername(String username) {
-       List<UserInfoEntity> foundUsers = userInfoRepository.findByUsername(username);
+       UserInfoEntity user = userInfoRepository.findByUsername(username);
 
-       return foundUsers.get(0);
+       return user;
     }
 
     public UserInfoEntity registerNewUser(UserInfoEntity user) {
