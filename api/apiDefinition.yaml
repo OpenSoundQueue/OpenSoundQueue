@@ -24,11 +24,11 @@ paths:
                 password: stubsi10!
       responses:
         200:
-          description: Successfully logged in. Returns *sessionKey*.
+          description: Successfully logged in. Returns *apiKey*.
           content:
             application/json:
               example:
-                sessionKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
         400:
           description: Incorrect username or password
           content:
@@ -39,7 +39,7 @@ paths:
     get:
       tags:
         - auth
-      description: Checks if the user's set API token is valid.
+      description: Checks if the user's set API key is valid.
       security:
         - ApiKeyAuth: [ ]
       responses:
@@ -48,15 +48,13 @@ paths:
           content:
             application/json:
               example:
-                id: 10
-                name: Quantom
-                email: Quantom@myemail.com
+                username: Quantom
         401:
-          description: Invalid API token
+          description: Invalid API key
           content:
             application/json:
               example:
-                error: Invalid API token
+                error: Invalid API key
   /queue/page/{page-number}:
     get:
       tags:
