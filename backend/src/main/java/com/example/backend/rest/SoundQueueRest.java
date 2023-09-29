@@ -11,6 +11,7 @@ import com.example.backend.user_management.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public class SoundQueueRest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/queue/all")
     public ResponseEntity<Object> getSongQueue() {
@@ -102,7 +106,7 @@ public class SoundQueueRest {
             return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
         }
 
-        if (userService.getUserByUsername(username).getPassword().equals(password)) {
+        if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
             userInfoEntity.setToken("aasdfadfklasdklsdfklsdf");
             return new ResponseEntity<>(new SessionKeyDto("adfadfadflkasdlksdokasdfnv"), HttpStatus.OK);
         }

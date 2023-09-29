@@ -1,13 +1,16 @@
 package com.example.backend;
 
+import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.exceptions.UnsupportedSystemException;
 import com.example.backend.streaming.SongQueueService;
+import com.example.backend.user_management.UserService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 
@@ -15,12 +18,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BackendApplication {
     private static final Logger LOG = LoggerFactory.getLogger(BackendApplication.class);
 
     @Autowired
     private SongQueueService songQueueService;
+
+    @Autowired
+    private UserService userService;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -159,4 +165,12 @@ public class BackendApplication {
         }
     }
 
+    @Order(2)
+    @PostConstruct
+    private void feedTestUsers() {
+        LOG.info("Feeding test users");
+        userService.registerNewUser(new UserInfoEntity("Markus", "Passwort"));
+        userService.registerNewUser(new UserInfoEntity("Daniel", "Passwort"));
+        userService.registerNewUser(new UserInfoEntity("Luki", "Passwort"));
+    }
 }
