@@ -107,8 +107,10 @@ public class SoundQueueRest {
         }
 
         if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
-            userInfoEntity.setToken("aasdfadfklasdklsdfklsdf");
-            return new ResponseEntity<>(new SessionKeyDto("adfadfadflkasdlksdokasdfnv"), HttpStatus.OK);
+            String token = "asdfjaklslökasdoihagsdfiohvd";
+
+            userService.updateToken(userInfoEntity.getId(), token);
+            return new ResponseEntity<>(new SessionKeyDto(token), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
