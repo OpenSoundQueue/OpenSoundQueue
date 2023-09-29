@@ -1,5 +1,6 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.ResponseDtos.QueuePageDto;
 import com.example.backend.ResponseDtos.SessionKeyDto;
@@ -95,7 +96,14 @@ public class SoundQueueRest {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
 
+        UserInfoEntity userInfoEntity = userService.getUserByUsername(username);
+
+        if (userInfoEntity == null) {
+            return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
+        }
+
         if (userService.getUserByUsername(username).getPassword().equals(password)) {
+            userInfoEntity.setToken("aasdfadfklasdklsdfklsdf");
             return new ResponseEntity<>(new SessionKeyDto("adfadfadflkasdlksdokasdfnv"), HttpStatus.OK);
         }
 
