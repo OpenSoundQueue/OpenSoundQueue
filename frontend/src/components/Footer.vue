@@ -14,11 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import {getCurrentLanguage} from "@/plugins/TranslationPlugin";
-
-function linktToEasyname(): void {
-  window.open('https://www.easyname.at/' + getCurrentLanguage().value, "_blank");
-}
 </script>
 
 <style scoped>
