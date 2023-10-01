@@ -13,7 +13,10 @@
           <slot></slot>
         </div>
       </div>
-      <input class="input-field" :class="[customIcon || inputType === 'password' ? 'has-icon' : 'no-icon']"
+      <input class="input-field" :class="[
+          displayError?'error':'',
+          displayInvalid?'error':'',
+          customIcon || inputType === 'password' ? 'has-icon' : 'no-icon']"
              :id="inputId"
              :type="inputTypeDynamic"
              :value="inputValue"
@@ -21,7 +24,10 @@
              :placeholder="placeholder"
       >
     </div>
-    <p v-if="displayError" class="error-message">
+    <p v-if="displayInvalid" class="error-message">
+      {{ validationMessage }}
+    </p>
+    <p v-else-if="displayError" class="error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -36,6 +42,7 @@ interface Props {
   label?: string
   validationFunction?: Function
   errorMessage?: string
+  validationMessage?: string
   inputType?: string
   required?: boolean
   customIcon?: boolean
@@ -63,12 +70,19 @@ const emit = defineEmits<{
 const inputValue = ref("");
 const inputTypeDynamic = ref(props.inputType);
 const showPassword = ref(false);
-const displayError = ref(false);
+const errorStatus = ref(false);
 
 const manualValue = computed(() => props.manualValue);
 
 const inputId = computed(() => {
   return generateUUID();
+})
+
+const displayError = computed( () =>{
+  return errorStatus.value
+})
+const displayInvalid = computed( () =>{
+  return !props.validationFunction(inputValue.value)()
 })
 
 function setValue(event: Event) {
@@ -77,7 +91,7 @@ function setValue(event: Event) {
   emit("userInput", inputValue.value);
 }
 
-function toggleVisibility() {
+function toggleVisibility(): void {
   showPassword.value = !showPassword.value;
 
   if (showPassword.value) {
@@ -87,7 +101,7 @@ function toggleVisibility() {
   }
 }
 
-function clearInput() {
+function clearInput(): void {
   inputValue.value = "";
   emit("inputClear");
 }
@@ -137,13 +151,11 @@ watch(manualValue, (newValue) => {
   color: var(--tertiary-color);
 }
 
+/*
 .input-field:focus {
   outline: 2px solid var(--primary-color);
 }
-
-.input-field.has-icon {
-  padding-left: 35px;
-}
+*/
 
 .password-icon-wrapper, .default-icon-wrapper {
   display: flex;
@@ -170,5 +182,9 @@ watch(manualValue, (newValue) => {
 .error-message {
   margin-top: 5px;
   color: red;
+}
+
+.error{
+  border-color: red;
 }
 </style>

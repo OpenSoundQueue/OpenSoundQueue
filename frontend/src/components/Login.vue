@@ -1,95 +1,59 @@
 <template>
   <div class="login-container">
-
+    <h2>{{ $translate('loginTitle') }}</h2>
     <form @submit.prevent>
-      <!-- Username -->
-      <label>Benutzername</label>
-      <input class="username input-field" type="text"
-             v-model="v$.form.username.$model"
-             :class="status(v$.form.username)">
-      <!-- error message -->
-      <div class="input-errors" v-for="(error, index) of v$.form.username.$errors" :key="index">
-        <div class="error-msg">{{ error.$message }}</div>
+      <div class="input-container">
+        <!-- Username -->
+        <InputField
+            :label="$translate('username')"
+            :validationFunction="$validateUsername"
+            :errorMessage="$translate('usernameError')"
+            :validationMessage="$translate('usernameValidationError')"
+            :required="false"
+            :placeholder="$translate('usernamePlaceholder')">
+        </InputField>
+        <!-- Password -->
+        <InputField
+            :label="$translate('password')"
+            :validationFunction="$validatePassword"
+            :errorMessage="$translate('passwordError')"
+            :validationMessage="$translate('passwordValidationError')"
+            :required="false"
+            inputType="password"
+            :placeholder="$translate('passwordPlaceholder')">
+        </InputField>
       </div>
-
-      <!-- Password -->
-      <label>Passwort</label>
-      <input class="password input-field" type="password"
-             v-model="v$.form.password.$model"
-             :class="status(v$.form.password)">
-      <!-- error message -->
-      <div class="input-errors" v-for="(error, index) of v$.form.password.$errors" :key="index">
-        <div class="error-msg">{{ error.$message }}</div>
-      </div>
-      <button>{{  $translate("login") }}</button>
+      <button>{{ $translate("login") }}</button>
     </form>
 
   </div>
 </template>
 
 <script setup lang="ts">
-import useVuelidate from 'vuelidate/core'
-import {required$, email$, passwordMinLength$, passwordSameAs$} from "@/validators.js";
-import {ref, watch} from "vue";
+import InputField from "@/components/inputs/InputField.vue";
+import {$validatePassword, $validateUsername} from "@/validationHelper";
 
-const props = defineProps({
-  passwordRequired: Boolean
-})
-type Form = {
-  username: string,
-  password: string
-}
-let v$ = useVuelidate();
-let form:Form = {
-  username:"",
-  password:""
-}
 
-let error:boolean =  false
-let errorMessage:string =  ""
-let state:string = "inactive"
-
-const validations = {
-  form: {
-    username: {
-      required$
-    },
-    password: {
-      required$,
-      min: passwordMinLength$(8)
-    },
-  }
-}
-
-function status(validation) {
-  return {
-    error: validation.$error,
-    dirty: validation.$dirty
-  }
-}
-
-async function sendRegistration() {
-  resetError();
-  state = "waiting";
-
-  state = "active";
-}
-
-function resetError() {
-  error = false;
-  errorMessage = "";
-}
-
-function setError(message:string) {
-  error = true;
-  errorMessage = message;
-}
-
-watch('v$.form.$invalid'(),()=>{
-  state = v$.form.$invalid ? 'inactive' : 'active'
-})
 </script>
 
 <style scoped>
+h2 {
+  margin-bottom: 0;
+  margin-top: 20px;
+}
 
+.login-container {
+  padding: 0 60px 0 60px;
+  margin: 0 auto 0 auto;
+}
+
+.input-container, form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container{
+  gap: 20px;
+  margin: 40px 0 40px 0;
+}
 </style>
