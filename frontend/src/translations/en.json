@@ -2,5 +2,6 @@
   "nowPlaying": "Now Playing",
   "inQueue": "In Queue",
   "byLink": "By Link",
-  "bySearch": "By Search"
+  "bySearch": "By Search",
+  "settings": "Settings"
 }
