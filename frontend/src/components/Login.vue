@@ -23,7 +23,7 @@
             :placeholder="$translate('passwordPlaceholder')">
         </InputField>
       </div>
-      <button>{{ $translate("login") }}</button>
+      <OSQButton bStyle="login" :status="formStatus">{{ $translate('login') }}</OSQButton>
     </form>
 
   </div>
@@ -31,9 +31,11 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
+import OSQButton from "@/components/buttons/OSQButton.vue";
 import {$validatePassword, $validateUsername} from "@/validationHelper";
+import {ref} from "vue";
 
-
+const formStatus = ref('active')
 </script>
 
 <style scoped>
@@ -43,7 +45,7 @@ h2 {
 }
 
 .login-container {
-  padding: 0 60px 0 60px;
+  padding: 0 40px 0 40px;
   margin: 0 auto 0 auto;
 }
 
