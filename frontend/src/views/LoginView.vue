@@ -24,7 +24,7 @@ import Login from "@/components/Login.vue"
 main {
   background-color: var(--grayish-blue);
   width: 100svw;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -44,7 +44,7 @@ header {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 20px 0 20px 0;
+  padding: 20px 0 20px 0;
 }
 
 .link {
@@ -55,5 +55,16 @@ header {
 
 .link:hover {
   text-decoration: underline;
+}
+
+@media screen and (min-width: 600px){
+  main{
+    width: 600px;
+    border-radius: var(--border-radius-big);
+    margin: 50px auto 0 auto;
+    min-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+    overflow: scroll;
+  }
 }
 </style>
