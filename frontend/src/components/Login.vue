@@ -93,17 +93,20 @@ async function loginCall() {
   if (formStatus.value === "active") {
     switch (true) {
       case props.requireAuth && props.isPrivate:
-        response = await httpService.postPrivateAuthLogin(username.value, password.value, entryCode.value)
-        console.log(response)
+        await httpService.postPrivateAuthLogin(username.value, password.value, entryCode.value)
+        // TODO: add error-handling
         break;
       case props.isPrivate:
-        httpService.postPrivateLogin(username.value, entryCode.value)
+        await httpService.postPrivateLogin(username.value, entryCode.value)
+        // TODO: add error-handling
         break;
       case props.requireAuth:
-        httpService.postPublicAuthLogin(username.value, password.value)
+        await httpService.postPublicAuthLogin(username.value, password.value)
+        // TODO: add error-handling
         break;
       default:
-        httpService.postPublicLogin(username.value)
+        await httpService.postPublicLogin(username.value)
+        // TODO: add error-handling
         break;
     }
   }
