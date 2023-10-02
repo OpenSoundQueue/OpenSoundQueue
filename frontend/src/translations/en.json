@@ -3,5 +3,9 @@
   "inQueue": "In Queue",
   "byLink": "By Link",
   "bySearch": "By Search",
-  "settings": "Settings"
+  "settings": "Settings",
+  "documentation": "Docs",
+  "team": "Team",
+  "imprint": "Imprint",
+  "about": "About"
 }
