@@ -5,6 +5,10 @@ function validate(type:string, value:string):boolean {
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
             return passwordRegex.test(value);
             break;
+        case "entryCode":
+            const entryCodeRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return entryCodeRegex.test(value);
+            break;
         case "username":
             const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
             return usernameRegex.test(value);
@@ -17,4 +21,7 @@ export function $validateUsername(value:string): Function{
 }
 export function $validatePassword(value:string): Function{
     return () => validate("password",value)
+}
+export function $validateEntryCode(value:string): Function{
+    return () => validate("entryCode",value)
 }
