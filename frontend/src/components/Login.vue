@@ -5,6 +5,7 @@
       <div class="input-container">
         <!-- Username -->
         <InputField
+            v-model="username"
             :label="$translate('username')"
             :validationFunction="$validateUsername"
             :errorMessage="$translate('usernameError')"
@@ -14,6 +15,7 @@
         </InputField>
         <!-- Password -->
         <InputField
+            v-model="password"
             :label="$translate('password')"
             :validationFunction="$validatePassword"
             :errorMessage="$translate('passwordError')"
@@ -33,9 +35,19 @@
 import InputField from "@/components/inputs/InputField.vue";
 import OSQButton from "@/components/buttons/OSQButton.vue";
 import {$validatePassword, $validateUsername} from "@/validationHelper";
-import {ref} from "vue";
+import {computed, ref, watch} from "vue";
 
-const formStatus = ref('active')
+const username = ref("")
+const password = ref("")
+
+const formStatus = computed(() => {
+  if (username.value.length >0 && password.value.length>0){
+    if ($validateUsername(username.value)() && $validatePassword(password.value)()){
+      return "active"
+    }
+  }
+  return "inactive"
+})
 </script>
 
 <style scoped>
@@ -54,7 +66,7 @@ h2 {
   flex-direction: column;
 }
 
-.input-container{
+.input-container {
   gap: 20px;
   margin: 40px 0 40px 0;
 }
