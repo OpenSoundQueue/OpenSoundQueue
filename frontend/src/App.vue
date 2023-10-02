@@ -3,8 +3,14 @@ import NavBar from "@/components/NavBar.vue";
 </script>
 
 <template>
-  <NavBar></NavBar>
+  <div class="navbar-container">
+    <NavBar></NavBar>
+  </div>
   <RouterView />
 </template>
 
-<style scoped></style>
+<style scoped>
+.navbar-container {
+  margin-bottom: 60px;
+}
+</style>
