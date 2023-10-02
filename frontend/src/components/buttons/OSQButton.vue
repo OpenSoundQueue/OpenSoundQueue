@@ -1,14 +1,20 @@
 <template>
-  <button :class="props.bStyle + ' ' + props.status" :disabled="[props.status === 'inactive' || props.status === 'waiting']">
+  <button :class="props.bStyle + ' ' + props.status" :disabled="disabled">
     <slot></slot>
   </button>
 
 </template>
 
 <script setup lang="ts">
+import {computed} from "vue";
+
 const props = defineProps({
   status: String,
   bStyle: String
+})
+
+const disabled = computed(()=>{
+  return (props.status === 'inactive' || props.status === 'waiting')
 })
 </script>
 
