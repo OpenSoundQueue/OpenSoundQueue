@@ -59,12 +59,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   "update:modelValue": [data: string]
-  userInput: [data: string]
-  escape: []
-  inputClear: []
-  arrowUp: []
-  arrowDown: []
-  enter: []
 }>();
 
 const inputValue = ref("");
@@ -88,7 +82,6 @@ const displayInvalid = computed( () =>{
 function setValue(event: Event) {
   inputValue.value = (event.target as HTMLInputElement).value;
   emit("update:modelValue", (event.target as HTMLInputElement).value);
-  emit("userInput", inputValue.value);
 }
 
 function toggleVisibility(): void {
@@ -150,12 +143,6 @@ watch(manualValue, (newValue) => {
 .input-field::placeholder {
   color: var(--tertiary-color);
 }
-
-/*
-.input-field:focus {
-  outline: 2px solid var(--primary-color);
-}
-*/
 
 .password-icon-wrapper, .default-icon-wrapper {
   display: flex;
