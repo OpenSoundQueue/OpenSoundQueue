@@ -28,19 +28,15 @@ import TranslateButton from "@/components/buttons/TranslateButton.vue";
 
 .navbar {
   width: 100%;
+  padding: 0 20px 0 20px;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.translate-button {
-  margin-right: 20px;
-}
-
 .logo {
   height: 30px;
-  margin: 0 32px 0 32px;
 }
 
 .menu-item > * {
