@@ -42,35 +42,6 @@ paths:
             application/json:
               example:
                 error: Incorrect entryCode
-  /login/public/auth:
-    post:
-      tags:
-        - public
-      description: User logs in (public & requireAuth)
-      security:
-        - { }
-      requestBody:
-        required: true
-        description: Access credentials
-        content:
-          application/json:
-            schema:
-              example:
-                username: WizMarki
-                password: stubSi10!
-      responses:
-        200:
-          description: Successfully logged in. Returns *apiKey*.
-          content:
-            application/json:
-              example:
-                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
-        400:
-          description: Incorrect username or password
-          content:
-            application/json:
-              example:
-                error: Incorrect username or password
   /login/private:
     post:
       tags:
@@ -106,6 +77,35 @@ paths:
             application/json:
               example:
                 error: Incorrect entryCode
+  /login/public/auth:
+    post:
+      tags:
+        - public
+      description: User logs in (public & requireAuth)
+      security:
+        - { }
+      requestBody:
+        required: true
+        description: Access credentials
+        content:
+          application/json:
+            schema:
+              example:
+                username: WizMarki
+                password: stubSi10!
+      responses:
+        200:
+          description: Successfully logged in. Returns *apiKey*.
+          content:
+            application/json:
+              example:
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+        400:
+          description: Incorrect username or password
+          content:
+            application/json:
+              example:
+                error: Incorrect username or password
   /login/public:
     post:
       tags:
