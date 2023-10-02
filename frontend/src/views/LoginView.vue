@@ -7,7 +7,8 @@
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
     <Login
-        :passwordRequired="true"
+        :isPrivate="true"
+        :requireAuth="true"
     ></Login>
     <div class="link-container">
       <router-link class="link" to="/forgot-password">{{ $translate("forgotPassword") }}</router-link>
