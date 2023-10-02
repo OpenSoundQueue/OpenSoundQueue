@@ -175,6 +175,38 @@ export function makeServer({environment = "development"} = {}) {
                     ...results
                 };
             })
+
+            this.post("/login/private/auth", (schema: AppSchema, request) => {
+                const username = request.params.username;
+                const password = request.params.password;
+                const entryCode = request.params.entryCode;
+                return {
+                    "type": "Private & Auth"
+                };
+            })
+
+            this.post("/login/public/auth", (schema: AppSchema, request) => {
+                const username = request.params.username;
+                const password = request.params.password;
+                return {
+                    "type": "Public & Auth"
+                };
+            })
+
+            this.post("/login/private", (schema: AppSchema, request) => {
+                const username = request.params.username;
+                const entryCode = request.params.entryCode;
+                return {
+                    "type": "Private & nix"
+                };
+            })
+
+            this.post("/login/public", (schema: AppSchema, request) => {
+                const username = request.params.username;
+                return {
+                    "type": "Public & nix"
+                };
+            })
         },
     })
 }
