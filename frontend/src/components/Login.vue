@@ -14,18 +14,28 @@
             :placeholder="$translate('usernamePlaceholder')">
         </InputField>
         <!-- Password -->
-        <InputField
-            v-model="password"
-            :label="$translate('password')"
-            :validationFunction="$validatePassword"
-            :errorMessage="$translate('passwordError')"
-            :validationMessage="$translate('passwordValidationError')"
-            :required="false"
-            inputType="password"
-            :placeholder="$translate('passwordPlaceholder')">
+        <InputField v-if="props.requireAuth"
+                    v-model="password"
+                    :label="$translate('password')"
+                    :validationFunction="$validatePassword"
+                    :errorMessage="$translate('passwordError')"
+                    :validationMessage="$translate('passwordValidationError')"
+                    :required="false"
+                    inputType="password"
+                    :placeholder="$translate('passwordPlaceholder')">
+        </InputField>
+        <!-- EntryCode -->
+        <InputField v-if="props.isPrivate"
+                    v-model="entryCode"
+                    :label="$translate('entrycode')"
+                    :validationFunction="$validateEntryCode"
+                    :errorMessage="$translate('entryCodeError')"
+                    :validationMessage="$translate('entryCodeValidationError')"
+                    :required="false"
+                    :placeholder="$translate('entryCodePlaceholder')">
         </InputField>
       </div>
-      <OSQButton bStyle="login" :status="formStatus">{{ $translate('login') }}</OSQButton>
+      <OSQButton bStyle="login" :status="formStatus" @click="loginCall">{{ $translate('login') }}</OSQButton>
     </form>
 
   </div>
@@ -34,20 +44,70 @@
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
 import OSQButton from "@/components/buttons/OSQButton.vue";
-import {$validatePassword, $validateUsername} from "@/validationHelper";
-import {computed, ref, watch} from "vue";
+import {HttpService} from "@/services/HttpService";
+import {$validatePassword, $validateUsername, $validateEntryCode} from "@/validationHelper";
+import {computed, ref} from "vue";
+
+interface Props {
+  requireAuth?: boolean,
+  isPrivate?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  requireAuth: false,
+  isPrivate: false
+});
 
 const username = ref("")
 const password = ref("")
+const entryCode = ref("")
 
 const formStatus = computed(() => {
-  if (username.value.length >0 && password.value.length>0){
-    if ($validateUsername(username.value)() && $validatePassword(password.value)()){
-      return "active"
+  let lengthCheck = username.value.length > 0
+  let validationCheck = $validateUsername(username.value)()
+
+  switch (true) {
+    case props.requireAuth && props.isPrivate:
+      lengthCheck &&= password.value.length > 0
+      lengthCheck &&= entryCode.value.length > 0
+      validationCheck &&= $validateEntryCode(password.value)()
+      validationCheck &&= $validateEntryCode(entryCode.value)()
+      break;
+    case props.isPrivate:
+      lengthCheck &&= entryCode.value.length > 0
+      validationCheck &&= $validateEntryCode(entryCode.value)()
+      break;
+    case props.requireAuth:
+      lengthCheck &&= password.value.length > 0
+      validationCheck &&= $validateEntryCode(password.value)()
+      break;
+  }
+
+  return (lengthCheck && validationCheck) ? "active" : "inactive"
+})
+
+async function loginCall() {
+  const httpService = new HttpService()
+  let response;
+  console.log("RUN LOGIN")
+  if (formStatus.value === "active") {
+    switch (true) {
+      case props.requireAuth && props.isPrivate:
+        response = await httpService.postPrivateAuthLogin(username.value, password.value, entryCode.value)
+        console.log(response)
+        break;
+      case props.isPrivate:
+        httpService.postPrivateLogin(username.value, entryCode.value)
+        break;
+      case props.requireAuth:
+        httpService.postPublicAuthLogin(username.value, password.value)
+        break;
+      default:
+        httpService.postPublicLogin(username.value)
+        break;
     }
   }
-  return "inactive"
-})
+}
 </script>
 
 <style scoped>
