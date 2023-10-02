@@ -88,8 +88,6 @@ const formStatus = computed(() => {
 
 async function loginCall() {
   const httpService = new HttpService()
-  let response;
-  console.log("RUN LOGIN")
   if (formStatus.value === "active") {
     switch (true) {
       case props.requireAuth && props.isPrivate:
