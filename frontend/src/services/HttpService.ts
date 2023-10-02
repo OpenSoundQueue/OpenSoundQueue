@@ -111,9 +111,68 @@ export class HttpService {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
                 return response.json();
             }).then((data: Song[]) => {
+                return data;
+            });
+    }
+
+
+    async postPrivateAuthLogin(username: string, password: string, entryCode: string) {
+        return httpClient.post(`/login/private/auth`, {
+            username: username,
+            password: password,
+            entryCode: entryCode})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: String) => {
+                return data;
+            });
+    }
+
+
+    async postPublicAuthLogin(username: string, password: string) {
+        return httpClient.post(`/login/public/auth`, {
+            username: username,
+            password: password})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: String) => {
+                return data;
+            });
+    }
+
+
+    async postPrivateLogin(username: string, entryCode: string) {
+        return httpClient.post(`/login/private`, {
+            username: username,
+            entryCode: entryCode})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: String) => {
+                return data;
+            });
+    }
+
+
+    async postPublicLogin(username: string) {
+        return httpClient.post(`/login/public`, {
+            username: username})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: String) => {
                 return data;
             });
     }
