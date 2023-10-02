@@ -7,9 +7,9 @@
         <InputField
             v-model="username"
             :label="$translate('username')"
-            :validationFunction="$validateUsername"
-            :errorMessage="$translate('usernameError')"
-            :validationMessage="$translate('usernameValidationError')"
+            :validation-function="$validateUsername"
+            :error-message="$translate('usernameError')"
+            :validation-message="$translate('usernameValidationError')"
             :required="false"
             :placeholder="$translate('usernamePlaceholder')">
         </InputField>
@@ -17,27 +17,27 @@
         <InputField v-if="props.requireAuth"
                     v-model="password"
                     :label="$translate('password')"
-                    :validationFunction="$validatePassword"
-                    :errorMessage="$translate('passwordError')"
-                    :validationMessage="$translate('passwordValidationError')"
+                    :validation-function="$validatePassword"
+                    :error-fessage="$translate('passwordError')"
+                    :validation-message="$translate('passwordValidationError')"
                     :required="false"
-                    inputType="password"
+                    input-type="password"
                     :placeholder="$translate('passwordPlaceholder')">
         </InputField>
         <!-- EntryCode -->
         <InputField v-if="props.isPrivate"
                     v-model="entryCode"
+                    :manualValue="entryCode"
                     :label="$translate('entrycode')"
-                    :validationFunction="$validateEntryCode"
-                    :errorMessage="$translate('entryCodeError')"
-                    :validationMessage="$translate('entryCodeValidationError')"
+                    :validation-function="$validateEntryCode"
+                    :error-message="$translate('entryCodeError')"
+                    :validation-message="$translate('entryCodeValidationError')"
                     :required="false"
                     :placeholder="$translate('entryCodePlaceholder')">
         </InputField>
       </div>
       <OSQButton bStyle="login" :status="formStatus" @click="loginCall">{{ $translate('login') }}</OSQButton>
     </form>
-
   </div>
 </template>
 
@@ -46,21 +46,27 @@ import InputField from "@/components/inputs/InputField.vue";
 import OSQButton from "@/components/buttons/OSQButton.vue";
 import {HttpService} from "@/services/HttpService";
 import {$validatePassword, $validateUsername, $validateEntryCode} from "@/validationHelper";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
+import {useRoute} from "vue-router";
 
 interface Props {
   requireAuth?: boolean,
-  isPrivate?: boolean
+  isPrivate?: boolean,
 }
 
 const props = withDefaults(defineProps<Props>(), {
   requireAuth: false,
-  isPrivate: false
+  isPrivate: false,
 });
 
 const username = ref("")
 const password = ref("")
 const entryCode = ref("")
+
+onMounted(() => {
+  const route = useRoute()
+  if (route.params === null) entryCode.value = route.params.entryCode + "";
+})
 
 const formStatus = computed(() => {
   let lengthCheck = username.value.length > 0

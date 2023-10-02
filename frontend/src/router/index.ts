@@ -18,6 +18,12 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/login/:entryCode',
+      name: 'login-with-entryCode',
+      component: LoginView,
+      props: true
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginView
