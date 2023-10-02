@@ -50,7 +50,7 @@ header {
 
 .link {
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--pink);
   text-align: center;
 }
 
