@@ -2,5 +2,9 @@
   "nowPlaying": "Spielt jetzt",
   "inQueue": "In der Warteschlange",
   "byLink": "Mit Link",
-  "bySearch": "Mit Suche"
+  "bySearch": "Mit Suche",
+  "documentation": "Dokumentation",
+  "team": "Team",
+  "imprint": "Impressum",
+  "about": "Über uns"
 }

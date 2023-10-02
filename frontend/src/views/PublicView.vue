@@ -7,12 +7,14 @@
       <Queue :page-update-interval="4000"/>
     </ExpandCollapse>
   </main>
+  <Footer></Footer>
 </template>
 
 <script setup lang="ts">
 import Queue from "@/components/queue/QueuePaged.vue";
 import ExpandCollapse from "@/components/collapse/ExpandCollapse.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
+import Footer from "@/components/Footer.vue";
 </script>
 
 <style>
