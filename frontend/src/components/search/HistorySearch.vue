@@ -3,7 +3,7 @@
     <InputField input-type="text"
                 v-model="searchTerm"
                 @user-input="data => processChange(data)"
-                placeholder="Search in History"
+                :placeholder="$translate('searchHistory')"
                 :custom-icon="true"
     >
       <img src="@/assets/icons/input/search.svg">

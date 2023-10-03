@@ -9,5 +9,9 @@
   "imprint": "Impressum",
   "about": "Über uns",
   "language": "Sprache",
-  "select": "Wähle eine Option"
+  "select": "Wähle eine Option",
+  "addSong": "Song hinzufügen",
+  "songLink": "Song Link",
+  "addToQueue": "Zur Warteschlange hinzufügen",
+  "searchHistory": "Im Verlauf suchen"
 }

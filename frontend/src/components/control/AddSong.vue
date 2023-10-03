@@ -1,6 +1,6 @@
 <template>
   <div class="add-song-wrapper">
-    <OverlayCollapse label="Add Song"
+    <OverlayCollapse :label="$translate('addSong')"
                      :is-collapsed="true"
     >
       <template #custom-icon>
@@ -10,8 +10,8 @@
         <Tabs :tabs="[$translate('byLink'), $translate('bySearch')]">
           <template #tab-0>
             <div class="tab-wrapper">
-              <InputField v-model="songLink" label="Song Link" input-type="text"/>
-              <DefaultButton @click="addSong(songLink)" :is-disabled="waitingForResponse" text="Add to queue">
+              <InputField v-model="songLink" :label="$translate('songLink')" input-type="text"/>
+              <DefaultButton @click="addSong(songLink)" :is-disabled="waitingForResponse" :text="$translate('addToQueue')">
                 <img src="@/assets/icons/music/playlist_add.svg">
               </DefaultButton>
             </div>

@@ -9,5 +9,9 @@
   "imprint": "Imprint",
   "about": "About",
   "language": "Language",
-  "select": "Select"
+  "select": "Select",
+  "addSong": "Add Song",
+  "songLink": "Song Link",
+  "addToQueue": "Add to queue",
+  "searchHistory": "Search in history"
 }
