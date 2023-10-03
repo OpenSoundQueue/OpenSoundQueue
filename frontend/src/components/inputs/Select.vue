@@ -6,7 +6,7 @@
            src="@/assets/icons/arrows/keyboard_arrow_down.svg"
            :style="{transform: `rotate(${isActive ? 180 : 0}deg)`}"
       />
-      <div v-if="typeof idOfDefaultSelected === 'undefined' && !selectedOption">
+      <div v-if="!defaultSelected && !selectedOption.text">
         {{ $translate("select") }}
       </div>
       <div v-else>
@@ -26,30 +26,31 @@ import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue";
 
 type Option = {
-  id?: number
+  value?: string
   text?: string
 }
 
 const props = defineProps<{
   label?: string,
   required?: boolean,
-  idOfDefaultSelected?: number,
+  defaultSelected?: string,
   options: Option[]
 }>();
 
 const passedOptions = computed(() => {
-  return props.options.filter((option: Option) => option.id !== selectedOption.value.id)
+  return props.options.filter((option: Option) => option.value !== selectedOption.value.value)
 })
 
 const isActive = ref(false);
 const selectedOption: Ref<Option> = ref({})
 
 onMounted(() => {
-  if (typeof props.idOfDefaultSelected === "undefined") {
+  console.log(props.defaultSelected, selectedOption.value.value);
+  if (typeof props.defaultSelected === "undefined") {
     return;
   }
 
-  selectedOption.value = getOptionById(props.idOfDefaultSelected);
+  selectedOption.value = getOptionByValue(props.defaultSelected);
 })
 
 function selectOption(option: Option) {
@@ -58,9 +59,9 @@ function selectOption(option: Option) {
   isActive.value = false;
 }
 
-function getOptionById(id: number): Option {
+function getOptionByValue(value: string): Option {
   for (let option of props.options) {
-    if (option.id == id) {
+    if (option.value === value) {
       return option;
     }
   }

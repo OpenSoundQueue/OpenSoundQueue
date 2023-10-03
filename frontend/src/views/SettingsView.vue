@@ -12,7 +12,6 @@
       <InputField label="Hallo Welt"/>
       <Select :label="$translate('language')"
               :options="options"
-              :id-of-default-selected="1"
       />
       <p>asdflkasdfkljaskldf asdfa sdfasdfasdfa sdf asdf </p>
     </div>
@@ -26,8 +25,8 @@ import Select from "@/components/inputs/Select.vue";
 import {ref} from "vue";
 
 const options = ref([
-  {id: 0, text: "Deutsch"},
-  {id: 1, text: "English"},
+  {value: "de", text: "Deutsch"},
+  {value: "en", text: "English"},
 ]);
 </script>
 
