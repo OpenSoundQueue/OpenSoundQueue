@@ -4,15 +4,12 @@
       <router-link to="/">
         <img class="logo" src="@/assets/menu/logo.svg">
       </router-link>
-      <TranslateButton class="translate-button"></TranslateButton>
     </nav>
   </div>
 </template>
 
 <script setup lang="ts">
-import TranslateButton from "@/components/buttons/TranslateButton.vue";
 </script>
-
 
 <style scoped>
 .navbar-wrapper {
@@ -22,7 +19,7 @@ import TranslateButton from "@/components/buttons/TranslateButton.vue";
   width: 100%;
   border-bottom: 2px var(--dark-gray) solid;
   z-index: 2;
-  background: var(--background-color);
+  background: var(--background-color-transparent);
   display: flex;
 }
 

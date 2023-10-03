@@ -3,7 +3,6 @@
     <div class="settings-wrapper">
       <div class="settings-nav">
         <img class="back" src="@/assets/icons/arrows/arrow_back.svg">
-        <img class="logo" src="@/assets/logo.svg">
       </div>
       <div class="settings-header">
         <img src="@/assets/icons/settings.svg">
@@ -15,8 +14,7 @@
 </template>
 
 <script setup lang="ts">
-
-import TranslateButton from "@/components/settings/TranslateButton.vue";
+import TranslateButton from "@/components/buttons/TranslateButton.vue";
 </script>
 
 
@@ -32,7 +30,7 @@ import TranslateButton from "@/components/settings/TranslateButton.vue";
   align-items: center;
 }
 
-.settings-nav .logo {
+.settings-nav {
   height: 32px;
 }
 
@@ -58,7 +56,7 @@ h1 {
   .settings-wrapper {
     border-radius: var(--border-radius-big);
     width: 750px;
-    height: 80vh;
+    height: 75vh;
   }
 }
 </style>
