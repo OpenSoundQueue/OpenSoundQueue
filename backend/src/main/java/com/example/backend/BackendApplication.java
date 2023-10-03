@@ -1,6 +1,8 @@
 package com.example.backend;
 
 import com.example.backend.Repository.UserInfoEntity;
+import com.example.backend.exceptions.UnsupportedSystemException;
+import com.example.backend.settings_management.SettingsService;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
 import jakarta.annotation.PostConstruct;
@@ -23,11 +25,14 @@ public class BackendApplication {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SettingsService settingsService;
+
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @Profile("!prod")
+    /*@Profile("!prod")
     @Order(1)
     @PostConstruct
     private void feedTestData() {
@@ -49,15 +54,16 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=lxRwEPvL-mQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
         }
-    }
+    }*/
 
     @Profile("!prod")
     @Order(2)
     @PostConstruct
     private void feedTestUsers() {
         LOG.info("Feeding test users");
-        userService.registerNewUser(new UserInfoEntity("Markus", "Passwort"));
-        userService.registerNewUser(new UserInfoEntity("Daniel", "Passwort"));
-        userService.registerNewUser(new UserInfoEntity("Luki", "Passwort"));
+        userService.registerNewAuthUser(new UserInfoEntity("Markus", "Passwort"));
+        userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort"));
+        userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort"));
+        settingsService.printSettings();
     }
 }
