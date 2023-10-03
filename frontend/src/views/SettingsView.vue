@@ -11,8 +11,10 @@
       <TranslateButton/>
       <InputField label="Hallo Welt"/>
       <Select :label="$translate('language')"
+              v-model="selected"
               :options="options"
       />
+      {{ selected }}
       <p>asdflkasdfkljaskldf asdfa sdfasdfasdfa sdf asdf </p>
     </div>
   </main>
@@ -27,7 +29,10 @@ import {ref} from "vue";
 const options = ref([
   {value: "de", text: "Deutsch"},
   {value: "en", text: "English"},
+  {value: "es", text: "Espanol"},
 ]);
+
+const selected = ref("");
 </script>
 
 

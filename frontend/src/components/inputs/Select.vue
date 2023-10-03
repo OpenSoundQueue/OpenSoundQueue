@@ -6,11 +6,11 @@
            src="@/assets/icons/arrows/keyboard_arrow_down.svg"
            :style="{transform: `rotate(${isActive ? 180 : 0}deg)`}"
       />
-      <div v-if="!defaultSelected && !selectedOption.text">
+      <div v-if="!value">
         {{ $translate("select") }}
       </div>
       <div v-else>
-        {{ selectedOption.text }}
+        {{ getOptionByValue(value).text }}
       </div>
     </div>
     <div class="options-container" :class="{active: isActive}">
@@ -22,8 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import type {Ref} from "vue";
+import {computed, ref} from "vue";
 
 type Option = {
   value?: string
@@ -31,30 +30,35 @@ type Option = {
 }
 
 const props = defineProps<{
+  modelValue: string,
   label?: string,
   required?: boolean,
-  defaultSelected?: string,
   options: Option[]
 }>();
 
+const emit = defineEmits<{
+  "update:modelValue": [data: string]
+}>();
+
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
+
 const passedOptions = computed(() => {
-  return props.options.filter((option: Option) => option.value !== selectedOption.value.value)
+  return props.options.filter((option: Option) => option.value !== value.value)
 })
 
 const isActive = ref(false);
-const selectedOption: Ref<Option> = ref({})
-
-onMounted(() => {
-  console.log(props.defaultSelected, selectedOption.value.value);
-  if (typeof props.defaultSelected === "undefined") {
-    return;
-  }
-
-  selectedOption.value = getOptionByValue(props.defaultSelected);
-})
 
 function selectOption(option: Option) {
-  selectedOption.value = option;
+  if (typeof option.value !== "undefined") {
+    value.value = option.value;
+  }
 
   isActive.value = false;
 }
