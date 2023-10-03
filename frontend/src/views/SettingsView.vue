@@ -9,30 +9,24 @@
         <h1>{{ $translate('settings')}}</h1>
       </div>
       <TranslateButton/>
-      <InputField label="Hallo Welt"/>
       <Select :label="$translate('language')"
-              v-model="selected"
-              :options="options"
+              v-model="settings.language"
+              :options="languages"
       />
-      {{ selected }}
-      <p>asdflkasdfkljaskldf asdfa sdfasdfasdfa sdf asdf </p>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
 import TranslateButton from "@/components/buttons/TranslateButton.vue";
-import InputField from "@/components/inputs/InputField.vue";
 import Select from "@/components/inputs/Select.vue";
 import {ref} from "vue";
+import {settings} from "@/store";
 
-const options = ref([
+const languages = ref([
   {value: "de", text: "Deutsch"},
-  {value: "en", text: "English"},
-  {value: "es", text: "Espanol"},
+  {value: "en", text: "English"}
 ]);
-
-const selected = ref("");
 </script>
 
 
