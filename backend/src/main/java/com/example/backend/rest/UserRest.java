@@ -28,8 +28,8 @@ public class UserRest {
     @Autowired
     private TokenUtils tokenUtils;
 
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody Map<String, String> requestBody) {
+    @PostMapping("/login/public/auth")
+    public ResponseEntity<Object> loginPublicAuth(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
 
@@ -41,6 +41,29 @@ public class UserRest {
 
         if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
             String token = tokenUtils.generateToken();
+
+            userService.updateToken(userInfoEntity.getId(), token);
+            return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/login/private/auth")
+    public ResponseEntity<Object> loginPrivateAuth(@RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
+        String password = requestBody.get("password");
+        String entryCode = requestBody.get("entryCode");
+
+        UserInfoEntity userInfoEntity = userService.getUserByUsername(username);
+
+        if (userInfoEntity == null) {
+            return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
+            String token = tokenUtils.generateToken();
+
 
             userService.updateToken(userInfoEntity.getId(), token);
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
