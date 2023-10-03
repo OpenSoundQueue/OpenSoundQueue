@@ -2,7 +2,7 @@
   <div class="select-wrapper">
     <label class="input-field-label">{{ label }} <span v-if="required">*</span></label>
     <div class="select-container" @click="isActive = !isActive">
-      <img class="drop-down-icon"
+      <img class="drop-down-icon" alt="Dropdown Icon"
            src="@/assets/icons/arrows/keyboard_arrow_down.svg"
            :style="{transform: `rotate(${isActive ? 180 : 0}deg)`}"
       />
