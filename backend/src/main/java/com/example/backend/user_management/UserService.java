@@ -31,10 +31,14 @@ public class UserService {
         return user;
     }
 
-    public UserInfoEntity registerNewUser(UserInfoEntity user) {
+    public UserInfoEntity registerNewAuthUser(UserInfoEntity user) {
         String clearTextPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(clearTextPassword));
 
+        return userInfoRepository.save(user);
+    }
+
+    public UserInfoEntity registerNewUser(UserInfoEntity user) {
         return userInfoRepository.save(user);
     }
 

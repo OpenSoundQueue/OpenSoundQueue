@@ -27,6 +27,10 @@ public class UserInfoEntity {
         this.password = password;
     }
 
+    public UserInfoEntity(String username) {
+        this.username = username;
+    }
+
     public Long getId() {
         return id;
     }
