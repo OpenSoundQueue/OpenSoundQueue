@@ -9,12 +9,16 @@
         <h1>{{ $translate('settings')}}</h1>
       </div>
       <TranslateButton/>
+      <InputField/>
+      <Select :required="false" :label="$translate('language')"/>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
 import TranslateButton from "@/components/buttons/TranslateButton.vue";
+import InputField from "@/components/inputs/InputField.vue";
+import Select from "@/components/inputs/Select.vue";
 </script>
 
 
