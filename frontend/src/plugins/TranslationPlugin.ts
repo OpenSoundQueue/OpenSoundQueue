@@ -2,7 +2,7 @@ import type {App, Plugin} from "vue";
 import enTranslations from "@/translations/en.json";
 import deTranslations from "@/translations/de.json";
 import {ref} from "vue";
-import {settings} from "@/store";
+import {settings} from "@/store/store";
 
 export type TranslationsKey = keyof typeof enTranslations;
 

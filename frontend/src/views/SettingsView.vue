@@ -20,7 +20,7 @@
 import Select from "@/components/inputs/Select.vue";
 import {ref, watch} from "vue";
 import {setLanguage} from "@/plugins/TranslationPlugin";
-import {settings} from "@/store";
+import {settings} from "@/store/store";
 import router from "@/router/index";
 
 const language = ref(settings.language);
