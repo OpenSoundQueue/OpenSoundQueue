@@ -9,8 +9,12 @@
         <h1>{{ $translate('settings')}}</h1>
       </div>
       <TranslateButton/>
-      <InputField/>
-      <Select :required="false" :label="$translate('language')"/>
+      <InputField label="Hallo Welt"/>
+      <Select :label="$translate('language')"
+              :options="options"
+              :id-of-default-selected="1"
+      />
+      <p>asdflkasdfkljaskldf asdfa sdfasdfasdfa sdf asdf </p>
     </div>
   </main>
 </template>
@@ -19,6 +23,12 @@
 import TranslateButton from "@/components/buttons/TranslateButton.vue";
 import InputField from "@/components/inputs/InputField.vue";
 import Select from "@/components/inputs/Select.vue";
+import {ref} from "vue";
+
+const options = ref([
+  {id: 0, text: "Deutsch"},
+  {id: 1, text: "English"},
+]);
 </script>
 
 
