@@ -2,14 +2,14 @@
   <main>
     <div class="settings-wrapper">
       <div class="settings-nav">
-        <img class="back" src="@/assets/icons/arrows/arrow_back.svg">
+        <img @click="goToHome" class="back" src="@/assets/icons/arrows/arrow_back.svg">
       </div>
       <div class="settings-header">
         <img src="@/assets/icons/settings.svg">
         <h1>{{ $translate('settings')}}</h1>
       </div>
       <Select :label="$translate('language')"
-              v-model="settings.language"
+              v-model="language"
               :options="languages"
       />
     </div>
@@ -18,13 +18,26 @@
 
 <script setup lang="ts">
 import Select from "@/components/inputs/Select.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import {setLanguage} from "@/plugins/TranslationPlugin";
 import {settings} from "@/store";
+import router from "@/router/index";
+
+const language = ref(settings.language);
+
+watch(language, (newValue) => {
+  settings.language = newValue;
+  setLanguage(language.value);
+})
 
 const languages = ref([
   {value: "de", text: "Deutsch"},
   {value: "en", text: "English"}
 ]);
+
+function goToHome() {
+  router.push("/home");
+}
 </script>
 
 
@@ -46,6 +59,7 @@ const languages = ref([
 
 .settings-nav .back {
   height: 32px;
+  cursor: pointer;
 }
 
 .settings-header {
