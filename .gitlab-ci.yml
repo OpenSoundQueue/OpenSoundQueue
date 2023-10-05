@@ -31,8 +31,9 @@ build_frontend_job:
   script:
     - echo "Building frontend"
     - cd frontend  # Replace with your frontend directory
-    - mvn frontend:npm@install  # Use Maven to install Node.js and npm
-    - mvn frontend:npm@run build  # Use Maven to run npm build
+    - npm install
+    - npm install @quasar/cli -g
+    - npm run build
     
 build_backend_job:
   stage: build_backend
@@ -40,7 +41,8 @@ build_backend_job:
     - docker
   script:
     - echo "Building backend"
-    - "mvn compile"
+    - cd backend
+    - mvn package
 
 package_job:
   stage: package
