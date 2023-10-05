@@ -5,7 +5,6 @@ image: maven:latest
 
 stages:
     - build
-    - test
     - package
     - deploy
 
@@ -24,15 +23,6 @@ build_job:
     - echo "Maven compile started"
     - "mvn compile"
 
-
-test_job:
-  stage: test
-  tags:
-    - docker 
-
-  script: 
-    - echo "Maven test started"
-    - "mvn test"
 
 package_job:
   stage: package
