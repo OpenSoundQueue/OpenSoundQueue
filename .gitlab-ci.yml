@@ -4,6 +4,7 @@ variables:
 image: maven:latest
 
 stages:
+  - setup
   - build_frontend
   - build_backend
   - package
@@ -13,6 +14,15 @@ cache:
   paths:
     - .m2/repository
     - target
+
+setup_job:
+  stage: setup
+  tags:
+    - docker
+  script:
+    - echo "Installing Node.js and npm"
+    - apt-get update -qy
+    - apt-get install -y nodejs npm
 
 build_frontend_job:
   stage: build_frontend
