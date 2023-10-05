@@ -1,60 +1,33 @@
-variables:
-  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
-
-image: maven:latest
-
 stages:
-  - setup
-  - build_frontend
-  - build_backend
-  - package
-  - deploy
+  - build-frontend
+  - build-backend
 
-cache:
-  paths:
-    - .m2/repository
-    - target
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode"
+  NODE_VERSION: "18.12.1"
 
-setup_job:
-  stage: setup
-  tags:
-    - docker
+before_script:
+  - apt-get update -qy
+  - apt-get install -y curl
+  - curl -sL https://deb.nodesource.com/setup_18.x | bash -
+  - apt-get install -y nodejs
+  - npm install -g @quasar/cli
+
+build-frontend:
+  stage: build-frontend
   script:
-    - echo "Installing Node.js and npm"
-    - apt-get update -qy
-    - apt-get install -y nodejs npm
-
-build_frontend_job:
-  stage: build_frontend
-  tags:
-    - docker
-  script:
-    - echo "Building frontend"
-    - cd frontend  # Replace with your frontend directory
+    - cd frontend
     - npm install
-    - npm install @quasar/cli -g
     - npm run build
-    
-build_backend_job:
-  stage: build_backend
-  tags:
-    - docker
+  artifacts:
+    paths:
+      - frontend/dist/
+
+build-backend:
+  stage: build-backend
   script:
-    - echo "Building backend"
     - cd backend
-    - mvn package
-
-package_job:
-  stage: package
-  tags:
-    - docker
-  script:
-    - echo "Maven packaging started"
-    - "mvn package"
-
-deploy_job:
-  stage: deploy
-  tags:
-    - docker
-  script:
-    - echo "Maven deploy started"
+    - mvn $MAVEN_CLI_OPTS clean install
+  artifacts:
+    paths:
+      - backend/target/
