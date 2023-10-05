@@ -20,7 +20,7 @@ build_frontend_job:
     - docker
   script:
     - echo "Building frontend"
-    - cd frontend-directory  # Replace with your frontend directory
+    - cd frontend  # Replace with your frontend directory
     - mvn frontend:npm@install  # Use Maven to install Node.js and npm
     - mvn frontend:npm@run build  # Use Maven to run npm build
     
