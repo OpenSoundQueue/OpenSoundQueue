@@ -2,6 +2,7 @@ import type {App, Plugin} from "vue";
 import enTranslations from "@/translations/en.json";
 import deTranslations from "@/translations/de.json";
 import {ref} from "vue";
+import {settings} from "@/store/store";
 
 export type TranslationsKey = keyof typeof enTranslations;
 
@@ -33,5 +34,7 @@ export const TranslationPlugin: Plugin = {
         app.config.globalProperties.$setLanguage = setLanguage;
         app.config.globalProperties.$getCurrentLanguage = getCurrentLanguage;
         app.provide('translatePlugin', translations);
+
+        setLanguage(settings.language);
     },
 };

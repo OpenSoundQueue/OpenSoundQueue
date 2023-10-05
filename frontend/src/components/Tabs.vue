@@ -69,7 +69,7 @@ function setActiveTab(index: number) {
 
 .tab.active {
   background: var(--tertiary-color);
-  color: var(--background-color);
+  color: var(--secondary-color);
 }
 
 .tab.inactive {

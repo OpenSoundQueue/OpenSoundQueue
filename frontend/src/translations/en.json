@@ -3,8 +3,15 @@
   "inQueue": "In Queue",
   "byLink": "By Link",
   "bySearch": "By Search",
+  "settings": "Settings",
   "documentation": "Docs",
   "team": "Team",
   "imprint": "Imprint",
-  "about": "About"
+  "about": "About",
+  "language": "Language",
+  "select": "Select",
+  "addSong": "Add Song",
+  "songLink": "Song Link",
+  "addToQueue": "Add to queue",
+  "searchHistory": "Search in history"
 }

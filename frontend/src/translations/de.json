@@ -3,8 +3,15 @@
   "inQueue": "In der Warteschlange",
   "byLink": "Mit Link",
   "bySearch": "Mit Suche",
+  "settings": "Einstellungen",
   "documentation": "Dokumentation",
   "team": "Team",
   "imprint": "Impressum",
-  "about": "Über uns"
+  "about": "Über uns",
+  "language": "Sprache",
+  "select": "Wähle eine Option",
+  "addSong": "Song hinzufügen",
+  "songLink": "Song Link",
+  "addToQueue": "Zur Warteschlange hinzufügen",
+  "searchHistory": "Im Verlauf suchen"
 }

@@ -1,0 +1,86 @@
+<template>
+  <main>
+    <div class="settings-wrapper">
+      <div class="settings-nav">
+        <img @click="goToHome" class="back" src="@/assets/icons/arrows/arrow_back.svg">
+      </div>
+      <div class="settings-header">
+        <img src="@/assets/icons/settings.svg">
+        <h1>{{ $translate('settings')}}</h1>
+      </div>
+      <Select :label="$translate('language')"
+              v-model="language"
+              :options="languages"
+      />
+    </div>
+  </main>
+</template>
+
+<script setup lang="ts">
+import Select from "@/components/inputs/Select.vue";
+import {ref, watch} from "vue";
+import {setLanguage} from "@/plugins/TranslationPlugin";
+import {settings} from "@/store/store";
+import router from "@/router/index";
+
+const language = ref(settings.language);
+
+watch(language, (newValue) => {
+  settings.language = newValue;
+  setLanguage(language.value);
+})
+
+const languages = ref([
+  {value: "de", text: "Deutsch"},
+  {value: "en", text: "English"}
+]);
+
+function goToHome() {
+  router.push("/home");
+}
+</script>
+
+
+<style scoped>
+.settings-wrapper {
+  background: var(--secondary-color);
+  padding: 30px;
+}
+
+.settings-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-nav {
+  height: 32px;
+}
+
+.settings-nav .back {
+  height: 32px;
+  cursor: pointer;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.settings-header img {
+  height: 40px;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+@media screen and (min-width: 800px) {
+  .settings-wrapper {
+    border-radius: var(--border-radius-big);
+    width: 750px;
+    height: 75vh;
+  }
+}
+</style>

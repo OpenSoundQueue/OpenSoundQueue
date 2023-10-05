@@ -27,6 +27,7 @@
     --font-size-small: 11px;
     --text-color: white;
     --background-color: var(--dark-blue);
+    --background-color-transparent: var(--dark-blue-transparent);
     --primary-color: var(--magenta);
     --secondary-color: var(--grayish-blue);
     --tertiary-color: var(--cool-gray);
@@ -44,4 +45,5 @@
     --cool-gray: #8491B8;
     --grayish-blue: #2E364F;
     --dark-blue: #191E2D;
+    --dark-blue-transparent: rgba(25, 30, 45, 0.9);
 }
