@@ -6,16 +6,14 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode"
   NODE_VERSION: "18.12.1"
 
-before_script:
-  - apt-get update -qy
-  - apt-get install -y curl
-  - curl -sL https://deb.nodesource.com/setup_18.x | bash -
-  - apt-get install -y nodejs
-  - npm install -g @quasar/cli
-
 build-frontend:
   stage: build-frontend
   script:
+    - apt-get update -qy
+    - apt-get install -y curl
+    - curl -sL https://deb.nodesource.com/setup_18.x | bash -
+    - apt-get install -y nodejs
+    - npm install -g @quasar/cli
     - cd frontend
     - npm install
     - npm run build
@@ -26,6 +24,8 @@ build-frontend:
 build-backend:
   stage: build-backend
   script:
+    - apt-get update -qy
+    - apt-get install -y maven
     - cd backend
     - mvn $MAVEN_CLI_OPTS clean install
   artifacts:
