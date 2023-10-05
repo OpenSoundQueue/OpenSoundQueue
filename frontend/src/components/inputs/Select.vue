@@ -84,6 +84,10 @@ label {
   padding-left: 2px;
 }
 
+.select-container:hover, .options-container:hover{
+  cursor: pointer;
+}
+
 .select-container {
   margin-top: 5px;
   padding-left: 5px;
