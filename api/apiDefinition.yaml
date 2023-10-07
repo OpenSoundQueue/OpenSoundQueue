@@ -134,7 +134,7 @@ paths:
             application/json:
               example:
                 error: Username already taken
-  /verify:
+  /verify/api-key:
     get:
       tags:
         - auth
@@ -154,6 +154,24 @@ paths:
             application/json:
               example:
                 error: Invalid API key
+  /verify/entry-code:
+    get:
+      tags:
+        - public
+      description: Checks validation of entry key
+      responses:
+        200:
+          description: entry code valid
+          content:
+            application/json:
+              example:
+                entry-code: 7bbf8y2b
+        401:
+          description: Invalid entry key
+          content:
+            application/json:
+              example:
+                error: Invalid entry key
   /queue/page/{page-number}:
     get:
       tags:
