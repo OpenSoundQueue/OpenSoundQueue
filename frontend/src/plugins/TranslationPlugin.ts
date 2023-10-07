@@ -4,7 +4,13 @@ import deTranslations from "@/translations/de.json";
 import {ref} from "vue";
 import {settings} from "@/store/store";
 
-export type TranslationsKey = keyof typeof enTranslations;
+type FlattenTranslations<T, K extends string | number = ''> = {
+    [P in keyof T & string]: T[P] extends Record<string, any>
+        ? FlattenTranslations<T[P], `${K}${"" extends K ? "" : "."}${P}`>
+        : `${K}${"" extends K ? "" : "."}${P}`;
+}[keyof T & string];
+
+export type TranslationsKey = FlattenTranslations<typeof enTranslations>;
 
 const currentLanguage = ref('en');
 const translations: Record<string, Record<string, string>> = {
@@ -21,7 +27,19 @@ export const setLanguage = (language: string) => {
 };
 
 export const translate = (key: string) => {
-    return translations[currentLanguage.value][key];
+    const keys = key.split('.');
+    let current = translations[currentLanguage.value];
+
+    for (const k of keys) {
+        if (current && typeof current === 'object' && k in current) {
+            current = current[k];
+        } else {
+            // Return an error message or a default value if the key is not found
+            return `Translation for key '${key}' not found`;
+        }
+    }
+
+    return current as string;
 };
 
 export const getCurrentLanguage = () => {
