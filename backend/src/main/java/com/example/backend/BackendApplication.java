@@ -1,7 +1,7 @@
 package com.example.backend;
 
 import com.example.backend.Repository.UserInfoEntity;
-import com.example.backend.exceptions.UnsupportedSystemException;
+import com.example.backend.settings_management.PropertyService;
 import com.example.backend.settings_management.SettingsService;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
@@ -13,9 +13,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 
+import java.io.IOException;
+
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@PropertySource("classpath:system.properties")
 public class BackendApplication {
     private static final Logger LOG = LoggerFactory.getLogger(BackendApplication.class);
 
@@ -27,6 +31,9 @@ public class BackendApplication {
 
     @Autowired
     private SettingsService settingsService;
+
+    @Autowired
+    private PropertyService propertyService;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -59,11 +66,12 @@ public class BackendApplication {
     @Profile("!prod")
     @Order(2)
     @PostConstruct
-    private void feedTestUsers() {
+    private void feedTestUsers() throws IOException {
         LOG.info("Feeding test users");
         userService.registerNewAuthUser(new UserInfoEntity("Markus", "Passwort"));
         userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort"));
         userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort"));
         settingsService.printSettings();
+        propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
     }
 }
