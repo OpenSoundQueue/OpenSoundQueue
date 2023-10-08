@@ -64,7 +64,6 @@ public class UserRest {
         if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
             String token = tokenUtils.generateToken();
 
-
             userService.updateToken(userInfoEntity.getId(), token);
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
         }
@@ -72,7 +71,7 @@ public class UserRest {
         return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/verify")
+    @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verify(@RequestHeader(value = "X-API-KEY") String token) {
         UserInfoEntity userInfoEntity = userService.getUserByToken(token);
 
