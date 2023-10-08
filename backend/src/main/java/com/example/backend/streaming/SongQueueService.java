@@ -46,7 +46,7 @@ public class SongQueueService {
         return song;
     }
 
-    public void skip() {
+    public void skip() { // TODO: fix race condition
         songService.close(currentSong);
         currentSong = songQueue.get(0);
         songQueue.remove(0);
