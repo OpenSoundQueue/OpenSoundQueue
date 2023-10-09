@@ -99,7 +99,6 @@ function toggleVisibility(): void {
 
 function clearInput(): void {
   inputValue.value = "";
-  emit("inputClear");
 }
 
 watch(manualValue, (newValue) => {
