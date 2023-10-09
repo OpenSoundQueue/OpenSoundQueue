@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import {makeServer} from "@/mirage/server";
 import {TranslationPlugin} from "@/plugins/TranslationPlugin";
+import {ValidationPlugin} from "@/plugins/ValidationPlugin";
 import translations from "@/translations/en.json";
 import {ValidationPlugin} from "@/plugins/ValidationPlugin";
 
