@@ -76,7 +76,10 @@ const displayError = computed( () =>{
   return errorStatus.value
 })
 const displayInvalid = computed( () =>{
-  return !props.validationFunction(inputValue.value)()
+  if (props.validationFunction){
+    return !props.validationFunction(inputValue.value)()
+  }
+  return false;
 })
 
 function setValue(event: Event) {
