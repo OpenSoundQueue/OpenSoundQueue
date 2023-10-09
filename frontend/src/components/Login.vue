@@ -45,9 +45,9 @@
 import InputField from "@/components/inputs/InputField.vue";
 import OSQButton from "@/components/buttons/OSQButton.vue";
 import {HttpService} from "@/services/HttpService";
-import {$validatePassword, $validateUsername, $validateEntryCode} from "@/validationHelper";
 import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
+import {validateEntryCode, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 
 interface Props {
   requireAuth?: boolean,
@@ -65,31 +65,26 @@ const entryCode = ref("")
 
 onMounted(() => {
   const route = useRoute()
-  if (route.params === null) entryCode.value = route.params.entryCode + "";
+  if (route.params !== null) entryCode.value = route.params.entryCode + "";
 })
 
 const formStatus = computed(() => {
-  let lengthCheck = username.value.length > 0
-  let validationCheck = $validateUsername(username.value)()
+  let validationCheck = validateUsername(username.value)()
 
   switch (true) {
     case props.requireAuth && props.isPrivate:
-      lengthCheck &&= password.value.length > 0
-      lengthCheck &&= entryCode.value.length > 0
-      validationCheck &&= $validateEntryCode(password.value)()
-      validationCheck &&= $validateEntryCode(entryCode.value)()
+      validationCheck &&= validatePassword(password.value)()
+      validationCheck &&= validateEntryCode(entryCode.value)()
       break;
     case props.isPrivate:
-      lengthCheck &&= entryCode.value.length > 0
-      validationCheck &&= $validateEntryCode(entryCode.value)()
+      validationCheck &&= validateEntryCode(entryCode.value)()
       break;
     case props.requireAuth:
-      lengthCheck &&= password.value.length > 0
-      validationCheck &&= $validateEntryCode(password.value)()
+      validationCheck &&= validatePassword(password.value)()
       break;
   }
 
-  return (lengthCheck && validationCheck) ? "active" : "inactive"
+  return validationCheck ? "active" : "inactive"
 })
 
 async function loginCall() {
