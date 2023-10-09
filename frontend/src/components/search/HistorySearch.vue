@@ -2,7 +2,7 @@
   <div class="history-search-wrapper">
     <InputField input-type="text"
                 v-model="searchTerm"
-                @user-input="data => processChange(data)"
+                @user-input="(data: string) => processChange(data)"
                 :placeholder="$translate('searchHistory')"
                 :custom-icon="true"
     >
