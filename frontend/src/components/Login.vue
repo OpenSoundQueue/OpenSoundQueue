@@ -65,7 +65,7 @@ const entryCode = ref("")
 
 onMounted(() => {
   const route = useRoute()
-  if (route.params !== null) entryCode.value = route.params.entryCode + "";
+  if (route.params.entryCode != undefined) entryCode.value = route.params.entryCode + "";
 })
 
 const formStatus = computed(() => {
