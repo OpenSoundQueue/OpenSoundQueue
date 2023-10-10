@@ -16,7 +16,7 @@
       <input class="input-field" :class="[
           displayError?'error':'',
           displayInvalid?'error':'',
-          customIcon || inputType === 'password' ? 'has-icon' : 'no-icon']"
+          customIcon && inputType !== 'password' ? 'has-icon' : 'no-icon']"
              :id="inputId"
              :type="inputTypeDynamic"
              :value="inputValue"
