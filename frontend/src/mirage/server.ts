@@ -25,6 +25,8 @@ export function makeServer({environment = "development"} = {}) {
 
         seeds(server: Server) {
             server.loadFixtures("songs");
+            //disable console.log()
+            server.logging = false;
         },
 
         routes() {
