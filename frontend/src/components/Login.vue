@@ -5,10 +5,12 @@
       <div class="input-container">
         <!-- Username -->
         <InputField
+            ref="usernameComponent"
             v-model="username"
             :label="$translate('username')"
-            :validation-function="$validateUsername"
+            :error-status="errorStatus"
             :error-message="$translate('usernameError')"
+            :validation-function="$validateUsername"
             :validation-message="$translate('usernameValidationError')"
             :required="false"
             :placeholder="$translate('usernamePlaceholder')">
@@ -17,8 +19,9 @@
         <InputField v-if="props.requireAuth"
                     v-model="password"
                     :label="$translate('password')"
-                    :validation-function="$validatePassword"
+                    :error-status="errorStatus"
                     :error-fessage="$translate('passwordError')"
+                    :validation-function="$validatePassword"
                     :validation-message="$translate('passwordValidationError')"
                     :required="false"
                     input-type="password"
@@ -29,8 +32,9 @@
                     v-model="entryCode"
                     :manualValue="entryCode"
                     :label="$translate('entrycode')"
-                    :validation-function="$validateEntryCode"
+                    :error-status="errorStatus"
                     :error-message="$translate('entryCodeError')"
+                    :validation-function="$validateEntryCode"
                     :validation-message="$translate('entryCodeValidationError')"
                     :required="false"
                     :placeholder="$translate('entryCodePlaceholder')">
@@ -44,10 +48,10 @@
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
 import OSQButton from "@/components/buttons/OSQButton.vue";
-import {HttpService} from "@/services/HttpService";
 import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {validateEntryCode, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
+import router from "@/router";
 
 interface Props {
   requireAuth?: boolean,
@@ -60,13 +64,17 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const username = ref("")
+const usernameComponent = ref(null);
 const password = ref("")
 const entryCode = ref("")
+const errorStatus = ref(false);
 
 onMounted(() => {
   const route = useRoute()
   if (route.params.entryCode != undefined) entryCode.value = route.params.entryCode + "";
 })
+
+
 
 const formStatus = computed(() => {
   let validationCheck = validateUsername(username.value)()
@@ -88,23 +96,40 @@ const formStatus = computed(() => {
 })
 
 async function loginCall() {
-  const httpService = new HttpService()
   if (formStatus.value === "active") {
     switch (true) {
       case props.requireAuth && props.isPrivate:
-        await httpService.postPrivateAuthLogin(username.value, password.value, entryCode.value)
-        // TODO: add error-handling
         break;
       case props.isPrivate:
-        await httpService.postPrivateLogin(username.value, entryCode.value)
+        //await httpService.postPrivateLogin(username.value, entryCode.value)
         // TODO: add error-handling
         break;
       case props.requireAuth:
-        await httpService.postPublicAuthLogin(username.value, password.value)
-        // TODO: add error-handling
+        await fetch(`http://${window.location.hostname}:8080/api/login/public/auth`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "username": username.value,
+            "password": password.value
+          }),
+          credentials: 'same-origin'
+        })
+            .then(response =>{
+              if (response.status === 200){
+                const data = response.json();
+                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "sessionKey=" + data.apiKey+ "; path=/";
+                router.push("/home");
+              }else{
+                console.log(response.status)
+                errorStatus.value = true;
+              }
+            })
         break;
       default:
-        await httpService.postPublicLogin(username.value)
+        //await httpService.postPublicLogin(username.value)
         // TODO: add error-handling
         break;
     }

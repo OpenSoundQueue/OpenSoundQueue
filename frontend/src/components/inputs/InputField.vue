@@ -14,7 +14,7 @@
         </div>
       </div>
       <input class="input-field" :class="[
-          displayError?'error':'',
+          errorStatus?'error':'',
           displayInvalid?'error':'',
           customIcon && inputType !== 'password' ? 'has-icon' : 'no-icon']"
              :id="inputId"
@@ -27,7 +27,7 @@
     <p v-if="displayInvalid" class="error-message">
       {{ validationMessage }}
     </p>
-    <p v-else-if="displayError" class="error-message">
+    <p v-else-if="errorStatus" class="error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -41,6 +41,7 @@ interface Props {
   modelValue?: string | number
   label?: string
   validationFunction?: Function
+  errorStatus?: boolean
   errorMessage?: string
   validationMessage?: string
   inputType?: string
@@ -65,7 +66,6 @@ const emit = defineEmits<{
 const inputValue = ref("");
 const inputTypeDynamic = ref(props.inputType);
 const showPassword = ref(false);
-const errorStatus = ref(false);
 
 const manualValue = computed(() => props.manualValue);
 
@@ -73,9 +73,6 @@ const inputId = computed(() => {
   return generateUUID();
 })
 
-const displayError = computed( () =>{
-  return errorStatus.value
-})
 const displayInvalid = computed( () =>{
   if (props.validationFunction){
     return !props.validationFunction(inputValue.value)()

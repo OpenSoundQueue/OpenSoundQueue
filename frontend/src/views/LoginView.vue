@@ -7,7 +7,7 @@
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
     <Login
-        :isPrivate="true"
+        :isPrivate="false"
         :requireAuth="true"
     ></Login>
     <div class="link-container">
