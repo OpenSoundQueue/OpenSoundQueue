@@ -28,26 +28,20 @@ public class YtDlpService {
     SongInfoRepository songInfoRepository;
 
     public SongInfo getInfos(Song song) {
-        ProcessBuilder processBuilder = new ProcessBuilder().redirectErrorStream(false);
-
         String title = "";
         String artist = "";
         String artistTag;
         String creatorTag;
         String channelTag;
         long duration = 0L;
-        String thumbnail = "";
         String artistFromTitle;
 
-        processBuilder.command("cmd.exe", "/c", "yt-dlp --dump-single-json \"" + song.getLink() + "\"");
-        StringBuilder stdout = new StringBuilder();
         try {
-            Process process = processBuilder.start();
+            Process process = Runtime.getRuntime().exec("yt-dlp --dump-single-json \"" + song.getLink() + "\"");
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
 
             while ((line = reader.readLine()) != null) {
-                stdout.append(line).append("\n");
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode rootNode = mapper.readTree(line);
                 title = (rootNode.get("title") + "").replaceAll("\"", "");
@@ -60,7 +54,6 @@ public class YtDlpService {
                 } catch (NumberFormatException e) {
                     throw new UnsupportedOperationException("\nURL:" + song.getLink() + "\nist kein Video, sondern ein Livestream/eine Premiere");
                 }
-                thumbnail = (rootNode.get("thumbnails").get(0).get("url") + "").replaceAll("\"", "");
                 artistFromTitle = "null";
 
                 if (title.contains(" - ")) {
@@ -108,12 +101,9 @@ public class YtDlpService {
     }
 
     public void downloadSong(Song song, String downloadPath, String url) {
-        ProcessBuilder builder = new ProcessBuilder(
-                "cmd.exe", "/c", "yt-dlp --output \"" + downloadPath + song.getArtist() + " - " + song.getTitle() + ".%(ext)s\" --extract-audio --audio-format wav \"" + url + "\"");
-        builder.redirectErrorStream(true);
         Process p;
         try {
-            p = builder.start();
+            p = Runtime.getRuntime().exec("yt-dlp --output \"" + downloadPath + song.getArtist() + " - " + song.getTitle() + ".%(ext)s\" --extract-audio --audio-format wav \"" + url + "\"");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
