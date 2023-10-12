@@ -144,10 +144,6 @@ paths:
       responses:
         200:
           description: User recognized
-          content:
-            application/json:
-              example:
-                username: Quantom
         401:
           description: Invalid API key
           content:
@@ -159,13 +155,17 @@ paths:
       tags:
         - public
       description: Checks validation of entry key
+      requestBody:
+        required: true
+        description: Entry Code
+        content:
+          application/json:
+            schema:
+              example:
+                entry-code: jhbdfh
       responses:
         200:
           description: entry code valid
-          content:
-            application/json:
-              example:
-                entry-code: 7bbf8y2b
         401:
           description: Invalid entry key
           content:
