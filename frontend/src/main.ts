@@ -18,4 +18,6 @@ app.use(router)
 
 app.use(TranslationPlugin, translations);
 
+app.use(ValidationPlugin)
+
 app.mount('#app')
