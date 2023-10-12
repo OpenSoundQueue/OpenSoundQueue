@@ -37,6 +37,7 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=dvgZkm1xWPE");
             songQueueService.addSong("https://www.youtube.com/watch?v=tsmPCi7NKrg");
             songQueueService.addSong("https://www.youtube.com/watch?v=OMOGaugKpzs");
+            songQueueService.addSong("https://soundcloud.com/nfrealmusic/hope");
             songQueueService.addSong("https://www.youtube.com/watch?v=MW_5jZ67z9E");
             songQueueService.addSong("https://www.youtube.com/watch?v=SlPhMPnQ58k");
             songQueueService.addSong("https://www.youtube.com/watch?v=VtGpN6dRADY");
