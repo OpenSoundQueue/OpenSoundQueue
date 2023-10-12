@@ -31,7 +31,6 @@ async function checkSessionKey():Promise<boolean> {
       'Content-Type': 'application/json',
       'X-API-KEY': getCookie('sessionKey')
     },
-    withCredentials: true,
     credentials: 'same-origin'
   })
   return response.status === 200;
