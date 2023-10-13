@@ -54,11 +54,11 @@ public class UserRest {
     @PostMapping("/login/private")
     public ResponseEntity<Object> loginPrivate(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
-        String entryCode = requestBody.get("entry-code");
+        String entryCode = requestBody.get("entryCode");
 
         UserInfoEntity userInfoEntity = userService.getUserByUsername(username);
 
-        if (!systemService.checkEntryCode(entryCode)) {
+       if (!systemService.checkEntryCode(entryCode)) {
             return new ResponseEntity<>(new ErrorDto("Invalid entry key"), HttpStatus.UNAUTHORIZED);
         }
 
@@ -69,7 +69,6 @@ public class UserRest {
         userInfoEntity = userService.registerNewUser(new UserInfoEntity(username));
 
         String token = tokenUtils.generateToken();
-
         userService.updateToken(userInfoEntity.getId(), token);
 
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
@@ -79,7 +78,7 @@ public class UserRest {
     public ResponseEntity<Object> loginPrivateAuth(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
-        String entryCode = requestBody.get("entry-code");
+        String entryCode = requestBody.get("entryCode");
 
         UserInfoEntity userInfoEntity = userService.getUserByUsername(username);
 
