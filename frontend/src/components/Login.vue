@@ -7,37 +7,37 @@
         <InputField
             ref="usernameComponent"
             v-model="username"
-            :label="$translate('username')"
-            :error-status="errorStatus"
-            :error-message="$translate('usernameError')"
+            :label="$translate('username.title')"
+            :error-status="errorStatus[0]"
+            :error-message="usernameError"
             :validation-function="$validateUsername"
-            :validation-message="$translate('usernameValidationError')"
+            :validation-message="$translate('username.validation')"
             :required="false"
-            :placeholder="$translate('usernamePlaceholder')">
+            :placeholder="$translate('username.placeholder')">
         </InputField>
         <!-- Password -->
         <InputField v-if="props.requireAuth"
                     v-model="password"
-                    :label="$translate('password')"
-                    :error-status="errorStatus"
-                    :error-fessage="$translate('passwordError')"
+                    :label="$translate('password.title')"
+                    :error-status="errorStatus[1]"
+                    :error-message="$translate('password.error')"
                     :validation-function="$validatePassword"
-                    :validation-message="$translate('passwordValidationError')"
+                    :validation-message="$translate('password.validation')"
                     :required="false"
                     input-type="password"
-                    :placeholder="$translate('passwordPlaceholder')">
+                    :placeholder="$translate('password.placeholder')">
         </InputField>
         <!-- EntryCode -->
         <InputField v-if="props.isPrivate"
                     v-model="entryCode"
                     :manualValue="entryCode"
-                    :label="$translate('entrycode')"
-                    :error-status="errorStatus"
-                    :error-message="$translate('entryCodeError')"
+                    :label="$translate('entryCode.title')"
+                    :error-status="errorStatus[2]"
+                    :error-message="$translate('entryCode.error')"
                     :validation-function="$validateEntryCode"
-                    :validation-message="$translate('entryCodeValidationError')"
+                    :validation-message="$translate('entryCode.validation')"
                     :required="false"
-                    :placeholder="$translate('entryCodePlaceholder')">
+                    :placeholder="$translate('entryCode.placeholder')">
         </InputField>
       </div>
       <OSQButton bStyle="login" :status="formStatus" @click="loginCall">{{ $translate('login') }}</OSQButton>
@@ -49,9 +49,11 @@
 import InputField from "@/components/inputs/InputField.vue";
 import OSQButton from "@/components/buttons/OSQButton.vue";
 import {computed, onMounted, ref} from "vue";
+import type {Ref} from "vue";
 import {useRoute} from "vue-router";
 import {validateEntryCode, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import router from "@/router";
+import {translate} from "@/plugins/TranslationPlugin";
 
 interface Props {
   requireAuth?: boolean,
@@ -65,12 +67,14 @@ const props = withDefaults(defineProps<Props>(), {
 
 const username = ref("")
 const usernameComponent = ref(null);
+const usernameError = ref(translate('username.error'))
 const password = ref("")
 const entryCode = ref("")
-const errorStatus = ref(false);
+const errorStatus: Ref<Array<boolean>> = ref([])
 
 onMounted(() => {
   const route = useRoute()
+  errorStatus.value = new Array(3).fill(false);
   if (route.params.entryCode != undefined) entryCode.value = route.params.entryCode + "";
 })
 
@@ -97,12 +101,66 @@ const formStatus = computed(() => {
 
 async function loginCall() {
   if (formStatus.value === "active") {
+    errorStatus.value = new Array(3).fill(false);
     switch (true) {
       case props.requireAuth && props.isPrivate:
+        await fetch(`http://${window.location.hostname}:8080/api/login/private/auth`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "username": username.value,
+            "password": password.value,
+            "entryCode": entryCode.value
+          }),
+          credentials: 'same-origin'
+        })
+            .then(async response =>{
+              if (response.status === 200){
+                const data = await response.json();
+                console.log(data.apiKey)
+                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "sessionKey=" + data.apiKey + "; path=/";
+                router.push("/home");
+              }else if (response.status === 400){
+                //wrong credentials
+                errorStatus.value[0] = true;
+                errorStatus.value[1] = true;
+              }else{
+                //wrong entryCode
+                errorStatus.value[2] = true;
+              }
+            })
         break;
       case props.isPrivate:
-        //await httpService.postPrivateLogin(username.value, entryCode.value)
-        // TODO: add error-handling
+        await fetch(`http://${window.location.hostname}:8080/api/login/private`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "username": username.value,
+            "entryCode": entryCode.value
+          }),
+          credentials: 'same-origin'
+        })
+            .then(async response =>{
+              if (response.status === 200){
+                const data = await response.json();
+                console.log(data.apiKey)
+                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "sessionKey=" + data.apiKey + "; path=/";
+                router.push("/home");
+              }else if (response.status === 400){
+                //wrong username
+                usernameError.value = translate("username.taken")
+                errorStatus.value[0] = true;
+              }else{
+                //wrong entryCode
+                errorStatus.value[2] = true;
+              }
+            })
         break;
       case props.requireAuth:
         await fetch(`http://${window.location.hostname}:8080/api/login/public/auth`, {
@@ -116,21 +174,44 @@ async function loginCall() {
           }),
           credentials: 'same-origin'
         })
-            .then(response =>{
+            .then(async response =>{
               if (response.status === 200){
-                const data = response.json();
+                const data = await response.json();
+                console.log(data)
                 document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
                 document.cookie = "sessionKey=" + data.apiKey+ "; path=/";
                 router.push("/home");
               }else{
-                console.log(response.status)
-                errorStatus.value = true;
+                //wrong credentials
+                usernameError.value = translate("username.error")
+                errorStatus.value = [true, true, true]
               }
             })
         break;
       default:
-        //await httpService.postPublicLogin(username.value)
-        // TODO: add error-handling
+        await fetch(`http://${window.location.hostname}:8080/api/login/public`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "username": username.value
+        }),
+        credentials: 'same-origin'
+      })
+          .then(async response =>{
+            if (response.status === 200){
+              const data = await response.json();
+              console.log(data.apiKey)
+              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+              document.cookie = "sessionKey=" + data.apiKey + "; path=/";
+              router.push("/home");
+            }else{
+              //wrong username
+              usernameError.value = translate("username.taken")
+              errorStatus.value[0] = true;
+            }
+          })
         break;
     }
   }
