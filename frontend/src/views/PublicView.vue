@@ -17,7 +17,7 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import Footer from "@/components/Footer.vue";
 </script>
 
-<style>
+<style scoped>
 main {
   padding-top: 20px;
   width: calc(100% - 30px);
