@@ -1,4 +1,4 @@
-package com.example.backend.streaming.youtube;
+package com.example.backend.streaming.soundcloud;
 
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongInfo;
@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.*;
 
-public class SongImplYoutube implements Song {
-    private static final Logger LOG = LoggerFactory.getLogger(SongImplYoutube.class);
+public class SongImplSoundcloud implements Song {
+    private static final Logger LOG = LoggerFactory.getLogger(SongImplSoundcloud.class);
     private final String DOWNLOAD_PATH = System.getProperty("user.dir") + "\\.song_downloads\\";
 
     private final String link;
@@ -23,7 +23,7 @@ public class SongImplYoutube implements Song {
 
     private boolean isFetchingInfos = true;
 
-    public SongImplYoutube(String link) {
+    public SongImplSoundcloud(String link) {
         this.link = link;
     }
 

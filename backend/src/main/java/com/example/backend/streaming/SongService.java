@@ -1,5 +1,6 @@
 package com.example.backend.streaming;
 
+import com.example.backend.streaming.soundcloud.SoundcloudSongService;
 import com.example.backend.streaming.youtube.YoutubeSongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,17 @@ public class SongService implements SongServiceInterface {
             ".*://(www\\.)?youtu.be/.*"
     );
 
+    List<String> VALID_SOUNDCLOUD_LINKS = Arrays.asList(
+            ".*://(www\\.)?soundcloud.com/.*"
+    );
+
     Map<String, List<String>> LINK_VALIDATIONS = new HashMap<>() {{
         put("youtube", VALID_YOUTUBE_LINKS);
+        put("soundcloud", VALID_SOUNDCLOUD_LINKS);
     }};
+
+    @Autowired
+    SoundcloudSongService soundcloudSongService;
 
     @Autowired
     YoutubeSongService youtubeSongService;
@@ -69,6 +78,8 @@ public class SongService implements SongServiceInterface {
     private SongServiceInterface getSongSource(String link) {
         if (LINK_VALIDATIONS.get("youtube").stream().filter(link::matches).toList().size() > 0) {
             return youtubeSongService;
+        } else if (LINK_VALIDATIONS.get("soundcloud").stream().filter(link::matches).toList().size() > 0) {
+            return soundcloudSongService;
         }
 
         return null;

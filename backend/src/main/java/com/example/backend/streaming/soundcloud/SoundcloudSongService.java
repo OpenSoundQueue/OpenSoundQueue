@@ -1,4 +1,4 @@
-package com.example.backend.streaming.youtube;
+package com.example.backend.streaming.soundcloud;
 
 import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.Repository.SongInfoRepository;
@@ -20,8 +20,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 @Service
-public class YoutubeSongService implements SongServiceInterface {
-    private static final Logger LOG = LoggerFactory.getLogger(SongImplYoutube.class);
+public class SoundcloudSongService implements SongServiceInterface {
+    private static final Logger LOG = LoggerFactory.getLogger(SongImplSoundcloud.class);
 
     @Autowired
     SongQueueService songQueueService;
@@ -33,10 +33,11 @@ public class YoutubeSongService implements SongServiceInterface {
     YtDlpService ytDlpService;
 
     public Song validateSong(String link) {
-        SongImplYoutube newSong = new SongImplYoutube(link);
+        SongImplSoundcloud newSong = new SongImplSoundcloud(link);
         try {
             fetchInfos(newSong);
         } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
             return null;
         }
 
@@ -45,7 +46,7 @@ public class YoutubeSongService implements SongServiceInterface {
 
     @Override
     public void play(Song input) {
-        SongImplYoutube song = (SongImplYoutube) input;
+        SongImplSoundcloud song = (SongImplSoundcloud) input;
         while (song.isFetchingInfos()) {
             try {
                 Thread.sleep(500);
@@ -104,19 +105,19 @@ public class YoutubeSongService implements SongServiceInterface {
 
     @Override
     public void stop(Song input) {
-        SongImplYoutube song = (SongImplYoutube) input;
+        SongImplSoundcloud song = (SongImplSoundcloud) input;
         song.getClip().stop();
     }
 
     @Override
     public void close(Song input) {
-        SongImplYoutube song = (SongImplYoutube) input;
+        SongImplSoundcloud song = (SongImplSoundcloud) input;
         song.getClip().close();
     }
 
     @Override
     public void downloadDependencies(Song input) {
-        SongImplYoutube song = (SongImplYoutube) input;
+        SongImplSoundcloud song = (SongImplSoundcloud) input;
         if (song.isDownloaded()) return;
 
         String url = song.getLink();
@@ -151,7 +152,7 @@ public class YoutubeSongService implements SongServiceInterface {
 
     @Override
     public SongInfo getInfos(Song input) {
-        SongImplYoutube song = (SongImplYoutube) input;
+        SongImplSoundcloud song = (SongImplSoundcloud) input;
 
         if (song.getArtist() != null && song.getDuration() != null && song.getTitle() != null)
             return new SongInfo(song.getArtist(), song.getDuration(), song.getTitle());
