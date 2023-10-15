@@ -174,10 +174,10 @@ watch(manualValue, (newValue) => {
 
 .error-message {
   margin-top: 5px;
-  color: red;
+  color: var(--red);
 }
 
 .error{
-  border-color: red;
+  border-color: var(--red);
 }
 </style>
