@@ -28,7 +28,7 @@ export const setLanguage = (language: string) => {
 
 export const translate = (key: string) => {
     const keys = key.split('.');
-    let current: string | Record<string, string> = translations[currentLanguage.value];
+    let current: string | Record<string, any> = translations[currentLanguage.value];
 
     for (const k of keys) {
         if (current && typeof current === 'object' && k in current) {
