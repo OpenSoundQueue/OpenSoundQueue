@@ -13,7 +13,7 @@ type FlattenTranslations<T, K extends string | number = ''> = {
 export type TranslationsKey = FlattenTranslations<typeof enTranslations>;
 
 const currentLanguage = ref('en');
-const translations: Record<string, Record<string, string>> = {
+const translations: Record<string, Record<string, any>> = {
     en: enTranslations,
     de: deTranslations
 };
