@@ -40,14 +40,14 @@
                     :placeholder="$translate('entryCode.placeholder')">
         </InputField>
       </div>
-      <OSQButton bStyle="login" :status="formStatus" @click="loginCall">{{ $translate('login') }}</OSQButton>
+      <DynamicButton bStyle="login" :status="formStatus" @click="loginCall">{{ $translate('login') }}</DynamicButton>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import OSQButton from "@/components/buttons/OSQButton.vue";
+import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue";
 import {useRoute} from "vue-router";
