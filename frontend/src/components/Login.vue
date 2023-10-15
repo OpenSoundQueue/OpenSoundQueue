@@ -119,7 +119,6 @@ async function loginCall() {
             .then(async response =>{
               if (response.status === 200){
                 const data = await response.json();
-                console.log(data.apiKey)
                 document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
                 document.cookie = "sessionKey=" + data.apiKey + "; path=/";
                 router.push("/home");
@@ -148,7 +147,6 @@ async function loginCall() {
             .then(async response =>{
               if (response.status === 200){
                 const data = await response.json();
-                console.log(data.apiKey)
                 document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
                 document.cookie = "sessionKey=" + data.apiKey + "; path=/";
                 router.push("/home");
@@ -177,7 +175,6 @@ async function loginCall() {
             .then(async response =>{
               if (response.status === 200){
                 const data = await response.json();
-                console.log(data)
                 document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
                 document.cookie = "sessionKey=" + data.apiKey+ "; path=/";
                 router.push("/home");
@@ -202,7 +199,6 @@ async function loginCall() {
           .then(async response =>{
             if (response.status === 200){
               const data = await response.json();
-              console.log(data.apiKey)
               document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
               document.cookie = "sessionKey=" + data.apiKey + "; path=/";
               router.push("/home");
