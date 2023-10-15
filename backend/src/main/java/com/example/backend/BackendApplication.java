@@ -45,6 +45,7 @@ public class BackendApplication {
     private void feedTestData() {
         LOG.warn("Feeding song queue with test data... (might take a while)");
         for (int i = 0; i < 3; i++) {
+            songQueueService.addSong("https://soundcloud.com/nfrealmusic/hope");
             songQueueService.addSong("https://www.youtube.com/watch?v=_t431MAUQlQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=dvgZkm1xWPE");
             songQueueService.addSong("https://www.youtube.com/watch?v=tsmPCi7NKrg");
