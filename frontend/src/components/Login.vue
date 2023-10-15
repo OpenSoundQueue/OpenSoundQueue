@@ -54,6 +54,7 @@ import {useRoute} from "vue-router";
 import {validateEntryCode, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import router from "@/router";
 import {translate} from "@/plugins/TranslationPlugin";
+import {HttpService} from "@/services/HttpService";
 
 interface Props {
   requireAuth?: boolean,
@@ -64,6 +65,8 @@ const props = withDefaults(defineProps<Props>(), {
   requireAuth: false,
   isPrivate: false,
 });
+
+const httpService = new HttpService();
 
 const username = ref("")
 const usernameComponent = ref(null);
@@ -77,7 +80,6 @@ onMounted(() => {
   errorStatus.value = new Array(3).fill(false);
   if (route.params.entryCode != undefined) entryCode.value = route.params.entryCode + "";
 })
-
 
 
 const formStatus = computed(() => {
@@ -104,110 +106,72 @@ async function loginCall() {
     errorStatus.value = new Array(3).fill(false);
     switch (true) {
       case props.requireAuth && props.isPrivate:
-        await fetch(`http://${window.location.hostname}:8080/api/login/private/auth`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "username": username.value,
-            "password": password.value,
-            "entryCode": entryCode.value
-          }),
-          credentials: 'same-origin'
-        })
-            .then(async response =>{
-              if (response.status === 200){
-                const data = await response.json();
-                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-                document.cookie = "sessionKey=" + data.apiKey + "; path=/";
-                router.push("/home");
-              }else if (response.status === 400){
-                //wrong credentials
-                errorStatus.value[0] = true;
-                errorStatus.value[1] = true;
-              }else{
-                //wrong entryCode
-                errorStatus.value[2] = true;
+        await httpService.postPrivateAuthLogin(username.value, password.value, entryCode.value)
+            .then(apiKey => {
+              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              router.push("/home");
+            })
+            .catch(error => {
+              switch (error) {
+                case 400:
+                  //wrong credentials
+                  errorStatus.value[0] = true;
+                  errorStatus.value[1] = true;
+                  break;
+                case 401:
+                  //wrong entryCode
+                  errorStatus.value[2] = true;
+                  break;
               }
             })
         break;
       case props.isPrivate:
-        await fetch(`http://${window.location.hostname}:8080/api/login/private`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "username": username.value,
-            "entryCode": entryCode.value
-          }),
-          credentials: 'same-origin'
-        })
-            .then(async response =>{
-              if (response.status === 200){
-                const data = await response.json();
-                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-                document.cookie = "sessionKey=" + data.apiKey + "; path=/";
-                router.push("/home");
-              }else if (response.status === 400){
-                //wrong username
-                usernameError.value = translate("username.taken")
-                errorStatus.value[0] = true;
-              }else{
-                //wrong entryCode
-                errorStatus.value[2] = true;
+        await httpService.postPrivateLogin(username.value, entryCode.value)
+            .then(apiKey => {
+              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              router.push("/home");
+            })
+            .catch(error => {
+              switch (error) {
+                case 400:
+                  //wrong username
+                  usernameError.value = translate("username.taken")
+                  errorStatus.value[0] = true;
+                  break;
+                case 401:
+                  //wrong entryCode
+                  errorStatus.value[2] = true;
+                  break;
               }
             })
         break;
       case props.requireAuth:
-        await fetch(`http://${window.location.hostname}:8080/api/login/public/auth`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "username": username.value,
-            "password": password.value
-          }),
-          credentials: 'same-origin'
-        })
-            .then(async response =>{
-              if (response.status === 200){
-                const data = await response.json();
-                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-                document.cookie = "sessionKey=" + data.apiKey+ "; path=/";
-                router.push("/home");
-              }else{
-                //wrong credentials
-                usernameError.value = translate("username.error")
-                errorStatus.value = [true, true, true]
-              }
+        await httpService.postPublicAuthLogin(username.value, password.value)
+            .then(apiKey => {
+              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              router.push("/home");
+            })
+            .catch(error => {
+              //wrong credentials
+              usernameError.value = translate("username.error")
+              errorStatus.value = [true, true, true]
             })
         break;
       default:
-        await fetch(`http://${window.location.hostname}:8080/api/login/public`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          "username": username.value
-        }),
-        credentials: 'same-origin'
-      })
-          .then(async response =>{
-            if (response.status === 200){
-              const data = await response.json();
+        await httpService.postPublicLogin(username.value)
+            .then(apiKey => {
               document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-              document.cookie = "sessionKey=" + data.apiKey + "; path=/";
+              document.cookie = "sessionKey=" + apiKey + "; path=/";
               router.push("/home");
-            }else{
+            })
+            .catch(error => {
               //wrong username
               usernameError.value = translate("username.taken")
               errorStatus.value[0] = true;
-            }
-          })
+            })
         break;
     }
   }
