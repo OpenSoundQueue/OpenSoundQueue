@@ -8,12 +8,12 @@
 <script setup lang="ts">
 import {computed} from "vue";
 
-const props = defineProps({
+const props = defineProps<{
   status: String,
   bStyle: String
-})
+}>()
 
-const disabled = computed(()=>{
+const disabled = computed(() => {
   return (props.status === 'inactive' || props.status === 'waiting')
 })
 </script>
@@ -42,7 +42,7 @@ button {
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-button:hover{
+button:hover {
   cursor: pointer;
 }
 

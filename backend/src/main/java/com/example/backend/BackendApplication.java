@@ -39,7 +39,7 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    /*@Profile("!prod")
+    @Profile("!prod")
     @Order(1)
     @PostConstruct
     private void feedTestData() {
@@ -62,7 +62,7 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=lxRwEPvL-mQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
         }
-    }*/
+    }
 
     @Profile("!prod")
     @Order(2)
