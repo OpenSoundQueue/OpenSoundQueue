@@ -3,6 +3,29 @@
   "inQueue": "In Queue",
   "byLink": "By Link",
   "bySearch": "By Search",
+  "forgotPassword": "Forgot Passwort?",
+  "createAccount": "Create Account",
+  "login": "Login",
+  "username": {
+    "title": "Username",
+    "error": "Username or Password wrong",
+    "taken": "Username is already taken",
+    "validation": "Username must be at least 3 characters long and must not contain spaces or special characters",
+    "placeholder": "Enter Username"
+  },
+  "password": {
+    "title": "Password",
+    "error": "Username or Password wrong",
+    "validation": "Password must have at least 8 characters, uppercase and lowercase letters, a number and a special character",
+    "placeholder": "Enter Password"
+  },
+  "entryCode": {
+    "title": "Entry-Code",
+    "error": "Entry-Code wrong",
+    "validation": "Entry-Code must have at least 8 characters, uppercase and lowercase letters, a number and a special character",
+    "placeholder": "Enter Entry-Code"
+  },
+  "loginTitle": "Login to start contributing",
   "settings": "Settings",
   "documentation": "Docs",
   "team": "Team",

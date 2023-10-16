@@ -13,7 +13,10 @@
           <slot></slot>
         </div>
       </div>
-      <input class="input-field" :class="[customIcon || inputType === 'password' ? 'has-icon' : 'no-icon']"
+      <input class="input-field" :class="[
+          errorStatus?'error':'',
+          displayInvalid?'error':'',
+          customIcon && inputType !== 'password' ? 'has-icon' : 'no-icon']"
              :id="inputId"
              :type="inputTypeDynamic"
              :value="inputValue"
@@ -21,7 +24,10 @@
              :placeholder="placeholder"
       >
     </div>
-    <p v-if="displayError" class="error-message">
+    <p v-if="displayInvalid" class="error-message">
+      {{ validationMessage }}
+    </p>
+    <p v-else-if="errorStatus" class="error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -35,7 +41,9 @@ interface Props {
   modelValue?: string | number
   label?: string
   validationFunction?: Function
+  errorStatus?: boolean
   errorMessage?: string
+  validationMessage?: string
   inputType?: string
   required?: boolean
   customIcon?: boolean
@@ -53,17 +61,11 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   "update:modelValue": [data: string]
   userInput: [data: string]
-  escape: []
-  inputClear: []
-  arrowUp: []
-  arrowDown: []
-  enter: []
 }>();
 
 const inputValue = ref("");
 const inputTypeDynamic = ref(props.inputType);
 const showPassword = ref(false);
-const displayError = ref(false);
 
 const manualValue = computed(() => props.manualValue);
 
@@ -71,13 +73,21 @@ const inputId = computed(() => {
   return generateUUID();
 })
 
+const displayInvalid = computed( () =>{
+  if (props.validationFunction){
+    return !props.validationFunction(inputValue.value)()
+  }
+  return false;
+})
+
 function setValue(event: Event) {
   inputValue.value = (event.target as HTMLInputElement).value;
   emit("update:modelValue", (event.target as HTMLInputElement).value);
   emit("userInput", inputValue.value);
+
 }
 
-function toggleVisibility() {
+function toggleVisibility(): void {
   showPassword.value = !showPassword.value;
 
   if (showPassword.value) {
@@ -87,9 +97,8 @@ function toggleVisibility() {
   }
 }
 
-function clearInput() {
+function clearInput(): void {
   inputValue.value = "";
-  emit("inputClear");
 }
 
 watch(manualValue, (newValue) => {
@@ -137,10 +146,6 @@ watch(manualValue, (newValue) => {
   color: var(--tertiary-color);
 }
 
-.input-field:focus {
-  outline: 2px solid var(--primary-color);
-}
-
 .input-field.has-icon {
   padding-left: 35px;
 }
@@ -169,6 +174,10 @@ watch(manualValue, (newValue) => {
 
 .error-message {
   margin-top: 5px;
-  color: red;
+  color: var(--red);
+}
+
+.error{
+  border-color: var(--red);
 }
 </style>

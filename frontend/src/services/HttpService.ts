@@ -111,10 +111,69 @@ export class HttpService {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
                 return response.json();
             }).then((data: Song[]) => {
                 return data;
+            });
+    }
+
+
+    async postPrivateAuthLogin(username: string, password: string, entryCode: string) {
+        return await httpClient.post(`/login/private/auth`, {
+            username: username,
+            password: password,
+            entryCode: entryCode})
+            .then(async response => {
+                if (!response.ok){
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: Record<string, string>) => {
+                return data.apiKey;
+            });
+    }
+
+
+    async postPublicAuthLogin(username: string, password: string) {
+        return await httpClient.post(`/login/public/auth`, {
+            username: username,
+            password: password})
+            .then(async response => {
+                if (!response.ok){
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: Record<string, string>) => {
+                return data.apiKey;
+            });
+    }
+
+
+    async postPrivateLogin(username: string, entryCode: string) {
+        return await httpClient.post(`/login/private`, {
+            username: username,
+            entryCode: entryCode})
+            .then(async response => {
+                if (!response.ok){
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: Record<string, string>) => {
+                return data.apiKey;
+            });
+    }
+
+
+    async postPublicLogin(username: string) {
+        return await httpClient.post(`/login/public`, {
+            username: username})
+            .then(async response => {
+                if (!response.ok){
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: Record<string, string>) => {
+                return data.apiKey;
             });
     }
 }

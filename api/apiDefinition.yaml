@@ -6,11 +6,11 @@ info:
 servers:
   - url: 'https://localhost:8080'
 paths:
-  /login:
+  /login/private/auth:
     post:
       tags:
         - public
-      description: User logs in.
+      description: User logs in (private & requireAuth)
       security:
         - { }
       requestBody:
@@ -21,7 +21,8 @@ paths:
             schema:
               example:
                 username: WizMarki
-                password: stubsi10!
+                password: stubSi10!
+                entryCode: Wts1a!b
       responses:
         200:
           description: Successfully logged in. Returns *apiKey*.
@@ -35,7 +36,105 @@ paths:
             application/json:
               example:
                 error: Incorrect username or password
-  /verify:
+        401:
+          description: Incorrect entryCode
+          content:
+            application/json:
+              example:
+                error: Incorrect entryCode
+  /login/private:
+    post:
+      tags:
+        - public
+      description: User logs in (private & no auth)
+      security:
+        - { }
+      requestBody:
+        required: true
+        description: Access credentials
+        content:
+          application/json:
+            schema:
+              example:
+                username: WizMarki
+                entryCode: Wts1a!b
+      responses:
+        200:
+          description: Successfully logged in. Returns *apiKey*.
+          content:
+            application/json:
+              example:
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+        400:
+          description: Username already taken
+          content:
+            application/json:
+              example:
+                error: Username already taken
+        401:
+          description: Incorrect entryCode
+          content:
+            application/json:
+              example:
+                error: Incorrect entryCode
+  /login/public/auth:
+    post:
+      tags:
+        - public
+      description: User logs in (public & requireAuth)
+      security:
+        - { }
+      requestBody:
+        required: true
+        description: Access credentials
+        content:
+          application/json:
+            schema:
+              example:
+                username: WizMarki
+                password: stubSi10!
+      responses:
+        200:
+          description: Successfully logged in. Returns *apiKey*.
+          content:
+            application/json:
+              example:
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+        400:
+          description: Incorrect username or password
+          content:
+            application/json:
+              example:
+                error: Incorrect username or password
+  /login/public:
+    post:
+      tags:
+        - public
+      description: User logs in (public & no auth)
+      security:
+        - { }
+      requestBody:
+        required: true
+        description: Access credentials
+        content:
+          application/json:
+            schema:
+              example:
+                username: WizMarki
+      responses:
+        200:
+          description: Successfully logged in. Returns *apiKey*.
+          content:
+            application/json:
+              example:
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+        400:
+          description: Username already taken
+          content:
+            application/json:
+              example:
+                error: Username already taken
+  /verify/api-key:
     get:
       tags:
         - auth
@@ -45,16 +144,34 @@ paths:
       responses:
         200:
           description: User recognized
-          content:
-            application/json:
-              example:
-                username: Quantom
         401:
           description: Invalid API key
           content:
             application/json:
               example:
                 error: Invalid API key
+  /verify/entry-code:
+    get:
+      tags:
+        - public
+      description: Checks validation of entry key
+      requestBody:
+        required: true
+        description: Entry Code
+        content:
+          application/json:
+            schema:
+              example:
+                entry-code: jhbdfh
+      responses:
+        200:
+          description: entry code valid
+        401:
+          description: Invalid entry key
+          content:
+            application/json:
+              example:
+                error: Invalid entry key
   /queue/page/{page-number}:
     get:
       tags:
