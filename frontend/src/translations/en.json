@@ -10,19 +10,19 @@
     "title": "Username",
     "error": "Username or Password wrong",
     "taken": "Username is already taken",
-    "validation": "Username must be at least 3 characters long and must not contain spaces or special characters",
+    "validation": "The Username must be at least 4 characters long and can contain letters (upper and lower case), numbers, dot (.) and underscore (_)",
     "placeholder": "Enter Username"
   },
   "password": {
     "title": "Password",
     "error": "Username or Password wrong",
-    "validation": "Password must have at least 8 characters, uppercase and lowercase letters, a number and a special character",
+    "validation": "The Password must be at least 8 characters long and contain a combination of upper case letters, lower case letters, numbers and special characters",
     "placeholder": "Enter Password"
   },
   "entryCode": {
     "title": "Entry-Code",
     "error": "Entry-Code wrong",
-    "validation": "Entry-Code must have at least 8 characters, uppercase and lowercase letters, a number and a special character",
+    "validation": "The entry code is exactly 6 characters long",
     "placeholder": "Enter Entry-Code"
   },
   "loginTitle": "Login to start contributing",

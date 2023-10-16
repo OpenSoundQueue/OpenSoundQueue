@@ -4,13 +4,13 @@ function validate(type: string, value: string): boolean {
     if (value.length === 0) return true;
     switch (type) {
         case "password":
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
             return passwordRegex.test(value);
         case "entryCode":
-            const entryCodeRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            const entryCodeRegex = /^[a-zA-Z0-9]{6}$/;
             return entryCodeRegex.test(value);
         case "username":
-            const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
+            const usernameRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[._]).{4,20}$/;
             return usernameRegex.test(value);
         default:
             return false
