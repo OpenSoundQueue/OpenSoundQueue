@@ -69,9 +69,9 @@ public class BackendApplication {
     @PostConstruct
     private void feedTestUsers() throws IOException {
         LOG.info("Feeding test users");
-        userService.registerNewAuthUser(new UserInfoEntity("Markus", "Passwort"));
-        userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort"));
-        userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort"));
+        userService.registerNewAuthUser(new UserInfoEntity("Markus", "Passwort1!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort2!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort3!"));
         settingsService.printSettings();
         propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
     }
