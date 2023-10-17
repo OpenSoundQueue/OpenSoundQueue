@@ -12,6 +12,7 @@
   "forgotPassword": "Forgot Passwort?",
   "createAccount": "Create Account",
   "login": "Login",
+  "loginCTA": "Want to add your own songs?",
   "username": {
     "title": "Username",
     "error": "Username or Password wrong",
