@@ -1,24 +1,14 @@
 <script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
-import {computed, ref} from "vue";
-import type {Ref} from "vue";
+import {computed} from "vue";
 import Toast from "@/components/toast/Toast.vue";
 import {ToastService} from "@/services/ToastService";
 import {useRoute} from "vue-router";
 
 const route = useRoute();
-const shouldShowNavBar = ref(false);
-
-const routeName: Ref<string> = computed(() => route.name == undefined ? "" : route.name.toString())
-
 const routesWithoutNavBar = ["login"];
-
-setInterval(checkRoute, 1000);
-function checkRoute() {
-  if (!routesWithoutNavBar.includes(routeName.value) && routeName.value !== "") {
-    shouldShowNavBar.value = true;
-  }
-}
+const routeName = computed(() => route.name == undefined ? "" : route.name.toString())
+const displayNavBar = computed(() => !routesWithoutNavBar.includes(routeName.value) && routeName.value !== "")
 </script>
 
 <template>
@@ -27,7 +17,7 @@ function checkRoute() {
          :is-visible="ToastService.isVisible.value"
          :message-level="ToastService.messageLevel.value"
   />
-  <div class="navbar-container" v-if="shouldShowNavBar">
+  <div class="navbar-container" v-if="displayNavBar">
     <NavBar></NavBar>
   </div>
   <RouterView/>
