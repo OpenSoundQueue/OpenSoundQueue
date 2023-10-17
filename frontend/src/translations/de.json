@@ -10,19 +10,19 @@
     "title": "Benutzername",
     "error": "Benutzername oder Passwort falsch",
     "taken": "Benutzername bereits vergeben",
-    "validation": "Benutzername muss min. 3 Zeichen lang sein und darf keine Leer- und Sonderzeichen enthalten",
+    "validation": "Der Benutzername muss mindestens 4 Zeichen lang sein und kann Buchstaben (Groß- und Kleinbuchstaben), Zahlen, Punkt (.) und Unterstrich (_) enthalten",
     "placeholder": "Benutzername eingeben"
   },
   "password": {
     "title": "Passwort",
     "error": "Benutzername oder Passwort falsch",
-    "validation": "Passwort muss mindestens 8 Stellen, Groß- und Kleinbuchstaben, eine Ziffer und ein Sonderzeichen haben",
+    "validation": "Das Passwort muss mindestens 8 Zeichen lang sein und eine Kombination aus Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen enthalten",
     "placeholder": "Passwort eingeben"
   },
   "entryCode": {
     "title": "Eintritts-Code",
     "error": "Eintritts-Code falsch",
-    "validation": "Eintritts-Code muss mindestens 8 Stellen, Groß- und Kleinbuchstaben, eine Ziffer und ein Sonderzeichen haben",
+    "validation": "Der Eintritts-Code ist genau 6 Zeichen lang",
     "placeholder": "Eintritts-Code eingeben"
   },
   "loginTitle": "Einloggen, zum mitgestalten",
