@@ -11,8 +11,12 @@ export default class HttpClient {
         });
     }
 
-    rest(path: string, data: unknown, method: httpMethod) {
-        let headers = {"Content-Type": "application/json", "mode": "cors"};
+    rest(path: string, data: unknown, method: httpMethod, apiKey?: string,) {
+        let headers: Record<string, string> = {"Content-Type": "application/json", "mode": "cors"};
+
+        if (apiKey) {
+            headers["X-API-KEY"] = apiKey;
+        }
 
         if (import.meta.env.DEV) {
             const url = "/api" + path;
@@ -23,11 +27,11 @@ export default class HttpClient {
         return this.request(url, data, method, headers);
     }
 
-    get(path: string) {
-        return this.rest(path, undefined, "GET");
+    get(path: string, apiKey?: string) {
+        return this.rest(path, undefined, "GET", apiKey);
     }
 
-    post(path: string, data: unknown) {
-        return this.rest(path, data, "POST");
+    post(path: string, data: unknown, apiKey?: string) {
+        return this.rest(path, data, "POST", apiKey);
     }
 }

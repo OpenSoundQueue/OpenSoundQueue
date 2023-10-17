@@ -1,7 +1,7 @@
 import type {App, Plugin} from "vue";
+import {ref} from "vue";
 import enTranslations from "@/translations/en.json";
 import deTranslations from "@/translations/de.json";
-import {ref} from "vue";
 import {settings} from "@/store/store";
 
 type FlattenTranslations<T, K extends string | number = ''> = {

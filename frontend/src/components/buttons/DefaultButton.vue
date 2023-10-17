@@ -1,16 +1,24 @@
 <template>
   <div class="button-wrapper">
-    <button :disabled="isDisabled">
-      <slot></slot>
-      {{ text }}
+    <button :disabled="isDisabled || isLoading" :class="{loading: isLoading}">
+      <span class="button-container" v-if="!isLoading">
+        <slot></slot>
+        {{ text }}
+      </span>
+      <span v-else class="loading-container">
+        <LoadingAnimation :duration="500" :dot-count="3" size="small"/>
+      </span>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import LoadingAnimation from "@/components/LoadingAnimation.vue";
+
 defineProps<{
   text: string,
-  isDisabled: boolean
+  isDisabled?: boolean,
+  isLoading?: boolean
 }>();
 </script>
 
@@ -18,7 +26,6 @@ defineProps<{
 <style scoped>
 .button-wrapper {
   width: 100%;
-  margin: 20px 0 20px 0;
 }
 
 button {
@@ -27,6 +34,10 @@ button {
   height: 40px;
   border: none;
   border-radius: var(--border-radius-medium);
+}
+
+.button-container {
+  width: 100%;
   color: var(--text-color);
   font-size: var(--font-size-medium);
   display: flex;
@@ -35,8 +46,17 @@ button {
   gap: 10px;
 }
 
+.loading-container {
+  width: 100px;
+  margin: auto;
+}
+
 button:hover {
   cursor: pointer;
+}
+
+button.loading:disabled {
+  background: var(--primary-color);
 }
 
 button:disabled {

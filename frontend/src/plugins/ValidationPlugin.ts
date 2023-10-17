@@ -28,6 +28,11 @@ function validate(type: string, value: string): boolean {
         case "username":
             const usernameRegex = /^([A-Za-z0-9]?)([._]?).{4,20}$/;
             return usernameRegex.test(value);
+        case "songlink":
+            const youtubeLinkRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(-nocookie)?\.com|youtu.be)(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
+            const soundcloudLinkRegex = /^https?:\/\/(www\.|m\.)?soundcloud\.com\/[a-z0-9](?!.*?[-_]{2})[\w-]{1,23}[a-z0-9](?:\/.+)?$/;
+
+            return youtubeLinkRegex.test(value) || soundcloudLinkRegex.test(value);
         default:
             return false
     }
@@ -43,6 +48,10 @@ export function validatePassword(value: string): Function {
 
 export function validateEntryCode(value: string): Function {
     return () => validate("entryCode", value)
+}
+
+export function validateSonglink(value: string): Function {
+    return () => validate("songlink", value);
 }
 
 export const ValidationPlugin: Plugin = {

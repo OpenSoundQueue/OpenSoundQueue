@@ -1,6 +1,8 @@
 <template>
-  <div class="collapse-wrapper">
-    <div @click="toggleCollapse" class="open-close-container drop-shadow" :class="[isCollapsed ? 'closed' : 'opened']">
+  <div class="collapse-wrapper" v-closable="{excluded: [], handler: collapse}">
+    <div @click="toggleCollapse"
+         class="open-close-container drop-shadow unselectable"
+         :class="[isCollapsed ? 'closed' : 'opened']">
       <div class="custom-icon">
         <slot name="custom-icon"></slot>
       </div>
@@ -28,6 +30,10 @@ const props = defineProps<{
 
 const isCollapsed = ref(props.isCollapsed);
 
+function collapse() {
+  isCollapsed.value = true;
+}
+
 function toggleCollapse() {
   isCollapsed.value = !isCollapsed.value;
 }
@@ -49,6 +55,10 @@ function toggleCollapse() {
   align-items: center;
   padding: 10px 10px;
   gap: 10px;
+}
+
+.open-close-container:hover {
+  cursor: pointer;
 }
 
 .open-close-container.closed {
