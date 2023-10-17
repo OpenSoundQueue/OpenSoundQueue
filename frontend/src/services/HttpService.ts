@@ -117,7 +117,6 @@ export class HttpService {
             });
     }
 
-
     async postPrivateAuthLogin(username: string, password: string, entryCode: string) {
         return await httpClient.post(`/login/private/auth`, {
             username: username,
@@ -133,7 +132,6 @@ export class HttpService {
             });
     }
 
-
     async postPublicAuthLogin(username: string, password: string) {
         return await httpClient.post(`/login/public/auth`, {
             username: username,
@@ -147,7 +145,6 @@ export class HttpService {
                 return data.apiKey;
             });
     }
-
 
     async postPrivateLogin(username: string, entryCode: string) {
         return await httpClient.post(`/login/private`, {
@@ -163,7 +160,6 @@ export class HttpService {
             });
     }
 
-
     async postPublicLogin(username: string) {
         return await httpClient.post(`/login/public`, {
             username: username})
@@ -175,5 +171,14 @@ export class HttpService {
             }).then((data: Record<string, string>) => {
                 return data.apiKey;
             });
+    }
+
+    async getVerifyApiKey(apiKey: string) {
+       return await httpClient.get(`/verify/api-key`, apiKey)
+           .then(response => {
+               if (!response.ok) {
+                   return Promise.reject(response.status);
+               }
+           });
     }
 }

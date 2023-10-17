@@ -11,8 +11,17 @@ import type {Ref} from "vue";
 const dots: Ref<Array<boolean>> = ref([])
 const props = defineProps<{
   dotCount: number,
-  duration: number
+  duration: number,
+  size: "small" | "medium" | "big"
 }>()
+
+const size: {small: string, medium: string, big: string} = {
+  small: "5px",
+  medium: "10px",
+  big: "15px"
+}
+
+const passedSize = ref(size[props.size]);
 
 onMounted(() => {
   dots.value = new Array(props.dotCount).fill(false);
@@ -45,7 +54,7 @@ function animationStatus(index: number): string {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-top: 100px;
+  width: 100%;
 }
 
 .dot {
@@ -60,13 +69,13 @@ function animationStatus(index: number): string {
     transform: translateY(0);
   }
   25% {
-    transform: translateY(calc(var(--font-size-small) * -1));
+    transform: translateY(calc(v-bind("passedSize") * -1));
   }
   50% {
-    transform: translateY(calc(var(--font-size-small) * -1.5));
+    transform: translateY(calc(v-bind("passedSize") * -1.5));
   }
   75% {
-    transform: translateY(calc(var(--font-size-small) * -1));
+    transform: translateY(calc(v-bind("passedSize") * -1));
   }
   100% {
     transform: translateY(0);

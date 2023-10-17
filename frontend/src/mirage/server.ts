@@ -209,6 +209,10 @@ export function makeServer({environment = "development"} = {}) {
                     "type": "Public & nix"
                 };
             })
+
+            this.get("/verify/api-key", (schema: AppSchema, request) => {
+                return {};
+            })
         },
     })
 }

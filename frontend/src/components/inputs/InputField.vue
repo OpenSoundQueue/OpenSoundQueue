@@ -22,7 +22,7 @@
              :value="inputValue"
              @input="setValue"
              :placeholder="placeholder"
-      >
+      />
     </div>
     <p v-if="displayInvalid" class="error-message">
       {{ validationMessage }}
@@ -63,6 +63,8 @@ const emit = defineEmits<{
   userInput: [data: string]
 }>();
 
+defineExpose({clearInput});
+
 const inputValue = ref("");
 const inputTypeDynamic = ref(props.inputType);
 const showPassword = ref(false);
@@ -99,6 +101,8 @@ function toggleVisibility(): void {
 
 function clearInput(): void {
   inputValue.value = "";
+  emit("update:modelValue", inputValue.value);
+  emit("userInput", inputValue.value);
 }
 
 watch(manualValue, (newValue) => {
@@ -116,6 +120,7 @@ watch(manualValue, (newValue) => {
 
 .input-field-wrapper {
   display: flex;
+  margin-bottom: 10px;
   flex-direction: column;
   justify-content: center;
   height: fit-content;
@@ -147,7 +152,7 @@ watch(manualValue, (newValue) => {
 }
 
 .input-field.has-icon {
-  padding-left: 35px;
+  padding-left: 40px;
 }
 
 .password-icon-wrapper, .default-icon-wrapper {
@@ -174,6 +179,7 @@ watch(manualValue, (newValue) => {
 
 .error-message {
   margin-top: 5px;
+  margin-bottom: 0;
   color: var(--red);
 }
 

@@ -1,7 +1,13 @@
 {
   "nowPlaying": "Now Playing",
   "inQueue": "In Queue",
-  "byLink": "By Link",
+  "byLink": {
+    "title": "By Link",
+    "label": "Song Link",
+    "action": "Add to queue",
+    "placeholder": "Enter YouTube or Soundcloud link",
+    "incorrectInput": "Invalid link"
+  },
   "bySearch": "By Search",
   "forgotPassword": "Forgot Passwort?",
   "createAccount": "Create Account",
@@ -34,7 +40,13 @@
   "language": "Language",
   "select": "Select",
   "addSong": "Add Song",
-  "songLink": "Song Link",
-  "addToQueue": "Add to queue",
-  "searchHistory": "Search in history"
+  "notifications": {
+    "queueAddSuccess": "was added to queue.",
+    "queueAddError": "Song could not be added to the queue."
+  },
+  "historySearch": {
+    "noSongFound": "No song found for ",
+    "enterSearchTerm": "Enter a search term...",
+    "searchInHistory": "Search in history"
+  }
 }

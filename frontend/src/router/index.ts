@@ -3,6 +3,9 @@ import PublicView from '@/views/PublicView.vue'
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SettingsView from "@/views/SettingsView.vue";
+import {HttpService} from "@/services/HttpService";
+
+const httpService = new HttpService();
 
 // gets the value of a cookie by name
 // if the cookie doesn't exist, the function returns 'false'
@@ -21,21 +24,6 @@ function getCookie(cname:string):string {
   }
   return "";
 }
-
-// gets the value of the sessionKey cookie, then check its validity by sending it to the backend
-// it returns a boolean, which indicates, if the response status of this request is 200 or not
-async function checkSessionKey():Promise<boolean> {
-  const response = await fetch(`http://${window.location.hostname}:8080/api/verify/api-key`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-KEY': getCookie('sessionKey')
-    },
-    credentials: 'same-origin'
-  })
-  return response.status === 200;
-}
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,16 +72,19 @@ const router = createRouter({
 // runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
 // checks if the stored sessionKey is valid
 // if so the request is permitted, else the user gets redirected to the '/login' path
+
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (await checkSessionKey()) {
-      next()
-    } else {
-      document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-      next({
-        path: '/login'
-      })
-    }
+    await httpService.getVerifyApiKey(getCookie("sessionKey"))
+        .then(() => {
+          next()
+        })
+        .catch(() => {
+          document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+          next({
+            path: '/login'
+          })
+        })
   } else {
     next()
   }
@@ -105,14 +96,16 @@ router.beforeEach(async (to, from, next) => {
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresNoCookie)) {
     if (document.cookie.indexOf('sessionKey=') > -1) {
-      if (await checkSessionKey()) {
-        next({
-          path: '/home'
-        })
-      } else {
-        document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-        next()
-      }
+        await httpService.getVerifyApiKey(getCookie("sessionKey"))
+            .then(() => {
+                next({
+                    path: '/home'
+                })
+            })
+            .catch(() => {
+                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+                next()
+            })
     } else {
       next()
     }
