@@ -7,7 +7,7 @@
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
     <Login
-        :isPrivate="false"
+        :isPrivate="true"
         :requireAuth="true"
     ></Login>
     <div class="link-container">
@@ -28,6 +28,7 @@ main {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
 }
 
 header {
