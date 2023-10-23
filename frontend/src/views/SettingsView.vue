@@ -44,7 +44,10 @@ function goToHome() {
 <style scoped>
 .settings-wrapper {
   background: var(--secondary-color);
+  height: calc(100vh - 120px);
   padding: 30px;
+  margin: 0 auto 0 auto;
+  overflow-y: auto;
 }
 
 .settings-nav {
@@ -81,6 +84,7 @@ h1 {
     border-radius: var(--border-radius-big);
     width: 750px;
     height: 75vh;
+    margin-top: 110px;
   }
 }
 </style>
