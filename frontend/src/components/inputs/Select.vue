@@ -133,8 +133,9 @@ label {
   padding: 4px 5px;
 }
 
-.option:hover {
+.options-container:hover {
   background: var(--tertiary-color);
   color: var(--background-color);
+  font-weight: bold;
 }
 </style>
