@@ -41,7 +41,7 @@ main {
 }
 
 .queue-scroll-container {
-  border-top: var(--secondary-color) dashed 2px;
+  border-bottom: var(--secondary-color) dashed 2px;
   height: calc(100svh - 230px - 70px - 60px - 20px);
 }
 
@@ -54,7 +54,6 @@ main {
 }
 
 .control-panel-container {
-  height: 230px;
   margin: auto;
   background: var(--background-color);
   display: flex;
@@ -62,9 +61,6 @@ main {
   justify-content: center;
   padding: 0 20px;
   box-sizing: border-box;
-  border: 2px solid var(--secondary-color);
-  border-bottom: none;
-  border-radius: var(--border-radius-big) var(--border-radius-big) 0 0;
 }
 
 .now-playing-container {
