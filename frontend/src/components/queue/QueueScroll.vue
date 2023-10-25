@@ -2,8 +2,8 @@
   <div class="queue-scroll-wrapper scrollbar">
     <div class="queue-header desktop">
       <div class="queue-number">#</div>
-      <div class="title">Title</div>
-      <div class="duration">Duration</div>
+      <div class="title">{{ $translate('queueDescription.title') }}</div>
+      <div class="duration">{{ $translate('queueDescription.duration') }}</div>
     </div>
     <div class="queue-scroll-container">
       <div v-if="!queue.length">
