@@ -162,7 +162,7 @@ main {
   }
 
   .queue-header {
-    padding: 20px 20px 0 10px;
+    padding: 20px 20px 0 20px;
     display: flex;
     gap: 10px;
     justify-content: space-between;
