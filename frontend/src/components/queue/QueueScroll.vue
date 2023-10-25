@@ -48,7 +48,7 @@ function requestQueue() {
 
 <style scoped>
 .queue-scroll-wrapper {
-  padding: 0 20px 10px 10px;
+  padding: 0 20px 10px 20px;
   overflow-y: scroll;
   height: 100%;
   box-sizing: border-box;

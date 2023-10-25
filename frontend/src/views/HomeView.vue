@@ -26,6 +26,7 @@
         <div class="title">{{ $translate('queueDescription.title') }}</div>
         <div class="duration">{{ $translate('queueDescription.duration') }}</div>
       </div>
+      <div class="hr desktop"></div>
       <div class="queue-scroll-component">
         <QueueScroll :update-interval="4000"/>
       </div>
@@ -68,10 +69,6 @@ main {
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 20px;
-}
-
-.add-song-container {
-  height: 70px;
 }
 
 .add-song-slot {
@@ -147,7 +144,6 @@ main {
   }
 
   .queue-scroll-container {
-    padding-top: 10px;
     grid-column: 1;
     grid-row: 1;
     height: 100%;
@@ -158,6 +154,13 @@ main {
     flex-direction: column;
   }
 
+  .hr {
+    margin: auto;
+    width: calc(100% - 20px);
+    border-bottom: var(--tertiary-color) 2px solid;
+    height: 2px;
+  }
+
   .queue-header {
     padding: 0 20px 0 10px;
     display: flex;
@@ -165,7 +168,6 @@ main {
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    border-bottom: var(--tertiary-color) 2px solid;
   }
 
   .queue-number {
