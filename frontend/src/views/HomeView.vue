@@ -58,7 +58,7 @@ import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 
 main {
   width: calc(100% - 30px);
-  height: calc(100vh - 60px);
+  height: calc(100svh - 60px);
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -158,7 +158,7 @@ main {
   }
 
   .queue-header {
-    padding: 0 20px 0 10px;
+    padding: 20px 20px 0 10px;
     display: flex;
     gap: 10px;
     justify-content: space-between;
