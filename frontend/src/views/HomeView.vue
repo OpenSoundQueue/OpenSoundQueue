@@ -79,9 +79,9 @@ main {
   }
 }
 
-@media screen and (min-width: 1100px){
+@media screen and (min-width: 1250px){
   main {
-    width: 1100px;
+    width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
     grid-template-rows: calc(100% - 230px) 230px;
@@ -90,6 +90,9 @@ main {
   .add-song-container {
     grid-column: 2;
     grid-row: 1;
+    height: 100%;
+    border-radius: var(--border-radius-big);
+    background: var(--secondary-color);
   }
 
   .queue-scroll-container {
@@ -97,6 +100,8 @@ main {
     grid-row: 1;
     height: 100%;
     border-bottom: none;
+    border-radius: var(--border-radius-big);
+    background: var(--secondary-color);
   }
 
   .control-panel-wrapper {
