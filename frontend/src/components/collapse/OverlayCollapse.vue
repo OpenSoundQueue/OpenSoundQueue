@@ -85,11 +85,13 @@ function toggleCollapse() {
   z-index: 2;
   background: var(--secondary-color);
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
-  padding-top: 10px;
 }
 
 .slot-wrapper {
+  height: 100%;
   display: flex;
   justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 </style>
