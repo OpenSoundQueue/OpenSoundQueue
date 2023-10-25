@@ -1,4 +1,5 @@
 <template>
+  <InfoButton>Hallo Luki wie geht es dir heute abend hier is noch eine dritte zeile</InfoButton>
   <main>
     <div class="add-song-container">
       <AddSong/>
@@ -12,7 +13,9 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
+          <InfoButton>Markus hat eine neue Brille gekauft</InfoButton>
           <VoteSkip :update-interval="4000"/>
+          <InfoButton>Mein Name ist Daniel PIllwein und ich kümmere mich um diese infobuttons</InfoButton>
         </div>
       </div>
     </div>
@@ -24,6 +27,7 @@ import VoteSkip from "@/components/control/VoteSkip.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import AddSong from "@/components/control/AddSong.vue";
+import InfoButton from "@/components/InfoButton.vue";
 </script>
 
 <style scoped>
