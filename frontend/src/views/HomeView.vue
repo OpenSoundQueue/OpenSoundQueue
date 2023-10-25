@@ -29,9 +29,11 @@ import AddSong from "@/components/control/AddSong.vue";
 <style scoped>
 main {
   width: calc(100% - 30px);
+  height: calc(100vh - 60px);
   margin: auto;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
   padding-top: 20px;
 }
@@ -42,13 +44,12 @@ main {
 
 .queue-scroll-container {
   border-bottom: var(--secondary-color) dashed 2px;
-  height: calc(100svh - 230px - 70px - 60px - 20px);
+  height: calc(100% - 70px - 230px);
 }
 
 .control-panel-wrapper {
   width: 100%;
-  height: fit-content;
-  position: fixed;
+  height: 230px;
   bottom: 0;
   left: 0;
 }
