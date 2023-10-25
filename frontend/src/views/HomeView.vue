@@ -67,7 +67,6 @@ main {
   margin: 10px 0;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
 }
 
 @media screen and (min-width: 800px) {
@@ -108,26 +107,31 @@ main {
     width: 100%;
     border: var(--secondary-color) 3px solid;
     border-radius: var(--border-radius-big);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 66% 33%;
   }
 
   .now-playing-container {
-    width: 66%;
+    width: 100%;
+    margin-bottom: 20px;
+    grid-row: 1;
+    grid-column: 2;
     padding: 20px;
     box-sizing: border-box;
-    border-right: red solid 1px;
-    display: grid;
-    place-items: center;
   }
 
   .vote-skip-container {
-    border-left: green solid 1px;
-    width: 33%;
-    display: grid;
-    place-items: center;
+    width: 100%;
+    border-right: var(--secondary-color) 3px solid;
+    height: 85%;
+    box-sizing: border-box;
+    grid-row: 1;
+    grid-column: 1;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
 }
