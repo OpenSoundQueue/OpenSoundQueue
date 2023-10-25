@@ -89,7 +89,7 @@ function requestQueue() {
     gap: 10px;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 40px;
     border-bottom: var(--tertiary-color) 2px solid;
   }
 

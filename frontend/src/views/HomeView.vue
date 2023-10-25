@@ -1,7 +1,23 @@
 <template>
   <main>
     <div class="add-song-container">
-      <AddSong/>
+      <div class="mobile">
+        <OverlayCollapse :label="$translate('addSong')"
+                         :is-collapsed="true"
+        >
+          <template #custom-icon>
+            <img src="@/assets/icons/music/playlist_add.svg">
+          </template>
+          <template #content>
+            <div class="add-song-slot">
+              <AddSong/>
+            </div>
+          </template>
+        </OverlayCollapse>
+      </div>
+      <div class="add-song desktop">
+        <AddSong/>
+      </div>
     </div>
     <div class="queue-scroll-container">
       <QueueScroll :update-interval="4000"/>
@@ -23,10 +39,15 @@
 import VoteSkip from "@/components/control/VoteSkip.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
-import AddSong from "@/components/control/AddSongTemp.vue";
+import AddSong from "@/components/control/AddSong.vue";
+import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 </script>
 
 <style scoped>
+.desktop {
+  display: none;
+}
+
 main {
   width: calc(100% - 30px);
   height: calc(100vh - 60px);
@@ -40,6 +61,11 @@ main {
 
 .add-song-container {
   height: 70px;
+}
+
+.add-song-slot {
+  width: 100%;
+  height: 100%;
 }
 
 .queue-scroll-container {
@@ -75,7 +101,15 @@ main {
   }
 }
 
-@media screen and (min-width: 1100px){
+@media screen and (min-width: 1100px) {
+  .mobile {
+    display: none;
+  }
+
+  .desktop {
+    display: block;
+  }
+
   main {
     width: 1100px;
     display: grid;
@@ -91,7 +125,14 @@ main {
     background: var(--secondary-color);
   }
 
+  .add-song.desktop {
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
   .queue-scroll-container {
+    padding-top: 10px;
     grid-column: 1;
     grid-row: 1;
     height: 100%;
