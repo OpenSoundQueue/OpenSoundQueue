@@ -23,7 +23,7 @@
 import VoteSkip from "@/components/control/VoteSkip.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
-import AddSong from "@/components/control/AddSong.vue";
+import AddSong from "@/components/control/AddSongTemp.vue";
 </script>
 
 <style scoped>
@@ -75,9 +75,9 @@ main {
   }
 }
 
-@media screen and (min-width: 1250px){
+@media screen and (min-width: 1100px){
   main {
-    width: 1250px;
+    width: 1100px;
     display: grid;
     grid-template-columns: 66% 33%;
     grid-template-rows: calc(100% - 230px) 230px;

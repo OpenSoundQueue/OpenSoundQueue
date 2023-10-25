@@ -68,7 +68,7 @@ function requestQueue() {
   display: none;
 }
 
-@media screen and (min-width: 1250px) {
+@media screen and (min-width: 1100px) {
   .desktop {
     display: block;
   }

@@ -41,10 +41,8 @@ function setActiveTab(index: number) {
 
 
 <style scoped>
-
 .tab-switcher-wrapper {
-  width: calc(100% - 30px);
-  height: 100px;
+  height: 100%;
 }
 
 .tabs-container {
@@ -85,7 +83,12 @@ function setActiveTab(index: number) {
   border: var(--tertiary-color) 5px solid;
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
   padding: 15px 20px;
-  height: 300px;
+  box-sizing: border-box;
+  height: calc(100% - 40px);
+}
+
+.tab-wrapper {
+  height: 100%;
 }
 
 .tab-wrapper.active {
