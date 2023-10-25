@@ -1,24 +1,17 @@
 <template>
   <div class="queue-scroll-wrapper scrollbar">
-    <div class="queue-header desktop">
-      <div class="queue-number">#</div>
-      <div class="title">{{ $translate('queueDescription.title') }}</div>
-      <div class="duration">{{ $translate('queueDescription.duration') }}</div>
-    </div>
-    <div class="queue-scroll-container">
-      <div v-if="!queue.length">
-        <div v-for="(index) in 15" :key="index">
-          <EntrySkeleton/>
-        </div>
+    <div v-if="!queue.length">
+      <div v-for="(index) in 15" :key="index">
+        <EntrySkeleton/>
       </div>
-      <div v-else>
-        <div v-for="(songData, index) in queue" :key="index">
-          <Entry :number-in-queue="songData.numberInQueue"
-                 :title="songData.song.title"
-                 :artist="songData.song.artist"
-                 :duration="songData.song.duration"
-          />
-        </div>
+    </div>
+    <div v-else>
+      <div v-for="(songData, index) in queue" :key="index">
+        <Entry :number-in-queue="songData.numberInQueue"
+               :title="songData.song.title"
+               :artist="songData.song.artist"
+               :duration="songData.song.duration"
+        />
       </div>
     </div>
   </div>
@@ -55,50 +48,9 @@ function requestQueue() {
 
 <style scoped>
 .queue-scroll-wrapper {
-  height: 100%;
-}
-
-.queue-scroll-container {
   padding: 0 20px 10px 10px;
   overflow-y: scroll;
+  height: 100%;
   box-sizing: border-box;
-}
-
-.desktop {
-  display: none;
-}
-
-@media screen and (min-width: 1100px) {
-  .desktop {
-    display: block;
-  }
-
-  .queue-scroll-wrapper {
-    display: flex;
-    flex-direction: column;
-    padding: 0 20px;
-  }
-
-  .queue-scroll-container {
-    height: calc(100% - 50px);
-    padding: 0 10px 0 0;
-  }
-
-  .queue-header {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    border-bottom: var(--tertiary-color) 2px solid;
-  }
-
-  .queue-number {
-    width: 28px;
-  }
-
-  .title {
-    width: 90%;
-  }
 }
 </style>
