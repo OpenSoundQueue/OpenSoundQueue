@@ -20,7 +20,14 @@
       </div>
     </div>
     <div class="queue-scroll-container">
-      <QueueScroll :update-interval="4000"/>
+      <div class="queue-header desktop">
+        <div class="queue-number">#</div>
+        <div class="title">{{ $translate('queueDescription.title') }}</div>
+        <div class="duration">{{ $translate('queueDescription.duration') }}</div>
+      </div>
+      <div class="queue-scroll-component">
+        <QueueScroll :update-interval="4000"/>
+      </div>
     </div>
     <div class="control-panel-wrapper">
       <div class="control-panel-container">
@@ -73,6 +80,10 @@ main {
   height: calc(100% - 70px - 190px);
 }
 
+.queue-scroll-component {
+  height: 100%;
+}
+
 .control-panel-wrapper {
   width: 100%;
   bottom: 0;
@@ -101,7 +112,7 @@ main {
   }
 }
 
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 1250px) {
   .mobile {
     display: none;
   }
@@ -111,7 +122,7 @@ main {
   }
 
   main {
-    width: 1100px;
+    width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
     grid-template-rows: calc(100% - 230px) 230px;
@@ -139,6 +150,31 @@ main {
     border-bottom: none;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .queue-header {
+    padding: 0 20px 0 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    border-bottom: var(--tertiary-color) 2px solid;
+  }
+
+  .queue-number {
+    width: 28px;
+  }
+
+  .title {
+    width: 90%;
+  }
+
+  .queue-scroll-component {
+    height: calc(100% - 50px);
+    padding: 0 10px 0 0;
   }
 
   .control-panel-wrapper {
