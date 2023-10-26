@@ -46,6 +46,16 @@ onMounted(() => {
 function toggleCollapse() {
   isCollapsed.value = !isCollapsed.value;
   updateValues()
+  updatePositioning()
+}
+
+setInterval(()=>{
+  updateValues()
+  updatePositioning()
+},500)
+
+
+function updatePositioning(){
   if (space.left > infoDimensions.width / 2 && space.right > infoDimensions.width / 2) {
     info.value.style.left = "-" + (infoDimensions.width / 2 - (icon.right - icon.left) / 2) + "px"
   } else if (space.left > space.right) {
@@ -60,7 +70,6 @@ function toggleCollapse() {
     info.value.style.bottom = "-" + (infoDimensions.height + 5) + "px"
   }
 }
-
 function updateValues() {
   if (help.value && info.value) {
     icon = {
