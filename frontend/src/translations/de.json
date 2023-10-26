@@ -49,5 +49,9 @@
     "noSongFound": "Kein Treffer für ",
     "enterSearchTerm": "Gib einen Suchbegriff ein...",
     "searchInHistory": "Im Verlauf suchen"
+  },
+  "queueDescription": {
+    "title": "Titel",
+    "duration": "Dauer"
   }
 }

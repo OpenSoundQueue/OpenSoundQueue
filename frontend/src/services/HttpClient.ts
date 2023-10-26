@@ -23,7 +23,7 @@ export default class HttpClient {
             return this.request(url, data, method, headers);
         }
 
-        const url = "http://localhost:8080/api" + path;
+        const url = `http://${window.location.hostname}:8080/api` + path;
         return this.request(url, data, method, headers);
     }
 

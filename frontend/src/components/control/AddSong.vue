@@ -1,44 +1,36 @@
 <template>
   <div class="add-song-wrapper">
-    <OverlayCollapse :label="$translate('addSong')"
-                     :is-collapsed="true"
-    >
-      <template #custom-icon>
-        <img src="@/assets/icons/music/playlist_add.svg">
+    <Tabs :tabs="[$translate('byLink.title'), $translate('bySearch')]">
+      <template #tab-0>
+        <div class="tab-wrapper">
+          <InputField v-model="songLink"
+                      :label="$translate('byLink.label')"
+                      input-type="text"
+                      :validation-function="validateSonglink"
+                      :validation-message="$translate('byLink.incorrectInput')"
+                      :placeholder="$translate('byLink.placeholder')"
+                      ref="inputField"
+          />
+          <DefaultButton @click="addSong(songLink)"
+                         :is-disabled="!inputIsValid"
+                         :is-loading="waitingForResponse"
+                         :text="$translate('byLink.action')">
+            <img src="@/assets/icons/music/playlist_add.svg">
+          </DefaultButton>
+        </div>
       </template>
-      <template #content>
-        <Tabs :tabs="[$translate('byLink.title'), $translate('bySearch')]">
-          <template #tab-0>
-            <div class="tab-wrapper">
-              <InputField v-model="songLink"
-                          :label="$translate('byLink.label')"
-                          input-type="text"
-                          :validation-function="validateSonglink"
-                          :validation-message="$translate('byLink.incorrectInput')"
-                          :placeholder="$translate('byLink.placeholder')"
-                          ref="inputField"
-              />
-              <DefaultButton @click="addSong(songLink)"
-                             :is-disabled="!inputIsValid"
-                             :is-loading="waitingForResponse"
-                             :text="$translate('byLink.action')">
-                <img src="@/assets/icons/music/playlist_add.svg">
-              </DefaultButton>
-            </div>
-          </template>
-          <template #tab-1>
-            <div class="tab-wrapper">
-              <HistorySearch/>
-            </div>
-          </template>
-        </Tabs>
+      <template #tab-1>
+        <div class="tab-wrapper">
+          <HistorySearch/>
+        </div>
       </template>
-    </OverlayCollapse>
+    </Tabs>
   </div>
+
 </template>
 
 <script setup lang="ts">
-import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
+import {validateSonglink} from "@/plugins/ValidationPlugin";
 import InputField from "@/components/inputs/InputField.vue";
 import HistorySearch from "@/components/search/HistorySearch.vue";
 import Tabs from "@/components/Tabs.vue";
@@ -47,7 +39,6 @@ import {HttpService} from "@/services/HttpService";
 import {computed, ref} from "vue";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
-import {validateSonglink} from "@/plugins/ValidationPlugin";
 
 const httpService = new HttpService();
 const songLink = ref("");
@@ -87,10 +78,17 @@ function addSong(link: string) {
         );
       });
 }
+
 </script>
 
 <style scoped>
+.add-song-wrapper {
+  height: 100%;
+}
+
 .tab-wrapper {
+  height: 100%;
+  width: 100%;
   margin: auto;
 }
 </style>

@@ -1,13 +1,15 @@
 <template>
   <div class="history-search-wrapper">
-    <InputField input-type="text"
-                v-model="searchTerm"
-                @user-input="data => processChange(data)"
-                :placeholder="$translate('historySearch.searchInHistory')"
-                :custom-icon="true"
-    >
-      <img src="@/assets/icons/input/search.svg">
-    </InputField>
+    <div class="input-container">
+      <InputField input-type="text"
+                  v-model="searchTerm"
+                  @user-input="data => processChange(data)"
+                  :placeholder="$translate('historySearch.searchInHistory')"
+                  :custom-icon="true"
+      >
+        <img src="@/assets/icons/input/search.svg">
+      </InputField>
+    </div>
     <div class="result-container scrollbar">
       <div v-if="isLoading" class="loading-container">
         <LoadingAnimation :duration="1000" :dot-count="4" size="medium"/>
@@ -118,13 +120,14 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
 
 <style scoped>
 .history-search-wrapper {
-  height: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .result-container {
   overflow-y: scroll;
   height: 100%;
-  margin-top: 10px;
   padding-left: 5px;
 }
 
