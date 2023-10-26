@@ -15,7 +15,7 @@ button {
 }
 
 .skeleton {
-    background: linear-gradient(110deg, var(--grayish-blue) 8%, #2d2d4d 18%, var(--grayish-blue) 33%);
+    background: linear-gradient(110deg, rgba(255, 255, 255, 0.1) 8%, rgba(255, 255, 255, 0.05) 18%, rgba(255, 255, 255, 0.1) 33%);
     border-radius: 5px;
     background-size: 200% 200%;
     animation: 1.5s shine linear infinite;
