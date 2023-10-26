@@ -41,7 +41,7 @@
 
 :root {
     --light-gray: #D9D9D9;
-    --dark-gray: #7A7A7A;
+    --dark-gray: #6E717A;
     --pink: #BB86FF;
     --magenta: #9747FF;
     --violet: #2D1966;
@@ -52,5 +52,5 @@
     --green-tranparent: rgba(132, 184, 162, 0.95);
     --red-tranparent: rgba(184, 132, 132, 0.95);
     --dark-blue-transparent: rgba(25, 30, 45, 0.9);
-    --red: #B88484;
+    --red: #FF7373;
 }
