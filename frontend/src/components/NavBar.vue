@@ -36,17 +36,25 @@
 
 <script setup lang="ts">
 import Link from "@/components/Link.vue";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import router from "@/router";
 
 const menuIsOpen = ref(false);
 const userIsInPublicArea = ref(true);
 
 watch(router.currentRoute, () => {
-  userIsInPublicArea.value = router.currentRoute.value.name === "public";
+  determineArea();
 
   collapse();
 })
+
+onMounted(() => {
+  determineArea();
+})
+
+function determineArea() {
+  userIsInPublicArea.value = router.currentRoute.value.name === "public";
+}
 
 function toggleMenu() {
   menuIsOpen.value = !menuIsOpen.value;
