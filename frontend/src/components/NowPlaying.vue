@@ -69,6 +69,10 @@ function secondsToTimeString(time: number): string {
 </script>
 
 <style scoped>
+.now-playing-wrapper {
+  width: 100%;
+}
+
 .title-artist-wrapper {
   margin: 10px 0 10px 0;
 }

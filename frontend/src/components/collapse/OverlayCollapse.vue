@@ -45,7 +45,6 @@ function toggleCollapse() {
 .collapse-wrapper {
   width: 100%;
   font-size: var(--font-size-medium);
-  margin-bottom: 20px;
 }
 
 .open-close-container {
@@ -80,16 +79,18 @@ function toggleCollapse() {
 .collapse-container {
   position: relative;
   height: 400px;
-  margin-bottom: -410px;
+  margin-bottom: -400px;
   width: 100%;
   z-index: 2;
   background: var(--secondary-color);
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
-  padding-top: 10px;
 }
 
 .slot-wrapper {
+  height: 100%;
   display: flex;
   justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 </style>
