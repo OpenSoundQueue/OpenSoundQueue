@@ -18,13 +18,12 @@
         <div class="links">
           <div class="quick-nav-links">
             <Link path="/" label="Public" :is-outer-area="!userIsInPublicArea"/>
-            <Link path="/settings" label="Settings" :is-outer-area="userIsInPublicArea"/>
             <Link path="/home" label="Home" :is-outer-area="userIsInPublicArea"/>
-            <Link path="/admin" label="Admin" :is-outer-area="userIsInPublicArea"/>
+            <Link path="/settings" label="Settings" :is-outer-area="userIsInPublicArea"/>
           </div>
           <div class="other-nav-links">
+            <Link path="https://opensoundqueue.org/" label="About" :is-external="true"/>
             <Link path="https://opensoundqueue.org/team" label="Team" :is-external="true"/>
-            <Link path="https://opensoundqueue.org/team" label="About" :is-external="true"/>
           </div>
         </div>
       </div>
@@ -44,8 +43,6 @@ const menuIsOpen = ref(false);
 const userIsInPublicArea = ref(true);
 
 watch(router.currentRoute, () => {
-  console.log(router.currentRoute.value.name)
-
   userIsInPublicArea.value = router.currentRoute.value.name === "public";
 
   collapse();

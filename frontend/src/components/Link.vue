@@ -35,6 +35,8 @@ defineProps<{
 }
 
 .router-link-active {
+  font-weight: bold;
+
   .underline {
     background: var(--primary-color);
     margin-top: 4px;
