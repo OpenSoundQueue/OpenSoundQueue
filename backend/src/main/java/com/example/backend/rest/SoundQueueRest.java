@@ -66,18 +66,18 @@ public class SoundQueueRest {
     }
 
     @GetMapping("/vote-skip/status")
-    public ResponseEntity<Object> getVoteSkipStatus() {
-        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(), HttpStatus.OK);
+    public ResponseEntity<Object> getVoteSkipStatus(@RequestHeader(value = "X-API-KEY") String token) {
+        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(token), HttpStatus.OK);
     }
 
     @GetMapping("/vote-skip/vote")
-    public ResponseEntity<Object> setVoteSkip() {
-        return new ResponseEntity<>(songQueueService.setVoteSkip(), HttpStatus.OK);
+    public ResponseEntity<Object> setVoteSkip(@RequestHeader(value = "X-API-KEY") String token) {
+        return new ResponseEntity<>(songQueueService.setVoteSkip(token), HttpStatus.OK);
     }
 
     @GetMapping("/vote-skip/withdraw")
-    public ResponseEntity<Object> withdrawVoteSkip() {
-        return new ResponseEntity<>(songQueueService.withdrawVoteSkip(), HttpStatus.OK);
+    public ResponseEntity<Object> withdrawVoteSkip(@RequestHeader(value = "X-API-KEY") String token) {
+        return new ResponseEntity<>(songQueueService.withdrawVoteSkip(token), HttpStatus.OK);
     }
 
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
