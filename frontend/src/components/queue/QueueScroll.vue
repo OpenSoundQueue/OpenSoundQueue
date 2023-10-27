@@ -1,7 +1,7 @@
 <template>
   <div class="queue-scroll-wrapper scrollbar">
     <div v-if="!queue.length" class="entry-container">
-      <div v-for="(index) in 15" :key="index">
+      <div v-for="(index) in 10" :key="index">
         <EntrySkeleton/>
       </div>
     </div>

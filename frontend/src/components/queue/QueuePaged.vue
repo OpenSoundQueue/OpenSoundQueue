@@ -1,7 +1,7 @@
 <template>
   <div class="queue-wrapper">
     <div class="queue-container">
-      <div v-if="!queuePage.length">
+      <div v-if="!queuePage.length" class="skeleton-container">
         <EntrySkeleton v-for="(index) in pageSize" :key="index"/>
       </div>
       <div v-for="(songData, index) in queuePage" :key="index">
@@ -76,5 +76,14 @@ async function requestPage(pageNumber: number) {
 .queue-container {
   min-height: 445px;
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
