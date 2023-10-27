@@ -2,7 +2,9 @@
   <div class="wrapper" v-closable="{excluded: [], handler: collapse}">
     <img src="@/assets/icons/help.svg" ref="help" @click="toggleCollapse">
     <div v-show="!isCollapsed" class="info-container" ref="info">
-      <slot></slot>
+      <p>
+        <slot></slot>
+      </p>
     </div>
   </div>
 </template>
@@ -118,5 +120,7 @@ img {
 .info-container > * {
   padding: 0;
   margin: 0;
+  line-height: 1.4;
 }
+
 </style>

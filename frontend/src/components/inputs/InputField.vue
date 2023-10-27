@@ -1,6 +1,6 @@
 <template>
   <div class="input-field-wrapper">
-    <label class="input-field-label" :for="inputId">{{ label }} <span v-if="required">*</span></label>
+    <label class="input-field-label" :for="inputId">{{ label }} <slot name="help"></slot><span v-if="required">*</span></label>
     <div class="input-element-wrapper">
       <div v-if="inputType === 'password'" @click="toggleVisibility" class="password-icon-wrapper">
         <img v-if="showPassword" src="@/assets/icons/input/hide.svg" title="Hide" class="password-icon"
@@ -10,7 +10,7 @@
       <div v-else class="default-icon-wrapper">
         <img v-if="inputValue" @click="clearInput" src="@/assets/icons/input/delete.svg" class="close-icon" alt="clear input">
         <div class="input-icon">
-          <slot></slot>
+          <slot name="icon"></slot>
         </div>
       </div>
       <input class="input-field" :class="[
@@ -116,6 +116,10 @@ watch(manualValue, (newValue) => {
 .input-field-label {
   padding-left: 2px;
   margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
 }
 
 .input-field-wrapper {

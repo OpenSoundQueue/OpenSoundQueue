@@ -1,5 +1,4 @@
 <template>
-  <InfoButton>{{ $translate('username.validation') }}</InfoButton>
   <main>
     <div class="add-song-container">
       <div class="mobile">
@@ -37,9 +36,8 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
-          <InfoButton>{{ $translate('username.taken') }}</InfoButton>
           <VoteSkip :update-interval="4000"/>
-          <InfoButton>{{ $translate('username.validation') }}</InfoButton>
+          <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
         </div>
       </div>
     </div>
@@ -103,8 +101,10 @@ main {
 
 .vote-skip-container {
   margin: 10px 0;
+  gap: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 800px) {
@@ -218,9 +218,6 @@ main {
     grid-row: 1;
     grid-column: 1;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
 }

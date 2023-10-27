@@ -7,7 +7,9 @@
                   :placeholder="$translate('historySearch.searchInHistory')"
                   :custom-icon="true"
       >
-        <img src="@/assets/icons/input/search.svg">
+        <template #icon>
+          <img src="@/assets/icons/input/search.svg">
+        </template>
       </InputField>
     </div>
     <div class="result-container scrollbar">

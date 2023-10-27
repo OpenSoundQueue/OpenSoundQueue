@@ -9,8 +9,12 @@
                       :validation-function="validateSonglink"
                       :validation-message="$translate('byLink.incorrectInput')"
                       :placeholder="$translate('byLink.placeholder')"
-                      ref="inputField"
-          />
+                      ref="inputField">
+
+            <template #help>
+              <InfoButton>{{ translate('help.addSong') }}</InfoButton>
+            </template>
+          </InputField>
           <DefaultButton @click="addSong(songLink)"
                          :is-disabled="!inputIsValid"
                          :is-loading="waitingForResponse"
@@ -39,6 +43,7 @@ import {HttpService} from "@/services/HttpService";
 import {computed, ref} from "vue";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
+import InfoButton from "@/components/InfoButton.vue";
 
 const httpService = new HttpService();
 const songLink = ref("");
