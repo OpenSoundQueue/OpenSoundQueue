@@ -1,5 +1,7 @@
 package com.example.backend.streaming;
 
+import com.example.backend.Repository.SongInfoHistoryEntity;
+import com.example.backend.Repository.SongInfoRepository;
 import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
 import com.example.backend.ResponseDtos.VoteSkipStatusDto;
 import org.slf4j.Logger;
@@ -17,6 +19,9 @@ public class SongQueueService {
 
     @Autowired
     SongService songService;
+
+    @Autowired
+    SongInfoRepository songInfoRepository;
 
     @Value("${queue.page.size.default}")
     private int defaultPageSize;
@@ -140,5 +145,13 @@ public class SongQueueService {
     public VoteSkipStatusDto withdrawVoteSkip() {
         voteSkipCurrent--;
         return getVoteSkipStatus();
+    }
+
+    public List<SongInfoHistoryEntity> searchSongHistory(String searchTerm, int maxResults) {
+        List<SongInfoHistoryEntity> ergs = songInfoRepository.findByTitleOrArtistContainingIgnoreCase(searchTerm, searchTerm);
+        if (ergs.size() > maxResults) {
+            ergs = ergs.subList(0, maxResults);
+        }
+        return ergs;
     }
 }

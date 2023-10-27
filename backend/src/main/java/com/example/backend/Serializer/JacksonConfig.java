@@ -1,5 +1,6 @@
 package com.example.backend.Serializer;
 
+import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.ResponseDtos.QueuePageDto;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongInfo;
@@ -15,6 +16,7 @@ public class JacksonConfig {
         module.addSerializer(QueuePageDto.class, new QueuePageDtoSerializer());
         module.addSerializer(Song.class, new SongSerializer());
         module.addSerializer(SongInfo.class, new SongInfoSerializer());
+        module.addSerializer(SongInfoHistoryEntity.class, new SongHistoryInfoSerializer());
         return module;
     }
 }
