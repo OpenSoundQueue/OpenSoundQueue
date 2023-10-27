@@ -62,7 +62,7 @@
     "team": "Team"
   },
   "help": {
-    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires the vote of half of all active users).",
+    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users).",
     "addSong": "Soundcloud and YouTube links are supported."
   }
 }
