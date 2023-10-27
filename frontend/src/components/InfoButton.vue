@@ -33,7 +33,6 @@ function collapse() {
 }
 
 onMounted(() => {
-
   if (info.value) {
     const infoElement = info.value as HTMLElement;
 
@@ -52,12 +51,6 @@ function toggleCollapse() {
   updateValues()
   updatePositioning()
 }
-
-setInterval(() => {
-  updateValues()
-  updatePositioning()
-}, 500)
-
 
 function updatePositioning() {
   if (info.value) {
