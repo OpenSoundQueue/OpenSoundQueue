@@ -53,5 +53,12 @@
   "queueDescription": {
     "title": "Title",
     "duration": "Duration"
+  },
+  "navBar": {
+    "public": "Public",
+    "home": "Home",
+    "settings": "Settings",
+    "project": "Project",
+    "team": "Team"
   }
 }

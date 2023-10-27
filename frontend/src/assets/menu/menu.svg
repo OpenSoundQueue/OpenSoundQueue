@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path fill="#FFFFFF" d="M120-240v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg>
+<svg width="25" height="14" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="12" width="25" height="2" rx="1" fill="white"/>
+<rect y="6" width="25" height="2" rx="1" fill="white"/>
+<rect width="25" height="2" rx="1" fill="white"/>
+</svg>
