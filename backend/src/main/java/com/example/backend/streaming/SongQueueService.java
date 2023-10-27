@@ -148,6 +148,10 @@ public class SongQueueService {
     }
 
     public List<SongInfoHistoryEntity> searchSongHistory(String searchTerm, int maxResults) {
-        return songInfoRepository.findByTitleContainingIgnoreCase(searchTerm).subList(0, maxResults);
+        List<SongInfoHistoryEntity> ergs = songInfoRepository.findByTitleOrArtistContainingIgnoreCase(searchTerm, searchTerm);
+        if (ergs.size() > maxResults) {
+            ergs = ergs.subList(0, maxResults);
+        }
+        return ergs;
     }
 }

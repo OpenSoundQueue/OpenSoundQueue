@@ -7,5 +7,5 @@ import java.util.List;
 public interface SongInfoRepository extends JpaRepository<SongInfoHistoryEntity, Long> {
     List<SongInfoHistoryEntity> findBySongLink(String songLink);
 
-    List<SongInfoHistoryEntity> findByTitleContainingIgnoreCase(String title);
+    List<SongInfoHistoryEntity> findByTitleOrArtistContainingIgnoreCase(String title, String artist);
 }
