@@ -37,6 +37,7 @@
         </div>
         <div class="vote-skip-container">
           <VoteSkip :update-interval="4000"/>
+          <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
         </div>
       </div>
     </div>
@@ -48,6 +49,7 @@ import VoteSkip from "@/components/control/VoteSkip.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import AddSong from "@/components/control/AddSong.vue";
+import InfoButton from "@/components/InfoButton.vue";
 import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 </script>
 
@@ -99,8 +101,10 @@ main {
 
 .vote-skip-container {
   margin: 10px 0;
+  gap: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 800px) {
@@ -214,9 +218,6 @@ main {
     grid-row: 1;
     grid-column: 1;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
 }

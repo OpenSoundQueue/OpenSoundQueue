@@ -5,11 +5,11 @@
     "title": "By Link",
     "label": "Song Link",
     "action": "Add to queue",
-    "placeholder": "Enter YouTube or Soundcloud link",
+    "placeholder": "Enter link...",
     "incorrectInput": "Invalid link"
   },
   "bySearch": "By Search",
-  "forgotPassword": "Forgot Passwort?",
+  "forgotPassword": "Forgot Password?",
   "createAccount": "Create Account",
   "login": "Login",
   "loginCTA": "Want to add your own songs?",
@@ -60,5 +60,9 @@
     "settings": "Settings",
     "project": "Project",
     "team": "Team"
+  },
+  "help": {
+    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users).",
+    "addSong": "Soundcloud and YouTube links are supported."
   }
 }
