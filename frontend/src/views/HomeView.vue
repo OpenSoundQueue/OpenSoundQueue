@@ -1,5 +1,5 @@
 <template>
-  <InfoButton>Hallo Luki wie geht es dir heute abend hier is noch eine dritte zeile</InfoButton>
+  <InfoButton>{{ $translate('username.validation') }}</InfoButton>
   <main>
     <div class="add-song-container">
       <div class="mobile">
@@ -37,9 +37,9 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
-          <InfoButton>Markus hat eine neue Brille gekauft</InfoButton>
+          <InfoButton>{{ $translate('username.taken') }}</InfoButton>
           <VoteSkip :update-interval="4000"/>
-          <InfoButton>Mein Name ist Daniel PIllwein und ich kümmere mich um diese infobuttons</InfoButton>
+          <InfoButton>{{ $translate('username.validation') }}</InfoButton>
         </div>
       </div>
     </div>

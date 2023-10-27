@@ -10,13 +10,11 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 
-
-type Dimension = {
+type Dimensions = {
   width: number,
   height: number
 }
-
-type Positioning = {
+type EdgeDistances = {
   left: number,
   right: number,
   top: number,
@@ -26,19 +24,25 @@ type Positioning = {
 const isCollapsed = ref(false);
 const help = ref(null);
 const info = ref(null);
-let space: Positioning = {left: 0, right: 0, top: 0, bottom: 0};
-let icon: Positioning = {left: 0, right: 0, top: 0, bottom: 0};
-let infoDimensions: Dimension = {width: 0, height: 0};
+let space: EdgeDistances = {left: 0, right: 0, top: 0, bottom: 0};
+let icon: EdgeDistances = {left: 0, right: 0, top: 0, bottom: 0};
+let infoDimensions: Dimensions = {width: 0, height: 0};
 
 function collapse() {
   isCollapsed.value = true;
 }
 
 onMounted(() => {
-  updateValues()
-  infoDimensions = {
-    width: parseInt(info.value.getBoundingClientRect().width.toFixed()),
-    height: parseInt(info.value.getBoundingClientRect().height.toFixed()),
+
+  if (info.value) {
+    const infoElement = info.value as HTMLElement;
+
+    updateValues()
+
+    infoDimensions = {
+      width: parseInt(infoElement.getBoundingClientRect().width.toFixed()),
+      height: parseInt(infoElement.getBoundingClientRect().height.toFixed()),
+    }
   }
   isCollapsed.value = true;
 })
@@ -49,34 +53,41 @@ function toggleCollapse() {
   updatePositioning()
 }
 
-setInterval(()=>{
+setInterval(() => {
   updateValues()
   updatePositioning()
-},500)
+}, 500)
 
 
-function updatePositioning(){
-  if (space.left > infoDimensions.width / 2 && space.right > infoDimensions.width / 2) {
-    info.value.style.left = "-" + (infoDimensions.width / 2 - (icon.right - icon.left) / 2) + "px"
-  } else if (space.left > space.right) {
-    info.value.style.left = "-" + (infoDimensions.width - (icon.right - icon.left)) + "px";
-  } else {
-    info.value.style.left = "0";
-  }
+function updatePositioning() {
+  if (info.value) {
+    const infoElement = info.value as HTMLElement;
 
-  if (space.top > infoDimensions.height) {
-    info.value.style.bottom = "40px"
-  } else {
-    info.value.style.bottom = "-" + (infoDimensions.height + 5) + "px"
+    if (space.left > infoDimensions.width / 2 && space.right > infoDimensions.width / 2) {
+      infoElement.style.left = "-" + (infoDimensions.width / 2 - (icon.right - icon.left) / 2) + "px"
+    } else if (space.left > space.right) {
+      infoElement.style.left = "-" + (infoDimensions.width - (icon.right - icon.left)) + "px";
+    } else {
+      infoElement.style.left = "0";
+    }
+
+    if (space.top > infoDimensions.height) {
+      infoElement.style.bottom = "35px"
+    } else {
+      infoElement.style.bottom = "-" + (infoDimensions.height + 5) + "px"
+    }
+
   }
 }
+
 function updateValues() {
   if (help.value && info.value) {
+    const helpElement = help.value as HTMLElement;
     icon = {
-      left: parseInt(help.value.getBoundingClientRect().left.toFixed()),
-      right: parseInt(help.value.getBoundingClientRect().right.toFixed()),
-      top: parseInt(help.value.getBoundingClientRect().top.toFixed()),
-      bottom: parseInt(help.value.getBoundingClientRect().bottom.toFixed())
+      left: parseInt(helpElement.getBoundingClientRect().left.toFixed()),
+      right: parseInt(helpElement.getBoundingClientRect().right.toFixed()),
+      top: parseInt(helpElement.getBoundingClientRect().top.toFixed()),
+      bottom: parseInt(helpElement.getBoundingClientRect().bottom.toFixed())
     }
 
     space = {
@@ -92,6 +103,8 @@ function updateValues() {
 <style scoped>
 .wrapper {
   position: relative;
+  height: 24px;
+  width: 24px;
 }
 
 img {
