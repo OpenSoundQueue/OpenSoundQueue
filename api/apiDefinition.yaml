@@ -470,6 +470,58 @@ paths:
               schema:
                 example:
                   error: search did not work
+  /users:
+    get:
+      tags:
+        - auth
+      description: returns all users that are in the queue
+      responses:
+        200:
+          description: list of all users
+          content:
+            application/json:
+              example:
+                - username: Quantompixel
+                  lastOnline: 2011-10-05T14:48:00.000Z
+                - username: Daniel
+                  lastOnline: 2013-07-08T14:48:00.000Z
+                - username: Markus
+                  lastOnline: 2010-08-05T14:48:00.000Z
+        400:
+          description: could not return users
+          content:
+            application/json:
+              schema:
+                example:
+                  error: could not return users
+  /user/{id}:
+    delete:
+      tags:
+        - auth
+      description: delete a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 2
+          required: true
+          description: Id of user
+      responses:
+        200:
+          description: data of the requested page
+          content:
+            application/json:
+              schema:
+                example:
+                  response: successfully deleted
+        400:
+          description: user with id not found
+          content:
+            application/json:
+              schema:
+                example:
+                  error: user with <id> not found
 components:
   securitySchemes:
     ApiKeyAuth:
