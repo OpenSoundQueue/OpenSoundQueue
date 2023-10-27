@@ -24,6 +24,10 @@ defineProps<{
 
 
 <style scoped>
+.link-wrapper {
+  width: fit-content;
+}
+
 .link {
   text-decoration: none;
   color: var(--text-color);

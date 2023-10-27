@@ -3,7 +3,7 @@
     <nav class="navbar">
       <div @click="toggleMenu" class="open-button mobile">
         <div>
-          <img src="@/assets/icons/burger_menu.svg"/>
+          <img src="@/assets/menu/menu.svg"/>
         </div>
       </div>
       <div class="logo-container">
@@ -11,16 +11,16 @@
           <img class="logo" src="@/assets/menu/logo.svg">
         </router-link>
       </div>
-      <div class="menu" :class="{opened: menuIsOpen, closed: !menuIsOpen}">
+      <div class="menu" :class="{opened: menuIsOpen, closed: !menuIsOpen}" v-closable="{excluded: [], handler: collapse}">
         <div @click="toggleMenu" class="close-button mobile">
-          <img src="@/assets/icons/input/delete.svg"/>
+          <img src="@/assets/menu/close.svg"/>
         </div>
         <div class="links">
           <div class="quick-nav-links">
-            <Link path="/" label="Public" :is-outer-area="true"/>
-            <Link path="/settings" label="Settings"/>
-            <Link path="/home" label="Home"/>
-            <Link path="/admin" label="Admin"/>
+            <Link path="/" label="Public" :is-outer-area="!userIsInPublicArea"/>
+            <Link path="/settings" label="Settings" :is-outer-area="userIsInPublicArea"/>
+            <Link path="/home" label="Home" :is-outer-area="userIsInPublicArea"/>
+            <Link path="/admin" label="Admin" :is-outer-area="userIsInPublicArea"/>
           </div>
           <div class="other-nav-links">
             <Link path="https://opensoundqueue.org/team" label="Team" :is-external="true"/>
@@ -37,12 +37,26 @@
 
 <script setup lang="ts">
 import Link from "@/components/Link.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import router from "@/router";
 
 const menuIsOpen = ref(false);
+const userIsInPublicArea = ref(true);
+
+watch(router.currentRoute, () => {
+  console.log(router.currentRoute.value.name)
+
+  userIsInPublicArea.value = router.currentRoute.value.name === "public";
+
+  collapse();
+})
 
 function toggleMenu() {
   menuIsOpen.value = !menuIsOpen.value;
+}
+
+function collapse() {
+  menuIsOpen.value = false;
 }
 </script>
 
@@ -76,14 +90,14 @@ function toggleMenu() {
 }
 
 .close-button {
-  height: 60px;
+  height: calc(60px - 5px - 2px);
   width: 60px;
   display: grid;
   place-items: center;
 }
 
 .close-button img {
-  height: 35px;
+  height: 20px;
 }
 
 .menu {
@@ -92,17 +106,19 @@ function toggleMenu() {
   left: 0;
   top: 0;
   height: calc(100% - 10px);
-  margin-top: 5px;
+  margin: 5px 0 0 5px;
   background: var(--secondary-color);
   border: 2px solid var(--tertiary-color);
-  border-left: none;
+  border-radius: var(--border-radius-big);
   box-sizing: border-box;
-  border-radius: 0 var(--border-radius-big) var(--border-radius-big) 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
   transition: 0.1s transform ease-in;
 }
 
 .menu.closed {
-  transform: translateX(-100%);
+  transform: translateX(calc(-100% - 5px));
 }
 
 .links {
@@ -144,6 +160,7 @@ function toggleMenu() {
     height: fit-content;
     width: 100%;
     flex-direction: row;
+    padding: 0;
   }
 
   .menu.closed {
@@ -153,6 +170,7 @@ function toggleMenu() {
   .links {
     flex-direction: row;
     margin: 0;
+    width: 100%;
   }
 
   .quick-nav-links, .other-nav-links {
