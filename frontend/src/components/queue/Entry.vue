@@ -34,7 +34,6 @@ function getDurationString(durationInSeconds: number): string {
 <style scoped>
 .entry-wrapper {
   width: 100%;
-  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -59,6 +58,7 @@ function getDurationString(durationInSeconds: number): string {
   width: 100%;
   margin-top: 3px;
   font-size: var(--font-size-small);
+  height: calc(var(--font-size-small) + 2px);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -69,6 +69,7 @@ function getDurationString(durationInSeconds: number): string {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: var(--font-size-big);
 }
 
 .song-duration {

@@ -22,9 +22,10 @@
 :root {
     --primary-font: Roboto;
     --secondary-font: Comfortaa;
-    --font-size-big: 22px;
-    --font-size-medium: 16px;
-    --font-size-small: 11px;
+    --font-size-big: 24px;
+    --font-size-nav: 20px;
+    --font-size-medium: 17px;
+    --font-size-small: 12px;
     --text-color: white;
     --background-color: var(--dark-blue);
     --background-color-transparent: var(--dark-blue-transparent);
@@ -41,17 +42,16 @@
 
 :root {
     --light-gray: #D9D9D9;
-    --dark-gray: #7A7A7A;
+    --dark-gray: #6E717A;
     --pink: #BB86FF;
     --magenta: #9747FF;
     --violet: #2D1966;
     --cool-gray: #8491B8;
     --grayish-blue: #2E364F;
     --dark-blue: #191E2D;
-    --dark-blue-transparent: rgba(25, 30, 45, 0.95);
     --cool-gray-transparent: rgba(132, 145, 184, 0.95);
     --green-tranparent: rgba(132, 184, 162, 0.95);
     --red-tranparent: rgba(184, 132, 132, 0.95);
     --dark-blue-transparent: rgba(25, 30, 45, 0.9);
-    --red: #B88484;
+    --red: #FF7373;
 }

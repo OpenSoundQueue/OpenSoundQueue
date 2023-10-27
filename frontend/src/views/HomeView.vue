@@ -180,7 +180,8 @@ main {
 
   .queue-scroll-component {
     height: calc(100% - 50px);
-    padding: 0 10px 0 0;
+    padding: 10px 10px 10px 0;
+    box-sizing: border-box;
   }
 
   .control-panel-wrapper {

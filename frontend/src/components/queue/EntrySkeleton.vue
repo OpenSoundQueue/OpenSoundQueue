@@ -16,8 +16,6 @@
 
 .entry-wrapper {
   width: 100%;
-  height: 35px;
-  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +23,7 @@
 }
 
 .queue-number {
-  height: 16px;
+  height: var(--font-size-big);
   width: 16px;
 }
 
@@ -36,18 +34,18 @@
 .song-artist {
   width: 100%;
   margin-top: 3px;
-  height: 11px;
+  height: calc(var(--font-size-small) + 2px);
 }
 
 .song-title {
-  height: 16px;
+  height: var(--font-size-big);
   width: 100%;
 }
 
 .song-duration {
   margin-left: auto;
   width: 25px;
-  height: 11px;
+  height: var(--font-size-small);
 }
 
 </style>
