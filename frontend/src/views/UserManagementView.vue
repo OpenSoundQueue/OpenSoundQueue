@@ -2,13 +2,13 @@
   <main>
     <div class="user-container">
       <div class="table-header">
-        <div class="username">{{ $translate('adminPage.tableHeader.username') }}</div>
-        <div class="email">{{ $translate('adminPage.tableHeader.email') }}</div>
-        <div class="role">{{ $translate('adminPage.tableHeader.role') }}</div>
+        <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')" @update:sortingStatus="updateSorting('username',$event)"></SortingButton>
+        <SortingButton class="email" :label="$translate('adminPage.tableHeader.email')" @update:sortingStatus="updateSorting('email',$event)"></SortingButton>
+        <SortingButton class="role" :label="$translate('adminPage.tableHeader.role')" @update:sortingStatus="updateSorting('role',$event)"></SortingButton>
       </div>
       <div class="hr"></div>
       <div class="scroll-component scrollbar">
-        <div v-for="user in users" class="user" :class="selectedUser===user.id?'selected':''" :key="user.id"
+        <div v-for="user in sortedUsers" class="user" :class="selectedUser===user.id?'selected':''" :key="user.id"
              @click="selectUser(user.id)">
           <p class="username">{{ user.username }}</p>
           <p class="email">{{ user.email }}</p>
@@ -24,13 +24,25 @@
 
 <script setup lang="ts">
 import {HttpService} from "@/services/HttpService";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue";
 import {User} from "@/models/User";
+import SortingButton from "@/components/buttons/SortingButton.vue";
+
+type SortingDirection = 'asc' | 'desc' | 'none';
+type SortingMetric = {
+  attributeName: keyof User,
+  direction: SortingDirection
+}
 
 const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
 const selectedUser = ref(0);
+const sortingMetric:Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
+
+const sortedUsers = computed(()=>{
+  return sortUsers(users.value,sortingMetric.value.attributeName,sortingMetric.value.direction)
+})
 
 onMounted(() => {
   getUsers();
@@ -44,8 +56,36 @@ function getUsers(): void {
       })
 }
 
+function updateSorting(column: string, event: SortingDirection):void{
+  sortingMetric.value = {
+    attributeName: column as keyof User,
+    direction: event
+  }
+}
+
 function selectUser(index: number): void {
   selectedUser.value = index;
+}
+
+function sortUsers(users: User[], attributeName: string, direction: 'asc' | 'desc' | 'none'): User[] {
+  const compareFunction = (a: User, b: User) => {
+    const aValue = a[attributeName as keyof User];
+    const bValue = b[attributeName as keyof User];
+
+    if (direction === 'none') return [...users];
+
+    if (direction === 'asc') {
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+      return 0;
+    } else {
+      if (aValue < bValue) return 1;
+      if (aValue > bValue) return -1;
+      return 0;
+    }
+  };
+
+  return [...users].sort(compareFunction);
 }
 </script>
 
@@ -154,6 +194,10 @@ main {
     align-items: center;
   }
 
+  .table-header > .role{
+    justify-content: center;
+  }
+
   .user > .role {
     font-size: var(--font-size-small);
     background-color: var(--background-color);
@@ -163,6 +207,7 @@ main {
     padding: 5px;
     border-radius: var(--border-radius-small);
     margin: 0 auto 0 auto;
+    text-align: left;
   }
 
   .scroll-component {
