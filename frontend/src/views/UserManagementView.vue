@@ -12,7 +12,7 @@
              @click="selectUser(user.id)">
           <p class="username">{{ user.username }}</p>
           <p class="email">{{ user.email }}</p>
-          <p class="role">{{ user.role }}</p>
+          <p class="role"><span class="dot"></span>{{ user.role }}</p>
         </div>
       </div>
     </div>
@@ -60,6 +60,15 @@ main {
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 20px;
+}
+
+.dot{
+  height: 5px;
+  aspect-ratio: 1/1;
+  background-color: var(--tertiary-color);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
 }
 
 .user-container {
@@ -140,6 +149,9 @@ main {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .user > .role {
