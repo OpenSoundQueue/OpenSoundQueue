@@ -1,5 +1,6 @@
 import HttpClient from "@/services/HttpClient";
 import {Song} from "@/models/Song";
+import {User} from "@/models/User";
 
 const httpClient = new HttpClient();
 
@@ -180,5 +181,18 @@ export class HttpService {
                    return Promise.reject(response.status);
                }
            });
+    }
+
+    async getUsers() {
+        return httpClient.get(`/users`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: User[]) => {
+                return data;
+            });
     }
 }

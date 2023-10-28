@@ -3,7 +3,9 @@ import type {Server} from "miragejs/server";
 import type {ModelDefinition, Registry} from "miragejs/-types";
 import type Schema from "miragejs/orm/schema";
 import songs from "@/mirage/fixtures/songs";
+import users from "@/mirage/fixtures/users";
 import {Song} from "@/models/Song";
+import {User} from "@/models/User";
 
 // typescript help:
 // https://github.com/miragejs/examples/blob/master/react-typescript/src/mirage/index.ts
@@ -11,20 +13,24 @@ import {Song} from "@/models/Song";
 
 export function makeServer({environment = "development"} = {}) {
     const SongModel: ModelDefinition<Song> = Model.extend({});
+    const UserModel: ModelDefinition<User> = Model.extend({});
 
     return createServer({
         environment,
 
         models: {
-            song: SongModel
+            song: SongModel,
+            user: UserModel
         },
 
         fixtures: {
-            songs
+            songs,
+            users
         },
 
         seeds(server: Server) {
             server.loadFixtures("songs");
+            server.loadFixtures("users");
             //disable console.log()
             server.logging = false;
         },
@@ -32,7 +38,7 @@ export function makeServer({environment = "development"} = {}) {
         routes() {
             this.namespace = "api"
 
-            type AppRegistry = Registry<{ song: typeof SongModel }, { /* factories can be defined here */ }>
+            type AppRegistry = Registry<{ song: typeof SongModel,user: typeof SongModel }, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
             this.get("/queue/page/:pageNumber/page-size/:pageSize", (schema: AppSchema, request) => {
@@ -212,6 +218,11 @@ export function makeServer({environment = "development"} = {}) {
 
             this.get("/verify/api-key", (schema: AppSchema, request) => {
                 return {};
+            })
+
+            this.get("/users", (schema: AppSchema) => {
+                const users = schema.db.users;
+                return users;
             })
         },
     })
