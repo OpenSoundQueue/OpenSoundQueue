@@ -64,5 +64,12 @@
   "help": {
     "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig).",
     "addSong": "Es werden Links von Soundcloud und YouTube unterstützt."
+  },
+  "adminPage": {
+    "tableHeader": {
+      "username": "Benutzername",
+      "email": "E-Mail",
+      "role": "Rolle"
+    }
   }
 }

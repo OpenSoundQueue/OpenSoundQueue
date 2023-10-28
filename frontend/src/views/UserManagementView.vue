@@ -1,7 +1,20 @@
 <template>
   <main>
     <div class="user-container">
-
+      <div class="table-header">
+        <div class="username">{{ $translate('adminPage.tableHeader.username') }}</div>
+        <div class="email">{{ $translate('adminPage.tableHeader.email') }}</div>
+        <div class="role">{{ $translate('adminPage.tableHeader.role') }}</div>
+      </div>
+      <div class="hr"></div>
+      <div class="scroll-component scrollbar">
+        <div v-for="user in users" class="user" :class="selectedUser===user.id?'selected':''" :key="user.id"
+             @click="selectUser(user.id)">
+          <p class="username">{{ user.username }}</p>
+          <p class="email">{{ user.email }}</p>
+          <p class="role">{{ user.role }}</p>
+        </div>
+      </div>
     </div>
     <div class="detail-container">
 
@@ -16,18 +29,26 @@ import type {Ref} from "vue";
 import {User} from "@/models/User";
 
 const httpService = new HttpService();
-const users: Ref<User[]> = ref([]);
+const users: Ref<Array<User>> = ref([]);
+const selectedUser = ref(0);
 
 onMounted(() => {
   getUsers();
 })
-function getUsers(){
+
+function getUsers(): void {
   httpService.getUsers()
       .then((data: User[]) => {
         users.value = data;
+        selectedUser.value = users.value[0].id;
       })
 }
+
+function selectUser(index: number): void {
+  selectedUser.value = index;
+}
 </script>
+
 
 <style scoped>
 main {
@@ -39,11 +60,15 @@ main {
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 20px;
-  padding-bottom: 20px;
 }
 
-.detail-container {
+.user-container {
+  border-bottom: var(--secondary-color) dashed 2px;
   height: calc(100% - 70px - 190px);
+}
+
+.scroll-component {
+  height: 100%;
 }
 
 @media screen and (min-width: 800px) {
@@ -57,23 +82,105 @@ main {
     width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
-    grid-template-rows: 100%;
-  }
-
-  .user-container {
-    grid-column: 2;
-    grid-row: 1;
-    height: 100%;
-    border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    grid-template-rows: 60px calc(100% - 90px);
   }
 
   .detail-container {
-    grid-column: 1;
-    grid-row: 1;
+    grid-column: 2;
+    grid-row: 2;
     height: 100%;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
+  }
+
+  .user-container {
+    grid-column: 1;
+    grid-row: 2;
+    height: 100%;
+    border-bottom: none;
+    border-radius: var(--border-radius-big);
+    background: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hr {
+    margin: auto;
+    width: calc(100% - 20px);
+    border-bottom: var(--tertiary-color) 2px solid;
+    height: 2px;
+  }
+
+  .table-header {
+    padding: 20px 20px 0 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+  }
+
+  .username {
+    width: 30%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .email {
+    width: 50%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .role {
+    text-align: center;
+    width: 20%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .user > .role {
+    font-size: var(--font-size-small);
+    background-color: var(--background-color);
+    width: fit-content;
+    max-width: 20%;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: var(--border-radius-small);
+    margin: 0 auto 0 auto;
+  }
+
+  .scroll-component {
+    height: calc(100% - 50px);
+    margin: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+
+  .user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px 0 10px;
+    height: calc(var(--font-size-medium) * 2.5);
+    border-radius: var(--border-radius-medium);
+  }
+
+  .user:hover{
+    cursor: pointer;
+  }
+
+  .user.selected {
+    background-color: var(--tertiary-color);
+  }
+
+  .user.selected > .username,
+  .user.selected > .email {
+    color: var(--background-color);
+    font-weight: bold;
   }
 }
 </style>
