@@ -67,16 +67,17 @@ function updateUsers(event: User): void {
 }
 
 function selectFirstUser(): void {
-  if (users.value.length > 0){
+  if (users.value.length > 0) {
     selectedID.value = sortedUsers.value[0].id;
   }
 }
 
 function updateSorting(column: string, event: SortingDirection): void {
-  sortingMetric.value = {
+  const newSortingMetric: SortingMetric = {
     attributeName: column as keyof User,
     direction: event
   }
+  sortingMetric.value = newSortingMetric
 }
 
 function selectUser(index: number): void {
