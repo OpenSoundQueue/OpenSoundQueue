@@ -8,7 +8,7 @@
       </div>
       <div class="hr"></div>
       <div class="scroll-component scrollbar">
-        <div v-for="user in sortedUsers" class="user" :class="selectedUser===user.id?'selected':''" :key="user.id"
+        <div v-for="user in sortedUsers" class="user" :class="selectedID===user.id?'selected':''" :key="user.id"
              @click="selectUser(user.id)">
           <p class="username">{{ user.username }}</p>
           <p class="email">{{ user.email }}</p>
@@ -16,18 +16,17 @@
         </div>
       </div>
     </div>
-    <div class="detail-container">
-
-    </div>
+    <UserDetail class="detail-container" :user="selectedUser"></UserDetail>
   </main>
 </template>
 
 <script setup lang="ts">
 import {HttpService} from "@/services/HttpService";
-import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {User} from "@/models/User";
 import SortingButton from "@/components/buttons/SortingButton.vue";
+import UserDetail from "@/components/UserDetail.vue";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
@@ -37,9 +36,12 @@ type SortingMetric = {
 
 const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
-const selectedUser = ref(0);
+const selectedID = ref(0);
 const sortingMetric:Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
 
+const selectedUser = computed(() => {
+  return users.value.find((user) => user.id === selectedID.value);
+});
 const sortedUsers = computed(()=>{
   return sortUsers(users.value,sortingMetric.value.attributeName,sortingMetric.value.direction)
 })
@@ -52,7 +54,7 @@ function getUsers(): void {
   httpService.getUsers()
       .then((data: User[]) => {
         users.value = data;
-        selectedUser.value = users.value[0].id;
+        selectedID.value = users.value[0].id;
       })
 }
 
@@ -64,7 +66,7 @@ function updateSorting(column: string, event: SortingDirection):void{
 }
 
 function selectUser(index: number): void {
-  selectedUser.value = index;
+  selectedID.value = index;
 }
 
 function sortUsers(users: User[], attributeName: string, direction: 'asc' | 'desc' | 'none'): User[] {
@@ -137,9 +139,6 @@ main {
   .detail-container {
     grid-column: 2;
     grid-row: 2;
-    height: 100%;
-    border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
   }
 
   .user-container {
