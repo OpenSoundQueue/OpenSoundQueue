@@ -76,6 +76,7 @@
       "placeholder": {
         "name": "Kein Benutzer ausgewählt",
         "email": "Keine E-Mail verifiziert",
+        "lastOnline": "War noch nie online",
         "body": "Bitte wähle einen User aus"
       },
       "delete": "Benutzer löschen"

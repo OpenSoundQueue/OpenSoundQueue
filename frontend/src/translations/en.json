@@ -76,6 +76,7 @@
       "placeholder": {
         "name": "No User selected",
         "email": "No Email verified",
+        "lastOnline": "Has never been online",
         "body": "Please select a User"
       },
       "delete": "Delete User"
