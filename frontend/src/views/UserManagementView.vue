@@ -72,12 +72,13 @@ function selectFirstUser(): void {
   }
 }
 
-function updateSorting(column: string, event: SortingDirection): void {
-  const newSortingMetric: SortingMetric = {
-    attributeName: column as keyof User,
-    direction: event
+function updateSorting(column: string, event: string): void {
+  if (['asc', 'desc', 'none'].indexOf(event) !== -1) {
+    sortingMetric.value = {
+      attributeName: column as keyof User,
+      direction: event as SortingDirection
+    }
   }
-  sortingMetric.value = newSortingMetric
 }
 
 function selectUser(index: number): void {
