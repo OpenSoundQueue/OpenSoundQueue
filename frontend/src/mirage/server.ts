@@ -25,7 +25,7 @@ export function makeServer({environment = "development"} = {}) {
 
         fixtures: {
             songs,
-            users
+            users,
         },
 
         seeds(server: Server) {
@@ -226,12 +226,13 @@ export function makeServer({environment = "development"} = {}) {
 
             this.delete("/user/:id", (schema: AppSchema,request) => {
                 const id = request.params.id;
-                const user = schema.users.find(id)
+                const user = schema.db.users.find(id);
+
                 if (!user){
                     return {"error": "user with id:"+id+" not found"}
                 }
 
-                user.destroy()
+                schema.db.users.remove(user);
                 return {"response":"  successfully deleted"}
             })
         },
