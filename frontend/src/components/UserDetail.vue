@@ -53,7 +53,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  "delete:User": [data: User]
+  "delete:User": [data: User | undefined | null]
 }>();
 
 const formattedTimestamp = computed(() => {
@@ -75,11 +75,13 @@ const formattedTimestamp = computed(() => {
 })
 
 function deleteUser():void{
+  if (props.user){
+    httpService.deleteUser(props.user.id)
+        .then(() => {
+          emit("delete:User",props.user)
+        })
+  }
 
-  httpService.deleteUser(props.user.id)
-      .then(() => {
-        emit("delete:User",props.user)
-      })
 }
 </script>
 
