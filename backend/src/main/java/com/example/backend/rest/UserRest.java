@@ -45,6 +45,7 @@ public class UserRest {
             String token = tokenUtils.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
+            userService.updateLastOnline(userInfoEntity);
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
         }
 
@@ -70,6 +71,7 @@ public class UserRest {
 
         String token = tokenUtils.generateToken();
         userService.updateToken(userInfoEntity.getId(), token);
+        userService.updateLastOnline(userInfoEntity);
 
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
@@ -94,6 +96,8 @@ public class UserRest {
             String token = tokenUtils.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
+            userService.updateLastOnline(userInfoEntity);
+
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
         }
 
@@ -115,15 +119,14 @@ public class UserRest {
         String token = tokenUtils.generateToken();
 
         userService.updateToken(userInfoEntity.getId(), token);
+        userService.updateLastOnline(userInfoEntity);
 
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
 
     @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verifyApiKey(@RequestHeader(value = "X-API-KEY") String token) {
-        UserInfoEntity userInfoEntity = userService.getUserByToken(token);
-
-        if (userInfoEntity == null) {
+        if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
         }
 
@@ -139,5 +142,14 @@ public class UserRest {
         } else {
             return new ResponseEntity<>(new ErrorDto("Invalid entry key"), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<Object> users(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 }
