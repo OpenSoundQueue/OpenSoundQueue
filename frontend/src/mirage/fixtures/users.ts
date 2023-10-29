@@ -123,7 +123,7 @@ export default [
         username: "David Davis",
         lastOnline: "2019-02-15T14:40:00.000Z",
         email: "david@example.com",
-        role: "Klassenkollege"
+        role: "Klassenkollege aus meiner alten Schule mit dem ich immer Turnunterricht hatte (= Nils Hubmann, der Mann der mich seit 13 Jahren Schule verfolgt)"
     },
     {
         id: 19,
