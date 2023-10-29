@@ -31,7 +31,7 @@
         </div>
         <p><span class="dot"></span>{{ user ? user.role : '' }}</p>
       </div>
-      <DynamicButton class="delete" b-style="login" :status="user?'valid':'invalid'" @click="deleteUser">
+      <DynamicButton v-if="user?user.role!=='Owner':false" class="delete" b-style="login" :status="buttonStatus" @click="deleteUser">
         <img src="@/assets/icons/delete.svg"/>
         {{ $translate('adminPage.detail.delete') }}
       </DynamicButton>
@@ -53,8 +53,15 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  "delete:User": [data: User | undefined | null]
+  "delete:User": [data: User]
 }>();
+
+const buttonStatus = computed(()=>{
+  if (!props.user){
+    return "inactive"
+  }
+  return "active"
+})
 
 const formattedTimestamp = computed(() => {
   if (!props.user) {
@@ -82,7 +89,7 @@ function deleteUser():void{
   if (props.user){
     httpService.deleteUser(props.user.id)
         .then(() => {
-          emit("delete:User",props.user)
+          emit("delete:User",<User>props.user)
         })
   }
 

@@ -90,7 +90,7 @@ function sortUsers(users: User[], attributeName: string, direction: 'asc' | 'des
     const aValue = a[attributeName as keyof User];
     const bValue = b[attributeName as keyof User];
 
-    if (direction === 'none') return [...users];
+    if (direction === 'none') return 0;
 
     if (direction === 'asc') {
       if (aValue < bValue) return -1;
