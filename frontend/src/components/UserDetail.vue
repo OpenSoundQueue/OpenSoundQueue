@@ -61,6 +61,10 @@ const formattedTimestamp = computed(() => {
     return ""
   }
 
+  if (!props.user.lastOnline){
+    return translate("adminPage.detail.placeholder.lastOnline")
+  }
+
   const date = new Date(props.user.lastOnline);
   const day = date.getDate();
   const month = date.getMonth() + 1;
@@ -132,7 +136,7 @@ function deleteUser():void{
 }
 
 .info-container > p,a {
-  margin-left: 24px;
+  margin-left: 34px;
 }
 
 p,a {
