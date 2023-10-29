@@ -2,7 +2,7 @@ export default [
     {
         id: 1,
         username: "Daniel Pillwein",
-        lastOnline: "2011-10-05T14:48:00.000Z",
+        lastOnline: null,
         email: "",
         role: "Owner"
     },
