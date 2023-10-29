@@ -23,11 +23,7 @@ const emit = defineEmits<{
 }>();
 function updateSorting():void{
   sortingStatus.value = (sortingStatus.value + 1)%3;
-  console.log(sortingOptions[sortingStatus.value]);
   emit("update:sortingStatus", sortingOptions[sortingStatus.value]);
-}
-function logger():void{
-  console.log("HALLO")
 }
 </script>
 
