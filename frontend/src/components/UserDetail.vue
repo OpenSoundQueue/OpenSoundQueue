@@ -1,16 +1,21 @@
 <template>
   <div class="detail-container">
     <div class="detail-header">
-      <p>{{ user ? user.username : $translate('adminPage.detail.placeholder.name') }}</p>
+      <p v-if="!user">{{ $translate('adminPage.detail.placeholder.name') }}</p>
+      <p v-else>{{ user.username }}</p>
       <div class="dashed-hr"></div>
     </div>
-    <div class="detail-body">
+    <div v-if="!user" class="detail-body-empty">
+      <p>{{ $translate('adminPage.detail.placeholder.body') }}</p>
+    </div>
+    <div v-else class="detail-body">
       <div class="email info-container">
         <div class="label">
           <img src="@/assets/icons/mail.svg"/>
           <p>{{ $translate('adminPage.tableHeader.email') }}:</p>
         </div>
-        <p>{{ user ? user.email ? user.email : $translate('adminPage.detail.placeholder.email') : '' }}</p>
+        <p v-if="user?!user.email:false">{{ $translate('adminPage.detail.placeholder.email') }}</p>
+        <a v-else :href="'mailto:'+(user ? user.email:'')">{{ user ? user.email:'' }}</a>
       </div>
       <div class="last-online info-container">
         <div class="label">
@@ -26,7 +31,7 @@
         </div>
         <p><span class="dot"></span>{{ user ? user.role : '' }}</p>
       </div>
-      <DynamicButton class="delete" b-style="login" :status="user?'valid':'invalid'">
+      <DynamicButton class="delete" b-style="login" :status="user?'valid':'invalid'" @click="deleteUser">
         <img src="@/assets/icons/delete.svg"/>
         {{ $translate('adminPage.detail.delete') }}
       </DynamicButton>
@@ -39,10 +44,17 @@ import {User} from "@/models/User";
 import {computed} from "vue";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import {HttpService} from "@/services/HttpService";
+
+const httpService = new HttpService();
 
 const props = defineProps<{
-  user: User
+  user: User | undefined | null
 }>()
+
+const emit = defineEmits<{
+  "delete:User": [data: User]
+}>();
 
 const formattedTimestamp = computed(() => {
   if (!props.user) {
@@ -61,6 +73,14 @@ const formattedTimestamp = computed(() => {
 
   return `${day}. ${translate('months.' + (month))}, ${year}, ${formattedTime}`;
 })
+
+function deleteUser():void{
+
+  httpService.deleteUser(props.user.id)
+      .then(() => {
+        emit("delete:User",props.user)
+      })
+}
 </script>
 
 <style scoped>
@@ -87,11 +107,20 @@ const formattedTimestamp = computed(() => {
   flex-direction: column;
 }
 
+.detail-body-empty{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .info-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 20px;
+  margin: 20px;
+  width: calc(100% - 64px);
 }
 
 .info-container > p,
@@ -100,11 +129,12 @@ const formattedTimestamp = computed(() => {
   padding: 0;
 }
 
-.info-container > p {
+.info-container > p,a {
   margin-left: 24px;
 }
 
-p {
+p,a {
+  color: white;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

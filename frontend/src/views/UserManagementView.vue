@@ -2,9 +2,12 @@
   <main>
     <div class="user-container">
       <div class="table-header">
-        <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')" @update:sortingStatus="updateSorting('username',$event)"></SortingButton>
-        <SortingButton class="email" :label="$translate('adminPage.tableHeader.email')" @update:sortingStatus="updateSorting('email',$event)"></SortingButton>
-        <SortingButton class="role" :label="$translate('adminPage.tableHeader.role')" @update:sortingStatus="updateSorting('role',$event)"></SortingButton>
+        <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')"
+                       @update:sortingStatus="updateSorting('username',$event)"></SortingButton>
+        <SortingButton class="email" :label="$translate('adminPage.tableHeader.email')"
+                       @update:sortingStatus="updateSorting('email',$event)"></SortingButton>
+        <SortingButton class="role" :label="$translate('adminPage.tableHeader.role')"
+                       @update:sortingStatus="updateSorting('role',$event)"></SortingButton>
       </div>
       <div class="hr"></div>
       <div class="scroll-component scrollbar">
@@ -16,7 +19,7 @@
         </div>
       </div>
     </div>
-    <UserDetail class="detail-container" :user="selectedUser"></UserDetail>
+    <UserDetail class="detail-container" :user="selectedUser" @delete:User="updateUsers($event)"></UserDetail>
   </main>
 </template>
 
@@ -37,13 +40,13 @@ type SortingMetric = {
 const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
 const selectedID = ref(0);
-const sortingMetric:Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
+const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
 
 const selectedUser = computed(() => {
   return users.value.find((user) => user.id === selectedID.value);
 });
-const sortedUsers = computed(()=>{
-  return sortUsers(users.value,sortingMetric.value.attributeName,sortingMetric.value.direction)
+const sortedUsers = computed(() => {
+  return sortUsers(users.value, sortingMetric.value.attributeName, sortingMetric.value.direction)
 })
 
 onMounted(() => {
@@ -54,11 +57,22 @@ function getUsers(): void {
   httpService.getUsers()
       .then((data: User[]) => {
         users.value = data;
-        selectedID.value = users.value[0].id;
+        selectFirstUser()
       })
 }
 
-function updateSorting(column: string, event: SortingDirection):void{
+function updateUsers(event: User): void {
+  users.value = [...users.value].filter(user => user !== event)
+  selectFirstUser()
+}
+
+function selectFirstUser(): void {
+  if (users.value.length > 0){
+    selectedID.value = sortedUsers.value[0].id;
+  }
+}
+
+function updateSorting(column: string, event: SortingDirection): void {
   sortingMetric.value = {
     attributeName: column as keyof User,
     direction: event
@@ -104,7 +118,7 @@ main {
   padding-top: 20px;
 }
 
-.dot{
+.dot {
   height: 5px;
   aspect-ratio: 1/1;
   background-color: var(--tertiary-color);
@@ -193,7 +207,7 @@ main {
     align-items: center;
   }
 
-  .table-header > .role{
+  .table-header > .role {
     justify-content: center;
   }
 
@@ -225,7 +239,7 @@ main {
     border-radius: var(--border-radius-medium);
   }
 
-  .user:hover{
+  .user:hover {
     cursor: pointer;
   }
 
