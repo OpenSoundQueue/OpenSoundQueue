@@ -75,7 +75,8 @@
     "detail": {
       "placeholder": {
         "name": "Kein Benutzer ausgewählt",
-        "email": "Keine E-Mail verifiziert"
+        "email": "Keine E-Mail verifiziert",
+        "body": "Bitte wähle einen User aus"
       },
       "delete": "Benutzer löschen"
     }
