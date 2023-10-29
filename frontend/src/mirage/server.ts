@@ -221,8 +221,18 @@ export function makeServer({environment = "development"} = {}) {
             })
 
             this.get("/users", (schema: AppSchema) => {
-                const users = schema.db.users;
-                return users;
+                return schema.db.users;
+            })
+
+            this.delete("/user/:id", (schema: AppSchema,request) => {
+                const id = request.params.id;
+                const user = schema.users.find(id)
+                if (!user){
+                    return {"error": "user with id:"+id+" not found"}
+                }
+
+                user.destroy()
+                return {"response":"  successfully deleted"}
             })
         },
     })

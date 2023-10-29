@@ -195,4 +195,17 @@ export class HttpService {
                 return data;
             });
     }
+
+    async deleteUser(userID: number) {
+        return httpClient.delete(`/user/`+userID)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Record<string,string>) => {
+                return data;
+            });
+    }
 }
