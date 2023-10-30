@@ -7,7 +7,6 @@ import com.example.backend.ResponseDtos.UserDto;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
-import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
