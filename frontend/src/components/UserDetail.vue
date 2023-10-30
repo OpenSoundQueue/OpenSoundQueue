@@ -1,21 +1,35 @@
 <template>
   <div class="detail-container">
-    <div class="detail-header">
+    <div class="detail-header desktop">
       <p v-if="!user">{{ $translate('adminPage.detail.placeholder.name') }}</p>
       <p v-else>{{ user.username }}</p>
       <div class="dashed-hr"></div>
     </div>
-    <div v-if="!user" class="detail-body-empty">
+    <div class="mobile">
+      <div class="hr"></div>
+      <DynamicButton v-if="user?user.role!=='Owner':false" class="delete" b-style="login" :status="buttonStatus"
+                     @click="deleteUser">
+        <img src="@/assets/icons/delete.svg"/>
+        {{ $translate('adminPage.detail.delete') }}
+      </DynamicButton>
+      <div class="detail-header" @click="toggleDropdown">
+        <img src="@/assets/icons/user.svg"/>
+        <p v-if="!user">{{ $translate('adminPage.detail.placeholder.name') }}</p>
+        <p v-else>{{ user.username }}</p>
+        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg"/>
+      </div>
+    </div>
+    <div v-show="!user" class="detail-body-empty">
       <p>{{ $translate('adminPage.detail.placeholder.body') }}</p>
     </div>
-    <div v-else class="detail-body">
+    <div v-show="user&&detailVisibility" class="detail-body">
       <div class="email info-container">
         <div class="label">
           <img src="@/assets/icons/mail.svg"/>
           <p>{{ $translate('adminPage.tableHeader.email') }}:</p>
         </div>
         <p v-if="user?!user.email:false">{{ $translate('adminPage.detail.placeholder.email') }}</p>
-        <a v-else :href="'mailto:'+(user ? user.email:'')">{{ user ? user.email:'' }}</a>
+        <a v-else :href="'mailto:'+(user ? user.email:'')">{{ user ? user.email : '' }}</a>
       </div>
       <div class="last-online info-container">
         <div class="label">
@@ -31,7 +45,8 @@
         </div>
         <p><span class="dot"></span>{{ user ? user.role : '' }}</p>
       </div>
-      <DynamicButton v-if="user?user.role!=='Owner':false" class="delete" b-style="login" :status="buttonStatus" @click="deleteUser">
+      <DynamicButton v-if="user?user.role!=='Owner':false" class="delete desktop" b-style="login" :status="buttonStatus"
+                     @click="deleteUser">
         <img src="@/assets/icons/delete.svg"/>
         {{ $translate('adminPage.detail.delete') }}
       </DynamicButton>
@@ -41,7 +56,7 @@
 
 <script setup lang="ts">
 import {User} from "@/models/User";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {HttpService} from "@/services/HttpService";
@@ -56,8 +71,10 @@ const emit = defineEmits<{
   "delete:User": [data: User]
 }>();
 
-const buttonStatus = computed(()=>{
-  if (!props.user){
+const detailVisibility = ref(false);
+
+const buttonStatus = computed(() => {
+  if (!props.user) {
     return "inactive"
   }
   return "active"
@@ -68,7 +85,7 @@ const formattedTimestamp = computed(() => {
     return ""
   }
 
-  if (!props.user.lastOnline){
+  if (!props.user.lastOnline) {
     return translate("adminPage.detail.placeholder.lastOnline")
   }
 
@@ -85,14 +102,19 @@ const formattedTimestamp = computed(() => {
   return `${day}. ${translate('months.' + (month))}, ${year}, ${formattedTime}`;
 })
 
-function deleteUser():void{
-  if (props.user){
+function deleteUser(): void {
+  if (props.user) {
     httpService.deleteUser(props.user.id)
         .then(() => {
-          emit("delete:User",<User>props.user)
+          emit("delete:User", <User>props.user)
         })
   }
 
+}
+
+function toggleDropdown(): void {
+  detailVisibility.value = !detailVisibility.value;
+  console.log(detailVisibility.value)
 }
 </script>
 
@@ -120,7 +142,7 @@ function deleteUser():void{
   flex-direction: column;
 }
 
-.detail-body-empty{
+.detail-body-empty {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -142,11 +164,11 @@ function deleteUser():void{
   padding: 0;
 }
 
-.info-container > p,a {
+.info-container > p, a {
   margin-left: 34px;
 }
 
-p,a {
+p, a {
   color: white;
   overflow: hidden;
   white-space: nowrap;
@@ -192,8 +214,46 @@ p,a {
   font-weight: bold;
 }
 
-@media screen and (max-width: 1250px) {
+.mobile {
+  display: none;
+}
 
+@media screen and (max-width: 1250px) {
+  .detail-container {
+    background-color: var(--background-color);
+    height: fit-content;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .detail-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .detail-header > p {
+    width: 100%;
+    text-align: left;
+  }
+
+  .delete {
+    width: 100%;
+  }
+
+  .hr {
+    height: 10px;
+    margin-top: 10px;
+    border-top: dashed 3px var(--secondary-color);
+  }
 }
 
 </style>

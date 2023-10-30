@@ -111,8 +111,8 @@ function sortUsers(users: User[], attributeName: string, direction: 'asc' | 'des
 <style scoped>
 main {
   width: calc(100% - 30px);
-  height: calc(100svh - 60px);
-  margin: auto;
+  height: calc(100vh - 60px);
+  margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -130,12 +130,91 @@ main {
 }
 
 .user-container {
-  border-bottom: var(--secondary-color) dashed 2px;
-  height: calc(100% - 70px - 190px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-container{
+  flex:1;
 }
 
 .scroll-component {
-  height: 100%;
+  height: calc(100% - 40px);
+  flex: 1;
+}
+.email{
+  display: none;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  height: calc(var(--font-size-medium) * 2.5);
+  border-radius: var(--border-radius-medium);
+  background-color: var(--secondary-color);
+  margin-top: 10px;
+}
+
+.user:hover {
+  cursor: pointer;
+}
+
+.user.selected {
+  background-color: var(--tertiary-color);
+}
+
+.user.selected > .username,
+.user.selected > .email {
+  color: var(--background-color);
+  font-weight: bold;
+}
+
+.table-header {
+  padding: 20px 20px 0 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  border-bottom: solid 3px var(--secondary-color);
+}
+
+.role {
+  width: 30%;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.table-header > .role {
+  justify-content: center;
+}
+
+.user > .role {
+  font-size: var(--font-size-small);
+  background-color: var(--background-color);
+  width: fit-content;
+  max-width: 20%;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: var(--border-radius-small);
+  margin: 0 auto 0 auto;
+  text-align: left;
+}
+
+
+.username {
+  width: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 800px) {
@@ -150,6 +229,10 @@ main {
     display: grid;
     grid-template-columns: 66% 33%;
     grid-template-rows: 60px calc(100% - 90px);
+  }
+
+  .email{
+    display: flex;
   }
 
   .detail-container {
@@ -175,20 +258,12 @@ main {
     height: 2px;
   }
 
-  .table-header {
-    padding: 20px 20px 0 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
+  .user{
+    margin-top: 0;
   }
 
   .username {
     width: 30%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   .email {
@@ -199,30 +274,7 @@ main {
   }
 
   .role {
-    text-align: center;
     width: 20%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .table-header > .role {
-    justify-content: center;
-  }
-
-  .user > .role {
-    font-size: var(--font-size-small);
-    background-color: var(--background-color);
-    width: fit-content;
-    max-width: 20%;
-    box-sizing: border-box;
-    padding: 5px;
-    border-radius: var(--border-radius-small);
-    margin: 0 auto 0 auto;
-    text-align: left;
   }
 
   .scroll-component {
@@ -230,29 +282,6 @@ main {
     margin: 10px;
     box-sizing: border-box;
     overflow-y: auto;
-  }
-
-  .user {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 10px 0 10px;
-    height: calc(var(--font-size-medium) * 2.5);
-    border-radius: var(--border-radius-medium);
-  }
-
-  .user:hover {
-    cursor: pointer;
-  }
-
-  .user.selected {
-    background-color: var(--tertiary-color);
-  }
-
-  .user.selected > .username,
-  .user.selected > .email {
-    color: var(--background-color);
-    font-weight: bold;
   }
 }
 </style>
