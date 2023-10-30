@@ -22,7 +22,7 @@ const displayNavBar = computed(() => !routesWithoutNavBar.includes(routeName.val
   <FullScreenPopUp v-show="PopUpService.isVisible.value"
                    :message="PopUpService.message.value"
                    :button-text="PopUpService.buttonText.value"
-                   @Update:PopUpStatus="PopUpService.updatePopUp($event)"/>
+                   @Update:PopUpStatus="PopUpService.updatePopUp($event ||'')"/>
   <div class="navbar-container" v-if="displayNavBar">
     <NavBar></NavBar>
   </div>
