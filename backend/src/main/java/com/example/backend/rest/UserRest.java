@@ -6,6 +6,7 @@ import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
+import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -151,5 +152,20 @@ public class UserRest {
         }
 
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (userService.getUserById(id) == null) {
+            return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
+        }
+
+        userService.deleteUser(id);
+
+        return ResponseEntity.ok().build();
     }
 }

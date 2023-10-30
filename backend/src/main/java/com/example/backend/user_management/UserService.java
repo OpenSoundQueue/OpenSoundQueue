@@ -37,6 +37,12 @@ public class UserService {
         return user;
     }
 
+    public UserInfoEntity getUserById(Long id) {
+        UserInfoEntity user = userInfoRepository.findById(id).orElse(null);
+
+        return user;
+    }
+
     public boolean verifyApiKey(String token) {
         UserInfoEntity user = getUserByToken(token);
 
@@ -78,10 +84,12 @@ public class UserService {
     }
 
     public List<UserDto> getAll() {
-        List<UserDto> allUsers = userInfoRepository.findAll().stream().map(userInfoEntity -> {
-            return new UserDto(userInfoEntity.getId(), userInfoEntity.getUsername(), userInfoEntity.getLastOnline());
-        }).toList();
+        List<UserDto> allUsers = userInfoRepository.findAll().stream().map(userInfoEntity -> new UserDto(userInfoEntity.getId(), userInfoEntity.getUsername(), userInfoEntity.getLastOnline())).toList();
 
         return allUsers;
+    }
+
+    public void deleteUser(Long id) {
+        userInfoRepository.deleteById(id);
     }
 }

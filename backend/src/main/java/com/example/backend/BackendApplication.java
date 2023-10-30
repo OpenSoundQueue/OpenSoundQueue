@@ -39,7 +39,6 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    /*
     @Profile("!prod")
     @Order(1)
     @PostConstruct
@@ -64,7 +63,6 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
         }
     }
-     */
 
     @Profile("!prod")
     @Order(2)
