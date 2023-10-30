@@ -3,6 +3,7 @@ package com.example.backend.rest;
 import com.example.backend.ResponseDtos.*;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
+import com.example.backend.user_management.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class SoundQueueRest {
     @Autowired
     private SongQueueService songQueueService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/queue/all")
     public ResponseEntity<Object> getSongQueue() {
@@ -55,7 +59,11 @@ public class SoundQueueRest {
     }
 
     @PostMapping("/queue/add")
-    public ResponseEntity<Object> addSongToQueue(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Object> addSongToQueue(@RequestHeader(value = "X-API-KEY") String token, @RequestBody Map<String, String> requestBody) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
         Song song = songQueueService.addSong(requestBody.get("link"));
 
         if (song != null) {
@@ -81,7 +89,11 @@ public class SoundQueueRest {
     }
 
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
-    public ResponseEntity<Object> searchSongHistory(@PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
+    public ResponseEntity<Object> searchSongHistory(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
     }
 }

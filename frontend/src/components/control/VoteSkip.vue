@@ -16,6 +16,9 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
+import {ToastService} from "@/services/ToastService";
+import * as cookieService from "@/services/cookieService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 type VoteSkipDto = {
   isActive: boolean,
@@ -42,28 +45,34 @@ onMounted(() => {
 })
 
 function requestStatus() {
-  httpService.getVoteSkipStatus()
+  httpService.getVoteSkipStatus(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
       })
 }
 
 function requestVote() {
-  voteSkipData.value.received ++;
-
-  httpService.getVoteSkipVote()
+  httpService.getVoteSkipVote(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
+        voteSkipData.value.received ++;
       })
+      .catch(() => {
+        ToastService.sendNotification(translate("notifications.voteSkipRequestError"), "error", 3000);
+        voteSkipData.value.isActive = false
+      });
 }
 
 function withdrawVote() {
-  voteSkipData.value.received --;
-
-  httpService.getVoteSkipWithdraw()
+  httpService.getVoteSkipWithdraw(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
+        voteSkipData.value.received --;
       })
+      .catch(() => {
+        ToastService.sendNotification(translate("notifications.voteSkipWithdrawError"), "error", 3000);
+        voteSkipData.value.isActive = false
+      });
 }
 
 function activate() {
@@ -71,14 +80,11 @@ function activate() {
 
   if (voteSkipData.value.isActive) {
     withdrawVote();
-
     voteSkipData.value.isActive = false;
-
     return;
   }
 
   requestVote();
-
   voteSkipData.value.isActive = true;
 }
 
