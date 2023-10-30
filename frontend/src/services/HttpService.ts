@@ -1,6 +1,7 @@
 import HttpClient from "@/services/HttpClient";
 import {Song} from "@/models/Song";
 import {User} from "@/models/User";
+import * as cookieService from "@/services/cookieService";
 
 const httpClient = new HttpClient();
 
@@ -184,7 +185,7 @@ export class HttpService {
     }
 
     async getUsers() {
-        return httpClient.get(`/users`)
+        return httpClient.get(`/users`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -197,14 +198,14 @@ export class HttpService {
     }
 
     async deleteUser(userID: number) {
-        return httpClient.delete(`/user/`+userID)
+        return httpClient.delete(`/user/`+userID,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
                 return response.json();
-            }).then((data: Record<string,string>) => {
+            }).then((data: User[]) => {
                 return data;
             });
     }
