@@ -68,7 +68,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  "delete:User": [data: User]
+  "update:Users": [data: User[]]
 }>();
 
 const detailVisibility = ref(false);
@@ -105,8 +105,9 @@ const formattedTimestamp = computed(() => {
 function deleteUser(): void {
   if (props.user) {
     httpService.deleteUser(props.user.id)
-        .then(() => {
-          emit("delete:User", <User>props.user)
+        .then((response) => {
+          console.log(response)
+          emit("update:Users", <User[]>response)
         })
   }
 
@@ -114,7 +115,6 @@ function deleteUser(): void {
 
 function toggleDropdown(): void {
     detailVisibility.value = !detailVisibility.value;
-    console.log(detailVisibility.value)
 }
 </script>
 

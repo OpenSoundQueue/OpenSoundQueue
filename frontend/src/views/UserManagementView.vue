@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <UserDetail class="detail-container" :user="selectedUser" @delete:User="updateUsers($event)"></UserDetail>
+    <UserDetail class="detail-container" :user="selectedUser" @update:Users="updateUsers($event)"></UserDetail>
   </main>
 </template>
 
@@ -61,8 +61,8 @@ function getUsers(): void {
       })
 }
 
-function updateUsers(event: User): void {
-  users.value = [...users.value].filter(user => user !== event)
+function updateUsers(event: User[]): void {
+  users.value = event
   selectFirstUser()
 }
 
