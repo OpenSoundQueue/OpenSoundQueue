@@ -128,7 +128,7 @@ public class UserRest {
     @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verifyApiKey(@RequestHeader(value = "X-API-KEY") String token) {
         if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
         return ResponseEntity.ok().build();
@@ -148,7 +148,7 @@ public class UserRest {
     @GetMapping("/users")
     public ResponseEntity<Object> users(@RequestHeader(value = "X-API-KEY") String token) {
         if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
@@ -157,7 +157,7 @@ public class UserRest {
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
         if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
         if (userService.getUserById(id) == null) {

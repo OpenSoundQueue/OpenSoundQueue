@@ -61,7 +61,7 @@ public class SoundQueueRest {
     @PostMapping("/queue/add")
     public ResponseEntity<Object> addSongToQueue(@RequestHeader(value = "X-API-KEY") String token, @RequestBody Map<String, String> requestBody) {
         if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
         Song song = songQueueService.addSong(requestBody.get("link"));
@@ -91,7 +91,7 @@ public class SoundQueueRest {
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
     public ResponseEntity<Object> searchSongHistory(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
         if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
