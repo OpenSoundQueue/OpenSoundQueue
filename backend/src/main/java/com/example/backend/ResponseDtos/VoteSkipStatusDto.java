@@ -6,7 +6,7 @@ public class VoteSkipStatusDto {
     int required;
 
     public VoteSkipStatusDto(boolean hasVoted, int received, int required) {
-        this.hasVoted = false;
+        this.hasVoted = hasVoted;
         this.received = received;
         this.required = required;
     }
