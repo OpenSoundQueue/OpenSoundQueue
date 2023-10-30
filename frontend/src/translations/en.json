@@ -43,7 +43,9 @@
   "addSong": "Add Song",
   "notifications": {
     "queueAddSuccess": "was added to queue.",
-    "queueAddError": "Song could not be added to the queue."
+    "queueAddError": "Song could not be added to the queue.",
+    "voteSkipRequestError": "Could not request vote.",
+    "voteSkipWithdrawError": "Could not withdraw vote."
   },
   "historySearch": {
     "noSongFound": "No song found for ",

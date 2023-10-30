@@ -6,6 +6,7 @@ import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
+import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,7 @@ public class UserRest {
             String token = tokenUtils.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
+            userService.updateLastOnline(userInfoEntity);
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
         }
 
@@ -70,6 +72,7 @@ public class UserRest {
 
         String token = tokenUtils.generateToken();
         userService.updateToken(userInfoEntity.getId(), token);
+        userService.updateLastOnline(userInfoEntity);
 
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
@@ -94,6 +97,8 @@ public class UserRest {
             String token = tokenUtils.generateToken();
 
             userService.updateToken(userInfoEntity.getId(), token);
+            userService.updateLastOnline(userInfoEntity);
+
             return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
         }
 
@@ -115,16 +120,15 @@ public class UserRest {
         String token = tokenUtils.generateToken();
 
         userService.updateToken(userInfoEntity.getId(), token);
+        userService.updateLastOnline(userInfoEntity);
 
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
 
     @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verifyApiKey(@RequestHeader(value = "X-API-KEY") String token) {
-        UserInfoEntity userInfoEntity = userService.getUserByToken(token);
-
-        if (userInfoEntity == null) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.BAD_REQUEST);
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
         return ResponseEntity.ok().build();
@@ -139,5 +143,29 @@ public class UserRest {
         } else {
             return new ResponseEntity<>(new ErrorDto("Invalid entry key"), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<Object> users(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (userService.getUserById(id) == null) {
+            return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
+        }
+
+        userService.deleteUser(id);
+
+        return ResponseEntity.ok().build();
     }
 }

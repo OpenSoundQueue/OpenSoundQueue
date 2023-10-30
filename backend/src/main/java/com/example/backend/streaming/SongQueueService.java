@@ -4,14 +4,14 @@ import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.Repository.SongInfoRepository;
 import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
 import com.example.backend.ResponseDtos.VoteSkipStatusDto;
+import com.example.backend.user_management.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SongQueueService {
@@ -23,6 +23,9 @@ public class SongQueueService {
     @Autowired
     SongInfoRepository songInfoRepository;
 
+    @Autowired
+    UserService userService;
+
     @Value("${queue.page.size.default}")
     private int defaultPageSize;
 
@@ -30,11 +33,12 @@ public class SongQueueService {
     Song currentSong = null;
     private boolean isPlaying = false;
 
-    private int voteSkipRequired = 5;
+    @Value("${queue.voteskip.required}")
+    private int voteSkipRequired;
+
     private int voteSkipCurrent = 0;
 
-    // TODO: implement users to authenticate
-    // private List<Users> voteSkipUserList;
+    private final Set<String> voteSkipUserList = new HashSet<>();
 
     public Song addSong(String link) {
         Song song = songService.validateSong(link);
@@ -127,11 +131,14 @@ public class SongQueueService {
         return new CurrentlyPlayingDto(isPlaying, currentSong.getCurrentTime(), System.currentTimeMillis(), currentSong.getInfo());
     }
 
-    public VoteSkipStatusDto getVoteSkipStatus() {
-        return new VoteSkipStatusDto(false, voteSkipCurrent, voteSkipRequired);
+    public VoteSkipStatusDto getVoteSkipStatus(String userToken) {
+        boolean hasVoted = voteSkipUserList.contains(userToken);
+        return new VoteSkipStatusDto(hasVoted, voteSkipCurrent, voteSkipRequired);
     }
 
-    public VoteSkipStatusDto setVoteSkip() {
+    public VoteSkipStatusDto setVoteSkip(String userToken) {
+        if (voteSkipUserList.contains(userToken)) return getVoteSkipStatus(userToken);
+        voteSkipUserList.add(userToken);
         if (voteSkipCurrent+1 >= voteSkipRequired) {
             this.skip();
             voteSkipCurrent = 0;
@@ -139,16 +146,18 @@ public class SongQueueService {
             voteSkipCurrent++;
         }
 
-        return getVoteSkipStatus();
+        return getVoteSkipStatus(userToken);
     }
 
-    public VoteSkipStatusDto withdrawVoteSkip() {
+    public VoteSkipStatusDto withdrawVoteSkip(String userToken) {
+        if (!voteSkipUserList.contains(userToken)) return getVoteSkipStatus(userToken);
+        voteSkipUserList.remove(userToken);
         voteSkipCurrent--;
-        return getVoteSkipStatus();
+        return getVoteSkipStatus(userToken);
     }
 
     public List<SongInfoHistoryEntity> searchSongHistory(String searchTerm, int maxResults) {
-        List<SongInfoHistoryEntity> ergs = songInfoRepository.findByTitleOrArtistContainingIgnoreCase(searchTerm, searchTerm);
+        List<SongInfoHistoryEntity> ergs = songInfoRepository.findSongByTitleContainingIgnoreCaseOrArtistContainingIgnoreCase(searchTerm, searchTerm);
         if (ergs.size() > maxResults) {
             ergs = ergs.subList(0, maxResults);
         }

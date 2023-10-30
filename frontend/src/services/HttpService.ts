@@ -54,8 +54,8 @@ export class HttpService {
             })
     }
 
-    async postQueueAdd(link: string) {
-        return httpClient.post("/queue/add", {link: link})
+    async postQueueAdd(link: string, apiKey: string) {
+        return httpClient.post("/queue/add", {link: link}, apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -67,8 +67,8 @@ export class HttpService {
             })
     }
 
-    async getVoteSkipStatus() {
-        return httpClient.get("/vote-skip/status")
+    async getVoteSkipStatus(apiKey: string) {
+        return httpClient.get("/vote-skip/status", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -80,8 +80,8 @@ export class HttpService {
             })
     }
 
-    async getVoteSkipVote() {
-        return httpClient.get("/vote-skip/vote")
+    async getVoteSkipVote(apiKey: string) {
+        return httpClient.get("/vote-skip/vote", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -93,8 +93,8 @@ export class HttpService {
             })
     }
 
-    async getVoteSkipWithdraw() {
-        return httpClient.get("/vote-skip/withdraw")
+    async getVoteSkipWithdraw(apiKey: string) {
+        return httpClient.get("/vote-skip/withdraw", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -106,8 +106,8 @@ export class HttpService {
             })
     }
 
-    async getSearchHistory(searchTerm: string, maxResults: number) {
-        return httpClient.get(`/search/history/${searchTerm}/max-results/${maxResults}`)
+    async getSearchHistory(searchTerm: string, maxResults: number, apiKey: string) {
+        return httpClient.get(`/search/history/${searchTerm}/max-results/${maxResults}`, apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);

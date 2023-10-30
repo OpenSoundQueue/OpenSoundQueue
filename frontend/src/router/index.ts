@@ -5,26 +5,9 @@ import LoginView from "@/views/LoginView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import {HttpService} from "@/services/HttpService";
 import UserManagementView from "@/views/UserManagementView.vue";
+import * as cookieService from "@/services/cookieService";
 
 const httpService = new HttpService();
-
-// gets the value of a cookie by name
-// if the cookie doesn't exist, the function returns 'false'
-function getCookie(cname: string): string {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,15 +48,14 @@ const router = createRouter({
             component: SettingsView,
             meta: {
                 requiresAuth: true
-            }
-        },
-        {
-            path: "/admin/user-management",
-            name: "user-management",
-            component: UserManagementView,
-            meta: {
-                requiresAuth: true
-            }
+            },
+      {
+        path: "/admin/user-management",
+        name: "user-management",
+        component: UserManagementView,
+        meta: {
+          requiresAuth: true
+        }
         }
     ]
 })
@@ -84,12 +66,12 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        await httpService.getVerifyApiKey(getCookie("sessionKey"))
+        await httpService.getVerifyApiKey(cookieService.getApiKey())
             .then(() => {
                 next()
             })
             .catch(() => {
-                document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+                cookieService.clearApiKey();
                 next({
                     path: '/login'
                 })
@@ -105,14 +87,14 @@ router.beforeEach(async (to, from, next) => {
 router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresNoCookie)) {
         if (document.cookie.indexOf('sessionKey=') > -1) {
-            await httpService.getVerifyApiKey(getCookie("sessionKey"))
+            await httpService.getVerifyApiKey(cookieService.getApiKey())
                 .then(() => {
                     next({
                         path: '/home'
                     })
                 })
                 .catch(() => {
-                    document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+                    cookieService.clearApiKey();
                     next()
                 })
         } else {

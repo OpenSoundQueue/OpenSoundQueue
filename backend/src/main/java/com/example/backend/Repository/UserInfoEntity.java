@@ -1,6 +1,9 @@
 package com.example.backend.Repository;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "UserInfo")
@@ -17,6 +20,10 @@ public class UserInfoEntity {
 
     @Column(name = "token", unique = true)
     private String token;
+
+    @Column
+    @DateTimeFormat
+    private Date lastOnline;
 
     public UserInfoEntity() {
 
@@ -57,5 +64,13 @@ public class UserInfoEntity {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Date getLastOnline() {
+        return lastOnline;
+    }
+
+    public void setLastOnline(Date lastOnline) {
+        this.lastOnline = lastOnline;
     }
 }

@@ -481,11 +481,14 @@ paths:
           content:
             application/json:
               example:
-                - username: Quantompixel
+                - id: 1
+                  username: Quantompixel
                   lastOnline: 2011-10-05T14:48:00.000Z
-                - username: Daniel
+                - id: 2
+                  username: Daniel
                   lastOnline: 2013-07-08T14:48:00.000Z
-                - username: Markus
+                - id: 3
+                  username: Markus
                   lastOnline: 2010-08-05T14:48:00.000Z
         400:
           description: could not return users

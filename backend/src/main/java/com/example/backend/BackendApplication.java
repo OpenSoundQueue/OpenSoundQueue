@@ -73,6 +73,6 @@ public class BackendApplication {
         userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort2!"));
         userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort3!"));
         settingsService.printSettings();
-        propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
+        // propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
     }
 }
