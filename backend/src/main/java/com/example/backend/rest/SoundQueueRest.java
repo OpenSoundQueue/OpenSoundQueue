@@ -75,16 +75,25 @@ public class SoundQueueRest {
 
     @GetMapping("/vote-skip/status")
     public ResponseEntity<Object> getVoteSkipStatus(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(songQueueService.getVoteSkipStatus(token), HttpStatus.OK);
     }
 
     @GetMapping("/vote-skip/vote")
     public ResponseEntity<Object> setVoteSkip(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(songQueueService.setVoteSkip(token), HttpStatus.OK);
     }
 
     @GetMapping("/vote-skip/withdraw")
     public ResponseEntity<Object> withdrawVoteSkip(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(songQueueService.withdrawVoteSkip(token), HttpStatus.OK);
     }
 

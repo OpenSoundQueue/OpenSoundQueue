@@ -2,7 +2,6 @@ package com.example.backend.streaming;
 
 import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.Repository.SongInfoRepository;
-import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
 import com.example.backend.ResponseDtos.VoteSkipStatusDto;
 import com.example.backend.user_management.UserService;
@@ -12,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SongQueueService {
@@ -41,7 +38,7 @@ public class SongQueueService {
 
     private int voteSkipCurrent = 0;
 
-    private final List<UserInfoEntity> voteSkipUserList = new ArrayList<>();
+    private final Set<String> voteSkipUserList = new HashSet<>();
 
     public Song addSong(String link) {
         Song song = songService.validateSong(link);
@@ -135,12 +132,13 @@ public class SongQueueService {
     }
 
     public VoteSkipStatusDto getVoteSkipStatus(String userToken) {
-        boolean hasVoted = voteSkipUserList.contains(userService.getUserByToken(userToken));
+        boolean hasVoted = voteSkipUserList.contains(userToken);
         return new VoteSkipStatusDto(hasVoted, voteSkipCurrent, voteSkipRequired);
     }
 
     public VoteSkipStatusDto setVoteSkip(String userToken) {
-        voteSkipUserList.add(userService.getUserByToken(userToken));
+        if (voteSkipUserList.contains(userToken)) return getVoteSkipStatus(userToken);
+        voteSkipUserList.add(userToken);
         if (voteSkipCurrent+1 >= voteSkipRequired) {
             this.skip();
             voteSkipCurrent = 0;
@@ -152,7 +150,8 @@ public class SongQueueService {
     }
 
     public VoteSkipStatusDto withdrawVoteSkip(String userToken) {
-        voteSkipUserList.remove(userService.getUserByToken(userToken));
+        if (!voteSkipUserList.contains(userToken)) return getVoteSkipStatus(userToken);
+        voteSkipUserList.remove(userToken);
         voteSkipCurrent--;
         return getVoteSkipStatus(userToken);
     }
