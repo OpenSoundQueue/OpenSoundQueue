@@ -1,8 +1,9 @@
 <template>
   <div class="full-screen" @click="close($event)">
     <div class="pop-up">
-      <p>{{message}}</p>
-      <DynamicButton b-style="login" status="active" @click="accept">{{ $translate('popUp.deleteUser.delete') }}</DynamicButton>
+      <img class="close" @click="close($event)" src="@/assets/icons/input/delete.svg"/>
+      <p>{{ message }}</p>
+      <DynamicButton b-style="login" status="active" @click="accept">{{ buttonText }}</DynamicButton>
     </div>
   </div>
 </template>
@@ -11,25 +12,27 @@
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 
 const props = defineProps<{
-  message: string
+  message: string,
+  buttonText: string
 }>();
 
 const emits = defineEmits<{
   "Update:PopUpStatus": [data: string]
 }>()
+
 function close(event: MouseEvent) {
   if (event.target === event.currentTarget) {
-    emits("Update:PopUpStatus","denied")
+    emits("Update:PopUpStatus", "denied")
   }
 }
 
-function accept():void{
-  emits("Update:PopUpStatus","accepted")
+function accept(): void {
+  emits("Update:PopUpStatus", "accepted")
 }
 </script>
 
 <style scoped>
-.full-screen{
+.full-screen {
   position: fixed;
   top: 0;
   right: 0;
@@ -46,7 +49,7 @@ function accept():void{
   align-items: center;
 }
 
-.pop-up{
+.pop-up {
   border-radius: var(--border-radius-big);
   background-color: var(--secondary-color);
   width: calc(100% - 50px);
@@ -55,18 +58,22 @@ function accept():void{
 
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  align-items: center;
-  justify-content: center;
 }
 
-p{
+.close {
+  align-self: flex-end;
+  right: 20px;
+}
+
+p {
   user-select: none;
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
-@media screen and (min-width: 800px){
-  .pop-up{
+@media screen and (min-width: 800px) {
+  .pop-up {
     width: 750px;
   }
 }
