@@ -62,6 +62,7 @@ import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {HttpService} from "@/services/HttpService";
 import {ToastService} from "@/services/ToastService";
+import {PopUpService} from "@/services/PopUpService";
 
 const httpService = new HttpService();
 
@@ -72,8 +73,11 @@ const props = defineProps<{
 const emit = defineEmits<{
   "update:Users": [data: User[]]
 }>();
-
 const detailVisibility = ref(false);
+
+const popUpString = computed(() => {
+  return `${translate('popUp.deleteUser.part1')} "${(props.user ? props.user.username : '')}" ${translate('popUp.deleteUser.part2')}`
+})
 
 const buttonStatus = computed(() => {
   if (!props.user) {
@@ -104,23 +108,29 @@ const formattedTimestamp = computed(() => {
   return `${day}. ${translate('months.' + (month))}, ${year}, ${formattedTime}`;
 })
 
-function deleteUser(): void {
+async function deleteUser() {
   if (props.user) {
-    httpService.deleteUser(props.user.id)
-        .then((response) => {
-          ToastService.sendNotification(
-              `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageSuccess")}`,
-              "success",
-              3000
-          );
-          emit("update:Users", <User[]>response)
-        }).catch(() => {
-      ToastService.sendNotification(
-          `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageError")}`,
-          "error",
-          3000
-      );
-    });
+
+    PopUpService.openPopUp(popUpString.value);
+    const userAction = await PopUpService.waitForUserAction();
+    console.log(userAction)
+    if (userAction === "accepted") {
+      httpService.deleteUser(props.user.id)
+          .then((response) => {
+            ToastService.sendNotification(
+                `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageSuccess")}`,
+                "success",
+                3000
+            );
+            emit("update:Users", <User[]>response)
+          }).catch(() => {
+        ToastService.sendNotification(
+            `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageError")}`,
+            "error",
+            3000
+        );
+      });
+    }
   }
 
 }
