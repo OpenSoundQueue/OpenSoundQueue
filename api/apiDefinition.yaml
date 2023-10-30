@@ -525,6 +525,28 @@ paths:
               schema:
                 example:
                   error: user with <id> not found
+  /self:
+    get:
+      tags:
+        - auth
+      description: get the data of the own user
+      responses:
+        200:
+          description: data of user
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 2
+                  username: Daniel
+                  lastOnline: 2023-10-30T21:16:38.260Z
+        400:
+          description: did not find user
+          content:
+            application/json:
+              schema:
+                example:
+                  error: did not find user
 components:
   securitySchemes:
     ApiKeyAuth:
