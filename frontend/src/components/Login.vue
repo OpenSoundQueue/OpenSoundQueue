@@ -55,6 +55,7 @@ import {validateEntryCode, validatePassword, validateUsername} from "@/plugins/V
 import router from "@/router";
 import {translate} from "@/plugins/TranslationPlugin";
 import {HttpService} from "@/services/HttpService";
+import * as cookieService from "@/services/cookieService";
 
 interface Props {
   requireAuth?: boolean,
@@ -108,19 +109,19 @@ async function loginCall() {
       case props.requireAuth && props.isPrivate:
         await httpService.postPrivateAuthLogin(username.value, password.value, entryCode.value)
             .then(apiKey => {
-              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              cookieService.clearApiKey();
+              cookieService.setApiKey(apiKey);
               router.push("/home");
             })
             .catch(error => {
               switch (error) {
                 case 400:
-                  //wrong credentials
+                  // wrong credentials
                   errorStatus.value[0] = true;
                   errorStatus.value[1] = true;
                   break;
                 case 401:
-                  //wrong entryCode
+                  // wrong entryCode
                   errorStatus.value[2] = true;
                   break;
               }
@@ -129,19 +130,19 @@ async function loginCall() {
       case props.isPrivate:
         await httpService.postPrivateLogin(username.value, entryCode.value)
             .then(apiKey => {
-              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              cookieService.clearApiKey();
+              cookieService.setApiKey(apiKey);
               router.push("/home");
             })
             .catch(error => {
               switch (error) {
                 case 400:
-                  //wrong username
+                  // wrong username
                   usernameError.value = translate("username.taken")
                   errorStatus.value[0] = true;
                   break;
                 case 401:
-                  //wrong entryCode
+                  // wrong entryCode
                   errorStatus.value[2] = true;
                   break;
               }
@@ -150,12 +151,12 @@ async function loginCall() {
       case props.requireAuth:
         await httpService.postPublicAuthLogin(username.value, password.value)
             .then(apiKey => {
-              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              cookieService.clearApiKey();
+              cookieService.setApiKey(apiKey);
               router.push("/home");
             })
             .catch(error => {
-              //wrong credentials
+              // wrong credentials
               usernameError.value = translate("username.error")
               errorStatus.value = [true, true, true]
             })
@@ -163,12 +164,12 @@ async function loginCall() {
       default:
         await httpService.postPublicLogin(username.value)
             .then(apiKey => {
-              document.cookie = "sessionKey= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-              document.cookie = "sessionKey=" + apiKey + "; path=/";
+              cookieService.clearApiKey();
+              cookieService.setApiKey(apiKey);
               router.push("/home");
             })
-            .catch(error => {
-              //wrong username
+            .catch(() => {
+              // wrong username
               usernameError.value = translate("username.taken")
               errorStatus.value[0] = true;
             })

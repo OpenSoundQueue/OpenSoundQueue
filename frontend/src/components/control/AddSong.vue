@@ -44,6 +44,7 @@ import {computed, ref} from "vue";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 import InfoButton from "@/components/InfoButton.vue";
+import * as cookieService from "@/services/cookieService";
 
 const httpService = new HttpService();
 const songLink = ref("");
@@ -61,7 +62,7 @@ const inputIsValid = computed(() => {
 function addSong(link: string) {
   waitingForResponse.value = true;
 
-  httpService.postQueueAdd(link)
+  httpService.postQueueAdd(link, cookieService.getApiKey())
       .then((data) => {
         waitingForResponse.value = false;
         inputField.value?.clearInput();

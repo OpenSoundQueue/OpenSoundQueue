@@ -47,6 +47,7 @@ import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 import LoadingAnimation from "@/components/LoadingAnimation.vue";
+import * as cookieService from "@/services/cookieService";
 
 const maxSearchResults = 20;
 
@@ -79,9 +80,13 @@ const processChange = debounce(() => {
 });
 
 function searchHistory(searchTerm: string) {
-  httpService.getSearchHistory(searchTerm, maxSearchResults)
+  httpService.getSearchHistory(searchTerm, maxSearchResults, cookieService.getApiKey())
       .then((data: Song[]) => {
         searchResults.value = data
+        isLoading.value = false;
+      })
+      .catch(() => {
+        ToastService.sendNotification("Could not search for songs.", "error", 3000);
         isLoading.value = false;
       });
 }
@@ -93,14 +98,22 @@ function addSong(link?: string) {
 
   queueAddIsDisabled.value = true;
 
-  httpService.postQueueAdd(link)
+  httpService.postQueueAdd(link, cookieService.getApiKey())
       .then((data) => {
         queueAddIsDisabled.value = false;
-        ToastService.sendNotification(`"${data.title}" was added to the queue.`, "success", 3000);
+        ToastService.sendNotification(
+            `"${data.title}" ${translate("notifications.queueAddSuccess")}`,
+            "success",
+            3000
+        );
       })
       .catch(() => {
         queueAddIsDisabled.value = false
-        ToastService.sendNotification(`Song could not be added to the queue.`, "error", 3000);
+        ToastService.sendNotification(
+            translate("notifications.queueAddError"),
+            "error",
+            3000
+        );
       });
 }
 
