@@ -130,7 +130,7 @@ main {
 }
 
 .user-container {
-  overflow-y: scroll;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
 }

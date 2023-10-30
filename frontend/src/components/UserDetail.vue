@@ -16,13 +16,13 @@
         <img src="@/assets/icons/user.svg"/>
         <p v-if="!user">{{ $translate('adminPage.detail.placeholder.name') }}</p>
         <p v-else>{{ user.username }}</p>
-        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg"/>
+        <img class="arrow" src="@/assets/icons/arrows/keyboard_arrow_right.svg" :class="{ 'turn-down':detailVisibility  }"/>
       </div>
     </div>
     <div v-show="!user" class="detail-body-empty">
       <p>{{ $translate('adminPage.detail.placeholder.body') }}</p>
     </div>
-    <div v-show="user&&detailVisibility" class="detail-body">
+    <div v-show="user" class="detail-body" :class="{ 'slide-out':!detailVisibility,'slide-in': detailVisibility  }">
       <div class="email info-container">
         <div class="label">
           <img src="@/assets/icons/mail.svg"/>
@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import {User} from "@/models/User";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {HttpService} from "@/services/HttpService";
@@ -113,8 +113,8 @@ function deleteUser(): void {
 }
 
 function toggleDropdown(): void {
-  detailVisibility.value = !detailVisibility.value;
-  console.log(detailVisibility.value)
+    detailVisibility.value = !detailVisibility.value;
+    console.log(detailVisibility.value)
 }
 </script>
 
@@ -253,6 +253,50 @@ p, a {
     height: 10px;
     margin-top: 10px;
     border-top: dashed 3px var(--secondary-color);
+  }
+
+  .arrow{
+    transition: transform 0.25s ease-in-out;
+  }
+
+  .turn-down {
+    transform: rotate(90deg);
+  }
+
+  .detail-body{
+    max-height: 0;
+    overflow:hidden;
+  }
+
+  .mobile{
+    border-bottom: solid 2px var(--secondary-color);
+  }
+
+  .slide-in {
+    animation: slideIn 0.75s ease-in-out;
+    max-height: 1000px;
+  }
+
+  .slide-out {
+    animation: slideOut 0.75s ease-in-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      max-height: 0;
+    }
+    to {
+      max-height: 1000px;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      max-height: 1000px;
+    }
+    to {
+      max-height: 0;
+    }
   }
 }
 
