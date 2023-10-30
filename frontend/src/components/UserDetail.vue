@@ -16,7 +16,8 @@
         <img src="@/assets/icons/user.svg"/>
         <p v-if="!user">{{ $translate('adminPage.detail.placeholder.name') }}</p>
         <p v-else>{{ user.username }}</p>
-        <img class="arrow" src="@/assets/icons/arrows/keyboard_arrow_right.svg" :class="{ 'turn-down':detailVisibility  }"/>
+        <img class="arrow" src="@/assets/icons/arrows/keyboard_arrow_right.svg"
+             :class="{ 'turn-down':detailVisibility  }"/>
       </div>
     </div>
     <div v-show="!user" class="detail-body-empty">
@@ -56,10 +57,11 @@
 
 <script setup lang="ts">
 import {User} from "@/models/User";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {HttpService} from "@/services/HttpService";
+import {ToastService} from "@/services/ToastService";
 
 const httpService = new HttpService();
 
@@ -106,15 +108,25 @@ function deleteUser(): void {
   if (props.user) {
     httpService.deleteUser(props.user.id)
         .then((response) => {
-          console.log(response)
+          ToastService.sendNotification(
+              `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageSuccess")}`,
+              "success",
+              3000
+          );
           emit("update:Users", <User[]>response)
-        })
+        }).catch(() => {
+      ToastService.sendNotification(
+          `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageError")}`,
+          "error",
+          3000
+      );
+    });
   }
 
 }
 
 function toggleDropdown(): void {
-    detailVisibility.value = !detailVisibility.value;
+  detailVisibility.value = !detailVisibility.value;
 }
 </script>
 
@@ -255,7 +267,7 @@ p, a {
     border-top: dashed 3px var(--secondary-color);
   }
 
-  .arrow{
+  .arrow {
     transition: transform 0.25s ease-in-out;
   }
 
@@ -263,12 +275,12 @@ p, a {
     transform: rotate(90deg);
   }
 
-  .detail-body{
+  .detail-body {
     max-height: 0;
-    overflow:hidden;
+    overflow: hidden;
   }
 
-  .mobile{
+  .mobile {
     border-bottom: solid 2px var(--secondary-color);
   }
 

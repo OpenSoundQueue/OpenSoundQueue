@@ -45,7 +45,12 @@
     "queueAddSuccess": "was added to queue.",
     "queueAddError": "Song could not be added to the queue.",
     "voteSkipRequestError": "Could not request vote.",
-    "voteSkipWithdrawError": "Could not withdraw vote."
+    "voteSkipWithdrawError": "Could not withdraw vote.",
+    "userDelete": {
+      "user": "User",
+      "messageSuccess": "has been deleted.",
+      "messageError": "could not be deleted."
+    }
   },
   "historySearch": {
     "noSongFound": "No song found for ",
