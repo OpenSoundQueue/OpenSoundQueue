@@ -1,19 +1,20 @@
 import {ref} from "vue";
-import type {Ref} from "vue";
 
 
 export class PopUpService {
     static isVisible = ref(false);
-    static message= ref("");
+    static message = ref("");
+    static buttonText = ref("");
     static userAction = ref("");
 
-    static openPopUp(message: string) {
+    static openPopUp(message: string, buttonText: string) {
         this.message.value = message;
+        this.buttonText.value = buttonText;
         this.isVisible.value = true;
     }
 
-    static updatePopUp(event: string){
-        this.userAction.value = event
+    static updatePopUp(event: string) {
+        this.userAction.value = event;
     }
 
     static async waitForUserAction() {

@@ -111,7 +111,7 @@ const formattedTimestamp = computed(() => {
 async function deleteUser() {
   if (props.user) {
 
-    PopUpService.openPopUp(popUpString.value);
+    PopUpService.openPopUp(popUpString.value,translate('popUp.deleteUser.delete'));
     const userAction = await PopUpService.waitForUserAction();
     console.log(userAction)
     if (userAction === "accepted") {
