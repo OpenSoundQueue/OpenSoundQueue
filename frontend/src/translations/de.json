@@ -102,5 +102,12 @@
     "10": "Oktober",
     "11": "November",
     "12": "Dezember"
+  },
+  "popUp": {
+    "deleteUser": {
+      "part1": "Sicher, dass du den Benutzer",
+      "part2": "löschen möchtest?",
+      "button": "Benutzer löschen"
+    }
   }
 }

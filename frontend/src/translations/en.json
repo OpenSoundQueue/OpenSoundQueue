@@ -102,5 +102,12 @@
     "10": "October",
     "11": "November",
     "12": "December"
+  },
+  "popUp": {
+    "deleteUser": {
+      "part1": "Are you sure you want to delete User",
+      "part2": "?",
+      "delete": "Delete User"
+    }
   }
 }
