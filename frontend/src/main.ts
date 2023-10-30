@@ -10,7 +10,7 @@ import {ValidationPlugin} from "@/plugins/ValidationPlugin";
 import Closable from "@/directives/ClosableDirective";
 
 if (import.meta.env.DEV) {
-    makeServer();
+    //makeServer();
 }
 
 const app = createApp(App)

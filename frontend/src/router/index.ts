@@ -48,14 +48,15 @@ const router = createRouter({
             component: SettingsView,
             meta: {
                 requiresAuth: true
-            },
-      {
-        path: "/admin/user-management",
-        name: "user-management",
-        component: UserManagementView,
-        meta: {
-          requiresAuth: true
-        }
+            }
+        },
+        {
+            path: "/admin/user-management",
+            name: "user-management",
+            component: UserManagementView,
+            meta: {
+                requiresAuth: true
+            }
         }
     ]
 })
