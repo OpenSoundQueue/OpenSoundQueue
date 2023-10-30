@@ -136,7 +136,7 @@ main {
 }
 
 .detail-container{
-  flex:1;
+  flex: 0 0 auto;
 }
 
 .scroll-component {
