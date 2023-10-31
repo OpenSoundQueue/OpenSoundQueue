@@ -533,6 +533,123 @@ paths:
               schema:
                 example:
                   error: user with <id> not found
+  /queue/change-order:
+    patch:
+      tags:
+        - auth
+      description: Change order of songs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                oldPos: 2
+                newPos: 3
+      responses:
+        202:
+          description: Position has been changed
+          content:
+            application/json:
+              schema:
+                example:
+                  - numberInQueue: 0
+                    song:
+                      artist: Giveon
+                      duration: 200
+                      title: For Tonight
+                  - numberInQueue: 1
+                    song:
+                      artist: The Kid LAROI & Justin Bieber
+                      duration: 69
+                      title: Stay
+                  - numberInQueue: 2
+                    song:
+                      artist: Lil Nas X & Jack Harlow
+                      duration: 157
+                      title: Industry Baby
+        400:
+          description: Position of song does not exist
+          content:
+            application/json:
+              schema:
+                example:
+                  error: position of song does not exist
+  /queue/start:
+      post:
+        tags:
+          - auth
+        description: Start the queue
+        responses:
+          202:
+            description: Queue has been started
+          400:
+            description: Could not start the queue
+            content:
+              application/json:
+                schema:
+                  example:
+                    error: could not start the queue
+  /queue/stop:
+    post:
+      tags:
+        - auth
+      description: Stop the queue
+      responses:
+        202:
+          description: Queue has been stopped
+        400:
+          description: Could not stop the queue
+          content:
+            application/json:
+              schema:
+                example:
+                  error: could not stop the queue
+  /queue/volume:
+    post:
+      tags:
+        - auth
+      description: Change the volume (value between 0 and 100)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                volume: 75
+      responses:
+        200:
+          description: Volume has been changed
+          content:
+            application/json:
+              schema:
+                example:
+                  volume: 75
+        400:
+          description: Could not change volume
+          content:
+            application/json:
+              schema:
+                example:
+                  error: could not change volume
+  /queue/current-volume:
+    get:
+      tags:
+        - auth
+      description: Get the current volume
+      responses:
+        200:
+          description: Volume is being returned
+          content:
+            application/json:
+              schema:
+                example:
+                  volume: 75
+        400:
+          description: Could not fetch volume
+          content:
+            application/json:
+              schema:
+                example:
+                  error: could not fetch volume
   /self:
     get:
       tags:
