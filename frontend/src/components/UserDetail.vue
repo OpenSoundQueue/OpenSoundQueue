@@ -113,7 +113,7 @@ async function deleteUser() {
 
     PopUpService.openPopUp(popUpString.value, translate('popUp.deleteUser.button'));
     const userAction = await PopUpService.waitForUserAction();
-    console.log(userAction)
+
     if (userAction === "accepted") {
       httpService.deleteUser(props.user.id)
           .then((response) => {

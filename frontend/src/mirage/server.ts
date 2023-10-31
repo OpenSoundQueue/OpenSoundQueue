@@ -233,7 +233,7 @@ export function makeServer({environment = "development"} = {}) {
                 }
 
                 schema.db.users.remove(user);
-                return {"response":"  successfully deleted"}
+                return schema.db.users;
             })
         },
     })

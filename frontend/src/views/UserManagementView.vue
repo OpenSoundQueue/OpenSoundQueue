@@ -85,7 +85,10 @@ function selectUser(index: number): void {
   selectedID.value = index;
 }
 
-function sortUsers(users: User[], attributeName: string, direction: 'asc' | 'desc' | 'none'): User[] {
+function sortUsers(usersArray: User[], attributeName: string, direction: 'asc' | 'desc' | 'none'): User[] {
+  if (!usersArray) {
+    return [];
+  }
   const compareFunction = (a: User, b: User) => {
     const aValue = a[attributeName as keyof User];
     const bValue = b[attributeName as keyof User];
@@ -103,7 +106,7 @@ function sortUsers(users: User[], attributeName: string, direction: 'asc' | 'des
     }
   };
 
-  return [...users].sort(compareFunction);
+  return [...usersArray].sort(compareFunction);
 }
 </script>
 
