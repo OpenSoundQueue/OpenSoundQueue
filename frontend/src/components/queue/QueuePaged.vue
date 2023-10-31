@@ -76,7 +76,7 @@ async function requestPage(pageNumber: number) {
 }
 
 .queue-container {
-  min-height: 445px;
+  min-height: 480px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
