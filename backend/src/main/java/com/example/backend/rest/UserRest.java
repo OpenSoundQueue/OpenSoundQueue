@@ -3,10 +3,10 @@ package com.example.backend.rest;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.ApiKeyDto;
 import com.example.backend.ResponseDtos.ErrorDto;
+import com.example.backend.ResponseDtos.UserDto;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
-import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -160,6 +160,10 @@ public class UserRest {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
+        if (userService.getUserByToken(token).equals(userService.getUserById(id))) {
+            return new ResponseEntity<>(new ErrorDto("You can not delete your own user"), HttpStatus.BAD_REQUEST);
+        }
+
         if (userService.getUserById(id) == null) {
             return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
         }
@@ -167,5 +171,16 @@ public class UserRest {
         userService.deleteUser(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/self")
+    public ResponseEntity<Object> self(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        UserInfoEntity user = userService.getUserByToken(token);
+
+        return new ResponseEntity<>(new UserDto(user.getId(), user.getUsername(), user.getLastOnline()), HttpStatus.OK);
     }
 }
