@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <UserDetail class="detail-container" :user="selectedUser" @update:Users="updateUsers($event)"></UserDetail>
+    <UserDetail class="detail-container" :user="selectedUser" :selfID="selfID" @update:Users="updateUsers($event)"></UserDetail>
   </main>
 </template>
 
@@ -30,6 +30,8 @@ import {computed, onMounted, ref} from "vue";
 import {User} from "@/models/User";
 import SortingButton from "@/components/buttons/SortingButton.vue";
 import UserDetail from "@/components/UserDetail.vue";
+import * as http from "http";
+import * as https from "https";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
@@ -39,6 +41,7 @@ type SortingMetric = {
 
 const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
+const selfID = ref(0);
 const selectedID = ref(0);
 const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
 
@@ -51,13 +54,21 @@ const sortedUsers = computed(() => {
 
 onMounted(() => {
   getUsers();
+  getSelf();
 })
 
-function getUsers(): void {
-  httpService.getUsers()
+async function getUsers(): void {
+  await httpService.getUsers()
       .then((data: User[]) => {
         users.value = data;
         selectFirstUser()
+      })
+}
+
+async function getSelf(): void{
+  await httpService.getSelf()
+      .then((data: User) => {
+        selfID.value = parseInt(data.id);
       })
 }
 
