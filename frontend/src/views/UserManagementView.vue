@@ -19,7 +19,8 @@
         </div>
       </div>
     </div>
-    <UserDetail class="detail-container" :user="selectedUser" @update:Users="updateUsers($event)"></UserDetail>
+    <UserDetail class="detail-container" :user="selectedUser" :selfID="selfID"
+                @update:Users="updateUsers($event)"></UserDetail>
   </main>
 </template>
 
@@ -39,6 +40,7 @@ type SortingMetric = {
 
 const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
+const selfID = ref(0);
 const selectedID = ref(0);
 const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
 
@@ -51,13 +53,21 @@ const sortedUsers = computed(() => {
 
 onMounted(() => {
   getUsers();
+  getSelf();
 })
 
-function getUsers(): void {
-  httpService.getUsers()
+async function getUsers() {
+  await httpService.getUsers()
       .then((data: User[]) => {
         users.value = data;
         selectFirstUser()
+      })
+}
+
+async function getSelf() {
+  await httpService.getSelf()
+      .then((data: User) => {
+        selfID.value = parseInt(data.id+"");
       })
 }
 

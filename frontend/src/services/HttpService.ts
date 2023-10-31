@@ -196,6 +196,18 @@ export class HttpService {
                 return data;
             });
     }
+    async getSelf() {
+        return httpClient.get(`/self`,cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: User) => {
+                return data;
+            });
+    }
 
     async deleteUser(userID: number) {
         return httpClient.delete(`/user/`+userID,cookieService.getApiKey())

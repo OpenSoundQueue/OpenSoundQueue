@@ -224,6 +224,10 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.users;
             })
 
+            this.get("/self", (schema: AppSchema) => {
+                return schema.db.users.find(2);
+            })
+
             this.delete("/user/:id", (schema: AppSchema,request) => {
                 const id = request.params.id;
                 const user = schema.db.users.find(id);

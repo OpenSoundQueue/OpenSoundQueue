@@ -46,7 +46,7 @@
         </div>
         <p><span class="dot"></span>{{ user ? user.role : '' }}</p>
       </div>
-      <DynamicButton v-if="user?user.role!=='Owner':false" class="delete desktop" b-style="login" :status="buttonStatus"
+      <DynamicButton v-if="user?user.id != selfID:false" class="delete desktop" b-style="login" :status="buttonStatus"
                      @click="deleteUser">
         <img src="@/assets/icons/delete.svg"/>
         {{ $translate('adminPage.detail.delete') }}
@@ -67,7 +67,8 @@ import {PopUpService} from "@/services/PopUpService";
 const httpService = new HttpService();
 
 const props = defineProps<{
-  user: User | undefined | null
+  user: User | undefined | null,
+  selfID: number
 }>()
 
 const emit = defineEmits<{
