@@ -17,12 +17,12 @@ export default class HttpClient {
         if (apiKey) {
             headers["X-API-KEY"] = apiKey;
         }
-        /*
+
         if (import.meta.env.DEV) {
             const url = "/api" + path;
             return this.request(url, data, method, headers);
         }
-*/
+
         const url = `http://${window.location.hostname}:8080/api` + path;
         return this.request(url, data, method, headers);
     }

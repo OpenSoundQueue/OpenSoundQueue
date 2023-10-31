@@ -135,7 +135,7 @@ main {
   flex-direction: column;
 }
 
-.detail-container{
+.detail-container {
   flex: 0 0 auto;
 }
 
@@ -143,7 +143,8 @@ main {
   height: calc(100% - 40px);
   flex: 1;
 }
-.email{
+
+.email {
   display: none;
 }
 
@@ -231,7 +232,7 @@ main {
     grid-template-rows: 60px calc(100% - 90px);
   }
 
-  .email{
+  .email {
     display: flex;
   }
 
@@ -258,7 +259,7 @@ main {
     height: 2px;
   }
 
-  .user{
+  .user {
     margin-top: 0;
   }
 

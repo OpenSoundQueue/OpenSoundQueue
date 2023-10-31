@@ -72,6 +72,23 @@ public class BackendApplication {
         userService.registerNewAuthUser(new UserInfoEntity("Markus", "Passwort1!"));
         userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort2!"));
         userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort3!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Eyüp", "Passwort4!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Toni", "Passwort5!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Nico Zach", "Passwort6!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Philip", "Passwort7!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Dren", "Passwort8!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Sebi", "Passwort9!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Markus II", "Passwort10!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Nils", "Passwort11!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Zyprian", "Passwort12!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Severin", "Passwort13!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Raphi", "Passwort14!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Luki Linke", "Passwort15!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Nina", "Passwort16!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Laurenz", "Passwort17!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Lorenz", "Passwort18!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Benji", "Passwort19!"));
+        userService.registerNewAuthUser(new UserInfoEntity("Steffen Hofmann", "Passwort20!"));
         settingsService.printSettings();
         // propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
     }
