@@ -1,11 +1,11 @@
 <template>
   <div @click="activate" class="wrapper">
-    <div class="slider" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
+    <div class="slider" :class="[voteSkipData.hasVoted ? 'active' : 'inactive']">
       <div class="button-label-container">
-        <div class="button unselectable" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
+        <div class="button unselectable" :class="[voteSkipData.hasVoted ? 'active' : 'inactive', isLoading ? 'loading' : 'not-loading']">
           <img src="@/assets/icons/music/skip.svg" alt="skip icon">
         </div>
-        <div class="label unselectable" :class="[voteSkipData.isActive ? 'active' : 'inactive']">
+        <div class="label unselectable" :class="[voteSkipData.hasVoted ? 'active' : 'inactive']">
           {{ voteSkipData.received }} / {{ voteSkipData.required }}
         </div>
       </div>
@@ -21,7 +21,7 @@ import * as cookieService from "@/services/cookieService";
 import {translate} from "@/plugins/TranslationPlugin";
 
 type VoteSkipDto = {
-  isActive: boolean,
+  hasVoted: boolean,
   required: number,
   received: number
 }
@@ -32,8 +32,10 @@ const props = defineProps<{
 
 const httpService = new HttpService();
 
+const isLoading = ref(false);
+
 const voteSkipData = ref({
-  isActive: false,
+  hasVoted: false,
   required: 0,
   received: 0
 });
@@ -51,41 +53,49 @@ function requestStatus() {
       })
 }
 
-function requestVote() {
-  httpService.getVoteSkipVote(cookieService.getApiKey())
+async function requestVote() {
+  await httpService.getVoteSkipVote(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
-        voteSkipData.value.received ++;
+        console.log(data.hasVoted);
       })
       .catch(() => {
         ToastService.sendNotification(translate("notifications.voteSkipRequestError"), "error", 3000);
-        voteSkipData.value.isActive = false
+        voteSkipData.value.hasVoted = false
       });
+
+  isLoading.value = false;
 }
 
-function withdrawVote() {
-  httpService.getVoteSkipWithdraw(cookieService.getApiKey())
+async function withdrawVote() {
+  await httpService.getVoteSkipWithdraw(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
-        voteSkipData.value.received --;
+        console.log(data.hasVoted);
       })
       .catch(() => {
         ToastService.sendNotification(translate("notifications.voteSkipWithdrawError"), "error", 3000);
-        voteSkipData.value.isActive = false
+        voteSkipData.value.hasVoted = false
       });
+
+  isLoading.value = false;
 }
 
 function activate() {
+  if (isLoading.value) {
+    return;
+  }
+
   resetInterval();
 
-  if (voteSkipData.value.isActive) {
+  isLoading.value = true;
+
+  if (voteSkipData.value.hasVoted) {
     withdrawVote();
-    voteSkipData.value.isActive = false;
     return;
   }
 
   requestVote();
-  voteSkipData.value.isActive = true;
 }
 
 function resetInterval() {
@@ -105,6 +115,10 @@ function resetInterval() {
   width: 100px;
   display: flex;
   align-items: center;
+}
+
+.button:hover {
+  cursor: pointer;
 }
 
 .slider {
@@ -153,6 +167,10 @@ function resetInterval() {
 
 .button.inactive {
   left: 0;
+}
+
+.button.loading {
+  background: var(--dark-gray);
 }
 
 .label {

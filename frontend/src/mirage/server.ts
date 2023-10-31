@@ -92,40 +92,40 @@ export function makeServer({environment = "development"} = {}) {
             })
 
             let votes = 0;
-            let isActive = false;
+            let hasVoted = false;
             this.get("vote-skip/status", () => {
                 return {
-                    isActive: isActive,
+                    hasVoted: hasVoted,
                     received: votes,
                     required: 5
                 };
             })
 
             this.get("vote-skip/vote", () => {
-                if (isActive) {
+                if (hasVoted) {
                     return {};
                 }
 
                 votes++;
-                isActive = true;
+                hasVoted = true;
 
                 return {
-                    isActive: isActive,
+                    hasVoted: hasVoted,
                     received: votes,
                     required: 5
                 };
             })
 
             this.get("vote-skip/withdraw", () => {
-                if (!isActive) {
+                if (!hasVoted) {
                     return {};
                 }
 
                 votes--;
-                isActive = false;
+                hasVoted = false;
 
                 return {
-                    isActive: isActive,
+                    hasVoted: hasVoted,
                     received: votes,
                     required: 5
                 };

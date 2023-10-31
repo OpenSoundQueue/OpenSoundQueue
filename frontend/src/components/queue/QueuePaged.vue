@@ -14,8 +14,10 @@
         <EntrySkeleton v-else/>
       </div>
     </div>
-    <PageSelector @select-page="(pageNumber) => selectNewPage(pageNumber)" :page-count="numberOfQueuePages"
-                  :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
+    <div v-if="numberOfQueuePages > 1">
+      <PageSelector @select-page="(pageNumber) => selectNewPage(pageNumber)" :page-count="numberOfQueuePages"
+                    :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
+    </div>
   </div>
 </template>
 
