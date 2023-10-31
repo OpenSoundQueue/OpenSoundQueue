@@ -67,7 +67,7 @@ async function getUsers() {
 async function getSelf() {
   await httpService.getSelf()
       .then((data: User) => {
-        selfID.value = parseInt(data.id);
+        selfID.value = parseInt(data.id+"");
       })
 }
 
