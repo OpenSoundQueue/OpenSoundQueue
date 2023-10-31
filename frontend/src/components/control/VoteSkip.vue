@@ -57,7 +57,6 @@ async function requestVote() {
   await httpService.getVoteSkipVote(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
-        console.log(data.hasVoted);
       })
       .catch(() => {
         ToastService.sendNotification(translate("notifications.voteSkipRequestError"), "error", 3000);
@@ -71,7 +70,6 @@ async function withdrawVote() {
   await httpService.getVoteSkipWithdraw(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
         voteSkipData.value = data;
-        console.log(data.hasVoted);
       })
       .catch(() => {
         ToastService.sendNotification(translate("notifications.voteSkipWithdrawError"), "error", 3000);
