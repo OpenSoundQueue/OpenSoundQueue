@@ -14,8 +14,10 @@
         <EntrySkeleton v-else/>
       </div>
     </div>
-    <PageSelector @select-page="(pageNumber) => selectNewPage(pageNumber)" :page-count="numberOfQueuePages"
-                  :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
+    <div v-if="numberOfQueuePages > 1">
+      <PageSelector @select-page="(pageNumber) => selectNewPage(pageNumber)" :page-count="numberOfQueuePages"
+                    :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
+    </div>
   </div>
 </template>
 
@@ -74,7 +76,7 @@ async function requestPage(pageNumber: number) {
 }
 
 .queue-container {
-  min-height: 445px;
+  min-height: 480px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;

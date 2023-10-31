@@ -102,6 +102,10 @@ function updateValues() {
   width: 24px;
 }
 
+.wrapper:hover {
+  cursor: pointer;
+}
+
 img {
   cursor: pointer;
 }
