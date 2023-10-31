@@ -170,7 +170,7 @@ public class UserRest {
 
         userService.deleteUser(id);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/self")

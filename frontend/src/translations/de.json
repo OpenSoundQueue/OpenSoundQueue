@@ -45,7 +45,12 @@
     "queueAddSuccess": "wurde zur Warteschlange hinzugefügt.",
     "queueAddError": "Song konnte nicht zur Warteschlange hinzugefügt werden.",
     "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
-    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden."
+    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden.",
+    "userDelete": {
+      "user": "Benutzer",
+      "messageSuccess": "wurde gelöscht.",
+      "messageError": "konnte nicht geöscht werden."
+    }
   },
   "historySearch": {
     "noSongFound": "Kein Treffer für ",
@@ -66,5 +71,43 @@
   "help": {
     "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig).",
     "addSong": "Es werden Links von Soundcloud und YouTube unterstützt."
+  },
+  "adminPage": {
+    "tableHeader": {
+      "username": "Benutzername",
+      "email": "E-Mail",
+      "role": "Rolle",
+      "lastOnline": "zuletzt online"
+    },
+    "detail": {
+      "placeholder": {
+        "name": "Kein Benutzer ausgewählt",
+        "email": "Keine E-Mail verifiziert",
+        "lastOnline": "War noch nie online",
+        "body": "Bitte wähle einen User aus"
+      },
+      "delete": "Benutzer löschen"
+    }
+  },
+  "months": {
+    "1": "Januar",
+    "2": "Februar",
+    "3": "März",
+    "4": "April",
+    "5": "Mai",
+    "6": "Juni",
+    "7": "Juli",
+    "8": "August",
+    "9": "September",
+    "10": "Oktober",
+    "11": "November",
+    "12": "Dezember"
+  },
+  "popUp": {
+    "deleteUser": {
+      "part1": "Sicher, dass du den Benutzer",
+      "part2": "löschen möchtest?",
+      "button": "Benutzer löschen"
+    }
   }
 }

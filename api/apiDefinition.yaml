@@ -512,12 +512,20 @@ paths:
           description: Id of user
       responses:
         200:
-          description: data of the requested page
+          description: returns updated version of all users
           content:
             application/json:
               schema:
                 example:
-                  response: successfully deleted
+                  - id: 1
+                    username: Quantompixel
+                    lastOnline: 2011-10-05T14:48:00.000Z
+                  - id: 2
+                    username: Daniel
+                    lastOnline: 2013-07-08T14:48:00.000Z
+                  - id: 3
+                    username: Markus
+                    lastOnline: 2010-08-05T14:48:00.000Z
         400:
           description: user with id not found
           content:

@@ -4,6 +4,7 @@ import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import {HttpService} from "@/services/HttpService";
+import UserManagementView from "@/views/UserManagementView.vue";
 import * as cookieService from "@/services/cookieService";
 
 const httpService = new HttpService();
@@ -45,6 +46,14 @@ const router = createRouter({
             path: "/settings",
             name: "settings",
             component: SettingsView,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/admin/user-management",
+            name: "user-management",
+            component: UserManagementView,
             meta: {
                 requiresAuth: true
             }
