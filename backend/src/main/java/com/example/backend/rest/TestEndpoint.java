@@ -17,16 +17,4 @@ public class TestEndpoint {
         songQueueService.skip();
         return "skipped song!";
     }
-
-    @GetMapping("play")
-    public String play() {
-        songQueueService.play();
-        return "playing...";
-    }
-
-    @GetMapping("stop")
-    public String stop() {
-        songQueueService.stop();
-        return "Stopped Song!";
-    }
 }

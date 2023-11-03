@@ -105,4 +105,26 @@ public class SoundQueueRest {
 
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
     }
+
+    @PostMapping("/queue/start")
+    public ResponseEntity<Object> startQueue(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!songQueueService.isPlaying()) songQueueService.play();
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @PostMapping("/queue/stop")
+    public ResponseEntity<Object> stopQueue(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (songQueueService.isPlaying()) songQueueService.stop();
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
 }
