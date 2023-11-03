@@ -56,6 +56,7 @@ public class SoundcloudSongService implements SongServiceInterface {
         }
         if (song.isStarted()) {
             song.getClip().start();
+            return;
         }
         if (!song.isDownloaded()) this.downloadDependencies(song);
 
