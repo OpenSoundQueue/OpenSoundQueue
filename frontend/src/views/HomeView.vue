@@ -1,5 +1,9 @@
 <template>
   <main>
+    <div v-if="router.currentRoute.value.name !== 'default'" class="mode-switcher">
+      <router-link to="/home/basic" class="link">Basic</router-link>
+      <router-link to="/home/advanced" class="link advanced">Advanced</router-link>
+    </div>
     <div class="add-song-container">
       <div class="mobile">
         <OverlayCollapse :label="$translate('addSong')"
@@ -51,6 +55,12 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import AddSong from "@/components/control/AddSong.vue";
 import InfoButton from "@/components/InfoButton.vue";
 import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
+import {onMounted} from "vue";
+import router from "@/router";
+
+onMounted(() => {
+  console.log(router.currentRoute.value.name);
+})
 </script>
 
 <style scoped>
@@ -69,6 +79,40 @@ main {
   padding-top: 20px;
 }
 
+.mode-switcher {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 15px;
+  height: 50px;
+}
+
+.mode-switcher .link {
+  height: 35px;
+  width: 100%;
+  background: var(--background-color);
+  border: 3px solid var(--secondary-color);
+  color: var(--text-color);
+  font-size: var(--font-size-medium);
+  border-radius: var(--border-radius-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.mode-switcher .link.advanced {
+  background-image: url("@/assets/background/grid_background.png");
+  background-position: center;
+}
+
+.link.router-link-exact-active {
+  color: var(--background-color);
+  border-color: var(--tertiary-color);
+  background: var(--tertiary-color);
+  font-weight: bold;
+}
+
 .add-song-slot {
   width: 100%;
   height: 100%;
@@ -76,7 +120,7 @@ main {
 
 .queue-scroll-container {
   border-bottom: var(--secondary-color) dashed 2px;
-  height: calc(100% - 70px - 190px);
+  height: calc(100% - 70px - 190px - 50px);
 }
 
 .queue-scroll-component {
@@ -126,12 +170,17 @@ main {
     width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
-    grid-template-rows: calc(100% - 230px) 230px;
+    grid-template-rows: 50px calc(100% - 230px - 50px) 230px;
+  }
+
+  .mode-switcher {
+    grid-row: 1;
+    width: 50%;
   }
 
   .add-song-container {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 2;
     height: 100%;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
@@ -145,7 +194,7 @@ main {
 
   .queue-scroll-container {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 2;
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
@@ -186,7 +235,7 @@ main {
 
   .control-panel-wrapper {
     grid-column: 1 / span 2;
-    grid-row: 2;
+    grid-row: 3;
     height: 100%;
     display: flex;
     align-items: center;

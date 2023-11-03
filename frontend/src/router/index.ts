@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHistory, RouterView} from 'vue-router'
 import PublicView from '@/views/PublicView.vue'
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
@@ -6,6 +6,7 @@ import SettingsView from "@/views/SettingsView.vue";
 import {HttpService} from "@/services/HttpService";
 import UserManagementView from "@/views/UserManagementView.vue";
 import * as cookieService from "@/services/cookieService";
+import HomeViewModerator from "@/views/HomeViewAdvanced.vue";
 
 const httpService = new HttpService();
 
@@ -23,10 +24,32 @@ const router = createRouter({
         {
             path: '/home',
             name: 'home',
-            component: HomeView,
-            meta: {
-                requiresAuth: true
-            }
+            children: [
+                {
+                    path: '',
+                    name: 'default',
+                    component: HomeView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'basic',
+                    name: 'basic',
+                    component: HomeView,
+                    meta: {
+                     requiresAuth: true
+                    }
+                },
+                {
+                    path: 'advanced',
+                    name: 'advanced',
+                    component: HomeViewModerator,
+                    meta: {
+                        requiresAuth: true
+                    }
+                }
+            ],
         },
         {
             path: '/login/:entryCode',
