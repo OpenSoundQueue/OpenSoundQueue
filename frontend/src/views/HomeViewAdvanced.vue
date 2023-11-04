@@ -1,8 +1,12 @@
 <template>
-  <div class="mode-switcher">
-    <router-link to="/home/basic" class="link">Basic</router-link>
-    <router-link to="/home/advanced" class="link">Advanced</router-link>
-  </div>
+  <main>
+    <div class="background-gradient">
+      <div class="mode-switcher">
+        <router-link to="/home/basic" class="link">Basic</router-link>
+        <router-link to="/home/advanced" class="link">Advanced</router-link>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -10,6 +14,18 @@
 </script>
 
 <style scoped>
+main {
+  height: calc(100svh - 60px);
+  background-image: url("@/assets/background/grid-background_big.png");
+  background-size: 300px;
+}
+
+.background-gradient {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, var(--background-color) 54.69%);
+  height: 100%;
+  width: 100%;
+}
+
 .mode-switcher {
   display: flex;
   justify-content: flex-start;

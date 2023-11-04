@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main :class="{'show-mode-switcher': router.currentRoute.value.name !== 'default'}">
     <div v-if="router.currentRoute.value.name !== 'default'" class="mode-switcher">
       <router-link to="/home/basic" class="link">Basic</router-link>
       <router-link to="/home/advanced" class="link advanced">Advanced</router-link>
@@ -79,38 +79,44 @@ main {
   padding-top: 20px;
 }
 
-.mode-switcher {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  height: 50px;
-}
+main.show-mode-switcher {
+  .mode-switcher {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    height: 50px;
+  }
 
-.mode-switcher .link {
-  height: 35px;
-  width: 100%;
-  background: var(--background-color);
-  border: 3px solid var(--secondary-color);
-  color: var(--text-color);
-  font-size: var(--font-size-medium);
-  border-radius: var(--border-radius-medium);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-}
+  .link {
+    height: 35px;
+    width: 100%;
+    background: var(--background-color);
+    border: 3px solid var(--secondary-color);
+    color: var(--text-color);
+    font-size: var(--font-size-medium);
+    border-radius: var(--border-radius-medium);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
 
-.mode-switcher .link.advanced {
-  background-image: url("@/assets/background/grid_background.png");
-  background-position: center;
-}
+  .link.advanced {
+    background-image: url("@/assets/background/grid_background_small.png");
+    background-position: center;
+  }
 
-.link.router-link-exact-active {
-  color: var(--background-color);
-  border-color: var(--tertiary-color);
-  background: var(--tertiary-color);
-  font-weight: bold;
+  .link.router-link-exact-active {
+    color: var(--background-color);
+    border-color: var(--tertiary-color);
+    background: var(--tertiary-color);
+    font-weight: bold;
+  }
+
+  .queue-scroll-container {
+    height: calc(100% - 70px - 190px - 50px);
+  }
 }
 
 .add-song-slot {
@@ -120,7 +126,7 @@ main {
 
 .queue-scroll-container {
   border-bottom: var(--secondary-color) dashed 2px;
-  height: calc(100% - 70px - 190px - 50px);
+  height: calc(100% - 70px - 190px);
 }
 
 .queue-scroll-component {
@@ -170,17 +176,35 @@ main {
     width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
-    grid-template-rows: 50px calc(100% - 230px - 50px) 230px;
+    grid-template-rows: calc(100% - 230px) 230px;
   }
 
-  .mode-switcher {
-    grid-row: 1;
-    width: 50%;
+  main.show-mode-switcher {
+    height: calc(100svh - 60px - 50px);
+    grid-template-rows: 50px calc(100% - 230px) 230px;
+
+    .mode-switcher {
+      grid-row: 1;
+      width: 50%;
+    }
+
+    .add-song-container {
+      grid-row: 2;
+    }
+
+    .queue-scroll-container {
+      grid-row: 2;
+      height: 100%;
+    }
+
+    .control-panel-wrapper {
+      grid-row: 3;
+    }
   }
 
   .add-song-container {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1;
     height: 100%;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
@@ -194,7 +218,7 @@ main {
 
   .queue-scroll-container {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
@@ -235,7 +259,7 @@ main {
 
   .control-panel-wrapper {
     grid-column: 1 / span 2;
-    grid-row: 3;
+    grid-row: 2;
     height: 100%;
     display: flex;
     align-items: center;
