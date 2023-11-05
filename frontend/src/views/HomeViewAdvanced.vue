@@ -29,7 +29,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import draggable from "vuedraggable";
-import Entry from "@/components/queue/Entry.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 
 const list = ref( [

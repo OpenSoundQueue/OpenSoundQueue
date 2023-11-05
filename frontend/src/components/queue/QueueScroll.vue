@@ -9,14 +9,21 @@
       <draggable
           tag="ul"
           :list="queue"
-          class="list-group"
+          class="queue-reorder-container"
           handle=".handle"
           item-key="name"
+          ghost-class="ghost"
       >
         <template #item="{ element, index }">
-          <li class="list-group-item">
-            <span class="fa fa-align-justify handle">aa</span>
-            <span class="text">{{ element }}</span>
+          <li class="queue-reorder-item">
+            <Entry :number-in-queue="element.numberInQueue"
+                   :title="element.song.title"
+                   :artist="element.song.artist"
+                   :duration="element.song.duration"
+            />
+            <span class="fa fa-align-justify handle">
+              <img src="@/assets/icons/drag_handle.svg"/>
+            </span>
           </li>
         </template>
       </draggable>
@@ -51,13 +58,13 @@ const props = defineProps<{
 const httpService = new HttpService();
 const queue: Ref<Array<{
   numberInQueue: number,
-  song: { title: string, artist: string, duration: number, link?: string}
+  song: { title: string, artist: string, duration: number, link?: string }
 }>> = ref([]);
 
 onMounted(() => {
   requestQueue();
 
-  setInterval(requestQueue, props.updateInterval);
+  // setInterval(requestQueue, props.updateInterval);
 })
 
 function requestQueue() {
@@ -84,16 +91,30 @@ function requestQueue() {
 
 .queue-reorder-container {
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .queue-reorder-item {
   display: flex;
   width: 100%;
+  gap: 30px;
 }
 
 .handle {
-  width: 50px;
-  height: 50px;
-  background: red;
+  height: 39px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 40px;
+  }
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>
