@@ -6,6 +6,7 @@
         <router-link to="/home/advanced" class="link">Advanced</router-link>
       </div>
       <div>
+        <QueueScroll :update-interval="4000" :has-reorder="true"/>
         <draggable
             tag="ul"
             :list="list"
@@ -15,13 +16,8 @@
         >
           <template #item="{ element, index }">
             <li class="list-group-item">
-              <i class="fa fa-align-justify handle">aa</i>
-
-              <span class="text">{{ element.name }} </span>
-
-              <input type="text" class="form-control" v-model="element.text" />
-
-              <i class="fa fa-times close" @click="removeAt(index)"></i>
+              <span class="fa fa-align-justify handle">aa</span>
+              <span class="text">{{ element.name }}</span>
             </li>
           </template>
         </draggable>
@@ -33,6 +29,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import draggable from "vuedraggable";
+import Entry from "@/components/queue/Entry.vue";
+import QueueScroll from "@/components/queue/QueueScroll.vue";
 
 const list = ref( [
   { name: "John", text: "", id: 0 },
@@ -89,27 +87,13 @@ main {
   font-weight: bold;
 }
 
-.button {
-  margin-top: 35px;
-}
 .handle {
-  float: left;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.close {
-  float: right;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-input {
-  display: inline-block;
-  width: 50%;
-}
-
-.text {
-  margin: 20px;
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
