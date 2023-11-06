@@ -1,6 +1,11 @@
 <template>
-  <main :class="{'show-mode-switcher': router.currentRoute.value.name !== 'default'}">
-    <div v-if="router.currentRoute.value.name !== 'default'" class="mode-switcher">
+  <main :class="{'show-mode-switcher': hasAdvancedPermissions}">
+    <teleport v-if="displayAdvanced" to="#app">
+      <div class="background">
+        <div class="gradient"></div>
+      </div>
+    </teleport>
+    <div v-if="hasAdvancedPermissions" class="mode-switcher">
       <router-link to="/home/basic" class="link">Basic</router-link>
       <router-link to="/home/advanced" class="link advanced">Advanced</router-link>
     </div>
@@ -24,14 +29,14 @@
       </div>
     </div>
     <div class="queue-scroll-container">
-      <div class="queue-header desktop">
+      <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
         <div class="queue-number">#</div>
         <div class="title">{{ $translate('queueDescription.title') }}</div>
         <div class="duration">{{ $translate('queueDescription.duration') }}</div>
       </div>
       <div class="hr desktop"></div>
       <div class="queue-scroll-component">
-        <QueueScroll :update-interval="4000"/>
+        <QueueScroll :update-interval="4000" :has-reorder="hasQueueReorderPermission"/>
       </div>
     </div>
     <div class="control-panel-wrapper">
@@ -55,11 +60,22 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import AddSong from "@/components/control/AddSong.vue";
 import InfoButton from "@/components/InfoButton.vue";
 import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
-import {onMounted} from "vue";
 import router from "@/router";
+import {computed, onMounted, ref} from "vue";
+
+const hasAdvancedPermissions = ref(false);
+const hasQueueReorderPermission = computed(() => {
+  return router.currentRoute.value.name === "advanced";
+});
+
+const displayAdvanced = computed(() => {
+  return router.currentRoute.value.name === "advanced";
+})
 
 onMounted(() => {
-  console.log(router.currentRoute.value.name);
+  if (router.currentRoute.value.name !== "default") {
+    hasAdvancedPermissions.value = true;
+  }
 })
 </script>
 
@@ -116,6 +132,23 @@ main.show-mode-switcher {
 
   .queue-scroll-container {
     height: calc(100% - 70px - 190px - 50px);
+  }
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-image: url("@/assets/background/grid-background_big.png");
+  background-size: 300px;
+
+  .gradient {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, var(--background-color) 54.69%);
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -241,14 +274,20 @@ main.show-mode-switcher {
     justify-content: space-between;
     align-items: center;
     height: 40px;
+
+    .queue-number {
+      width: 28px;
+    }
+
+    .title {
+      width: 90%;
+    }
   }
 
-  .queue-number {
-    width: 28px;
-  }
-
-  .title {
-    width: 90%;
+  .queue-header.drag-enabled {
+    .duration {
+      margin-right: 70px;
+    }
   }
 
   .queue-scroll-component {

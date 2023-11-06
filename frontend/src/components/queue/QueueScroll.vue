@@ -14,13 +14,15 @@
           item-key="name"
           ghost-class="ghost"
       >
-        <template #item="{ element, index }">
+        <template #item="{ element }">
           <li class="queue-reorder-item">
-            <Entry :number-in-queue="element.numberInQueue"
-                   :title="element.song.title"
-                   :artist="element.song.artist"
-                   :duration="element.song.duration"
-            />
+            <span class="entry">
+              <Entry :number-in-queue="element.numberInQueue"
+                     :title="element.song.title"
+                     :artist="element.song.artist"
+                     :duration="element.song.duration"
+              />
+            </span>
             <span class="fa fa-align-justify handle">
               <img src="@/assets/icons/drag_handle.svg"/>
             </span>
@@ -64,7 +66,7 @@ const queue: Ref<Array<{
 onMounted(() => {
   requestQueue();
 
-  // setInterval(requestQueue, props.updateInterval);
+  setInterval(requestQueue, props.updateInterval);
 })
 
 function requestQueue() {
@@ -94,27 +96,35 @@ function requestQueue() {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
+  margin: 0;
+  padding: 0;
 
-.queue-reorder-item {
-  display: flex;
-  width: 100%;
-  gap: 30px;
-}
+  .queue-reorder-item {
+    display: flex;
+    width: 100%;
+    gap: 30px;
 
-.handle {
-  height: 39px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    .entry {
+      width: 100%;
+      overflow: hidden;
+    }
 
-  img {
-    width: 40px;
+    .handle {
+      height: 39px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 40px;
+      }
+    }
   }
-}
 
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
+  .ghost {
+    background: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius-small);
+  }
 }
 </style>
