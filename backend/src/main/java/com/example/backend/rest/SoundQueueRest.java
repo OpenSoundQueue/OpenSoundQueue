@@ -127,4 +127,28 @@ public class SoundQueueRest {
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
+    @PatchMapping("/queue/change-order")
+    public ResponseEntity<Object> changeOrder(@RequestHeader(value = "X-API-KEY") String token, @RequestBody Map<String, Integer> positions) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        int oldPos = positions.get("oldPos");
+        int newPos = positions.get("newPos");
+
+        if (oldPos >= songQueueService.getQueue().size() || oldPos < 0 || newPos < 0) return new ResponseEntity<>(new ErrorDto("Position of song does not exist"), HttpStatus.BAD_REQUEST);
+
+        songQueueService.changeOrder(oldPos, newPos);
+
+        List<Song> songList = songQueueService.getQueue();
+        List<SongQueueItem> responseBody = new ArrayList<>();
+
+        for (int i = 0; i < songList.size(); i++) { // TODO: convert to reusable queue component
+            Song s = songList.get(i);
+            responseBody.add(new SongQueueItem(i, s.getInfo()));
+        }
+
+        return new ResponseEntity<>(responseBody, HttpStatus.ACCEPTED);
+    }
 }
