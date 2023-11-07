@@ -344,13 +344,13 @@ paths:
                     artist: The Kid LAROI & Justin Bieber
                     title: Stay
                     duration: 60
-        400:
+        202:
           description: no song currently playing
           content:
             application/json:
               schema:
                 example:
-                  error: No song currently playing
+                  status: No song currently playing
   /vote-skip/status:
     get:
       tags:

@@ -44,9 +44,11 @@ public class SoundQueueRest {
 
     @GetMapping("/queue/now-playing")
     public ResponseEntity<Object> getNowPlaying() {
-        if (songQueueService.getQueue().size() == 0)
-            return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(songQueueService.getCurrentPlayingSong(), HttpStatus.OK);
+        CurrentlyPlayingDto currentSong = songQueueService.getCurrentPlayingSong();
+        if (currentSong == null) {
+            return new ResponseEntity<>(new StatusDto("No song currently playing"), HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(currentSong, HttpStatus.OK);
     }
 
     @PostMapping("/queue/add")
