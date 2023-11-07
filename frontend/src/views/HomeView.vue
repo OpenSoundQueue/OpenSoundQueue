@@ -268,7 +268,7 @@ main.show-mode-switcher {
   }
 
   .queue-header {
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 0 27px;
     display: flex;
     gap: 10px;
     justify-content: space-between;

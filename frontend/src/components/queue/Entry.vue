@@ -45,6 +45,8 @@ function getDurationString(durationInSeconds: number): string {
   justify-content: flex-start;
   align-items: center;
   width: 28px;
+  padding-left: 7px;
+  box-sizing: border-box;
 }
 
 .song-details-container {
