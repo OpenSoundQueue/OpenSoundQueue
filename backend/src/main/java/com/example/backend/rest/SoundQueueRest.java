@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,15 +23,7 @@ public class SoundQueueRest {
 
     @GetMapping("/queue/all")
     public ResponseEntity<Object> getSongQueue() {
-        List<Song> songList = songQueueService.getQueue();
-        List<SongQueueItem> responseBody = new ArrayList<>();
-
-        for (int i = 0; i < songList.size(); i++) {
-            Song s = songList.get(i);
-            responseBody.add(new SongQueueItem(i, s.getInfo()));
-        }
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.OK);
     }
 
     @GetMapping("/queue/page/{page-number}")
@@ -141,14 +132,6 @@ public class SoundQueueRest {
 
         songQueueService.changeOrder(oldPos, newPos);
 
-        List<Song> songList = songQueueService.getQueue();
-        List<SongQueueItem> responseBody = new ArrayList<>();
-
-        for (int i = 0; i < songList.size(); i++) { // TODO: convert to reusable queue component
-            Song s = songList.get(i);
-            responseBody.add(new SongQueueItem(i, s.getInfo()));
-        }
-
-        return new ResponseEntity<>(responseBody, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
 }
