@@ -12,7 +12,12 @@
           class="queue-reorder-container"
           handle=".handle"
           item-key="name"
-          ghost-class="ghost"
+          v-bind="dragOptions"
+          :component-data="{
+          tag: 'ul',
+          type: 'transition-group',
+          name: !drag ? 'flip-list' : null
+        }"
       >
         <template #item="{ element }">
           <li class="queue-reorder-item">
@@ -44,10 +49,10 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted, watch} from "vue";
+import type {Ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
-import type {Ref} from "vue";
 import Entry from "@/components/queue/Entry.vue";
 import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 import draggable from "vuedraggable";
@@ -58,10 +63,21 @@ const props = defineProps<{
 }>();
 
 const httpService = new HttpService();
+
+const drag = ref(false);
+
 const queue: Ref<Array<{
   numberInQueue: number,
   song: { title: string, artist: string, duration: number, link?: string }
 }>> = ref([]);
+
+const dragOptions = computed(() => {
+  return {
+    animation: 200,
+    disabled: false,
+    ghostClass: "ghost"
+  }
+})
 
 onMounted(() => {
   requestQueue();
@@ -125,6 +141,14 @@ function requestQueue() {
     background: var(--primary-color);
     color: white;
     border-radius: var(--border-radius-small);
+  }
+
+  .flip-list-move {
+    transition: transform 0.2s;
+  }
+
+  .no-move {
+    transition: transform 0s;
   }
 }
 </style>
