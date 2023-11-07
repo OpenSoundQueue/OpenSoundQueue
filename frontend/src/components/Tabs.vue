@@ -72,7 +72,7 @@ function setActiveTab(index: number) {
 }
 
 .tab.inactive {
- background: none;
+  background: none;
   color: var(--text-color);
 }
 
