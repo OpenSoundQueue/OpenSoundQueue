@@ -135,6 +135,7 @@ public class SongQueueService {
     }
 
     public CurrentlyPlayingDto getCurrentPlayingSong() {
+        if (currentSong == null) return null;
         return new CurrentlyPlayingDto(isPlaying, currentSong.getCurrentTime(), System.currentTimeMillis(), currentSong.getInfo());
     }
 
