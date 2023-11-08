@@ -39,7 +39,7 @@
           <ControlPanel :vote-skip="true"
                         :start-stop="true"
                         :skip="true"
-                        :restart="true">
+                        :replay="true">
           </ControlPanel>
         </div>
       </div>

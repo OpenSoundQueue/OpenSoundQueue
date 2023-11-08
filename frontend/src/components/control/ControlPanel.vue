@@ -1,27 +1,39 @@
 <template>
   <div class="control-panel">
-    <VoteSkip :update-interval="4000"/>
-    <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
+    <div v-show="voteSkip" class="vote-skip">
+      <VoteSkip :update-interval="4000"/>
+      <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
+    </div>
+    <SkipSong v-show="skip"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import VoteSkip from "@/components/control/VoteSkip.vue";
 import InfoButton from "@/components/InfoButton.vue";
+import SkipSong from "@/components/control/SkipSong.vue";
 const props = defineProps<{
   voteSkip:boolean,
   startStop:boolean,
   skip: boolean,
-  restart:boolean
+  replay:boolean
 }>();
 </script>
 
 <style scoped>
-.control-panel{
+.control-panel,.vote-skip{
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+}
+
+.control-panel{
+  gap: 30px;
+  width: 100%;
+}
+
+.vote-skip{
+  gap: 10px;
 }
 </style>
