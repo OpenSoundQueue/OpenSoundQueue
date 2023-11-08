@@ -147,6 +147,7 @@ export function makeServer({environment = "development"} = {}) {
             })
 
             this.post("/replay", () => {
+                start = Date.now();
                 return {};
             })
 
