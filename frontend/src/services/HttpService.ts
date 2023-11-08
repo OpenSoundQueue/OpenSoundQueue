@@ -106,6 +106,30 @@ export class HttpService {
                 return data;
             })
     }
+    async postSkip(apiKey: string) {
+        return httpClient.post("/skip", apiKey)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
+    async postReplay(apiKey: string) {
+        return httpClient.post("/replay", apiKey)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
 
     async getSearchHistory(searchTerm: string, maxResults: number, apiKey: string) {
         return httpClient.get(`/search/history/${searchTerm}/max-results/${maxResults}`, apiKey)

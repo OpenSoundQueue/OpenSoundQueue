@@ -64,7 +64,7 @@ export function makeServer({environment = "development"} = {}) {
             this.get("/queue/all", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                return songs.map((song, index) => {
+                return songs.slice(1).map((song, index) => {
                     return {
                         song: song,
                         numberInQueue: index
@@ -76,7 +76,10 @@ export function makeServer({environment = "development"} = {}) {
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                if (Date.now() - start > 100_000) {
+                if (Date.now() - start > songs[0].duration * 1000) {
+                    const currentSong = schema.db.songs[0];
+                    schema.db.songs.remove(currentSong);
+
                     start = Date.now();
                 }
 
@@ -84,7 +87,7 @@ export function makeServer({environment = "development"} = {}) {
                     isPlaying: true,
                     time: Date.now() - start,
                     stamp: Date.now(),
-                    song: songs[1]
+                    song: songs[0]
                 }
             })
 
@@ -133,8 +136,18 @@ export function makeServer({environment = "development"} = {}) {
                 return {
                     hasVoted: hasVoted,
                     received: votes,
-                    required: 5
+                    required: 25
                 };
+            })
+
+            this.post("/skip", (schema: AppSchema,request) => {
+                const currentSong = schema.db.songs[0];
+                schema.db.songs.remove(currentSong);
+                return schema.db.songs;
+            })
+
+            this.post("/replay", () => {
+                return {};
             })
 
             function fuzzySearch(items: any[], key: any) {
