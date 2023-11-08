@@ -50,7 +50,9 @@
       "user": "Benutzer",
       "messageSuccess": "wurde gelöscht.",
       "messageError": "konnte nicht geöscht werden."
-    }
+    },
+    "skipSongSuccess": "Song wurde übersprungen",
+    "skipSongError": "Song konnte nicht übersprungen werden"
   },
   "historySearch": {
     "noSongFound": "Kein Treffer für ",
