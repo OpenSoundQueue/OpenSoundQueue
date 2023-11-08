@@ -143,6 +143,9 @@ export function makeServer({environment = "development"} = {}) {
             this.post("/skip", (schema: AppSchema,request) => {
                 const currentSong = schema.db.songs[0];
                 schema.db.songs.remove(currentSong);
+
+                start = Date.now();
+
                 return schema.db.songs;
             })
 
