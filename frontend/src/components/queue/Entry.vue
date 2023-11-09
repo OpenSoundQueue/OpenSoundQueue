@@ -37,6 +37,8 @@ function getDurationString(durationInSeconds: number): string {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  padding-left: 5px;
+  box-sizing: border-box;
 }
 
 .queue-number {
