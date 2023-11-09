@@ -38,4 +38,8 @@ export default class HttpClient {
     post(path: string, data: unknown, apiKey?: string) {
         return this.rest(path, data, "POST", apiKey);
     }
+
+    patch(path: string, data: unknown, apiKey?: string) {
+        return this.rest(path, data, "PATCH", apiKey);
+    }
 }

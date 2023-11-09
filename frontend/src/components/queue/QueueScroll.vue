@@ -13,6 +13,7 @@
           handle=".handle"
           item-key="name"
           v-bind="dragOptions"
+          @end="endDrag"
           :component-data="{
           tag: 'ul',
           type: 'transition-group',
@@ -20,7 +21,7 @@
         }"
       >
         <template #item="{ element }">
-          <li class="queue-reorder-item">
+          <li @mousedown="startDrag(element.numberInQueue)" class="queue-reorder-item">
             <span class="entry">
               <Entry :number-in-queue="element.numberInQueue"
                      :title="element.song.title"
@@ -56,6 +57,8 @@ import {Song} from "@/models/Song";
 import Entry from "@/components/queue/Entry.vue";
 import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 import draggable from "vuedraggable";
+import {ToastService} from "@/services/ToastService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const props = defineProps<{
   updateInterval: number,
@@ -70,6 +73,8 @@ const queue: Ref<Array<{
   numberInQueue: number,
   song: { title: string, artist: string, duration: number, link?: string }
 }>> = ref([]);
+
+const draggedElement = ref(0);
 
 const dragOptions = computed(() => {
   return {
@@ -90,6 +95,22 @@ function requestQueue() {
       .then((data: Array<{ numberInQueue: number, song: Song }>) => {
         queue.value = data;
       })
+}
+
+function startDrag(numberInQueue: number) {
+  draggedElement.value = numberInQueue;
+}
+
+function endDrag() {
+  for (let [index, entry] of queue.value.entries()) {
+    if (entry.numberInQueue === draggedElement.value) {
+      httpService.queueChangeOrder(entry.numberInQueue, index)
+          .then(() => requestQueue())
+          .catch(() => {
+            ToastService.sendNotification(translate("notifications.queueChangeOrderError"), "error", 3000);
+          });
+    }
+  }
 }
 </script>
 

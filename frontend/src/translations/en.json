@@ -50,7 +50,8 @@
       "user": "User",
       "messageSuccess": "has been deleted.",
       "messageError": "could not be deleted."
-    }
+    },
+    "queueChangeOrderError": "Song could not be moved."
   },
   "historySearch": {
     "noSongFound": "No song found for ",

@@ -42,13 +42,13 @@ export function makeServer({environment = "development"} = {}) {
             type AppSchema = Schema<AppRegistry>
 
             this.get("/queue/page/:pageNumber/page-size/:pageSize", (schema: AppSchema, request) => {
-                let pageNumber: number = parseInt(request.params.pageNumber);
-                let pageSize: number = parseInt(request.params.pageSize);
+                const pageNumber: number = parseInt(request.params.pageNumber);
+                const pageSize: number = parseInt(request.params.pageSize);
 
                 const songs = schema.db.songs;
 
-                let start: number = pageSize * pageNumber;
-                let end: number = start + pageSize;
+                const start: number = pageSize * pageNumber;
+                const end: number = start + pageSize;
 
                 return {
                     page: songs.slice(start, end).map((song, index) => {
@@ -238,6 +238,17 @@ export function makeServer({environment = "development"} = {}) {
 
                 schema.db.users.remove(user);
                 return schema.db.users;
+            })
+
+            this.patch("/queue/change-order", (schema: AppSchema, request) => {
+                const songs = schema.db.songs;
+
+                return songs.map((song, index) => {
+                    return {
+                        song: song,
+                        numberInQueue: index
+                    }
+                });
             })
         },
     })
