@@ -15,7 +15,6 @@ const httpService = new HttpService();
 async function skipSong() {
   await httpService.postSkip(cookieService.getApiKey())
       .then((data: []) => {
-        console.log(data)
         ToastService.sendNotification(translate("notifications.skipSongSuccess"), "success", 3000);
       })
       .catch(() => {
