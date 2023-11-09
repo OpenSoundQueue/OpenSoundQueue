@@ -31,6 +31,7 @@ async function replaySong() {
 <style scoped>
 
 .replay {
+  user-select: none;
   display: flex;
   align-items: center;
 }

@@ -34,6 +34,7 @@ async function skipSong() {
 <style scoped>
 
 .skip-song {
+  user-select: none;
   display: flex;
   align-items: center;
 }

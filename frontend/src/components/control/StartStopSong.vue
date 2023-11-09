@@ -47,6 +47,7 @@ async function startStop() {
 <style scoped>
 
 .skip-song {
+  user-select: none;
   position: relative;
   width: 40px;
   height: 40px;
