@@ -130,6 +130,30 @@ export class HttpService {
                 return data;
             })
     }
+    async postStart(apiKey: string) {
+        return httpClient.post("/queue/start", apiKey)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
+    async postStop(apiKey: string) {
+        return httpClient.post("/queue/stop", apiKey)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            })
+    }
 
     async getSearchHistory(searchTerm: string, maxResults: number, apiKey: string) {
         return httpClient.get(`/search/history/${searchTerm}/max-results/${maxResults}`, apiKey)

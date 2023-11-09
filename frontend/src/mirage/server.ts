@@ -38,7 +38,7 @@ export function makeServer({environment = "development"} = {}) {
         routes() {
             this.namespace = "api"
 
-            type AppRegistry = Registry<{ song: typeof SongModel,user: typeof SongModel }, { /* factories can be defined here */ }>
+            type AppRegistry = Registry<{ song: typeof SongModel, user: typeof SongModel }, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
             this.get("/queue/page/:pageNumber/page-size/:pageSize", (schema: AppSchema, request) => {
@@ -72,20 +72,25 @@ export function makeServer({environment = "development"} = {}) {
                 });
             })
 
-            let start = Date.now();
+            let lastRequest = Date.now();
+            let queueIsPlaying = true;
+            let time = 0;
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                if (Date.now() - start > songs[0].duration * 1000) {
+                if (time > songs[0].duration * 1000) {
                     const currentSong = schema.db.songs[0];
                     schema.db.songs.remove(currentSong);
-
-                    start = Date.now();
+                    time = 0;
+                } else {
+                    time = queueIsPlaying ? time + (Date.now() - lastRequest) : time;
                 }
+
+                lastRequest = Date.now();
 
                 return {
                     isPlaying: true,
-                    time: Date.now() - start,
+                    time: time,
                     stamp: Date.now(),
                     song: songs[0]
                 }
@@ -140,17 +145,28 @@ export function makeServer({environment = "development"} = {}) {
                 };
             })
 
-            this.post("/skip", (schema: AppSchema,request) => {
+            this.post("/skip", (schema: AppSchema, request) => {
                 const currentSong = schema.db.songs[0];
                 schema.db.songs.remove(currentSong);
 
-                start = Date.now();
+                time = 0;
+                lastRequest = Date.now();
 
                 return schema.db.songs;
             })
 
             this.post("/replay", () => {
-                start = Date.now();
+                time = 0;
+                return {};
+            })
+
+            this.post("/queue/start", () => {
+                queueIsPlaying = true;
+                return {};
+            })
+
+            this.post("/queue/stop", () => {
+                queueIsPlaying = false;
                 return {};
             })
 
@@ -245,12 +261,12 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.users.find(2);
             })
 
-            this.delete("/user/:id", (schema: AppSchema,request) => {
+            this.delete("/user/:id", (schema: AppSchema, request) => {
                 const id = request.params.id;
                 const user = schema.db.users.find(id);
 
-                if (!user){
-                    return {"error": "user with id:"+id+" not found"}
+                if (!user) {
+                    return {"error": "user with id:" + id + " not found"}
                 }
 
                 schema.db.users.remove(user);
