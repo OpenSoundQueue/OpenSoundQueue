@@ -232,7 +232,7 @@ export class HttpService {
                 }
 
                 return response.json();
-            }).then((data: User) => {
+            }).then((data) => {
                 return data;
             });
     }

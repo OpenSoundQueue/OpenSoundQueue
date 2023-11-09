@@ -241,9 +241,22 @@ export function makeServer({environment = "development"} = {}) {
             })
 
             this.patch("/queue/change-order", (schema: AppSchema, request) => {
-                const songs = schema.db.songs;
+                const body = JSON.parse(request.requestBody);
 
-                return songs.map((song, index) => {
+                const songs = schema.db.songs;
+                const songToMove = songs.splice(body.oldPos, 1)[0];
+                songs.splice(body.newPos, 0, songToMove);
+
+                for (let [index, song] of schema.db.songs.entries()) {
+                    schema.db.songs.update(song.id, {
+                        title: songs[index].title,
+                        artist: songs[index].artist,
+                        duration: songs[index].duration,
+                        link: songs[index].link,
+                    });
+                }
+
+                return schema.db.songs.map((song, index) => {
                     return {
                         song: song,
                         numberInQueue: index
