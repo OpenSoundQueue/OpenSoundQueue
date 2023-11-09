@@ -102,7 +102,7 @@ function updateValues() {
   width: 24px;
 }
 
-.wrapper:hover {
+.img:hover {
   cursor: pointer;
 }
 
