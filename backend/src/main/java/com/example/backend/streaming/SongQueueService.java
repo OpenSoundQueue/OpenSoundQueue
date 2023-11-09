@@ -62,8 +62,15 @@ public class SongQueueService {
         this.play();
     }
 
-    public void changeOrder() {
-        //TODO: implement
+    public void changeOrder(int oldPos, int newPos) {
+        Song sortedSong = songQueue.get(oldPos);
+
+        songQueue.remove(oldPos);
+        if (newPos >= songQueue.size()) {
+            songQueue.add(sortedSong);
+        } else {
+            songQueue.add(newPos, sortedSong);
+        }
     }
 
     public List<Song> getQueue() {
@@ -128,6 +135,7 @@ public class SongQueueService {
     }
 
     public CurrentlyPlayingDto getCurrentPlayingSong() {
+        if (currentSong == null) return null;
         return new CurrentlyPlayingDto(isPlaying, currentSong.getCurrentTime(), System.currentTimeMillis(), currentSong.getInfo());
     }
 

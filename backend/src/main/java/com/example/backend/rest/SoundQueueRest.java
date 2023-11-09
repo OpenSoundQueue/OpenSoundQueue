@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,15 +23,7 @@ public class SoundQueueRest {
 
     @GetMapping("/queue/all")
     public ResponseEntity<Object> getSongQueue() {
-        List<Song> songList = songQueueService.getQueue();
-        List<SongQueueItem> responseBody = new ArrayList<>();
-
-        for (int i = 0; i < songList.size(); i++) {
-            Song s = songList.get(i);
-            responseBody.add(new SongQueueItem(i, s.getInfo()));
-        }
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.OK);
     }
 
     @GetMapping("/queue/page/{page-number}")
@@ -53,9 +44,11 @@ public class SoundQueueRest {
 
     @GetMapping("/queue/now-playing")
     public ResponseEntity<Object> getNowPlaying() {
-        if (songQueueService.getQueue().size() == 0)
-            return new ResponseEntity<>(new ErrorDto("No song currently playing"), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(songQueueService.getCurrentPlayingSong(), HttpStatus.OK);
+        CurrentlyPlayingDto currentSong = songQueueService.getCurrentPlayingSong();
+        if (currentSong == null) {
+            return new ResponseEntity<>(new StatusDto("No song currently playing"), HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(currentSong, HttpStatus.OK);
     }
 
     @PostMapping("/queue/add")
@@ -104,5 +97,43 @@ public class SoundQueueRest {
         }
 
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
+    }
+
+    @PostMapping("/queue/start")
+    public ResponseEntity<Object> startQueue(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!songQueueService.isPlaying()) songQueueService.play();
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @PostMapping("/queue/stop")
+    public ResponseEntity<Object> stopQueue(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (songQueueService.isPlaying()) songQueueService.stop();
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @PatchMapping("/queue/change-order")
+    public ResponseEntity<Object> changeOrder(@RequestHeader(value = "X-API-KEY") String token, @RequestBody Map<String, Integer> positions) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        int oldPos = positions.get("oldPos");
+        int newPos = positions.get("newPos");
+
+        if (oldPos >= songQueueService.getQueue().size() || oldPos < 0 || newPos < 0) return new ResponseEntity<>(new ErrorDto("Position of song does not exist"), HttpStatus.BAD_REQUEST);
+
+        songQueueService.changeOrder(oldPos, newPos);
+
+        return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
 }

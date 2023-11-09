@@ -344,13 +344,13 @@ paths:
                     artist: The Kid LAROI & Justin Bieber
                     title: Stay
                     duration: 60
-        400:
+        202:
           description: no song currently playing
           content:
             application/json:
               schema:
                 example:
-                  error: No song currently playing
+                  status: No song currently playing
   /vote-skip/status:
     get:
       tags:
@@ -672,6 +672,36 @@ paths:
               schema:
                 example:
                   error: did not find user
+  /skip:
+    post:
+      tags:
+        - auth
+      description: skip to the next song
+      responses:
+        200:
+          description: song has been skipped
+        400:
+          description: skip failed
+          content:
+            application/json:
+              schema:
+                example:
+                  error: skip failed
+  /replay:
+    post:
+      tags:
+        - auth
+      description: replay current song
+      responses:
+        200:
+          description: song is being replayed
+        400:
+          description: replay failed
+          content:
+            application/json:
+              schema:
+                example:
+                  error: replay failed
 components:
   securitySchemes:
     ApiKeyAuth:
