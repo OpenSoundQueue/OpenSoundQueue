@@ -52,7 +52,8 @@
       "messageError": "could not be deleted."
     },
     "skipSongSuccess": "Song has been skipped",
-    "skipSongError": "Song could not be skipped"
+    "skipSongError": "Song could not be skipped",
+    "replaySongError": "Song could not be restarted"
   },
   "historySearch": {
     "noSongFound": "No song found for ",

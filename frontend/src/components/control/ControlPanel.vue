@@ -1,5 +1,6 @@
 <template>
   <div class="control-panel">
+    <ReplaySong v-show="replay"/>
     <div v-show="voteSkip" class="vote-skip">
       <VoteSkip :update-interval="4000"/>
       <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
@@ -12,6 +13,7 @@
 import VoteSkip from "@/components/control/VoteSkip.vue";
 import InfoButton from "@/components/InfoButton.vue";
 import SkipSong from "@/components/control/SkipSong.vue";
+import ReplaySong from "@/components/control/ReplaySong.vue";
 const props = defineProps<{
   voteSkip:boolean,
   startStop:boolean,
