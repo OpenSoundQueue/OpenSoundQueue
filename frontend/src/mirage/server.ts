@@ -106,7 +106,7 @@ export function makeServer({environment = "development"} = {}) {
                 return {
                     hasVoted: hasVoted,
                     received: votes,
-                    required: 5
+                    required: 25
                 };
             })
 
@@ -121,7 +121,7 @@ export function makeServer({environment = "development"} = {}) {
                 return {
                     hasVoted: hasVoted,
                     received: votes,
-                    required: 5
+                    required: 25
                 };
             })
 
