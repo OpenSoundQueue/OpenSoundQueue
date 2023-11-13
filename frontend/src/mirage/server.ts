@@ -82,6 +82,9 @@ export function makeServer({environment = "development"} = {}) {
                     const currentSong = schema.db.songs[0];
                     schema.db.songs.remove(currentSong);
                     time = 0;
+
+                    hasVoted = false;
+                    votes--;
                 } else {
                     time = queueIsPlaying ? time + (Date.now() - lastRequest) : time;
                 }
@@ -151,6 +154,9 @@ export function makeServer({environment = "development"} = {}) {
 
                 time = 0;
                 lastRequest = Date.now();
+
+                hasVoted = false;
+                votes--;
 
                 return schema.db.songs;
             })
