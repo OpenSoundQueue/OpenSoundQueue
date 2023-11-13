@@ -1,6 +1,6 @@
 <template>
   <div class="queue-scroll-wrapper scrollbar">
-    <div v-if="queueIsLoading" class="entry-container">
+    <div v-if="isLoading" class="entry-container">
       <div v-for="(index) in 10" :key="index">
         <EntrySkeleton/>
       </div>
@@ -34,7 +34,7 @@ const props = defineProps<{
 
 const httpService = new HttpService();
 const queue: Ref<Array<{ numberInQueue: number, song: Song }>> = ref([]);
-const queueIsLoading = ref(true);
+const isLoading = ref(true);
 
 onMounted(() => {
   requestQueue();
@@ -46,7 +46,7 @@ function requestQueue() {
   httpService.getQueueAll()
       .then((data: Array<{ numberInQueue: number, song: Song }>) => {
         queue.value = data;
-        queueIsLoading.value = false;
+        isLoading.value = false;
       })
 }
 </script>
@@ -71,7 +71,6 @@ function requestQueue() {
   justify-content: center;
   height: 100%;
   color: var(--tertiary-color);
-  font-weight: bold;
-  font-size: var(--font-size-medium);
+  font-size: var(--font-size-big);
 }
 </style>
