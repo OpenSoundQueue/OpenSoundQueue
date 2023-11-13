@@ -22,7 +22,7 @@ async function startStop() {
   isLoading.value = true;
   if (isPlaying.value){
     await httpService.postStop(cookieService.getApiKey())
-        .then((data: []) => {
+        .then(() => {
           isPlaying.value = false;
         })
         .catch(() => {
@@ -30,7 +30,7 @@ async function startStop() {
         });
   }else {
     await httpService.postStart(cookieService.getApiKey())
-        .then((data: []) => {
+        .then(() => {
           isPlaying.value = true;
         })
         .catch(() => {

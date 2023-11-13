@@ -19,7 +19,7 @@ async function skipSong() {
   isClicked.value = true;
   isLoading.value = true;
   await httpService.postSkip(cookieService.getApiKey())
-      .then((data: []) => {
+      .then(() => {
         ToastService.sendNotification(translate("notifications.skipSongSuccess"), "success", 3000);
       })
       .catch(() => {

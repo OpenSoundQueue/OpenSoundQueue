@@ -107,51 +107,41 @@ export class HttpService {
             })
     }
     async postSkip(apiKey: string) {
-        return httpClient.post("/skip", apiKey)
+        return httpClient.post("/queue/skip", "",apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
-                return response.json();
-            }).then((data) => {
-                return data;
+                return response;
             })
     }
     async postReplay(apiKey: string) {
-        return httpClient.post("/replay", apiKey)
+        return httpClient.post("/queue/replay", "",apiKey)
             .then((response) => {
+                console.log(response)
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
-                return response.json();
-            }).then((data) => {
-                return data;
+                return response;
             })
     }
     async postStart(apiKey: string) {
-        return httpClient.post("/queue/start", apiKey)
+        return httpClient.post("/queue/start","", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
-                return response.json();
-            }).then((data) => {
-                return data;
+                return response;
             })
     }
     async postStop(apiKey: string) {
-        return httpClient.post("/queue/stop", apiKey)
+        return httpClient.post("/queue/stop","", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
-                return response.json();
-            }).then((data) => {
-                return data;
+                return response;
             })
     }
 

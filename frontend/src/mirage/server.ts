@@ -148,7 +148,7 @@ export function makeServer({environment = "development"} = {}) {
                 };
             })
 
-            this.post("/skip", (schema: AppSchema, request) => {
+            this.post("/queue/skip", (schema: AppSchema, request) => {
                 const currentSong = schema.db.songs[0];
                 schema.db.songs.remove(currentSong);
 
@@ -161,7 +161,7 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.songs;
             })
 
-            this.post("/replay", () => {
+            this.post("/queue/replay", () => {
                 time = 0;
                 return {};
             })
