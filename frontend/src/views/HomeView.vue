@@ -36,7 +36,7 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
-          <ControlPanel :vote-skip="false"
+          <ControlPanel :vote-skip="true"
                         :start-stop="true"
                         :skip="true"
                         :replay="true">

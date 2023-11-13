@@ -65,6 +65,14 @@ public class SoundQueueRest {
             return new ResponseEntity<>(new ErrorDto("Song could not be added"), HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/queue/skip")
+    public ResponseEntity<Object> skipSong(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+        songQueueService.skip();
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/vote-skip/status")
     public ResponseEntity<Object> getVoteSkipStatus(@RequestHeader(value = "X-API-KEY") String token) {
