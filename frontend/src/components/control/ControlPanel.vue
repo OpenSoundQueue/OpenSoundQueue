@@ -3,13 +3,13 @@
     <ReplaySong v-show="replay"/>
     <div class="skip-container">
       <StartStopSong v-show="startStop"/>
-      <div v-show="voteSkip & !startStop" class="vote-skip">
+      <div v-show="voteSkip && !startStop" class="vote-skip">
         <VoteSkip :update-interval="4000"/>
         <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
       </div>
     </div>
     <SkipSong v-show="skip"/>
-    <div v-show="voteSkip & startStop" class="vote-skip">
+    <div v-show="voteSkip && startStop" class="vote-skip">
       <VoteSkip :update-interval="4000"/>
       <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
     </div>
