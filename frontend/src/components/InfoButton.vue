@@ -97,12 +97,13 @@ function updateValues() {
 
 <style scoped>
 .wrapper {
+  user-select: none;
   position: relative;
   height: 24px;
   width: 24px;
 }
 
-.wrapper:hover {
+.img:hover {
   cursor: pointer;
 }
 

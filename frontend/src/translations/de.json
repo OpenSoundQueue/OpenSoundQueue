@@ -51,7 +51,12 @@
       "user": "Benutzer",
       "messageSuccess": "wurde gelöscht.",
       "messageError": "konnte nicht geöscht werden."
-    }
+    },
+    "skipSongSuccess": "Song wurde übersprungen",
+    "skipSongError": "Song konnte nicht übersprungen werden",
+    "replaySongError": "Song konnte nicht neu gestartet werden",
+    "stopError": "Warteschlange konnte nicht pausiert werden",
+    "startError": "Warteschlange konnte nicht gestartet werden"
   },
   "historySearch": {
     "noSongFound": "Kein Treffer für ",
