@@ -116,5 +116,9 @@
       "part2": "löschen möchtest?",
       "button": "Benutzer löschen"
     }
+  },
+  "modeSwitcher": {
+    "basic": "Einfach",
+    "advanced": "Erweitert"
   }
 }

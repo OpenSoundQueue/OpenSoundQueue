@@ -116,5 +116,9 @@
       "part2": "?",
       "button": "Delete User"
     }
+  },
+  "modeSwitcher": {
+    "basic": "Basic",
+    "advanced": "Advanced"
   }
 }

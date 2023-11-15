@@ -6,8 +6,8 @@
       </div>
     </teleport>
     <div v-if="hasAdvancedPermissions" class="mode-switcher">
-      <router-link to="/home/basic" class="link">Basic</router-link>
-      <router-link to="/home/advanced" class="link advanced">Advanced</router-link>
+      <router-link to="/home/basic" class="link">{{ $translate('modeSwitcher.basic') }}</router-link>
+      <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced')}}</router-link>
     </div>
     <div class="add-song-container">
       <div class="mobile">
