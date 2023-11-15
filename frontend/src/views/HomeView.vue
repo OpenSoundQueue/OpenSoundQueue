@@ -45,8 +45,11 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
-          <VoteSkip :update-interval="4000"/>
-          <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
+          <ControlPanel :vote-skip="true"
+                        :start-stop="true"
+                        :skip="true"
+                        :replay="true">
+          </ControlPanel>
         </div>
       </div>
     </div>
@@ -54,13 +57,12 @@
 </template>
 
 <script setup lang="ts">
-import VoteSkip from "@/components/control/VoteSkip.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import AddSong from "@/components/control/AddSong.vue";
-import InfoButton from "@/components/InfoButton.vue";
 import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import router from "@/router";
+import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
 
 const hasAdvancedPermissions = ref(false);

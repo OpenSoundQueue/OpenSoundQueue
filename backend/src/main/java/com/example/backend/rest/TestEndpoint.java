@@ -12,9 +12,5 @@ public class TestEndpoint {
     @Autowired
     private SongQueueService songQueueService;
 
-    @GetMapping("skip")
-    public String skip() {
-        songQueueService.skip();
-        return "skipped song!";
-    }
+
 }
