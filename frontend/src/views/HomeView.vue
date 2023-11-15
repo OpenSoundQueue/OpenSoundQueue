@@ -45,10 +45,10 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
-          <ControlPanel :vote-skip="true"
-                        :start-stop="true"
-                        :skip="true"
-                        :replay="true">
+          <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
+                        :start-stop="hasAdvancedControlPanelPermission"
+                        :skip="hasAdvancedControlPanelPermission"
+                        :replay="hasAdvancedControlPanelPermission">
           </ControlPanel>
         </div>
       </div>
@@ -69,6 +69,10 @@ const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {
   return router.currentRoute.value.name === "advanced";
 });
+
+const hasAdvancedControlPanelPermission = computed(() => {
+  return router.currentRoute.value.name === "advanced";
+})
 
 const displayAdvanced = computed(() => {
   return router.currentRoute.value.name === "advanced";
