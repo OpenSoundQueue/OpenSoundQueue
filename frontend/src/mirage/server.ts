@@ -283,8 +283,8 @@ export function makeServer({environment = "development"} = {}) {
                 const body = JSON.parse(request.requestBody);
 
                 const songs = schema.db.songs;
-                const songToMove = songs.splice(body.oldPos, 1)[0];
-                songs.splice(body.newPos, 0, songToMove);
+                const songToMove = songs.splice(body.oldPos + 1, 1)[0];
+                songs.splice(body.newPos + 1, 0, songToMove);
 
                 for (let [index, song] of schema.db.songs.entries()) {
                     schema.db.songs.update(song.id, {
