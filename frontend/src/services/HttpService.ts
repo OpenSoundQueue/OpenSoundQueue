@@ -118,7 +118,6 @@ export class HttpService {
     async postReplay(apiKey: string) {
         return httpClient.post("/queue/replay", "",apiKey)
             .then((response) => {
-                console.log(response)
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
