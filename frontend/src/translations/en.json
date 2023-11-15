@@ -1,6 +1,7 @@
 {
   "nowPlaying": "Now Playing",
   "inQueue": "In Queue",
+  "queueEmpty": "There are currently no Songs in Queue",
   "byLink": {
     "title": "By Link",
     "label": "Song Link",

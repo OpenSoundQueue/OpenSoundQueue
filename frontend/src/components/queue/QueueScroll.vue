@@ -1,9 +1,12 @@
 <template>
   <div class="queue-scroll-wrapper scrollbar">
-    <div v-if="!queue.length" class="entry-container">
+    <div v-if="queueIsLoading" class="entry-container">
       <div v-for="(index) in 10" :key="index">
         <EntrySkeleton/>
       </div>
+    </div>
+    <div v-else-if="queue.length===0" class="empty-queue">
+      <div>{{ $translate('queueEmpty') }}</div>
     </div>
     <div v-else-if="hasReorder">
       <draggable
@@ -35,7 +38,6 @@
           </li>
         </template>
       </draggable>
-
     </div>
     <div v-else class="entry-container">
       <div v-for="(songData, index) in queue" :key="index">
@@ -50,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import type {Ref} from "vue";
 import {computed, onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
@@ -59,6 +60,7 @@ import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 import draggable from "vuedraggable";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
+import type {Ref} from "vue";
 
 const props = defineProps<{
   updateInterval: number,
@@ -68,6 +70,8 @@ const props = defineProps<{
 const httpService = new HttpService();
 
 const drag = ref(false);
+
+const queueIsLoading = ref(true);
 
 const queue: Ref<Array<{
   numberInQueue: number,
@@ -94,6 +98,7 @@ function requestQueue() {
   httpService.getQueueAll()
       .then((data: Array<{ numberInQueue: number, song: Song }>) => {
         queue.value = data;
+        queueIsLoading.value = false;
       })
 }
 
@@ -171,5 +176,15 @@ function endDrag() {
   .no-move {
     transition: transform 0s;
   }
+}
+
+.empty-queue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--tertiary-color);
+  font-weight: bold;
+  font-size: var(--font-size-medium);
 }
 </style>
