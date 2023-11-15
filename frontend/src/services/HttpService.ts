@@ -258,4 +258,19 @@ export class HttpService {
                 return data;
             });
     }
+
+    async queueChangeOrder(oldPos: number, newPos: number) {
+        return httpClient.patch(`/queue/change-order`,
+            {oldPos: oldPos, newPos: newPos},
+            cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
 }

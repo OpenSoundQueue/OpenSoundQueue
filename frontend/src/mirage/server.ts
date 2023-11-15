@@ -42,13 +42,13 @@ export function makeServer({environment = "development"} = {}) {
             type AppSchema = Schema<AppRegistry>
 
             this.get("/queue/page/:pageNumber/page-size/:pageSize", (schema: AppSchema, request) => {
-                let pageNumber: number = parseInt(request.params.pageNumber);
-                let pageSize: number = parseInt(request.params.pageSize);
+                const pageNumber: number = parseInt(request.params.pageNumber);
+                const pageSize: number = parseInt(request.params.pageSize);
 
                 const songs = schema.db.songs;
 
-                let start: number = pageSize * pageNumber;
-                let end: number = start + pageSize;
+                const start: number = pageSize * pageNumber;
+                const end: number = start + pageSize;
 
                 return {
                     page: songs.slice(start, end).map((song, index) => {
@@ -277,6 +277,30 @@ export function makeServer({environment = "development"} = {}) {
 
                 schema.db.users.remove(user);
                 return schema.db.users;
+            })
+
+            this.patch("/queue/change-order", (schema: AppSchema, request) => {
+                const body = JSON.parse(request.requestBody);
+
+                const songs = schema.db.songs;
+                const songToMove = songs.splice(body.oldPos + 1, 1)[0];
+                songs.splice(body.newPos + 1, 0, songToMove);
+
+                for (let [index, song] of schema.db.songs.entries()) {
+                    schema.db.songs.update(song.id, {
+                        title: songs[index].title,
+                        artist: songs[index].artist,
+                        duration: songs[index].duration,
+                        link: songs[index].link,
+                    });
+                }
+
+                return schema.db.songs.map((song, index) => {
+                    return {
+                        song: song,
+                        numberInQueue: index
+                    }
+                });
             })
         },
     })

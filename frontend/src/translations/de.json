@@ -52,6 +52,7 @@
       "messageSuccess": "wurde gelöscht.",
       "messageError": "konnte nicht geöscht werden."
     },
+    "queueChangeOrderError": "Song konnte nicht verschoben werden.",
     "skipSongSuccess": "Song wurde übersprungen",
     "skipSongError": "Song konnte nicht übersprungen werden",
     "replaySongError": "Song konnte nicht neu gestartet werden",
@@ -115,5 +116,9 @@
       "part2": "löschen möchtest?",
       "button": "Benutzer löschen"
     }
+  },
+  "modeSwitcher": {
+    "basic": "Einfach",
+    "advanced": "Erweitert"
   }
 }
