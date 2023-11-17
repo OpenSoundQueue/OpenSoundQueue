@@ -8,7 +8,7 @@ import {useRoute} from "vue-router";
 import FullScreenPopUp from "@/components/PopUp/FullScreenPopUp.vue";
 
 const route = useRoute();
-const routesWithoutNavBar = ["login"];
+const routesWithoutNavBar = ["login", "register"];
 const routeName = computed(() => route.name == undefined ? "" : route.name.toString())
 const displayNavBar = computed(() => !routesWithoutNavBar.includes(routeName.value) && routeName.value !== "")
 </script>
