@@ -177,4 +177,10 @@ public class YoutubeSongService implements SongServiceInterface {
 
         return ytDlpService.getInfos(input);
     }
+
+    @Override
+    public void replay(Song input) {
+        SongImplYoutube song = (SongImplYoutube) input;
+        song.getClip().setMicrosecondPosition(0);
+    }
 }

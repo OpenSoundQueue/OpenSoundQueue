@@ -171,4 +171,8 @@ public class SongQueueService {
         }
         return ergs;
     }
+
+    public void replaySong() {
+        songService.replay(currentSong);
+    }
 }

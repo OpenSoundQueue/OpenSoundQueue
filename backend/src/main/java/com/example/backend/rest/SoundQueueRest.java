@@ -144,4 +144,15 @@ public class SoundQueueRest {
 
         return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
+
+    @PostMapping("/queue/replay")
+    public ResponseEntity<Object> replaySong(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        songQueueService.replaySong();
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
