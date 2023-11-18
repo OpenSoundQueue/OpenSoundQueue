@@ -176,4 +176,10 @@ public class SoundcloudSongService implements SongServiceInterface {
 
         return ytDlpService.getInfos(input);
     }
+
+    @Override
+    public void replay(Song input) {
+        SongImplSoundcloud song = (SongImplSoundcloud) input;
+        song.getClip().setMicrosecondPosition(0);
+    }
 }
