@@ -16,13 +16,22 @@
 
 <script setup lang="ts">
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
+import {HttpService} from "@/services/HttpService";
+import {onMounted} from "vue";
+import type {User} from "@/models/User";
+
+const httpService = new HttpService();
 
 const emit = defineEmits<{
   close: []
 }>();
 
+onMounted(() => {
+  httpService.getSelf()
+      .then((data: User) => console.log(data))
+})
+
 function close() {
-  console.log("ehlo");
   emit("close");
 }
 </script>
