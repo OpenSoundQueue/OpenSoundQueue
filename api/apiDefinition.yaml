@@ -604,6 +604,36 @@ paths:
               schema:
                 example:
                   error: could not stop the queue
+  /queue/skip:
+    post:
+      tags:
+        - auth
+      description: Skip the current song
+      responses:
+        202:
+          description: Song has been skipped
+        400:
+          description: Could not skip the song
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Could not skip the song
+  /queue/replay:
+    post:
+      tags:
+        - auth
+      description: Restart the current song
+      responses:
+        202:
+          description: Song has been replayed
+        400:
+          description: Could not replay the song
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Could not replay the song
   /queue/volume:
     post:
       tags:
@@ -672,36 +702,6 @@ paths:
               schema:
                 example:
                   error: did not find user
-  /skip:
-    post:
-      tags:
-        - auth
-      description: skip to the next song
-      responses:
-        200:
-          description: song has been skipped
-        400:
-          description: skip failed
-          content:
-            application/json:
-              schema:
-                example:
-                  error: skip failed
-  /replay:
-    post:
-      tags:
-        - auth
-      description: replay current song
-      responses:
-        200:
-          description: song is being replayed
-        400:
-          description: replay failed
-          content:
-            application/json:
-              schema:
-                example:
-                  error: replay failed
 components:
   securitySchemes:
     ApiKeyAuth:

@@ -1,5 +1,14 @@
 <template>
-  <main>
+  <main :class="{'show-mode-switcher': hasAdvancedPermissions}">
+    <teleport v-if="displayAdvanced" to="#app">
+      <div class="background">
+        <div class="gradient"></div>
+      </div>
+    </teleport>
+    <div v-if="hasAdvancedPermissions" class="mode-switcher">
+      <router-link to="/home/basic" class="link">{{ $translate('modeSwitcher.basic') }}</router-link>
+      <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced')}}</router-link>
+    </div>
     <div class="add-song-container">
       <div class="mobile">
         <OverlayCollapse :label="$translate('addSong')"
@@ -20,14 +29,14 @@
       </div>
     </div>
     <div class="queue-scroll-container">
-      <div class="queue-header desktop">
+      <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
         <div class="queue-number">#</div>
         <div class="title">{{ $translate('queueDescription.title') }}</div>
         <div class="duration">{{ $translate('queueDescription.duration') }}</div>
       </div>
       <div class="hr desktop"></div>
       <div class="queue-scroll-component">
-        <QueueScroll :update-interval="4000"/>
+        <QueueScroll :update-interval="4000" :has-reorder="hasQueueReorderPermission"/>
       </div>
     </div>
     <div class="control-panel-wrapper">
@@ -36,8 +45,11 @@
           <NowPlaying :update-interval="1000"/>
         </div>
         <div class="vote-skip-container">
-          <VoteSkip :update-interval="4000"/>
-          <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
+          <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
+                        :start-stop="hasAdvancedControlPanelPermission"
+                        :skip="hasAdvancedControlPanelPermission"
+                        :replay="hasAdvancedControlPanelPermission">
+          </ControlPanel>
         </div>
       </div>
     </div>
@@ -45,12 +57,32 @@
 </template>
 
 <script setup lang="ts">
-import VoteSkip from "@/components/control/VoteSkip.vue";
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import AddSong from "@/components/control/AddSong.vue";
-import InfoButton from "@/components/InfoButton.vue";
 import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
+import router from "@/router";
+import ControlPanel from "@/components/control/ControlPanel.vue";
+import {computed, onMounted, ref} from "vue";
+
+const hasAdvancedPermissions = ref(false);
+const hasQueueReorderPermission = computed(() => {
+  return router.currentRoute.value.name === "advanced";
+});
+
+const hasAdvancedControlPanelPermission = computed(() => {
+  return router.currentRoute.value.name === "advanced";
+})
+
+const displayAdvanced = computed(() => {
+  return router.currentRoute.value.name === "advanced";
+})
+
+onMounted(() => {
+  if (router.currentRoute.value.name !== "default") {
+    hasAdvancedPermissions.value = true;
+  }
+})
 </script>
 
 <style scoped>
@@ -67,6 +99,63 @@ main {
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 20px;
+}
+
+main.show-mode-switcher {
+  .mode-switcher {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    height: 50px;
+  }
+
+  .link {
+    height: 35px;
+    width: 100%;
+    background: var(--background-color);
+    border: 3px solid var(--secondary-color);
+    color: var(--text-color);
+    font-size: var(--font-size-medium);
+    border-radius: var(--border-radius-medium);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .link.advanced {
+    background-image: url("@/assets/background/grid_background_small.png");
+    background-position: center;
+  }
+
+  .link.router-link-exact-active {
+    color: var(--background-color);
+    border-color: var(--tertiary-color);
+    background: var(--tertiary-color);
+    font-weight: bold;
+  }
+
+  .queue-scroll-container {
+    height: calc(100% - 70px - 190px - 50px);
+  }
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-image: url("@/assets/background/grid-background_big.png");
+  background-size: 300px;
+
+  .gradient {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, var(--background-color) 54.69%);
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .add-song-slot {
@@ -129,6 +218,29 @@ main {
     grid-template-rows: calc(100% - 230px) 230px;
   }
 
+  main.show-mode-switcher {
+    height: calc(100svh - 60px - 50px);
+    grid-template-rows: 50px calc(100% - 230px) 230px;
+
+    .mode-switcher {
+      grid-row: 1;
+      width: 50%;
+    }
+
+    .add-song-container {
+      grid-row: 2;
+    }
+
+    .queue-scroll-container {
+      grid-row: 2;
+      height: 100%;
+    }
+
+    .control-panel-wrapper {
+      grid-row: 3;
+    }
+  }
+
   .add-song-container {
     grid-column: 2;
     grid-row: 1;
@@ -162,20 +274,26 @@ main {
   }
 
   .queue-header {
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 0 27px;
     display: flex;
     gap: 10px;
     justify-content: space-between;
     align-items: center;
     height: 40px;
+
+    .queue-number {
+      width: 28px;
+    }
+
+    .title {
+      width: 90%;
+    }
   }
 
-  .queue-number {
-    width: 28px;
-  }
-
-  .title {
-    width: 90%;
+  .queue-header.drag-enabled {
+    .duration {
+      margin-right: 70px;
+    }
   }
 
   .queue-scroll-component {

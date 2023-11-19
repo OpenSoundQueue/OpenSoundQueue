@@ -34,7 +34,7 @@ function close() {
 
 .message-wrapper {
   width: 220px;
-  height: 120px;
+  max-height: 120px;
   border-radius: var(--border-radius-medium);
   border: 1px solid var(--text-color);
   position: fixed;
@@ -62,6 +62,7 @@ function close() {
 }
 
 .message {
+  padding: 10px 0;
   display: flex;
   height: 100%;
   justify-content: center;

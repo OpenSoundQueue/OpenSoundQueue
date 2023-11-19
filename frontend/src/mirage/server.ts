@@ -38,17 +38,17 @@ export function makeServer({environment = "development"} = {}) {
         routes() {
             this.namespace = "api"
 
-            type AppRegistry = Registry<{ song: typeof SongModel,user: typeof SongModel }, { /* factories can be defined here */ }>
+            type AppRegistry = Registry<{ song: typeof SongModel, user: typeof SongModel }, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
             this.get("/queue/page/:pageNumber/page-size/:pageSize", (schema: AppSchema, request) => {
-                let pageNumber: number = parseInt(request.params.pageNumber);
-                let pageSize: number = parseInt(request.params.pageSize);
+                const pageNumber: number = parseInt(request.params.pageNumber);
+                const pageSize: number = parseInt(request.params.pageSize);
 
                 const songs = schema.db.songs;
 
-                let start: number = pageSize * pageNumber;
-                let end: number = start + pageSize;
+                const start: number = pageSize * pageNumber;
+                const end: number = start + pageSize;
 
                 return {
                     page: songs.slice(start, end).map((song, index) => {
@@ -64,7 +64,7 @@ export function makeServer({environment = "development"} = {}) {
             this.get("/queue/all", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                return songs.map((song, index) => {
+                return songs.slice(1).map((song, index) => {
                     return {
                         song: song,
                         numberInQueue: index
@@ -72,19 +72,30 @@ export function makeServer({environment = "development"} = {}) {
                 });
             })
 
-            let start = Date.now();
+            let lastRequest = Date.now();
+            let queueIsPlaying = true;
+            let time = 0;
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                if (Date.now() - start > 100_000) {
-                    start = Date.now();
+                if (time > songs[0].duration * 1000) {
+                    const currentSong = schema.db.songs[0];
+                    schema.db.songs.remove(currentSong);
+                    time = 0;
+
+                    hasVoted = false;
+                    votes--;
+                } else {
+                    time = queueIsPlaying ? time + (Date.now() - lastRequest) : time;
                 }
+
+                lastRequest = Date.now();
 
                 return {
                     isPlaying: true,
-                    time: Date.now() - start,
+                    time: time,
                     stamp: Date.now(),
-                    song: songs[1]
+                    song: songs[0]
                 }
             })
 
@@ -103,7 +114,7 @@ export function makeServer({environment = "development"} = {}) {
                 return {
                     hasVoted: hasVoted,
                     received: votes,
-                    required: 5
+                    required: 25
                 };
             })
 
@@ -118,7 +129,7 @@ export function makeServer({environment = "development"} = {}) {
                 return {
                     hasVoted: hasVoted,
                     received: votes,
-                    required: 5
+                    required: 25
                 };
             })
 
@@ -133,8 +144,36 @@ export function makeServer({environment = "development"} = {}) {
                 return {
                     hasVoted: hasVoted,
                     received: votes,
-                    required: 5
+                    required: 25
                 };
+            })
+
+            this.post("/queue/skip", (schema: AppSchema, request) => {
+                const currentSong = schema.db.songs[0];
+                schema.db.songs.remove(currentSong);
+
+                time = 0;
+                lastRequest = Date.now();
+
+                hasVoted = false;
+                votes--;
+
+                return schema.db.songs;
+            })
+
+            this.post("/queue/replay", () => {
+                time = 0;
+                return {};
+            })
+
+            this.post("/queue/start", () => {
+                queueIsPlaying = true;
+                return {};
+            })
+
+            this.post("/queue/stop", () => {
+                queueIsPlaying = false;
+                return {};
             })
 
             function fuzzySearch(items: any[], key: any) {
@@ -228,16 +267,40 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.users.find(2);
             })
 
-            this.delete("/user/:id", (schema: AppSchema,request) => {
+            this.delete("/user/:id", (schema: AppSchema, request) => {
                 const id = request.params.id;
                 const user = schema.db.users.find(id);
 
-                if (!user){
-                    return {"error": "user with id:"+id+" not found"}
+                if (!user) {
+                    return {"error": "user with id:" + id + " not found"}
                 }
 
                 schema.db.users.remove(user);
                 return schema.db.users;
+            })
+
+            this.patch("/queue/change-order", (schema: AppSchema, request) => {
+                const body = JSON.parse(request.requestBody);
+
+                const songs = schema.db.songs;
+                const songToMove = songs.splice(body.oldPos + 1, 1)[0];
+                songs.splice(body.newPos + 1, 0, songToMove);
+
+                for (let [index, song] of schema.db.songs.entries()) {
+                    schema.db.songs.update(song.id, {
+                        title: songs[index].title,
+                        artist: songs[index].artist,
+                        duration: songs[index].duration,
+                        link: songs[index].link,
+                    });
+                }
+
+                return schema.db.songs.map((song, index) => {
+                    return {
+                        song: song,
+                        numberInQueue: index
+                    }
+                });
             })
         },
     })
