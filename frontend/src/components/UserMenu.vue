@@ -4,11 +4,19 @@
       <div class="close-container">
         <img @click="close" src="@/assets/menu/close.svg"/>
       </div>
-      <p class="username">Quantompixel</p>
-      <p class="email">quantompxiel@adfa.com</p>
-      <p class="role"><span class="dot"></span>Test</p>
-      <div class="button">
-        <DefaultButton text="Logout"/>
+      <div v-if="user">
+        <p class="username">Quantompixel</p>
+        <p class="email">quantompxiel@adfa.com</p>
+        <p class="role"><span class="dot"></span>Test</p>
+        <div class="button">
+          <DefaultButton text="Logout"/>
+        </div>
+      </div>
+      <div v-else>
+        <p>You are not logged in</p>
+        <div class="button">
+          <DefaultButton text="Login" @click="router.push('/login')"/>
+        </div>
       </div>
     </div>
   </div>
@@ -17,10 +25,14 @@
 <script setup lang="ts">
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {HttpService} from "@/services/HttpService";
-import {onMounted} from "vue";
+import type {Ref} from "vue";
+import {onMounted, ref} from "vue";
 import type {User} from "@/models/User";
+import router from "@/router";
 
 const httpService = new HttpService();
+
+const user: Ref<User | null> = ref(null);
 
 const emit = defineEmits<{
   close: []
@@ -28,7 +40,10 @@ const emit = defineEmits<{
 
 onMounted(() => {
   httpService.getSelf()
-      .then((data: User) => console.log(data))
+      .then((data: User) => user.value = data)
+      .catch(() => {
+
+      })
 })
 
 function close() {
@@ -92,7 +107,7 @@ function close() {
   margin-top: 15px;
 }
 
-@media screen and (min-width: 400px)  {
+@media screen and (min-width: 400px) {
   .user-menu-wrapper {
     width: 400px;
   }

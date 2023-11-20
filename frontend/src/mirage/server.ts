@@ -263,7 +263,7 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.users;
             })
 
-            this.get("/self", (schema: AppSchema) => {
+            this.get("/self", (schema: AppSchema, request) => {
                 return schema.db.users.find(2);
             })
 
@@ -286,7 +286,7 @@ export function makeServer({environment = "development"} = {}) {
                 const songToMove = songs.splice(body.oldPos + 1, 1)[0];
                 songs.splice(body.newPos + 1, 0, songToMove);
 
-                for (let [index, song] of schema.db.songs.entries()) {
+                for (const [index, song] of schema.db.songs.entries()) {
                     schema.db.songs.update(song.id, {
                         title: songs[index].title,
                         artist: songs[index].artist,
