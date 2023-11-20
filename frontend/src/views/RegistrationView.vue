@@ -19,8 +19,9 @@
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
 import {ref} from "vue";
+import type {Ref, Component} from "vue";
 
-const component = ref(RegistrationVerification);
+const component: Ref<Component> = ref(RegistrationVerification);
 </script>
 
 
