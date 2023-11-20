@@ -8,6 +8,7 @@ import UserManagementView from "@/views/UserManagementView.vue";
 import * as cookieService from "@/services/cookieService";
 import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
+import {ToastService} from "@/services/ToastService";
 
 const httpService = new HttpService();
 
@@ -19,7 +20,7 @@ const router = createRouter({
             name: 'public',
             component: PublicView,
             meta: {
-                requiresNoCookie: true
+                requiresNoAuth: true
             }
         },
         {
@@ -58,7 +59,7 @@ const router = createRouter({
             component: LoginView,
             props: false,
             meta: {
-                requiresNoCookie: true
+                requiresNoAuth: true
             }
         },
         {
@@ -107,19 +108,31 @@ router.beforeEach(async (to, from, next) => {
     }
 })
 
-// runs on all path requests which have the meta-tag 'requiresNoCookie' set to 'true'
+// runs on all path requests which have the meta-tag 'requiresNoAuth' set to 'true'
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresNoCookie)) {
+    if (to.matched.some(record => record.meta.requiresNoAuth)) {
         if (document.cookie.indexOf('sessionKey=') > -1) {
             await httpService.getVerifyApiKey(cookieService.getApiKey())
-                .then(() => {
+                .then(async () => {
                     PopUpService.openPopUp(translate("logout.callToAction"), translate("logout.buttonLabel"));
 
-                    PopUpService.waitForUserAction();
+                    const userAction = await PopUpService.waitForUserAction();
 
-                    // TODO: implemented logout
+                    if (userAction === "accepted") {
+                        await httpService.postLogout(cookieService.getApiKey())
+                            .then(() => {
+                                cookieService.clearApiKey();
+                                next();
+                            })
+                            .catch(() => {
+                                ToastService.sendNotification("Could not log out", "error", 3000);
+                                next(from);
+                            });
+                    } else {
+                        next(from);
+                    }
                 })
                 .catch(() => {
                     cookieService.clearApiKey();

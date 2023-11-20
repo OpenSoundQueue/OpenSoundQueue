@@ -302,6 +302,10 @@ export function makeServer({environment = "development"} = {}) {
                     }
                 });
             })
+
+            this.post("/logout", () => {
+                return {};
+            })
         },
     })
 }
