@@ -123,6 +123,7 @@
   },
   "logout": {
     "buttonLabel": "Logout",
-    "callToAction": "Click to log out:"
+    "callToAction": "Click to log out:",
+    "error": "Could not log out."
   }
 }

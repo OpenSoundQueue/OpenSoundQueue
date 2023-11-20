@@ -123,6 +123,7 @@
   },
   "logout": {
     "buttonLabel": "Abmelden",
-    "callToAction": "Zum Abmelden klicken:"
+    "callToAction": "Zum Abmelden klicken:",
+    "error": "Abmelden fehlgeschlagen"
   }
 }

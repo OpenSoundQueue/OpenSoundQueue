@@ -20,7 +20,7 @@ const router = createRouter({
             name: 'public',
             component: PublicView,
             meta: {
-                requiresNoAuth: true
+                requiresAuth: false
             }
         },
         {
@@ -59,7 +59,7 @@ const router = createRouter({
             component: LoginView,
             props: false,
             meta: {
-                requiresNoAuth: true
+                requiresAuth: false
             }
         },
         {
@@ -112,7 +112,7 @@ router.beforeEach(async (to, from, next) => {
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresNoAuth)) {
+    if (!to.matched.some(record => record.meta.requiresAuth)) {
         if (document.cookie.indexOf('sessionKey=') > -1) {
             await httpService.getVerifyApiKey(cookieService.getApiKey())
                 .then(async () => {
@@ -127,11 +127,19 @@ router.beforeEach(async (to, from, next) => {
                                 next();
                             })
                             .catch(() => {
-                                ToastService.sendNotification("Could not log out", "error", 3000);
-                                next(from);
+                                ToastService.sendNotification(translate('logout.error'), "error", 3000);
+                                if (from.name) {
+                                    next(false);
+                                } else {
+                                    next({path: "/home"});
+                                }
                             });
                     } else {
-                        next(from);
+                        if (from.name) {
+                            next(false);
+                        } else {
+                            next({path: "/home"});
+                        }
                     }
                 })
                 .catch(() => {
