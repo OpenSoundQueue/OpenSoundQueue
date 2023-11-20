@@ -120,5 +120,9 @@
   "modeSwitcher": {
     "basic": "Einfach",
     "advanced": "Erweitert"
+  },
+  "logout": {
+    "buttonLabel": "Abmelden",
+    "callToAction": "Zum Abmelden klicken:"
   }
 }

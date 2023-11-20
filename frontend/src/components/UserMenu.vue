@@ -9,13 +9,17 @@
         <p class="email">quantompxiel@adfa.com</p>
         <p class="role"><span class="dot"></span>Test</p>
         <div class="button">
-          <DefaultButton text="Logout"/>
+          <DefaultButton text="Logout" @click="logout">
+            <img src="@/assets/icons/logout.svg"/>
+          </DefaultButton>
         </div>
       </div>
       <div v-else>
         <p>You are not logged in</p>
         <div class="button">
-          <DefaultButton text="Login" @click="router.push('/login')"/>
+          <DefaultButton text="Login" @click="router.push('/login')">
+            <img src="@/assets/icons/login.svg"/>
+          </DefaultButton>
         </div>
       </div>
     </div>
@@ -40,11 +44,17 @@ const emit = defineEmits<{
 
 onMounted(() => {
   httpService.getSelf()
-      .then((data: User) => user.value = data)
+      .then((data: User) => {
+        user.value = data
+      })
       .catch(() => {
 
       })
 })
+
+async function logout() {
+  // TODO: implemented logout
+}
 
 function close() {
   emit("close");

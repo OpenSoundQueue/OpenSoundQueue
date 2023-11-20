@@ -120,5 +120,9 @@
   "modeSwitcher": {
     "basic": "Basic",
     "advanced": "Advanced"
+  },
+  "logout": {
+    "buttonLabel": "Logout",
+    "callToAction": "Click to log out:"
   }
 }

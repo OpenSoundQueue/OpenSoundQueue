@@ -6,6 +6,8 @@ import SettingsView from "@/views/SettingsView.vue";
 import {HttpService} from "@/services/HttpService";
 import UserManagementView from "@/views/UserManagementView.vue";
 import * as cookieService from "@/services/cookieService";
+import {PopUpService} from "@/services/PopUpService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
@@ -51,18 +53,19 @@ const router = createRouter({
             ],
         },
         {
+            path: '/login',
+            name: 'login',
+            component: LoginView,
+            props: false,
+            meta: {
+                requiresNoCookie: true
+            }
+        },
+        {
             path: '/login/:entryCode',
             name: 'login-with-entryCode',
             component: LoginView,
             props: true
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: LoginView,
-            meta: {
-                requiresNoCookie: true
-            }
         },
         {
             path: "/settings",
@@ -112,9 +115,11 @@ router.beforeEach(async (to, from, next) => {
         if (document.cookie.indexOf('sessionKey=') > -1) {
             await httpService.getVerifyApiKey(cookieService.getApiKey())
                 .then(() => {
-                    next({
-                        path: '/home'
-                    })
+                    PopUpService.openPopUp(translate("logout.callToAction"), translate("logout.buttonLabel"));
+
+                    PopUpService.waitForUserAction();
+
+                    // TODO: implemented logout
                 })
                 .catch(() => {
                     cookieService.clearApiKey();
