@@ -92,67 +92,70 @@ const router = createRouter({
 // if so the request is permitted, else the user gets redirected to the '/login' path
 
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        await httpService.getVerifyApiKey(cookieService.getApiKey())
-            .then(() => {
-                next()
-            })
-            .catch(() => {
-                cookieService.clearApiKey();
-                next({
-                    path: '/login'
-                })
-            })
-    } else {
-        next()
+    if (!to.matched.some(record => record.meta.requiresAuth)) {
+        next();
+        return;
     }
+
+    await httpService.getVerifyApiKey(cookieService.getApiKey())
+        .then(() => {
+            next()
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
+            next({
+                path: '/login'
+            })
+        });
 })
 
 // runs on all path requests which have the meta-tag 'requiresNoAuth' set to 'true'
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {
-    if (!to.matched.some(record => record.meta.requiresAuth)) {
-        if (document.cookie.indexOf('sessionKey=') > -1) {
-            await httpService.getVerifyApiKey(cookieService.getApiKey())
-                .then(async () => {
-                    PopUpService.openPopUp(translate("logout.callToAction"), translate("logout.buttonLabel"));
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        next();
+        return;
+    }
 
-                    const userAction = await PopUpService.waitForUserAction();
+    if (!cookieService.getApiKey()) {
+        next();
+        return;
+    }
 
-                    if (userAction === "accepted") {
-                        await httpService.postLogout(cookieService.getApiKey())
-                            .then(() => {
-                                cookieService.clearApiKey();
-                                next();
-                            })
-                            .catch(() => {
-                                ToastService.sendNotification(translate('logout.error'), "error", 3000);
-                                if (from.name) {
-                                    next(false);
-                                } else {
-                                    next({path: "/home"});
-                                }
-                            });
-                    } else {
+    await httpService.getVerifyApiKey(cookieService.getApiKey())
+        .then(async () => {
+            PopUpService.openPopUp(translate("logout.callToAction"), translate("logout.buttonLabel"));
+
+            const userAction = await PopUpService.waitForUserAction();
+
+            if (userAction === "accepted") {
+                await httpService.postLogout(cookieService.getApiKey())
+                    .then(() => {
+                        ToastService.sendNotification(translate('logout.success'), "success", 3000);
+
+                        next();
+                    })
+                    .catch(() => {
+                        ToastService.sendNotification(translate('logout.error'), "error", 3000);
                         if (from.name) {
                             next(false);
                         } else {
                             next({path: "/home"});
                         }
-                    }
-                })
-                .catch(() => {
-                    cookieService.clearApiKey();
-                    next()
-                })
-        } else {
+                    });
+            } else {
+                if (from.name) {
+                    next(false);
+                } else {
+                    next({path: "/home"});
+                }
+            }
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
             next()
-        }
-    } else {
-        next()
-    }
+        });
 })
-
 
 export default router
