@@ -18,10 +18,10 @@
 <script setup lang="ts">
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
-import {ref} from "vue";
-import type {Ref, Component} from "vue";
+import {shallowRef} from "vue";
+import type {ShallowRef, Component} from "vue";
 
-const component: Ref<Component> = ref(RegistrationVerification);
+const component: ShallowRef<Component> = shallowRef(RegistrationForm);
 </script>
 
 
