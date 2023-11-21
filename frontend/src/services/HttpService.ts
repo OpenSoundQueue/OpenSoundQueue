@@ -215,6 +215,8 @@ export class HttpService {
     async postLogout(apiKey: string) {
         return await httpClient.post(`/logout`, undefined, apiKey)
             .then(response => {
+                cookieService.clearApiKey();
+
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }

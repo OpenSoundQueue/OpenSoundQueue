@@ -5,17 +5,17 @@
         <img @click="close" src="@/assets/menu/close.svg"/>
       </div>
       <div v-if="user">
-        <p class="username">Quantompixel</p>
-        <p class="email">quantompxiel@adfa.com</p>
-        <p class="role"><span class="dot"></span>Test</p>
+        <p class="username">{{ user.username }}</p>
+        <p class="email">{{ user.email }}</p>
+        <p class="role"><span class="dot"></span>{{ user.role }}</p>
         <div class="button">
-          <DefaultButton text="Logout" @click="logout">
+          <DefaultButton :is-disabled="waitingForResponse" text="Logout" @click="logout">
             <img src="@/assets/icons/logout.svg"/>
           </DefaultButton>
         </div>
       </div>
       <div v-else>
-        <p>You are not logged in</p>
+        <p>{{ $translate('logout.info') }}</p>
         <div class="button">
           <DefaultButton text="Login" @click="router.push('/login')">
             <img src="@/assets/icons/login.svg"/>
@@ -33,27 +33,50 @@ import type {Ref} from "vue";
 import {onMounted, ref} from "vue";
 import type {User} from "@/models/User";
 import router from "@/router";
+import * as cookieService from "@/services/cookieService";
+import {ToastService} from "@/services/ToastService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
 const user: Ref<User | null> = ref(null);
+
+const waitingForResponse = ref(false);
 
 const emit = defineEmits<{
   close: []
 }>();
 
 onMounted(() => {
+  getSelf();
+})
+
+async function logout() {
+  waitingForResponse.value = true;
+
+  await httpService.postLogout(cookieService.getApiKey())
+      .then(() => {
+        ToastService.sendNotification(translate('logout.success'), "success", 3000);
+
+        router.push("/");
+      })
+      .catch(() => {
+        ToastService.sendNotification(translate('logout.error'), "error", 3000);
+      });
+
+  waitingForResponse.value = false;
+  getSelf();
+  close();
+}
+
+function getSelf() {
   httpService.getSelf()
       .then((data: User) => {
         user.value = data
       })
       .catch(() => {
-
+        user.value = null;
       })
-})
-
-async function logout() {
-  // TODO: implemented logout
 }
 
 function close() {

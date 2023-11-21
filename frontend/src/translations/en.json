@@ -124,6 +124,8 @@
   "logout": {
     "buttonLabel": "Logout",
     "callToAction": "Click to log out:",
-    "error": "Could not log out."
+    "error": "Could not log out.",
+    "success": "You were logged out.",
+    "info": "You are not logged in"
   }
 }

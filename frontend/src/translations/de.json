@@ -124,6 +124,8 @@
   "logout": {
     "buttonLabel": "Abmelden",
     "callToAction": "Zum Abmelden klicken:",
-    "error": "Abmelden fehlgeschlagen"
+    "error": "Abmelden fehlgeschlagen",
+    "success": "Du wurdest abgemeldet.",
+    "info": "Du bist nicht angemeldet"
   }
 }
