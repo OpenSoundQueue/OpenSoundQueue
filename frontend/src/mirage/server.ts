@@ -263,7 +263,7 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.users;
             })
 
-            this.get("/self", (schema: AppSchema, request) => {
+            this.get("/self", (schema: AppSchema) => {
                 return schema.db.users.find(2);
             })
 
