@@ -6,7 +6,7 @@
       </router-link>
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
-    <component :is="component" @continue="component = RegistrationVerification" @change="component = RegistrationForm" />
+    <component :is="component" @continue="() => component = RegistrationVerification" @change="() => component = RegistrationForm" />
     <div class="link-container">
       <router-link class="link" to="/forgot-password">{{ $translate("forgotPassword") }}</router-link>
       <router-link class="link" to="/register">{{ $translate("createAccount") }}</router-link>
