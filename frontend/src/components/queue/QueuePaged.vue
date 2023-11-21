@@ -1,9 +1,10 @@
 <template>
   <div class="queue-wrapper">
-    <div class="queue-container">
-      <div v-if="!queuePage.length" class="skeleton-container">
+    <div class="queue-container" :class="!isLoading && !queuePage.length?'empty-queue':''">
+      <div v-if="isLoading" class="skeleton-container">
         <EntrySkeleton v-for="(index) in pageSize" :key="index"/>
       </div>
+      <div v-else-if="!queuePage.length" class="empty-queue">{{ $translate('queueEmpty') }}</div>
       <div v-for="(songData, index) in queuePage" :key="index">
         <Entry v-if="!queuePageIsLoading"
                :number-in-queue="songData.numberInQueue"
@@ -14,7 +15,7 @@
         <EntrySkeleton v-else/>
       </div>
     </div>
-    <div v-if="numberOfQueuePages > 1">
+    <div v-if="numberOfQueuePages > 1 && (!isLoading && queuePage.length)">
       <PageSelector @select-page="(pageNumber) => selectNewPage(pageNumber)" :page-count="numberOfQueuePages"
                     :selectable-pages-count="numberOfQueuePages > 5 ? 5 : numberOfQueuePages"/>
     </div>
@@ -40,6 +41,7 @@ const numberOfQueuePages = ref(5);
 const queuePageIsLoading = ref(false);
 const currentPage = ref(0);
 const pageSize = 10;
+const isLoading = ref(true);
 
 onMounted(() => {
   selectNewPage(currentPage.value);
@@ -63,6 +65,8 @@ function reloadPage() {
 async function requestPage(pageNumber: number) {
   return httpService.getQueuePage(pageNumber, pageSize)
       .then((data) => {
+        isLoading.value = false;
+        console.log(isLoading.value)
         queuePage.value = data.page;
         numberOfQueuePages.value = data.numberOfPages;
       });
@@ -80,6 +84,7 @@ async function requestPage(pageNumber: number) {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -87,5 +92,10 @@ async function requestPage(pageNumber: number) {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.empty-queue{
+  margin: 0 auto 0 auto;
+  color: var(--tertiary-color);
 }
 </style>
