@@ -44,7 +44,7 @@
           input-type="password"
       />
       <div class="submit-container">
-        <DefaultButton :is-disabled="formStatus" text="Continue" @click="emits('continue')"/>
+        <DefaultButton :is-disabled="formStatus || waitingForResponse" text="Continue" @click="createAccount"/>
       </div>
     </form>
     <div class="link-container">
@@ -58,10 +58,15 @@ import InputField from "@/components/inputs/InputField.vue";
 import {computed, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
+import {HttpService} from "@/services/HttpService";
+
+const httpService = new HttpService();
 
 const emits = defineEmits<{
   continue: []
 }>()
+
+const waitingForResponse = ref(false);
 
 const username = ref({
   input: "",
@@ -104,6 +109,17 @@ function validatePasswordRepeat(value: string) {
   }
 }
 
+async function createAccount() {
+  waitingForResponse.value = true;
+
+  await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
+      .then((id: number) => {
+        console.log("id");
+        emits("continue");
+      });
+
+  waitingForResponse.value = false;
+}
 </script>
 
 <style scoped>

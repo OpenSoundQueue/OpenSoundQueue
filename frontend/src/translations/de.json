@@ -19,7 +19,7 @@
     "title": "Benutzername",
     "error": "Benutzername oder Passwort falsch",
     "taken": "Benutzername bereits vergeben",
-    "validation": "Mindestlänge 4 Zeichen lang sein, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten",
+    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten",
     "placeholder": "Benutzername eingeben"
   },
   "email": {
