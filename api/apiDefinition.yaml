@@ -150,6 +150,49 @@ paths:
             application/json:
               example:
                 error: Invalid API key
+  /register/create-account:
+    post:
+      tags:
+        - public
+      description: Endpoint for the registration form
+      requestBody:
+        required: true
+        description: Registration form
+        content:
+          application/json:
+            schema:
+              example:
+                username: WizMarki
+                email: wizmarki@gmail.com
+                password: 1!MarkiWiz
+      responses:
+        201:
+          description: user id of the created user
+          content:
+            application/json:
+              example:
+                id: 51
+  /register/verify:
+    post:
+      tags:
+        - public
+      description: Verifies if the email is owned by the user by checking the verification code
+      requestBody:
+        required: true
+        description: email and user id
+        content:
+          application/json:
+            schema:
+              example:
+                code: asdfAFDasdfaw324324
+                email: wizamrk@gmail.com
+      responses:
+        201:
+          description: account verified
+          content:
+            application/json:
+              example:
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
   /verify/api-key:
     get:
       tags:
