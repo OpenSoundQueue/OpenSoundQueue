@@ -9,6 +9,7 @@ import * as cookieService from "@/services/cookieService";
 import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import {ToastService} from "@/services/ToastService";
+import RegistrationView from "@/views/RegistrationView.vue";
 
 const httpService = new HttpService();
 
@@ -67,6 +68,14 @@ const router = createRouter({
             name: 'login-with-entryCode',
             component: LoginView,
             props: true
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: RegistrationView,
+            meta: {
+                requiresAuth: false
+            }
         },
         {
             path: "/settings",

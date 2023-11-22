@@ -134,6 +134,22 @@ paths:
             application/json:
               example:
                 error: Username already taken
+  /logout:
+    post:
+      tags:
+        - auth
+      description: Logs a user out
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        201:
+          description: user logged out
+        401:
+          description: Invalid API key
+          content:
+            application/json:
+              example:
+                error: Invalid API key
   /verify/api-key:
     get:
       tags:
