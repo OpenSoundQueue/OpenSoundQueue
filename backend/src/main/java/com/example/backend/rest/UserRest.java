@@ -125,6 +125,20 @@ public class UserRest {
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Object> logout(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        UserInfoEntity user = userService.getUserByToken(token);
+
+        userService.removeToken(user);
+
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verifyApiKey(@RequestHeader(value = "X-API-KEY") String token) {
         if (!userService.verifyApiKey(token)) {

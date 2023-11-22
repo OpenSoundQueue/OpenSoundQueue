@@ -59,6 +59,7 @@ public class SongQueueService {
         songService.close(currentSong);
         currentSong = songQueue.get(0);
         songQueue.remove(0);
+        voteSkipUserList.clear();
         this.play();
     }
 

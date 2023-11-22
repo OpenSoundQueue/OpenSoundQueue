@@ -121,5 +121,12 @@
   "modeSwitcher": {
     "basic": "Einfach",
     "advanced": "Erweitert"
+  },
+  "logout": {
+    "buttonLabel": "Abmelden",
+    "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
+    "error": "Abmelden fehlgeschlagen",
+    "success": "Du wurdest abgemeldet.",
+    "info": "Du bist nicht angemeldet"
   }
 }
