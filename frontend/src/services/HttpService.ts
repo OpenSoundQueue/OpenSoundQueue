@@ -212,6 +212,10 @@ export class HttpService {
             });
     }
 
+    async postRegisterCreateAccount(username: string, email: string, password: string) {
+        return httpClient.post(`/register/create-account`, {});
+    }
+
     async getVerifyApiKey(apiKey: string) {
        return await httpClient.get(`/verify/api-key`, apiKey)
            .then(response => {
