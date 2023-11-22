@@ -14,6 +14,7 @@
   "createAccount": "Create Account",
   "login": "Login",
   "loginCTA": "Want to add your own songs?",
+  "alreadyHaveAnAccount": "Already have an account?",
   "username": {
     "title": "Username",
     "error": "Username or Password wrong",

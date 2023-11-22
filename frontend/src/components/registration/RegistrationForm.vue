@@ -1,5 +1,6 @@
 <template>
   <div class="registration-form-wrapper">
+    <h2>Create an account</h2>
     <form @submit.prevent>
       <!-- Username -->
       <InputField
@@ -8,8 +9,8 @@
           :validation-function="$validateUsername"
           :validation-message="$translate('username.validation')"
           :required="false"
-          :placeholder="$translate('username.placeholder')">
-      </InputField>
+          :placeholder="$translate('username.placeholder')"
+      />
 
       <!-- Email -->
       <InputField
@@ -18,8 +19,8 @@
           :validation-function="$validateEmail"
           :validation-message="$translate('email.validation')"
           :required="false"
-          :placeholder="$translate('email.placeholder')">
-      </InputField>
+          :placeholder="$translate('email.placeholder')"
+      />
 
       <!-- Password -->
       <InputField
@@ -28,8 +29,9 @@
           :validation-function="$validatePassword"
           :validation-message="$translate('password.validation')"
           :required="false"
-          :placeholder="$translate('password.placeholder')">
-      </InputField>
+          :placeholder="$translate('password.placeholder')"
+          input-type="password"
+      />
 
       <!-- Password Repeat -->
       <InputField
@@ -39,12 +41,15 @@
           :validation-message="$translate('passwordRepeat.validation')"
           :required="false"
           :placeholder="$translate('passwordRepeat.placeholder')"
+          input-type="password"
       />
-
-      <DefaultButton :is-disabled="formStatus" text="Continue"/>
-
-      <button @click="emits('continue')">Continue</button>
+      <div class="submit-container">
+        <DefaultButton :is-disabled="formStatus" text="Continue" @click="emits('continue')"/>
+      </div>
     </form>
+    <div class="link-container">
+      <router-link class="link" to="/login">{{ $translate("alreadyHaveAnAccount") }}</router-link>
+    </div>
   </div>
 </template>
 
@@ -105,5 +110,39 @@ function validatePasswordRepeat(value: string) {
 .registration-form-wrapper {
   padding: 0 40px 0 40px;
   margin: 0 auto 0 auto;
+}
+
+h2 {
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.submit-container {
+  margin-top: 20px;
+}
+
+.link-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 0 40px 0;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--pink);
+  text-align: center;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 </style>
