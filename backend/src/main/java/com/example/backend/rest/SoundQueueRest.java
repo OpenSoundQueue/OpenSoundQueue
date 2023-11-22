@@ -1,5 +1,6 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.*;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
@@ -79,7 +80,8 @@ public class SoundQueueRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(token), HttpStatus.OK);
+        UserInfoEntity user = userService.getUserByToken(token);
+        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(user.getId()), HttpStatus.OK);
     }
 
     @GetMapping("/vote-skip/vote")
