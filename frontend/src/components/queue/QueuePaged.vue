@@ -84,7 +84,6 @@ async function requestPage(pageNumber: number) {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 10px;
 }
 
@@ -95,7 +94,8 @@ async function requestPage(pageNumber: number) {
 }
 
 .empty-queue{
-  margin: 0 auto 0 auto;
+  margin: auto 0 auto 0;
   color: var(--tertiary-color);
+  align-self: center;
 }
 </style>

@@ -1,4 +1,4 @@
-export default [
+export default [/*
     {title: "Easy On Me", artist: "Adele", duration: 132, link: "https://youtu.be/hicmpizont"},
     {title: "Stay", artist: "The Kid LAROI & Justin Bieber", duration: 70, link: "https://youtu.be/ihdrntudol"},
     {title: "Industry Baby", artist: "Lil Nas X & Jack Harlow", duration: 115, link: "https://youtu.be/cpfpcbkxfb"},
@@ -103,7 +103,7 @@ export default [
     {title: "Heat Waves", artist: "Glass Animals", duration: 240, link: "https://youtu.be/omxgozxzkm"},
     {title: "Beggin'", artist: "Maneskin", duration: 140, link: "https://youtu.be/dvwievkvvf"},
     {title: "You Right", artist: "Doja Cat & The Weeknd", duration: 112, link: "https://youtu.be/lkpxebchth"},
-    {title: "Save Your Tears", artist: "The Weeknd & Ariana Grande", duration: 147, link: "https://youtu.be/bekouirlxk"},
+    {title: "Save Your Tears", artist: "The Weeknd & Ariana Grande", duration: 147, link: "https://youtu.be/bekouirlxk"},*/
     {title: "Knife Talk", artist: "Drake Featuring 21 Savage & Project Pat", duration: 174, link: "https://youtu.be/vqvewxkcoi"},
     {title: "Who Want Smoke??", artist: "Nardo Wick Featuring G Herbo, Lil Durk & 21 Savage", duration: 224, link: "https://youtu.be/itwnlebqlf"},
     {title: "Bubbly", artist: "Young Thug With Drake & Travis Scott", duration: 180, link: "https://youtu.be/puveeicvya"},
