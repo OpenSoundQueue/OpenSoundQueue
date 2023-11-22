@@ -81,7 +81,6 @@ export function makeServer({environment = "development"} = {}) {
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                console.log()
                 if (songs.length==0){
                     return {
                         isPlaying: false,
@@ -92,7 +91,6 @@ export function makeServer({environment = "development"} = {}) {
                 }
 
                 if (time > songs[0].duration * 1000) {
-                    console.log("Here")
                     const currentSong = schema.db.songs[0];
                     schema.db.songs.remove(currentSong);
                     time = 0;
