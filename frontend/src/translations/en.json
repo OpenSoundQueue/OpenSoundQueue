@@ -123,7 +123,7 @@
   },
   "logout": {
     "buttonLabel": "Logout",
-    "callToAction": "Click to log out:",
+    "callToAction": "In order to access this page, you need to be logged out.",
     "error": "Could not log out.",
     "success": "You were logged out.",
     "info": "You are not logged in"

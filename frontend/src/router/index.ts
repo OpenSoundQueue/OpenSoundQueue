@@ -109,7 +109,7 @@ router.beforeEach(async (to, from, next) => {
         });
 })
 
-// runs on all path requests which have the meta-tag 'requiresNoAuth' set to 'true'
+// runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {

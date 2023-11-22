@@ -123,7 +123,7 @@
   },
   "logout": {
     "buttonLabel": "Abmelden",
-    "callToAction": "Zum Abmelden klicken:",
+    "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
     "error": "Abmelden fehlgeschlagen",
     "success": "Du wurdest abgemeldet.",
     "info": "Du bist nicht angemeldet"
