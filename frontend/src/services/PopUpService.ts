@@ -19,6 +19,7 @@ export class PopUpService {
 
     static async waitForUserAction() {
         return new Promise((resolve) => {
+            // TODO: change to resolve() and reject()
             const checkUserAction = () => {
                 if (this.userAction.value !== "") {
                     this.isVisible.value = false;

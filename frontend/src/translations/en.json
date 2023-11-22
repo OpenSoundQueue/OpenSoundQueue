@@ -120,5 +120,12 @@
   "modeSwitcher": {
     "basic": "Basic",
     "advanced": "Advanced"
+  },
+  "logout": {
+    "buttonLabel": "Logout",
+    "callToAction": "In order to access this page, you need to be logged out.",
+    "error": "Could not log out.",
+    "success": "You were logged out.",
+    "info": "You are not logged in"
   }
 }

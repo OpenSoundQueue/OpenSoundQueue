@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-wrapper">
     <nav class="navbar">
-      <div @click="toggleMenu" class="open-button mobile">
+      <div @click="navIsOpen = true" class="open-button mobile">
         <div>
           <img src="@/assets/menu/menu.svg"/>
         </div>
@@ -11,8 +11,8 @@
           <img class="logo" src="@/assets/menu/logo.svg">
         </router-link>
       </div>
-      <div class="menu" :class="{opened: menuIsOpen, closed: !menuIsOpen}" v-closable="{excluded: [], handler: collapse}">
-        <div @click="toggleMenu" class="close-button mobile">
+      <div class="menu" :class="{opened: navIsOpen, closed: !navIsOpen}" v-closable="{excluded: [], handler: () => navIsOpen = false}">
+        <div @click="navIsOpen = false" class="close-button mobile">
           <img src="@/assets/menu/close.svg"/>
         </div>
         <div class="links">
@@ -27,10 +27,13 @@
           </div>
         </div>
       </div>
-      <div class="user-button">
+      <div class="user-button" @click="userMenuIsOpen = true">
         <img src="@/assets/icons/user.svg"/>
       </div>
     </nav>
+    <div v-show="userMenuIsOpen" v-closable="{exclude: [], handler: () => userMenuIsOpen = false}">
+      <UserMenu @close="() => userMenuIsOpen = false"/>
+    </div>
   </div>
 </template>
 
@@ -38,14 +41,16 @@
 import Link from "@/components/Link.vue";
 import {onMounted, ref, watch} from "vue";
 import router from "@/router";
+import UserMenu from "@/components/UserMenu.vue";
 
-const menuIsOpen = ref(false);
+const navIsOpen = ref(false);
+const userMenuIsOpen = ref(false);
 const userIsInPublicArea = ref(true);
 
 watch(router.currentRoute, () => {
   determineArea();
 
-  collapse();
+  navIsOpen.value = false;
 })
 
 onMounted(() => {
@@ -54,14 +59,6 @@ onMounted(() => {
 
 function determineArea() {
   userIsInPublicArea.value = router.currentRoute.value.name === "public";
-}
-
-function toggleMenu() {
-  menuIsOpen.value = !menuIsOpen.value;
-}
-
-function collapse() {
-  menuIsOpen.value = false;
 }
 </script>
 

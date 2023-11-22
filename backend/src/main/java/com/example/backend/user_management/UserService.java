@@ -78,6 +78,11 @@ public class UserService {
         userInfoRepository.save(user);
     }
 
+    public void removeToken(UserInfoEntity user) {
+        user.setToken(null);
+        userInfoRepository.save(user);
+    }
+
     public void updateLastOnline(UserInfoEntity user) {
         user.setLastOnline(new Date());
         userInfoRepository.save(user);
