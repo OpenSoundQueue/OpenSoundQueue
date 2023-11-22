@@ -55,7 +55,7 @@ public class SongQueueService {
         return song;
     }
 
-    public void skip() { // TODO: fix race condition
+    public void skip() {
         songService.close(currentSong);
         currentSong = songQueue.get(0);
         songQueue.remove(0);
@@ -170,5 +170,9 @@ public class SongQueueService {
             ergs = ergs.subList(0, maxResults);
         }
         return ergs;
+    }
+
+    public void replaySong() {
+        songService.replay(currentSong);
     }
 }

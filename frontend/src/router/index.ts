@@ -6,6 +6,7 @@ import SettingsView from "@/views/SettingsView.vue";
 import {HttpService} from "@/services/HttpService";
 import UserManagementView from "@/views/UserManagementView.vue";
 import * as cookieService from "@/services/cookieService";
+import RegistrationView from "@/views/RegistrationView.vue";
 
 const httpService = new HttpService();
 
@@ -23,10 +24,32 @@ const router = createRouter({
         {
             path: '/home',
             name: 'home',
-            component: HomeView,
-            meta: {
-                requiresAuth: true
-            }
+            children: [
+                {
+                    path: '',
+                    name: 'default',
+                    component: HomeView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'basic',
+                    name: 'basic',
+                    component: HomeView,
+                    meta: {
+                     requiresAuth: true
+                    }
+                },
+                {
+                    path: 'advanced',
+                    name: 'advanced',
+                    component: HomeView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                }
+            ],
         },
         {
             path: '/login/:entryCode',
@@ -38,6 +61,14 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: LoginView,
+            meta: {
+                requiresNoCookie: true
+            }
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: RegistrationView,
             meta: {
                 requiresNoCookie: true
             }

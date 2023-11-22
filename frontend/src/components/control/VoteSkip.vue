@@ -109,7 +109,7 @@ function resetInterval() {
 <style scoped>
 
 .wrapper {
-  height: 70px;
+  height: 40px;
   width: 100px;
   display: flex;
   align-items: center;

@@ -68,10 +68,11 @@ function setActiveTab(index: number) {
 .tab.active {
   background: var(--tertiary-color);
   color: var(--secondary-color);
+  font-weight: bold;
 }
 
 .tab.inactive {
- background: none;
+  background: none;
   color: var(--text-color);
 }
 

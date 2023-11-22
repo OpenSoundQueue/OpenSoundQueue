@@ -37,6 +37,8 @@ function getDurationString(durationInSeconds: number): string {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  padding-left: 5px;
+  box-sizing: border-box;
 }
 
 .queue-number {
@@ -45,6 +47,8 @@ function getDurationString(durationInSeconds: number): string {
   justify-content: flex-start;
   align-items: center;
   width: 28px;
+  padding-left: 7px;
+  box-sizing: border-box;
 }
 
 .song-details-container {

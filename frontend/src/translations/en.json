@@ -52,7 +52,13 @@
       "user": "User",
       "messageSuccess": "has been deleted.",
       "messageError": "could not be deleted."
-    }
+    },
+    "queueChangeOrderError": "Song could not be moved.",
+    "skipSongSuccess": "Song has been skipped",
+    "skipSongError": "Song could not be skipped",
+    "replaySongError": "Song could not be restarted",
+    "stopError": "Queue could not be paused",
+    "startError": "Queue could not be started"
   },
   "historySearch": {
     "noSongFound": "No song found for ",
@@ -111,5 +117,9 @@
       "part2": "?",
       "button": "Delete User"
     }
+  },
+  "modeSwitcher": {
+    "basic": "Basic",
+    "advanced": "Advanced"
   }
 }
