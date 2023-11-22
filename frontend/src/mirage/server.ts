@@ -47,6 +47,9 @@ export function makeServer({environment = "development"} = {}) {
 
                 const songs = schema.db.songs;
 
+                if (songs.length==0)
+                    return {page: undefined, numberOfPages: undefined}
+
                 const start: number = pageSize * pageNumber;
                 const end: number = start + pageSize;
 
@@ -78,7 +81,18 @@ export function makeServer({environment = "development"} = {}) {
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
+                console.log()
+                if (songs.length==0){
+                    return {
+                        isPlaying: false,
+                        time: 0,
+                        stamp: Date.now(),
+                        song: null
+                    }
+                }
+
                 if (time > songs[0].duration * 1000) {
+                    console.log("Here")
                     const currentSong = schema.db.songs[0];
                     schema.db.songs.remove(currentSong);
                     time = 0;

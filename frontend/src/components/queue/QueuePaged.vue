@@ -1,10 +1,10 @@
 <template>
   <div class="queue-wrapper">
-    <div class="queue-container" :class="!isLoading && !queuePage.length?'empty-queue':''">
+    <div class="queue-container" :class="!isLoading && !queuePage?'empty-queue':''">
       <div v-if="isLoading" class="skeleton-container">
         <EntrySkeleton v-for="(index) in pageSize" :key="index"/>
       </div>
-      <div v-else-if="!queuePage.length" class="empty-queue">{{ $translate('queueEmpty') }}</div>
+      <div v-else-if="!queuePage" class="empty-queue">{{ $translate('queueEmpty') }}</div>
       <div v-for="(songData, index) in queuePage" :key="index">
         <Entry v-if="!queuePageIsLoading"
                :number-in-queue="songData.numberInQueue"
@@ -45,7 +45,6 @@ const isLoading = ref(true);
 
 onMounted(() => {
   selectNewPage(currentPage.value);
-
   setInterval(() => reloadPage(), props.pageUpdateInterval);
 })
 
@@ -66,7 +65,6 @@ async function requestPage(pageNumber: number) {
   return httpService.getQueuePage(pageNumber, pageSize)
       .then((data) => {
         isLoading.value = false;
-        console.log(isLoading.value)
         queuePage.value = data.page;
         numberOfQueuePages.value = data.numberOfPages;
       });
