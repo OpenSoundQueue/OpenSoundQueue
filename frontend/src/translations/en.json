@@ -15,18 +15,29 @@
   "createAccount": "Create Account",
   "login": "Login",
   "loginCTA": "Want to add your own songs?",
+  "alreadyHaveAnAccount": "Already have an account?",
   "username": {
     "title": "Username",
     "error": "Username or Password wrong",
     "taken": "Username is already taken",
-    "validation": "The Username must be at least 4 characters long and can contain letters (upper and lower case), numbers, dot (.) and underscore (_)",
+    "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)",
     "placeholder": "Enter Username"
+  },
+  "email": {
+    "title": "Email",
+    "validation": "Not a valid email address",
+    "placeholder": "Enter Email Address"
   },
   "password": {
     "title": "Password",
     "error": "Username or Password wrong",
-    "validation": "The Password must be at least 8 characters long and contain a combination of upper case letters, lower case letters, numbers and special characters",
+    "validation": "Minimum of 8 characters long, upper case letter, lower case letter, number and special character",
     "placeholder": "Enter Password"
+  },
+  "passwordRepeat": {
+    "title": "Repeat Password",
+    "validation": "Passwords do not match",
+    "placeholder": "Repeat Password"
   },
   "entryCode": {
     "title": "Entry-Code",

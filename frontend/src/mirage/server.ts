@@ -315,6 +315,10 @@ export function makeServer({environment = "development"} = {}) {
                 });
             })
 
+            this.post("/register/create-account", () => {
+                return {};
+            });
+
             this.post("/logout", () => {
                 return {};
             })

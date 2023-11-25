@@ -6,11 +6,7 @@
       </router-link>
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
-    <component :is="component" @continue="component = RegistrationVerification" @change="component = RegistrationForm" />
-    <div class="link-container">
-      <router-link class="link" to="/forgot-password">{{ $translate("forgotPassword") }}</router-link>
-      <router-link class="link" to="/register">{{ $translate("createAccount") }}</router-link>
-    </div>
+    <component :is="component" @continue="() => component = RegistrationVerification" @change="() => component = RegistrationForm" />
   </main>
 
 </template>
@@ -18,10 +14,10 @@
 <script setup lang="ts">
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
-import {ref} from "vue";
-import type {Ref, Component} from "vue";
+import {shallowRef} from "vue";
+import type {ShallowRef, Component} from "vue";
 
-const component: Ref<Component> = ref(RegistrationVerification);
+const component: ShallowRef<Component> = shallowRef(RegistrationForm);
 </script>
 
 
@@ -44,23 +40,6 @@ header {
 .header-image {
   height: calc(var(--font-size-big) * 1.5);
   padding: 25px;
-}
-
-.link-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 40px 0 40px 0;
-}
-
-.link {
-  text-decoration: none;
-  color: var(--pink);
-  text-align: center;
-}
-
-.link:hover {
-  text-decoration: underline;
 }
 
 @media screen and (min-width: 600px){
