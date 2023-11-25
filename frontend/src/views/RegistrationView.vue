@@ -1,9 +1,9 @@
 <template>
   <main>
     <header>
-      <router-link to="/">
+      <div class="link-back" @click="router.back()">
         <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
-      </router-link>
+      </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
     <component :is="component" @continue="() => component = RegistrationVerification" @change="() => component = RegistrationForm" />
@@ -16,6 +16,7 @@ import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
 import {shallowRef} from "vue";
 import type {ShallowRef, Component} from "vue";
+import router from "@/router";
 
 const component: ShallowRef<Component> = shallowRef(RegistrationForm);
 </script>
@@ -40,6 +41,10 @@ header {
 .header-image {
   height: calc(var(--font-size-big) * 1.5);
   padding: 25px;
+}
+
+.link-back:hover{
+  cursor: pointer;
 }
 
 @media screen and (min-width: 600px){
