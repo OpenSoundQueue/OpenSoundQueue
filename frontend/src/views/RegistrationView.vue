@@ -1,12 +1,14 @@
 <template>
   <main>
     <header>
-      <div class="link-back" @click="router.back()">
+      <div class="link-back" @click="component == RegistrationForm?router.back():component = RegistrationForm">
         <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
       </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
-    <component :is="component" @continue="() => component = RegistrationVerification" @change="() => component = RegistrationForm" />
+    <component :is="component"
+               @continue="() => component = RegistrationVerification"
+               @change="() => component = RegistrationForm"/>
   </main>
 
 </template>
@@ -19,6 +21,8 @@ import type {ShallowRef, Component} from "vue";
 import router from "@/router";
 
 const component: ShallowRef<Component> = shallowRef(RegistrationForm);
+
+//TODO: Add possibility to register a user without email
 </script>
 
 
@@ -43,12 +47,12 @@ header {
   padding: 25px;
 }
 
-.link-back:hover{
+.link-back:hover {
   cursor: pointer;
 }
 
-@media screen and (min-width: 600px){
-  main{
+@media screen and (min-width: 600px) {
+  main {
     width: 600px;
     border-radius: var(--border-radius-big);
     margin: 50px auto 0 auto;

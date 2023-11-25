@@ -5,6 +5,7 @@
       <!-- Username -->
       <InputField
           v-model="username.input"
+          :manual-value="username.input"
           :label="$translate('username.title')"
           :validation-function="$validateUsername"
           :validation-message="$translate('username.validation')"
@@ -15,6 +16,7 @@
       <!-- Email -->
       <InputField
           v-model="email.input"
+          :manual-value="email.input"
           :label="$translate('email.title')"
           :validation-function="$validateEmail"
           :validation-message="$translate('email.validation')"
@@ -25,6 +27,7 @@
       <!-- Password -->
       <InputField
           v-model="password.input"
+          :manual-value="password.input"
           :label="$translate('password.title')"
           :validation-function="$validatePassword"
           :validation-message="$translate('password.validation')"
@@ -36,6 +39,7 @@
       <!-- Password Repeat -->
       <InputField
           v-model="passwordRepeat.input"
+          :manual-value="passwordRepeat.input"
           :label="$translate('passwordRepeat.title')"
           :validation-function="validatePasswordRepeat"
           :validation-message="$translate('passwordRepeat.validation')"
@@ -44,7 +48,8 @@
           input-type="password"
       />
       <div class="submit-container">
-        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.continue')" @click="createAccount"/>
+        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.continue')"
+                       @click="createAccount"/>
       </div>
     </form>
     <div class="link-container">
@@ -55,11 +60,17 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
+
+type Form = {
+  username: string,
+  email: string,
+  password: string
+}
 
 const httpService = new HttpService();
 
@@ -100,6 +111,14 @@ const formStatus = computed(() => {
       validatePasswordRepeat(passwordRepeat.value.input)());
 })
 
+onMounted(() => {
+  const form: Form = getForm();
+  username.value.input = form.username;
+  email.value.input = form.email;
+  password.value.input = form.password;
+  passwordRepeat.value.input = form.password;
+})
+
 function validatePasswordRepeat(value: string) {
   return () => {
     if (value.length === 0) {
@@ -115,11 +134,30 @@ async function createAccount() {
 
   await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
       .then((id: number) => {
-        console.log("id");
+        console.log(id);
+        saveForm();
         emits("continue");
       });
 
   waitingForResponse.value = false;
+}
+
+function saveForm() {
+  const form = {
+    username: username.value.input,
+    email: email.value.input,
+    password: password.value.input,
+  }
+
+  localStorage.setItem("form", JSON.stringify(form))
+}
+
+function getForm(): Form {
+  const form = localStorage.getItem("form")
+  if (!form)
+    return {username: "", email: "", password: ""}
+  else
+    return JSON.parse(form)
 }
 </script>
 

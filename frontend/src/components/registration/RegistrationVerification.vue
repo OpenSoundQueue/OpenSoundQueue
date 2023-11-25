@@ -3,11 +3,11 @@
     <h2>{{ $translate('registration.heading') }}</h2>
     <div class="entry-container">
       <div>{{ user.username }}</div>
-      <div @click="emits('change')" class="link change">{{ $translate('registration.change')}}</div>
+      <div @click="emits('change')" class="link change">{{ $translate('registration.change') }}</div>
     </div>
     <div class="entry-container">
       <div>{{ user.email }}</div>
-      <div @click="emits('change')" class="link change">{{ $translate('registration.change')}}</div>
+      <div @click="emits('change')" class="link change">{{ $translate('registration.change') }}</div>
     </div>
     <form @submit.prevent>
       <div class="input-container">
@@ -19,7 +19,8 @@
         />
       </div>
       <div class="submit-container">
-        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.createAccount')" @click="sendVerification"/>
+        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.createAccount')"
+                       @click="sendVerification"/>
       </div>
     </form>
     <div class="no-code-section">
@@ -31,10 +32,16 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
+
+type Form = {
+  username: string,
+  email: string,
+  password: string
+}
 
 const httpService = new HttpService();
 
@@ -45,8 +52,9 @@ const emits = defineEmits<{
 const waitingForResponse = ref(false);
 
 const user = ref({
-  username: "Quantompixel",
-  email:"quantom@pixel.com",
+  username: "",
+  email: "",
+  password: ""
 })
 
 const verificationCode = ref({
@@ -56,7 +64,16 @@ const verificationCode = ref({
 });
 
 const formStatus = computed(() => {
-  return verificationCode.value.input.length==0;
+  return verificationCode.value.input.length == 0;
+})
+
+onMounted(() => {
+  const form: Form = getForm();
+  user.value = {
+    username: form.username,
+    email: form.email,
+    password: form.email
+  }
 })
 
 async function sendVerification() {
@@ -64,11 +81,19 @@ async function sendVerification() {
 
   await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
       .then((id: number) => {
-        console.log("id");
-        emits("continue");
+        console.log(id);
+        localStorage.removeItem("form")
       });
 
   waitingForResponse.value = false;
+}
+
+function getForm(): Form {
+  const form = localStorage.getItem("form")
+  if (!form)
+    return {username: "", email: "", password: ""}
+  else
+    return JSON.parse(form)
 }
 </script>
 
@@ -78,7 +103,7 @@ async function sendVerification() {
   margin: 0 auto 0 auto;
 }
 
-.entry-container{
+.entry-container {
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -103,7 +128,7 @@ form {
   margin-top: 20px;
 }
 
-.input-container{
+.input-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -123,10 +148,11 @@ form {
   text-align: center;
 }
 
-.change{
+.change {
   user-select: none;
 }
-.change:hover{
+
+.change:hover {
   cursor: pointer;
 }
 
