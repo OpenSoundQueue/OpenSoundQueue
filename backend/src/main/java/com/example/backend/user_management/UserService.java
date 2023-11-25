@@ -111,10 +111,10 @@ public class UserService {
         userInfoRepository.deleteById(id);
     }
 
-    public void sendEmailVerification(UserInfoEntity user) throws MessagingException {
+    public void sendEmailVerification(String email) throws MessagingException {
         String emailCode = emailUtils.generateEmailCode();
-        emailVerificationCodes.put(user.getEmail(), emailCode);
-        emailComponent.sendMail(user.getEmail(), emailCode);
+        emailVerificationCodes.put(email, emailCode);
+        emailComponent.sendMail(email, emailCode);
     }
 
     public boolean verifyEmail(String email, String code) {

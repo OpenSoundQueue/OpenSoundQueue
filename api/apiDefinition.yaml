@@ -205,6 +205,28 @@ paths:
             application/json:
               example:
                 error: verification code is wrong
+  /register/resend-email:
+    post:
+      tags:
+        - public
+      description: Sends another email verification
+      requestBody:
+        required: true
+        description: email of user
+        content:
+          application/json:
+            schema:
+              example:
+                email: wizamrk@gmail.com
+      responses:
+        200:
+          description: email sent
+        400:
+          description: email does not exist
+          content:
+            application/json:
+              example:
+                error: email does not exist
   /verify/api-key:
     get:
       tags:
