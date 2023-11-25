@@ -1,7 +1,8 @@
 {
   "nowPlaying": "Spielt jetzt",
   "inQueue": "In der Warteschlange",
-  "queueEmpty": "Zurzeit befinden sich keine Songs in der Warteschlange",
+  "queueEmpty": "Es befinden sich keine Songs in der Warteschlange",
+  "currentSongEmpty": "Aktuell wird kein Song abgespielt",
   "byLink": {
     "title": "Mit Link",
     "label": "Songlink",

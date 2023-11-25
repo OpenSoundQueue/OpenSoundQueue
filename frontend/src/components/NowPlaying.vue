@@ -2,12 +2,14 @@
   <div class="now-playing-wrapper">
     <div class="title-artist-wrapper">
       <div class="title-container">
-        <div v-if="currentSong" class="title">{{ currentSong?.title }}</div>
-        <div v-else class="skeleton"></div>
+        <div v-if="isLoading" class="skeleton"></div>
+        <div v-else-if="!currentSong">{{ $translate('currentSongEmpty') }}</div>
+        <div v-else class="title">{{ currentSong?.title }}</div>
       </div>
       <div class="artist-container">
-        <div v-if="currentSong" class="artist">{{ currentSong?.artist }}</div>
-        <div v-else class="skeleton"></div>
+        <div v-if="isLoading" class="skeleton"></div>
+        <div v-else-if="!currentSong" class="artist"/>
+        <div v-else class="artist">{{ currentSong?.artist }}</div>
       </div>
     </div>
     <ProgressBar :label-left="getCurrentTime"
@@ -35,6 +37,7 @@ const progress = ref(0);
 const currentTime = ref(0);
 const currentSong: Ref<Song | undefined> = ref();
 const httpService = new HttpService();
+const isLoading = ref(true);
 
 onMounted(() => {
   setInterval(getTime, props.updateInterval);
@@ -54,10 +57,13 @@ const getDuration = computed(() => {
 
 function getTime() {
   httpService.getNowPlaying().then(data => {
-    currentSong.value = data.song;
+    isLoading.value = false;
+    if (data.song) {
+      currentSong.value = data.song;
 
-    currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-    progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
+      currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
+      progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
+    }
   })
 }
 
