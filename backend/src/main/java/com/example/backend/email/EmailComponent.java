@@ -1,4 +1,4 @@
-package com.example.backend.util;
+package com.example.backend.email;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,23 +9,23 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 @Component
 public class EmailComponent {
     private static final Logger LOG = LoggerFactory.getLogger(EmailComponent.class);
 
-    public void sendMail(String email, String verificationCode) throws MessagingException {
+    public void sendMail(String email, String verificationCode, String username) throws MessagingException, IOException {
         MimeMessage message = createMailTemplate(email);
-        message.setSubject("Dies ist eine Test Email");
+        message.setSubject("OpenSoundQueue Email Verification");
 
-        EmailTemplate emailVerificationTemplate = new EmailTemplate();
-        emailVerificationTemplate.addTitle("Dies ist eine Test Email");
-        emailVerificationTemplate.addLine();
-        emailVerificationTemplate.addText("Der Verification Code lautet: " + verificationCode);
+        String emailTemplate = Files.readString(Path.of("backend/src/main/java/com/example/backend/email/VerificationEmailTemplate.html"));
 
         BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(emailVerificationTemplate.generateEmailTemplate(), "text/html");
+        messageBodyPart.setContent(emailTemplate.replaceAll("###VERIFICATION_CODE###", verificationCode).replaceAll("###USERNAME###", username), "text/html"); //emailVerificationTemplate.generateEmailTemplate()
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);

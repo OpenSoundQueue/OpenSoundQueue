@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -208,7 +209,7 @@ public class UserRest {
     }
 
     @PostMapping("/register/create-account")
-    public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws MessagingException {
+    public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws MessagingException, IOException {
         UserInfoEntity savedUser;
         if (userService.getUserByUsername(user.getUsername()) != null ) return new ResponseEntity<>(new ErrorDto("username is already taken"), HttpStatus.BAD_REQUEST);
         if (userService.getUserByEmail(user.getEmail()) != null) {
@@ -225,7 +226,7 @@ public class UserRest {
             savedUser = userService.registerNewAuthUser(user);
         }
 
-        userService.sendEmailVerification(savedUser.getEmail());
+        userService.sendEmailVerification(savedUser);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -250,13 +251,13 @@ public class UserRest {
     }
 
     @PostMapping("/register/resend-email")
-    public ResponseEntity<Object> resendEmail(@RequestBody Map<String, String> input) throws MessagingException {
+    public ResponseEntity<Object> resendEmail(@RequestBody Map<String, String> input) throws MessagingException, IOException {
         String email = input.get("email");
 
         if (userService.getUserByEmail(email) == null) return new ResponseEntity<>(new ErrorDto("email does not exist"), HttpStatus.BAD_REQUEST);
         if (userService.getUserByEmail(email).getVerified()) return new ResponseEntity<>(new ErrorDto("email is already verified"), HttpStatus.BAD_REQUEST);
 
-        userService.sendEmailVerification(email);
+        userService.sendEmailVerification(userService.getUserByEmail(email));
 
         return ResponseEntity.ok().build();
     }

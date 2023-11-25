@@ -1,4 +1,4 @@
-package com.example.backend.util;
+package com.example.backend.email;
 
 import org.springframework.stereotype.Component;
 
