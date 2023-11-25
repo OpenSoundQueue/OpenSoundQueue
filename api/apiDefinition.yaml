@@ -172,6 +172,12 @@ paths:
             application/json:
               example:
                 id: 51
+        400:
+          description: email is already taken
+          content:
+            application/json:
+              example:
+                error: Email address is already taken
   /register/verify:
     post:
       tags:
@@ -193,6 +199,12 @@ paths:
             application/json:
               example:
                 apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+        400:
+          description: verification code is wrong
+          content:
+            application/json:
+              example:
+                error: verification code is wrong
   /verify/api-key:
     get:
       tags:
