@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.Map;
 
 @RestController
@@ -40,6 +41,10 @@ public class UserRest {
 
         if (userInfoEntity == null) {
             return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (!userInfoEntity.getVerified()) {
+            return new ResponseEntity<>(new ErrorDto("Email address is not verified yet"), HttpStatus.BAD_REQUEST);
         }
 
         if (passwordEncoder.matches(password, userInfoEntity.getPassword())) {
@@ -87,6 +92,10 @@ public class UserRest {
 
         if (userInfoEntity == null) {
             return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (!userInfoEntity.getVerified()) {
+            return new ResponseEntity<>(new ErrorDto("Email address is not verified yet"), HttpStatus.BAD_REQUEST);
         }
 
         if (!systemService.checkEntryCode(entryCode)) {
@@ -196,5 +205,47 @@ public class UserRest {
         UserInfoEntity user = userService.getUserByToken(token);
 
         return new ResponseEntity<>(new UserDto(user.getId(), user.getUsername(), user.getLastOnline()), HttpStatus.OK);
+    }
+
+    @PostMapping("/register/create-account")
+    public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws MessagingException {
+        UserInfoEntity savedUser;
+        if (userService.getUserByUsername(user.getUsername()) != null ) return new ResponseEntity<>(new ErrorDto("username is already taken"), HttpStatus.BAD_REQUEST);
+        if (userService.getUserByEmail(user.getEmail()) != null) {
+            if (userService.getUserByEmail(user.getEmail()).getVerified()) {
+                return ResponseEntity.badRequest().body(new ErrorDto("Email address is already taken"));
+            } else {
+                savedUser = userService.getUserByEmail(user.getEmail());
+                savedUser.setUsername(user.getUsername());
+                savedUser.setPassword(user.getPassword());
+                userService.deleteUser(savedUser.getId());
+                savedUser = userService.registerNewAuthUser(savedUser);
+            }
+        } else {
+            savedUser = userService.registerNewAuthUser(user);
+        }
+
+        userService.sendEmailVerification(savedUser);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/register/verify")
+    public ResponseEntity<Object> verifyAccount(@RequestBody Map<String, String> input) {
+        String code = input.get("code");
+        String email = input.get("email");
+
+        boolean verified = userService.verifyEmail(email, code);
+
+        if (!verified) return new ResponseEntity<>(new ErrorDto("verification code is wrong"), HttpStatus.BAD_REQUEST);
+
+        UserInfoEntity user = userService.getUserByEmail(email);
+
+        String token = tokenUtils.generateToken();
+
+        userService.updateToken(user.getId(), token);
+        userService.updateLastOnline(user);
+
+        return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.CREATED);
     }
 }
