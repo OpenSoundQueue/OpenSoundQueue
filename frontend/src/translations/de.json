@@ -24,9 +24,10 @@
     "placeholder": "Benutzername eingeben"
   },
   "email": {
-    "title": "E-Mail",
-    "validation": "Keine gültige E-Mail",
-    "placeholder": "E-Mail eingeben"
+    "title": "E-Mail-Adresse",
+    "validation": "Keine gültige E-Mail-Adresse",
+    "placeholder": "E-Mail-Adresse eingeben",
+    "taken": "E-Mail-Adresse bereits vergeben"
   },
   "password": {
     "title": "Passwort",

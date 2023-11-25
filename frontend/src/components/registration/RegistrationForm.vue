@@ -9,8 +9,11 @@
           :label="$translate('username.title')"
           :validation-function="$validateUsername"
           :validation-message="$translate('username.validation')"
+          :error-status="username.errorStatus"
+          :error-message="$translate('username.taken')"
           :required="false"
           :placeholder="$translate('username.placeholder')"
+          @update:modelValue="username.errorStatus=false"
       />
 
       <!-- Email -->
@@ -20,8 +23,11 @@
           :label="$translate('email.title')"
           :validation-function="$validateEmail"
           :validation-message="$translate('email.validation')"
+          :error-status="email.errorStatus"
+          :error-message="$translate('email.taken')"
           :required="false"
           :placeholder="$translate('email.placeholder')"
+          @update:modelValue="email.errorStatus=false"
       />
 
       <!-- Password -->
@@ -136,8 +142,14 @@ async function createAccount() {
 
   await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
       .then(() => {
-        localStorageService.saveForm(username.value.input,email.value.input,password.value.input);
+        localStorageService.saveForm(username.value.input, email.value.input, password.value.input);
         emits("continue");
+      })
+      .catch((error) => {
+        if (error.error.toLowerCase().includes("username"))
+          username.value.errorStatus = true;
+        if (error.error.toLowerCase().includes("email"))
+          email.value.errorStatus = true;
       });
 
   waitingForResponse.value = false;

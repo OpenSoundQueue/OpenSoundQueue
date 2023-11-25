@@ -26,6 +26,7 @@
   "email": {
     "title": "Email",
     "validation": "Not a valid email address",
+    "taken": "Email already taken",
     "placeholder": "Enter Email Address"
   },
   "password": {

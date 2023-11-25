@@ -222,12 +222,12 @@ export class HttpService {
 
     async postRegisterCreateAccount(username: string, email: string, password: string) {
         return httpClient.post(`/register/create-account`, {username: username, email: email, password: password})
-            .then(response => {
+            .then(async response => {
                 if (!response.ok) {
-                    return Promise.reject(response.status);
+                    const data = await response.json()
+                    return Promise.reject(data);
                 }
-
-                return response.json();
+                return response;
             });
     }
 
