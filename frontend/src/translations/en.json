@@ -1,7 +1,8 @@
 {
   "nowPlaying": "Now Playing",
   "inQueue": "In Queue",
-  "queueEmpty": "There are currently no Songs in Queue",
+  "queueEmpty": "There are no songs in queue",
+  "currentSongEmpty": "There is currently no song playing",
   "byLink": {
     "title": "By Link",
     "label": "Song Link",
@@ -131,5 +132,12 @@
   "modeSwitcher": {
     "basic": "Basic",
     "advanced": "Advanced"
+  },
+  "logout": {
+    "buttonLabel": "Logout",
+    "callToAction": "In order to access this page, you need to be logged out.",
+    "error": "Could not log out.",
+    "success": "You were logged out.",
+    "info": "You are not logged in"
   }
 }

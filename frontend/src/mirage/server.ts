@@ -47,6 +47,9 @@ export function makeServer({environment = "development"} = {}) {
 
                 const songs = schema.db.songs;
 
+                if (songs.length==0)
+                    return {page: undefined, numberOfPages: undefined}
+
                 const start: number = pageSize * pageNumber;
                 const end: number = start + pageSize;
 
@@ -77,6 +80,15 @@ export function makeServer({environment = "development"} = {}) {
             let time = 0;
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
+
+                if (songs.length==0){
+                    return {
+                        isPlaying: false,
+                        time: 0,
+                        stamp: Date.now(),
+                        song: null
+                    }
+                }
 
                 if (time > songs[0].duration * 1000) {
                     const currentSong = schema.db.songs[0];
@@ -306,6 +318,10 @@ export function makeServer({environment = "development"} = {}) {
             this.post("/register/create-account", () => {
                 return {};
             });
+
+            this.post("/logout", () => {
+                return {};
+            })
         },
     })
 }

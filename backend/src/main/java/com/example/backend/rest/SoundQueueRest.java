@@ -1,5 +1,6 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.*;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
@@ -29,6 +30,8 @@ public class SoundQueueRest {
     @GetMapping("/queue/page/{page-number}")
     public ResponseEntity<Object> getPageWithDefaultSize(@PathVariable(name = "page-number") int pageNumber) {
         List<Song> pagedSongs = songQueueService.getQueue(pageNumber);
+        if (songQueueService.getQueue().isEmpty())
+            return new ResponseEntity<>(songQueueService.getQueue(), HttpStatus.OK);
         if (pagedSongs == null)
             return new ResponseEntity<>(new ErrorDto("page number does not exist"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(new QueuePageDto(pageNumber, songQueueService.getTotalPages(), pagedSongs, songQueueService.getDefaultPageSize()), HttpStatus.OK);
@@ -37,6 +40,8 @@ public class SoundQueueRest {
     @GetMapping("/queue/page/{page-number}/page-size/{page-size}")
     public ResponseEntity<Object> getPageWithCustomSize(@PathVariable(name = "page-number") int pageNumber, @PathVariable(name = "page-size") int pageSize) {
         List<Song> pagedSongs = songQueueService.getQueue(pageNumber, pageSize);
+        if (songQueueService.getQueue().isEmpty())
+            return new ResponseEntity<>(songQueueService.getQueue(), HttpStatus.OK);
         if (pagedSongs == null)
             return new ResponseEntity<>(new ErrorDto("page number does not exist"), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(new QueuePageDto(pageNumber, songQueueService.getTotalPages(pageSize), pagedSongs, pageSize), HttpStatus.OK);
@@ -79,7 +84,8 @@ public class SoundQueueRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(token), HttpStatus.OK);
+        UserInfoEntity user = userService.getUserByToken(token);
+        return new ResponseEntity<>(songQueueService.getVoteSkipStatus(user.getId()), HttpStatus.OK);
     }
 
     @GetMapping("/vote-skip/vote")
