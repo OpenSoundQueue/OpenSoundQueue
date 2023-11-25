@@ -225,7 +225,7 @@ public class UserRest {
             savedUser = userService.registerNewAuthUser(user);
         }
 
-        userService.sendEmailVerification(savedUser);
+        userService.sendEmailVerification(savedUser.getEmail());
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -247,5 +247,17 @@ public class UserRest {
         userService.updateLastOnline(user);
 
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/register/resend-email")
+    public ResponseEntity<Object> resendEmail(@RequestBody Map<String, String> input) throws MessagingException {
+        String email = input.get("email");
+
+        if (userService.getUserByEmail(email) == null) return new ResponseEntity<>(new ErrorDto("email does not exist"), HttpStatus.BAD_REQUEST);
+        if (userService.getUserByEmail(email).getVerified()) return new ResponseEntity<>(new ErrorDto("email is already verified"), HttpStatus.BAD_REQUEST);
+
+        userService.sendEmailVerification(email);
+
+        return ResponseEntity.ok().build();
     }
 }
