@@ -39,6 +39,9 @@
     "validation": "Passwörter sind nicht gleich",
     "placeholder": "Passwort wiederholen"
   },
+  "emailValidation": {
+    "placeholder": "Code eingeben"
+  },
   "entryCode": {
     "title": "Eintritts-Code",
     "error": "Eintritts-Code falsch",
@@ -139,5 +142,16 @@
     "error": "Abmelden fehlgeschlagen",
     "success": "Du wurdest abgemeldet.",
     "info": "Du bist nicht angemeldet"
+  },
+  "registration": {
+    "continue": "Weiter",
+    "heading": "Account erstellen",
+    "createAccount": "Account erstellen",
+    "change": "Ändern",
+    "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
+    "noCode": {
+      "text": "Ich habe keinen Code erhalten",
+      "button": "Code erneut senden"
+    }
   }
 }

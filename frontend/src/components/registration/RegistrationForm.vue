@@ -1,6 +1,6 @@
 <template>
   <div class="registration-form-wrapper">
-    <h2>Create an account</h2>
+    <h2>{{ $translate('registration.heading') }}</h2>
     <form @submit.prevent>
       <!-- Username -->
       <InputField
@@ -44,7 +44,7 @@
           input-type="password"
       />
       <div class="submit-container">
-        <DefaultButton :is-disabled="formStatus || waitingForResponse" text="Continue" @click="createAccount"/>
+        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.continue')" @click="createAccount"/>
       </div>
     </form>
     <div class="link-container">
@@ -59,6 +59,7 @@ import {computed, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 

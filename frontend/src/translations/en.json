@@ -39,6 +39,9 @@
     "validation": "Passwords do not match",
     "placeholder": "Repeat Password"
   },
+  "emailValidation": {
+    "placeholder": "Enter Code"
+  },
   "entryCode": {
     "title": "Entry-Code",
     "error": "Entry-Code wrong",
@@ -139,5 +142,16 @@
     "error": "Could not log out.",
     "success": "You were logged out.",
     "info": "You are not logged in"
+  },
+  "registration": {
+    "continue": "Continue",
+    "heading": "Create an account",
+    "createAccount": "Create account",
+    "change": "Change",
+    "explanation": "We have sent a code to your email address, please check your inbox.",
+    "noCode": {
+      "text": "I have not received a code",
+      "button": "Resend Code"
+    }
   }
 }
