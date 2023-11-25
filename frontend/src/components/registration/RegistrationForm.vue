@@ -65,11 +65,13 @@ import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
+import * as localStorageService from "@/services/localStorageService"
 
 type Form = {
   username: string,
   email: string,
   password: string
+  timestamp: number
 }
 
 const httpService = new HttpService();
@@ -112,7 +114,7 @@ const formStatus = computed(() => {
 })
 
 onMounted(() => {
-  const form: Form = getForm();
+  const form: Form = localStorageService.getForm();
   username.value.input = form.username;
   email.value.input = form.email;
   password.value.input = form.password;
@@ -133,31 +135,12 @@ async function createAccount() {
   waitingForResponse.value = true;
 
   await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
-      .then((id: number) => {
-        console.log(id);
-        saveForm();
+      .then(() => {
+        localStorageService.saveForm(username.value.input,email.value.input,password.value.input);
         emits("continue");
       });
 
   waitingForResponse.value = false;
-}
-
-function saveForm() {
-  const form = {
-    username: username.value.input,
-    email: email.value.input,
-    password: password.value.input,
-  }
-
-  localStorage.setItem("form", JSON.stringify(form))
-}
-
-function getForm(): Form {
-  const form = localStorage.getItem("form")
-  if (!form)
-    return {username: "", email: "", password: ""}
-  else
-    return JSON.parse(form)
 }
 </script>
 

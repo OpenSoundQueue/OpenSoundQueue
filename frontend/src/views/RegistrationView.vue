@@ -1,14 +1,20 @@
 <template>
   <main>
     <header>
-      <div class="link-back" @click="component == RegistrationForm?router.back():component = RegistrationForm">
+      <div class="link-back" @click="linkBack">
         <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
       </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg">
     </header>
     <component :is="component"
-               @continue="() => component = RegistrationVerification"
-               @change="() => component = RegistrationForm"/>
+               @continue="() => {
+                 component = RegistrationVerification
+                 localStorageService.setRegisterPosition(1)
+               }"
+               @change="() => {
+                 component = RegistrationForm
+                 localStorageService.setRegisterPosition(0)
+               }"/>
   </main>
 
 </template>
@@ -16,11 +22,27 @@
 <script setup lang="ts">
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
-import {shallowRef} from "vue";
+import {onMounted, shallowRef} from "vue";
 import type {ShallowRef, Component} from "vue";
 import router from "@/router";
+import * as localStorageService from "@/services/localStorageService"
 
 const component: ShallowRef<Component> = shallowRef(RegistrationForm);
+
+onMounted(() => {
+  if (localStorageService.getRegisterPosition() > 0) {
+    component.value = RegistrationVerification;
+  }
+})
+
+function linkBack() {
+  if (component.value == RegistrationForm) {
+    router.back()
+  } else {
+    localStorageService.setRegisterPosition(0)
+    component.value = RegistrationForm
+  }
+}
 
 //TODO: Add possibility to register a user without email
 </script>

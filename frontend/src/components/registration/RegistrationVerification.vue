@@ -36,11 +36,15 @@ import {computed, onMounted, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
+import * as cookieService from "@/services/cookieService"
+import * as localStorageService from "@/services/localStorageService";
+import router from "@/router";
 
 type Form = {
   username: string,
   email: string,
-  password: string
+  password: string,
+  timestamp: number
 }
 
 const httpService = new HttpService();
@@ -68,7 +72,11 @@ const formStatus = computed(() => {
 })
 
 onMounted(() => {
-  const form: Form = getForm();
+  const form: Form = localStorageService.getForm();
+  if (form.email=="" || form.username=="" || form.password==""){
+    localStorageService.deleteForm()
+    router.go(0)
+  }
   user.value = {
     username: form.username,
     email: form.email,
@@ -79,21 +87,13 @@ onMounted(() => {
 async function sendVerification() {
   waitingForResponse.value = true;
 
-  await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
-      .then((id: number) => {
-        console.log(id);
+  await httpService.postRegisterVerify(verificationCode.value.input, user.value.email)
+      .then((apiKey:string) => {
+        cookieService.setApiKey(apiKey);
         localStorage.removeItem("form")
       });
 
   waitingForResponse.value = false;
-}
-
-function getForm(): Form {
-  const form = localStorage.getItem("form")
-  if (!form)
-    return {username: "", email: "", password: ""}
-  else
-    return JSON.parse(form)
 }
 </script>
 
