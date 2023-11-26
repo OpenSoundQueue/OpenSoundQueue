@@ -40,8 +40,9 @@
     "validation": "Passwörter sind nicht gleich",
     "placeholder": "Passwort wiederholen"
   },
-  "emailValidation": {
-    "placeholder": "Code eingeben"
+  "emailVerification": {
+    "placeholder": "Code eingeben",
+    "error": "Verifizierungs-Code falsch"
   },
   "entryCode": {
     "title": "Eintritts-Code",
@@ -153,6 +154,7 @@
     "noCode": {
       "text": "Ich habe keinen Code erhalten",
       "button": "Code erneut senden"
-    }
+    },
+    "success": "Registrierung erfolgreich"
   }
 }

@@ -40,8 +40,9 @@
     "validation": "Passwords do not match",
     "placeholder": "Repeat Password"
   },
-  "emailValidation": {
-    "placeholder": "Enter Code"
+  "emailVerification": {
+    "placeholder": "Enter Code",
+    "error": "Verification Code wrong"
   },
   "entryCode": {
     "title": "Entry-Code",
@@ -153,6 +154,7 @@
     "noCode": {
       "text": "I have not received a code",
       "button": "Resend Code"
-    }
+    },
+    "success": "Registration successful"
   }
 }
