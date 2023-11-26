@@ -15,7 +15,10 @@
         <InputField
             v-model="verificationCode.input"
             :required="false"
-            :placeholder="$translate('emailValidation.placeholder')"
+            :placeholder="$translate('emailVerification.placeholder')"
+            :error-status="verificationCode.errorStatus"
+            :error-message="$translate('emailVerification.error')"
+            @update:model-value="verificationCode.errorStatus = false"
         />
       </div>
       <div class="submit-container">
@@ -38,6 +41,7 @@ import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import * as cookieService from "@/services/cookieService"
 import * as localStorageService from "@/services/localStorageService";
+import {ToastService} from "@/services/ToastService";
 import router from "@/router";
 
 type Form = {
@@ -73,7 +77,7 @@ const formStatus = computed(() => {
 
 onMounted(() => {
   const form: Form = localStorageService.getForm();
-  if (form.email=="" || form.username=="" || form.password==""){
+  if (form.email == "" || form.username == "" || form.password == "") {
     localStorageService.deleteForm()
     localStorageService.setRegisterPosition(0)
     router.go(0)
@@ -89,15 +93,15 @@ async function sendVerification() {
   waitingForResponse.value = true;
 
   await httpService.postRegisterVerify(verificationCode.value.input, user.value.email)
-      .then((apiKey:string) => {
+      .then((apiKey: string) => {
         localStorageService.deleteForm()
         localStorageService.deleteRegisterPosition()
         cookieService.setApiKey(apiKey);
-        //TODO: add toastService
+        ToastService.sendNotification(translate('registration.success'), 'success', 3000)
         router.push("/home")
       })
-      .catch(error=>{
-        //TODO: add error handling
+      .catch(() => {
+        verificationCode.value.errorStatus = true;
       });
 
   waitingForResponse.value = false;

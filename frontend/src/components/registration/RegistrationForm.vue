@@ -116,7 +116,11 @@ const formStatus = computed(() => {
   return !(validateUsername(username.value.input)() &&
       validateEmail(email.value.input)() &&
       validatePassword(password.value.input)() &&
-      validatePasswordRepeat(passwordRepeat.value.input)());
+      validatePasswordRepeat(passwordRepeat.value.input)() &&
+      username.value.input != "" &&
+      email.value.input != "" &&
+      password.value.input != "" &&
+      passwordRepeat.value.input != "");
 })
 
 onMounted(() => {
