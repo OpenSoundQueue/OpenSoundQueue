@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {ref} from "vue";
 
 const sortingOptions = ["none", "desc", "asc"];
 const sortingStatus = ref(0);

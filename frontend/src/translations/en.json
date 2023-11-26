@@ -169,6 +169,10 @@
     "pause": "A symbol that means pause playback",
     "hide": "A symbol of an eye with a diagonal line through it",
     "show": "A symbol with an opened eye",
-    "dragHandle": "A symbol indicating a grab handle"
+    "dragHandle": "A symbol indicating a grab handle",
+    "info": "An encircled i that stand for information",
+    "check": "A checkmark",
+    "error": "An encircled exclamation mark",
+    "settings": "A settings icon"
   }
 }

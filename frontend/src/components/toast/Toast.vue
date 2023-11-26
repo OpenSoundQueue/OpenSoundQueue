@@ -2,11 +2,11 @@
   <div class="toast-wrapper">
     <div class="message-wrapper" :class="[messageLevel, isVisible ? 'visible' : 'invisible']">
       <div class="message-nav">
-        <img class="message-level-icon" v-if="messageLevel === 'information'" src="@/assets/icons/info.svg"/>
-        <img class="message-level-icon" v-else-if="messageLevel === 'success'" src="@/assets/icons/check.svg"/>
-        <img class="message-level-icon" v-else-if="messageLevel === 'error'" src="@/assets/icons/error.svg"/>
-        <img class="message-level-icon" v-else src="@/assets/icons/info.svg"/>
-        <img @click="close" class="close" src="@/assets/icons/input/delete.svg"/>
+        <img class="message-level-icon" v-if="messageLevel === 'information'" src="@/assets/icons/info.svg" :alt="$translate('altTexts.info')"/>
+        <img class="message-level-icon" v-else-if="messageLevel === 'success'" src="@/assets/icons/check.svg" :alt="$translate('altTexts.check')"/>
+        <img class="message-level-icon" v-else-if="messageLevel === 'error'" src="@/assets/icons/error.svg" :alt="$translate('altTexts.error')"/>
+        <img class="message-level-icon" v-else src="@/assets/icons/info.svg" :alt="$translate('altTexts.info')"/>
+        <img @click="close" class="close" src="@/assets/icons/input/delete.svg" :alt="$translate('altTexts.delete')"/>
       </div>
       <div class="message">{{ message }}</div>
     </div>

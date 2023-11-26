@@ -169,6 +169,10 @@
     "pause": "Ein Symbol, das Wiedergabe pausieren bedeutet",
     "hide": "Ein Symbol mit einem durchgestrichen Auge",
     "show": "Ein Symbol mit einem offenen Auge",
-    "dragHandle": "Ein Symbol, das einen Griff darstellt"
+    "dragHandle": "Ein Symbol, das einen Griff darstellt",
+    "info": "Ein Kreis mit einem i darin, das für Information steht",
+    "check": "Ein Häkchen",
+    "error": "Ein Rufzeichen in einem gezackten Kreis",
+    "settings": "Ein Einstellungssymbol"
   }
 }
