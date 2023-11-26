@@ -123,7 +123,7 @@ async function deleteUser() {
                 "success",
                 3000
             );
-            emit("update:Users", <User[]>response)
+            emit("update:Users", response)
           }).catch(() => {
         ToastService.sendNotification(
             `${translate("notifications.userDelete.user")} "${props.user?.username}" ${translate("notifications.userDelete.messageError")}`,
