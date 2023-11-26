@@ -240,8 +240,8 @@ export class HttpService {
 
                 return response.json();
             })
-            .then((apiKey: string) => {
-                return apiKey;
+            .then((apiKey) => {
+                return apiKey.apiKey;
             });
     }
 

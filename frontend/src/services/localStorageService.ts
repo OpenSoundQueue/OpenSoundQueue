@@ -46,3 +46,7 @@ export function getRegisterPosition():number{
     else
         return parseInt(position);
 }
+
+export function deleteRegisterPosition(){
+    localStorage.removeItem("registerPosition")
+}

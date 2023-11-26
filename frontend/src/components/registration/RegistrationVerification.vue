@@ -75,6 +75,7 @@ onMounted(() => {
   const form: Form = localStorageService.getForm();
   if (form.email=="" || form.username=="" || form.password==""){
     localStorageService.deleteForm()
+    localStorageService.setRegisterPosition(0)
     router.go(0)
   }
   user.value = {
@@ -89,8 +90,14 @@ async function sendVerification() {
 
   await httpService.postRegisterVerify(verificationCode.value.input, user.value.email)
       .then((apiKey:string) => {
+        localStorageService.deleteForm()
+        localStorageService.deleteRegisterPosition()
         cookieService.setApiKey(apiKey);
-        localStorage.removeItem("form")
+        //TODO: add toastService
+        router.push("/home")
+      })
+      .catch(error=>{
+        //TODO: add error handling
       });
 
   waitingForResponse.value = false;
