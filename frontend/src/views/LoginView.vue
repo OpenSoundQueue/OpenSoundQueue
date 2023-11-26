@@ -2,9 +2,9 @@
   <main>
     <header>
       <router-link to="/">
-        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
+        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowBack')">
       </router-link>
-      <img class="header-image" src="@/assets/logo/logo_white.svg">
+      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
     <Login
         :isPrivate="true"

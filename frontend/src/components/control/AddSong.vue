@@ -19,7 +19,7 @@
                          :is-disabled="!inputIsValid"
                          :is-loading="waitingForResponse"
                          :text="$translate('byLink.action')">
-            <img src="@/assets/icons/music/playlist_add.svg">
+            <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
           </DefaultButton>
         </div>
       </template>

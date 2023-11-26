@@ -1,7 +1,7 @@
 <template>
   <div class="footer-wrapper">
     <div class="footer-container">
-      <img class="logo" src="@/assets/logo/logo_and_text.svg">
+      <img class="logo" src="@/assets/logo/logo_and_text.svg" :alt="$translate('altTexts.logoAndText')">
       <div class="body-container">
         <div class="link-container">
           <router-link to="/imprint">GitHub</router-link>

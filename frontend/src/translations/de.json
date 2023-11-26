@@ -139,5 +139,19 @@
     "error": "Abmelden fehlgeschlagen",
     "success": "Du wurdest abgemeldet.",
     "info": "Du bist nicht angemeldet"
+  },
+  "altTexts": {
+    "playlistAdd": "Warteschlangen-Symbol mit Plus-Symbol, das die Möglichkeit zeigt, neue Songs zur Warteschlange hinzuzufügen",
+    "logoAndText": "Das OpenSoundQueue-Logo das aus den Buchstaben osq besteht und the ausgeschriebene Name OpenSoundQueue daneben",
+    "arrowRight": "Ein Pfeil der nach rechts zeigt",
+    "arrowLeft": "Ein Pfeil der nach links zeigt",
+    "arrowBack": "Ein Pfeil der auf einen Schritt zurück hinweist",
+    "logo": "Das OpenSoundQueue-Logo das aus der Buchstabenfolge osq besteht und einem weißen Strich darunter der durch einen Kreis unterbrochen wird",
+    "help": "Ein Fragezeichen, das von einem Kreis umgeben ist und auf Fragen hindeutet",
+    "arrowOutward": "Ein diagonaler Pfeil der nach rechts oben zeigt und auf externe Inhalte hinweist",
+    "menu": "Symbol für ein Burger-Menü",
+    "search": "Eine Lupe die auf Suchfunktion hindeutet",
+    "close": "Ein X-Symbol",
+    "user": "Ein Benutzer-Symbol"
   }
 }

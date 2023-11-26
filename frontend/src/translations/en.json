@@ -139,5 +139,19 @@
     "error": "Could not log out.",
     "success": "You were logged out.",
     "info": "You are not logged in"
+  },
+  "altTexts": {
+    "playlistAdd": "Queue Icon with Plus Symbol, indicating the option to add new songs to the queue",
+    "logoAndText": "The OpenSoundQueue logo that consists of that spells osq and the full name OpenSoundQueue next to it",
+    "arrowRight": "An arrow pointing to the right",
+    "arrowLeft": "An arrow pointing to the left",
+    "arrowBack": "An arrow indicating a step backwards",
+    "logo": "The OpenSoundQueue logo consisting of the letters osq and a white line underneath interrupted by a circle",
+    "help": "A question mark surrounded by a circle, offering assistance to the user",
+    "arrowOutward": "A diagonal arrow pointing to the top right and indicating external content",
+    "menu": "Icon for a burger menu",
+    "search": "A magnifying glass that points to a search functionality",
+    "close": "An x symbol",
+    "user": "An user icon"
   }
 }

@@ -3,17 +3,17 @@
     <nav class="navbar">
       <div @click="navIsOpen = true" class="open-button mobile">
         <div>
-          <img src="@/assets/menu/menu.svg"/>
+          <img src="@/assets/menu/menu.svg" :alt="$translate('altTexts.menu')"/>
         </div>
       </div>
       <div class="logo-container">
         <router-link to="/">
-          <img class="logo" src="@/assets/menu/logo.svg">
+          <img class="logo" src="@/assets/menu/logo.svg" :alt="$translate('altTexts.logo')">
         </router-link>
       </div>
       <div class="menu" :class="{opened: navIsOpen, closed: !navIsOpen}" v-closable="{excluded: [], handler: () => navIsOpen = false}">
         <div @click="navIsOpen = false" class="close-button mobile">
-          <img src="@/assets/menu/close.svg"/>
+          <img src="@/assets/menu/close.svg" :alt="$translate('altTexts.close')"/>
         </div>
         <div class="links">
           <div class="quick-nav-links">
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="user-button" @click="userMenuIsOpen = true">
-        <img src="@/assets/icons/user.svg"/>
+        <img src="@/assets/icons/user.svg" :alt="$translate('altTexts.user')"/>
       </div>
     </nav>
     <div v-show="userMenuIsOpen" v-closable="{exclude: [], handler: () => userMenuIsOpen = false}">
