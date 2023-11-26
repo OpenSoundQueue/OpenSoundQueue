@@ -9,15 +9,15 @@
       <div class="hr"></div>
       <DynamicButton v-if="user?user.role!=='Owner':false" class="delete" b-style="login" :status="buttonStatus"
                      @click="deleteUser">
-        <img src="@/assets/icons/delete.svg"/>
+        <img src="@/assets/icons/delete.svg" :alt="$translate('altTexts.delete')"/>
         {{ $translate('adminPage.detail.delete') }}
       </DynamicButton>
       <div class="detail-header" @click="toggleDropdown">
-        <img src="@/assets/icons/user.svg"/>
+        <img src="@/assets/icons/user.svg" :alt="$translate('altTexts.user')"/>
         <p v-if="!user">{{ $translate('adminPage.detail.placeholder.name') }}</p>
         <p v-else>{{ user.username }}</p>
         <img class="arrow" src="@/assets/icons/arrows/keyboard_arrow_right.svg"
-             :class="{ 'turn-down':detailVisibility  }"/>
+             :class="{ 'turn-down':detailVisibility  }" :alt="$translate('altTexts.arrowRight')"/>
       </div>
     </div>
     <div v-show="!user" class="detail-body-empty">
@@ -26,7 +26,7 @@
     <div v-show="user" class="detail-body" :class="{ 'slide-out':!detailVisibility,'slide-in': detailVisibility  }">
       <div class="email info-container">
         <div class="label">
-          <img src="@/assets/icons/mail.svg"/>
+          <img src="@/assets/icons/mail.svg" :alt="$translate('altTexts.mail')"/>
           <p>{{ $translate('adminPage.tableHeader.email') }}:</p>
         </div>
         <p v-if="user?!user.email:false">{{ $translate('adminPage.detail.placeholder.email') }}</p>
@@ -34,21 +34,21 @@
       </div>
       <div class="last-online info-container">
         <div class="label">
-          <img src="@/assets/icons/time.svg"/>
+          <img src="@/assets/icons/time.svg" :alt="$translate('altTexts.time')"/>
           <p>{{ $translate('adminPage.tableHeader.lastOnline') }}:</p>
         </div>
         <p>{{ formattedTimestamp }}</p>
       </div>
       <div class="role info-container">
         <div class="label">
-          <img src="@/assets/icons/role.svg"/>
+          <img src="@/assets/icons/role.svg" :alt="$translate('altTexts.role')"/>
           <p>{{ $translate('adminPage.tableHeader.role') }}</p>
         </div>
         <p><span class="dot"></span>{{ user ? user.role : '' }}</p>
       </div>
       <DynamicButton v-if="user?user.id != selfID:false" class="delete desktop" b-style="login" :status="buttonStatus"
                      @click="deleteUser">
-        <img src="@/assets/icons/delete.svg"/>
+        <img src="@/assets/icons/delete.svg" :alt="$translate('altTexts.delete')"/>
         {{ $translate('adminPage.detail.delete') }}
       </DynamicButton>
     </div>

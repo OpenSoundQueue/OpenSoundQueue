@@ -1,7 +1,7 @@
 <template>
   <div class="full-screen" @click="close($event)">
     <div class="pop-up">
-      <img class="close" @click="close($event)" src="@/assets/icons/input/delete.svg"/>
+      <img class="close" @click="close($event)" src="@/assets/icons/input/delete.svg" :alt="$translate('altTexts.close')"/>
       <p>{{ message }}</p>
       <DynamicButton b-style="login" status="active" @click="accept">{{ buttonText }}</DynamicButton>
     </div>
