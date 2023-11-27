@@ -15,7 +15,7 @@
                          :is-collapsed="true"
         >
           <template #custom-icon>
-            <img src="@/assets/icons/music/playlist_add.svg">
+            <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
           </template>
           <template #content>
             <div class="add-song-slot">

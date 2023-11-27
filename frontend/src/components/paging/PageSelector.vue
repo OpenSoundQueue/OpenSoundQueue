@@ -2,7 +2,7 @@
   <div class="page-selector-wrapper">
     <div class="page-change">
       <button @click="previousPage" class="change-page-button">
-        <img alt="arrow left" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
+        <img src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowLeft')">
       </button>
     </div>
     <div v-for="(page, index) in selection" :key="index" class="page-select">
@@ -10,7 +10,7 @@
     </div>
     <div class="page-change">
       <button @click="nextPage">
-        <img alt="arrow right" src="@/assets/icons/arrows/keyboard_arrow_right.svg">
+        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')">
       </button>
     </div>
   </div>

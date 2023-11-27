@@ -1,6 +1,6 @@
 <template>
   <div class="skip-song" @click="isLoading?{}:skipSong()" :class="isClicked?'animate':''">
-    <img src="@/assets/icons/music/skip.svg" alt="skip icon">
+    <img src="@/assets/icons/music/skip.svg" :alt="$translate('altTexts.skip')">
   </div>
 </template>
 

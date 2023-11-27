@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" v-closable="{excluded: [], handler: collapse}">
-    <img src="@/assets/icons/help.svg" ref="help" @click="toggleCollapse">
+    <img src="@/assets/icons/help.svg" ref="help" @click="toggleCollapse" :alt="$translate('altTexts.help')">
     <div v-show="!isCollapsed" class="info-container" ref="info">
       <p>
         <slot></slot>

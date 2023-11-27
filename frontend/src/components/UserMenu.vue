@@ -2,7 +2,7 @@
   <div class="user-menu-wrapper">
     <div class="user-menu-container">
       <div class="close-container">
-        <img @click="close" src="@/assets/menu/close.svg"/>
+        <img @click="close" src="@/assets/menu/close.svg" :alt="$translate('altTexts.close')"/>
       </div>
       <div v-if="user">
         <p class="username">{{ user.username }}</p>
@@ -10,7 +10,7 @@
         <p class="role"><span class="dot"></span>{{ user.role }}</p>
         <div class="button">
           <DefaultButton :is-disabled="waitingForResponse" text="Logout" @click="logout">
-            <img src="@/assets/icons/logout.svg"/>
+            <img src="@/assets/icons/logout.svg" :alt="$translate('altTexts.logout')"/>
           </DefaultButton>
         </div>
       </div>
@@ -18,7 +18,7 @@
         <p>{{ $translate('logout.info') }}</p>
         <div class="button">
           <DefaultButton text="Login" @click="router.push('/login')">
-            <img src="@/assets/icons/login.svg"/>
+            <img src="@/assets/icons/login.svg" :alt="$translate('altTexts.login')"/>
           </DefaultButton>
         </div>
       </div>

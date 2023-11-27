@@ -4,11 +4,11 @@
     <div class="input-element-wrapper">
       <div v-show="inputType === 'password'" @click="toggleVisibility" class="password-icon-wrapper">
         <img v-show="showPassword" src="@/assets/icons/input/hide.svg" title="Hide" class="password-icon"
-             alt="Show Password">
-        <img v-show="!showPassword" src="@/assets/icons/input/show.svg" title="Show" class="password-icon" alt="Hide Password">
+             :alt="$translate('altTexts.hide')">
+        <img v-show="!showPassword" src="@/assets/icons/input/show.svg" title="Show" class="password-icon" :alt="$translate('altTexts.show')">
       </div>
       <div v-show="inputType !== 'password'" class="default-icon-wrapper">
-        <img v-show="inputValue" @click="clearInput" src="@/assets/icons/input/delete.svg" class="close-icon" alt="clear input">
+        <img v-show="inputValue" @click="clearInput" src="@/assets/icons/input/delete.svg" class="close-icon" :alt="$translate('altTexts.delete')">
         <div class="input-icon">
           <slot name="icon"></slot>
         </div>
