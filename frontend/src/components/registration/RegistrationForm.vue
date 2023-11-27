@@ -1,30 +1,39 @@
 <template>
   <div class="registration-form-wrapper">
-    <h2>Create an account</h2>
+    <h2>{{ $translate('registration.heading') }}</h2>
     <form @submit.prevent>
       <!-- Username -->
       <InputField
           v-model="username.input"
+          :manual-value="username.input"
           :label="$translate('username.title')"
           :validation-function="$validateUsername"
           :validation-message="$translate('username.validation')"
+          :error-status="username.errorStatus"
+          :error-message="$translate('username.taken')"
           :required="false"
           :placeholder="$translate('username.placeholder')"
+          @user-input="username.errorStatus=false"
       />
 
       <!-- Email -->
       <InputField
           v-model="email.input"
+          :manual-value="email.input"
           :label="$translate('email.title')"
           :validation-function="$validateEmail"
           :validation-message="$translate('email.validation')"
+          :error-status="email.errorStatus"
+          :error-message="$translate('email.taken')"
           :required="false"
           :placeholder="$translate('email.placeholder')"
+          @user-input="email.errorStatus=false"
       />
 
       <!-- Password -->
       <InputField
           v-model="password.input"
+          :manual-value="password.input"
           :label="$translate('password.title')"
           :validation-function="$validatePassword"
           :validation-message="$translate('password.validation')"
@@ -36,6 +45,7 @@
       <!-- Password Repeat -->
       <InputField
           v-model="passwordRepeat.input"
+          :manual-value="passwordRepeat.input"
           :label="$translate('passwordRepeat.title')"
           :validation-function="validatePasswordRepeat"
           :validation-message="$translate('passwordRepeat.validation')"
@@ -44,7 +54,8 @@
           input-type="password"
       />
       <div class="submit-container">
-        <DefaultButton :is-disabled="formStatus || waitingForResponse" text="Continue" @click="createAccount"/>
+        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.continue')"
+                       @click="createAccount"/>
       </div>
     </form>
     <div class="link-container">
@@ -55,10 +66,19 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
+import {translate} from "@/plugins/TranslationPlugin";
+import * as localStorageService from "@/services/localStorageService"
+
+type Form = {
+  username: string,
+  email: string,
+  password: string
+  timestamp: number
+}
 
 const httpService = new HttpService();
 
@@ -96,7 +116,19 @@ const formStatus = computed(() => {
   return !(validateUsername(username.value.input)() &&
       validateEmail(email.value.input)() &&
       validatePassword(password.value.input)() &&
-      validatePasswordRepeat(passwordRepeat.value.input)());
+      validatePasswordRepeat(passwordRepeat.value.input)() &&
+      username.value.input != "" &&
+      email.value.input != "" &&
+      password.value.input != "" &&
+      passwordRepeat.value.input != "");
+})
+
+onMounted(() => {
+  const form: Form = localStorageService.getForm();
+  username.value.input = form.username;
+  email.value.input = form.email;
+  password.value.input = form.password;
+  passwordRepeat.value.input = form.password;
 })
 
 function validatePasswordRepeat(value: string) {
@@ -113,9 +145,15 @@ async function createAccount() {
   waitingForResponse.value = true;
 
   await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
-      .then((id: number) => {
-        console.log("id");
+      .then(() => {
+        localStorageService.saveForm(username.value.input, email.value.input, password.value.input);
         emits("continue");
+      })
+      .catch((error) => {
+        if (error.error.toLowerCase().includes("username"))
+          username.value.errorStatus = true;
+        if (error.error.toLowerCase().includes("email"))
+          email.value.errorStatus = true;
       });
 
   waitingForResponse.value = false;

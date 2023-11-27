@@ -106,8 +106,9 @@ export class HttpService {
                 return data;
             })
     }
+
     async postSkip(apiKey: string) {
-        return httpClient.post("/queue/skip", "",apiKey)
+        return httpClient.post("/queue/skip", "", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -115,8 +116,9 @@ export class HttpService {
                 return response;
             })
     }
+
     async postReplay(apiKey: string) {
-        return httpClient.post("/queue/replay", "",apiKey)
+        return httpClient.post("/queue/replay", "", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -125,8 +127,9 @@ export class HttpService {
                 return response;
             })
     }
+
     async postStart(apiKey: string) {
-        return httpClient.post("/queue/start","", apiKey)
+        return httpClient.post("/queue/start", "", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -134,8 +137,9 @@ export class HttpService {
                 return response;
             })
     }
+
     async postStop(apiKey: string) {
-        return httpClient.post("/queue/stop","", apiKey)
+        return httpClient.post("/queue/stop", "", apiKey)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -160,9 +164,10 @@ export class HttpService {
         return await httpClient.post(`/login/private/auth`, {
             username: username,
             password: password,
-            entryCode: entryCode})
+            entryCode: entryCode
+        })
             .then(async response => {
-                if (!response.ok){
+                if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
@@ -174,9 +179,10 @@ export class HttpService {
     async postPublicAuthLogin(username: string, password: string) {
         return await httpClient.post(`/login/public/auth`, {
             username: username,
-            password: password})
+            password: password
+        })
             .then(async response => {
-                if (!response.ok){
+                if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
@@ -188,9 +194,10 @@ export class HttpService {
     async postPrivateLogin(username: string, entryCode: string) {
         return await httpClient.post(`/login/private`, {
             username: username,
-            entryCode: entryCode})
+            entryCode: entryCode
+        })
             .then(async response => {
-                if (!response.ok){
+                if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
@@ -201,9 +208,10 @@ export class HttpService {
 
     async postPublicLogin(username: string) {
         return await httpClient.post(`/login/public`, {
-            username: username})
+            username: username
+        })
             .then(async response => {
-                if (!response.ok){
+                if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
@@ -214,6 +222,17 @@ export class HttpService {
 
     async postRegisterCreateAccount(username: string, email: string, password: string) {
         return httpClient.post(`/register/create-account`, {username: username, email: email, password: password})
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json()
+                    return Promise.reject(data);
+                }
+                return response;
+            });
+    }
+
+    async postRegisterVerify(code: string, email: string) {
+        return httpClient.post(`/register/verify`, {code: code, email: email})
             .then(response => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -221,8 +240,17 @@ export class HttpService {
 
                 return response.json();
             })
-            .then((id: number) => {
-                return id;
+            .then((apiKey) => {
+                return apiKey.apiKey;
+            });
+    }
+
+    async postResendMail(email: string) {
+        return httpClient.post(`/register/resend-email`, {email: email})
+            .then(response => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
             });
     }
 
@@ -238,16 +266,16 @@ export class HttpService {
     }
 
     async getVerifyApiKey(apiKey: string) {
-       return await httpClient.get(`/verify/api-key`, apiKey)
-           .then(response => {
-               if (!response.ok) {
-                   return Promise.reject(response.status);
-               }
-           });
+        return await httpClient.get(`/verify/api-key`, apiKey)
+            .then(response => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+            });
     }
 
     async getUsers() {
-        return httpClient.get(`/users`,cookieService.getApiKey())
+        return httpClient.get(`/users`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -258,8 +286,9 @@ export class HttpService {
                 return data;
             });
     }
+
     async getSelf() {
-        return httpClient.get(`/self`,cookieService.getApiKey())
+        return httpClient.get(`/self`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -272,7 +301,7 @@ export class HttpService {
     }
 
     async deleteUser(userID: number) {
-        return httpClient.delete(`/user/`+userID,cookieService.getApiKey())
+        return httpClient.delete(`/user/` + userID, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);

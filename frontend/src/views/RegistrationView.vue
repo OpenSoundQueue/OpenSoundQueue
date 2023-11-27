@@ -6,7 +6,15 @@
       </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
-    <component :is="component" @continue="() => component = RegistrationVerification" @change="() => component = RegistrationForm" />
+    <component :is="component"
+               @continue="() => {
+                 component = RegistrationVerification
+                 localStorageService.setRegisterPosition(1)
+               }"
+               @change="() => {
+                 component = RegistrationForm
+                 localStorageService.setRegisterPosition(0)
+               }"/>
   </main>
 
 </template>
@@ -14,11 +22,29 @@
 <script setup lang="ts">
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
-import {shallowRef} from "vue";
+import {onMounted, shallowRef} from "vue";
 import type {ShallowRef, Component} from "vue";
 import router from "@/router";
+import * as localStorageService from "@/services/localStorageService"
 
 const component: ShallowRef<Component> = shallowRef(RegistrationForm);
+
+onMounted(() => {
+  if (localStorageService.getRegisterPosition() > 0) {
+    component.value = RegistrationVerification;
+  }
+})
+
+function linkBack() {
+  if (component.value == RegistrationForm) {
+    router.back()
+  } else {
+    localStorageService.setRegisterPosition(0)
+    component.value = RegistrationForm
+  }
+}
+
+//TODO: Add possibility to register a user without email
 </script>
 
 
@@ -43,12 +69,12 @@ header {
   padding: 25px;
 }
 
-.link-back:hover{
+.link-back:hover {
   cursor: pointer;
 }
 
-@media screen and (min-width: 600px){
-  main{
+@media screen and (min-width: 600px) {
+  main {
     width: 600px;
     border-radius: var(--border-radius-big);
     margin: 50px auto 0 auto;
