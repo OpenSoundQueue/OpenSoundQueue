@@ -3,11 +3,11 @@
     <h2>{{ $translate('registration.heading') }}</h2>
     <div class="entry-container">
       <div>{{ user.username }}</div>
-      <div @click="emits('change')" class="link change">{{ $translate('registration.change') }}</div>
+      <div @click="emit('change')" class="link change">{{ $translate('registration.change') }}</div>
     </div>
     <div class="entry-container">
       <div>{{ user.email }}</div>
-      <div @click="emits('change')" class="link change">{{ $translate('registration.change') }}</div>
+      <div @click="emit('change')" class="link change">{{ $translate('registration.change') }}</div>
     </div>
     <form @submit.prevent>
       <div class="input-container">
@@ -18,7 +18,7 @@
             :placeholder="$translate('emailVerification.placeholder')"
             :error-status="verificationCode.errorStatus"
             :error-message="$translate('emailVerification.error')"
-            @update:model-value="verificationCode.errorStatus = false"
+            @user-input="verificationCode.errorStatus = false"
         />
       </div>
       <div class="submit-container">
@@ -53,7 +53,7 @@ type Form = {
 
 const httpService = new HttpService();
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   change: []
 }>()
 

@@ -13,7 +13,7 @@
           :error-message="$translate('username.taken')"
           :required="false"
           :placeholder="$translate('username.placeholder')"
-          @update:modelValue="username.errorStatus=false"
+          @user-input="username.errorStatus=false"
       />
 
       <!-- Email -->
@@ -27,7 +27,7 @@
           :error-message="$translate('email.taken')"
           :required="false"
           :placeholder="$translate('email.placeholder')"
-          @update:modelValue="email.errorStatus=false"
+          @user-input="email.errorStatus=false"
       />
 
       <!-- Password -->
