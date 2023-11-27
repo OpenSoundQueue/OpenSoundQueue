@@ -1,112 +1,107 @@
 {
-  "nowPlaying": "Spielt jetzt",
-  "inQueue": "In der Warteschlange",
-  "queueEmpty": "Es befinden sich keine Songs in der Warteschlange",
-  "currentSongEmpty": "Aktuell wird kein Song abgespielt",
-  "byLink": {
-    "title": "Mit Link",
-    "label": "Songlink",
-    "action": "Zur Warteschlange hinzufügen",
-    "placeholder": "Link einfügen...",
-    "incorrectInput": "Ungültiger Link"
-  },
-  "bySearch": "Mit Suche",
-  "forgotPassword": "Passwort vergessen?",
-  "createAccount": "Ein Konto erstellen",
-  "login": "Einloggen",
-  "loginCTA": "Willst du selbst Songs hinzufügen?",
-  "alreadyHaveAnAccount": "Du hast bereits einen Account?",
-  "username": {
-    "title": "Benutzername",
-    "error": "Benutzername oder Passwort falsch",
-    "taken": "Benutzername bereits vergeben",
-    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten",
-    "placeholder": "Benutzername eingeben"
-  },
-  "email": {
-    "title": "E-Mail",
-    "validation": "Keine gültige E-Mail",
-    "placeholder": "E-Mail eingeben"
-  },
-  "password": {
-    "title": "Passwort",
-    "error": "Benutzername oder Passwort falsch",
-    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen",
-    "placeholder": "Passwort eingeben"
-  },
-  "passwordRepeat": {
-    "title": "Passwort wiederholen",
-    "validation": "Passwörter sind nicht gleich",
-    "placeholder": "Passwort wiederholen"
-  },
-  "entryCode": {
-    "title": "Eintritts-Code",
-    "error": "Eintritts-Code falsch",
-    "validation": "Der Eintritts-Code ist genau 6 Zeichen lang",
-    "placeholder": "Eintritts-Code eingeben"
-  },
-  "loginTitle": "Einloggen, zum mitgestalten",
-  "settings": "Einstellungen",
-  "documentation": "Dokumentation",
-  "team": "Team",
-  "imprint": "Impressum",
   "about": "Über uns",
-  "language": "Sprache",
-  "select": "Wähle eine Option",
-  "addSong": "Song hinzufügen",
-  "notifications": {
-    "queueAddSuccess": "wurde zur Warteschlange hinzugefügt.",
-    "queueAddError": "Song konnte nicht zur Warteschlange hinzugefügt werden.",
-    "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
-    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden.",
-    "userDelete": {
-      "user": "Benutzer",
-      "messageSuccess": "wurde gelöscht.",
-      "messageError": "konnte nicht geöscht werden."
-    },
-    "queueChangeOrderError": "Song konnte nicht verschoben werden.",
-    "skipSongSuccess": "Song wurde übersprungen",
-    "skipSongError": "Song konnte nicht übersprungen werden",
-    "replaySongError": "Song konnte nicht neu gestartet werden",
-    "stopError": "Warteschlange konnte nicht pausiert werden",
-    "startError": "Warteschlange konnte nicht gestartet werden"
-  },
-  "historySearch": {
-    "noSongFound": "Kein Treffer für ",
-    "enterSearchTerm": "Gib einen Suchbegriff ein...",
-    "searchInHistory": "Im Verlauf suchen"
-  },
-  "queueDescription": {
-    "title": "Titel",
-    "duration": "Dauer"
-  },
-  "navBar": {
-    "public": "Öffentlich",
-    "home": "Home",
-    "settings": "Einstellungen",
-    "project": "Projekt",
-    "team": "Team"
-  },
-  "help": {
-    "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig).",
-    "addSong": "Es werden Links von Soundcloud und YouTube unterstützt."
-  },
+  " addSong": "Song hinzufügen",
   "adminPage": {
-    "tableHeader": {
-      "username": "Benutzername",
-      "email": "E-Mail",
-      "role": "Rolle",
-      "lastOnline": "zuletzt online"
-    },
     "detail": {
+      "delete": "Benutzer löschen",
       "placeholder": {
-        "name": "Kein Benutzer ausgewählt",
+        "body": "Bitte wähle einen User aus",
         "email": "Keine E-Mail verifiziert",
         "lastOnline": "War noch nie online",
-        "body": "Bitte wähle einen User aus"
-      },
-      "delete": "Benutzer löschen"
+        "name": "Kein Benutzer ausgewählt"
+      }
+    },
+    "tableHeader": {
+      "email": "E-Mail",
+      "lastOnline": "zuletzt online",
+      "role": "Rolle",
+      "username": "Benutzername"
     }
+  },
+  "alreadyHaveAnAccount": "Du hast bereits einen Account?",
+  "altTexts": {
+    "arrowBack": "Ein Pfeil der auf einen Schritt zurück hinweist",
+    "arrowDown": "Ein Pfeil der nach unten zeigt",
+    "arrowLeft": "Ein Pfeil der nach links zeigt",
+    "arrowOutward": "Ein diagonaler Pfeil der nach rechts oben zeigt und auf externe Inhalte hinweist",
+    "arrowRight": "Ein Pfeil der nach rechts zeigt",
+    "arrowUp": "Ein Pfeil der nach oben zeigt",
+    "check": "Ein Häkchen",
+    "close": "Ein X-Symbol",
+    "delete": "Ein X-Symbol",
+    "dragHandle": "Ein Symbol, das einen Griff darstellt",
+    "error": "Ein Rufzeichen in einem gezackten Kreis",
+    "help": "Ein Fragezeichen, das von einem Kreis umgeben ist und auf Fragen hindeutet",
+    "hide": "Ein Symbol mit einem durchgestrichen Auge",
+    "info": "Ein Kreis mit einem i darin, das für Information steht",
+    "login": "Ein Anmeldesymbol",
+    "logo": "Das OpenSoundQueue-Logo das aus der Buchstabenfolge osq besteht und einem weißen Strich darunter der durch einen Kreis unterbrochen wird",
+    "logoAndText": "Das OpenSoundQueue-Logo das aus den Buchstaben osq besteht und the ausgeschriebene Name OpenSoundQueue daneben",
+    "logout": "Ein Abmeldesymbol",
+    "mail": "Ein Kuvertsymbol",
+    "menu": "Symbol für ein Burger-Menü",
+    "pause": "Ein Symbol, das Wiedergabe pausieren bedeutet",
+    "play": "Ein Symbol, das Wiedergabe fortsetzen bedeutet",
+    "playlistAdd": "Warteschlangen-Symbol mit Plus-Symbol, das die Möglichkeit zeigt, neue Songs zur Warteschlange hinzuzufügen",
+    "replay": "Ein Wiederholen-Symbol",
+    "role": "Ein Rollensymbol",
+    "search": "Eine Lupe die auf Suchfunktion hindeutet",
+    "settings": "Ein Einstellungssymbol",
+    "show": "Ein Symbol mit einem offenen Auge",
+    "skip": "Ein Überspringen-Symbol",
+    "sortingArrowDown": "Ein Pfeil der nach unten zeigt und die Suchrichtung anzeigt",
+    "sortingArrowUp": "Ein Pfeil der nach oben zeigt und die Suchrichtung anzeigt",
+    "time": "Ein Uhrensymbol",
+    "user": "Ein Benutzersymbol"
+  },
+  "byLink": {
+    "action": "Zur Warteschlange hinzufügen",
+    "incorrectInput": "Ungültiger Link",
+    "label": "Songlink",
+    "placeholder": "Link einfügen...",
+    "title": "Mit Link"
+  },
+  "bySearch": "Mit Suche",
+  "createAccount": "Ein Konto erstellen",
+  "currentSongEmpty": "Aktuell wird kein Song abgespielt",
+  "documentation": "Dokumentation",
+  "email": {
+    "placeholder": "E-Mail eingeben",
+    "title": "E-Mail",
+    "validation": "Keine gültige E-Mail"
+  },
+  "entryCode": {
+    "error": "Eintritts-Code falsch",
+    "placeholder": "Eintritts-Code eingeben",
+    "title": "Eintritts-Code",
+    "validation": "Der Eintritts-Code ist genau 6 Zeichen lang"
+  },
+  "forgotPassword": "Passwort vergessen?",
+  "help": {
+    "addSong": "Es werden Links von Soundcloud und YouTube unterstützt.",
+    "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig)."
+  },
+  "historySearch": {
+    "enterSearchTerm": "Gib einen Suchbegriff ein...",
+    "noSongFound": "Kein Treffer für ",
+    "searchInHistory": "Im Verlauf suchen"
+  },
+  "imprint": "Impressum",
+  "inQueue": "In der Warteschlange",
+  "language": "Sprache",
+  "login": "Einloggen",
+  "loginCTA": "Willst du selbst Songs hinzufügen?",
+  "loginTitle": "Einloggen, zum mitgestalten",
+  "logout": {
+    "buttonLabel": "Abmelden",
+    "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
+    "error": "Abmelden fehlgeschlagen",
+    "info": "Du bist nicht angemeldet",
+    "success": "Du wurdest abgemeldet."
+  },
+  "modeSwitcher": {
+    "advanced": "Erweitert",
+    "basic": "Einfach"
   },
   "months": {
     "1": "Januar",
@@ -122,57 +117,62 @@
     "11": "November",
     "12": "Dezember"
   },
+  "navBar": {
+    "home": "Home",
+    "project": "Projekt",
+    "public": "Öffentlich",
+    "settings": "Einstellungen",
+    "team": "Team"
+  },
+  "notifications": {
+    "queueAddError": "Song konnte nicht zur Warteschlange hinzugefügt werden.",
+    "queueAddSuccess": "wurde zur Warteschlange hinzugefügt.",
+    "queueChangeOrderError": "Song konnte nicht verschoben werden.",
+    "replaySongError": "Song konnte nicht neu gestartet werden",
+    "skipSongError": "Song konnte nicht übersprungen werden",
+    "skipSongSuccess": "Song wurde übersprungen",
+    "startError": "Warteschlange konnte nicht gestartet werden",
+    "stopError": "Warteschlange konnte nicht pausiert werden",
+    "userDelete": {
+      "messageError": "konnte nicht geöscht werden.",
+      "messageSuccess": "wurde gelöscht.",
+      "user": "Benutzer"
+    },
+    "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
+    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden."
+  },
+  "nowPlaying": "Spielt jetzt",
+  "password": {
+    "error": "Benutzername oder Passwort falsch",
+    "placeholder": "Passwort eingeben",
+    "title": "Passwort",
+    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen"
+  },
+  "passwordRepeat": {
+    "placeholder": "Passwort wiederholen",
+    "title": "Passwort wiederholen",
+    "validation": "Passwörter sind nicht gleich"
+  },
   "popUp": {
     "deleteUser": {
+      "button": "Benutzer löschen",
       "part1": "Sicher, dass du den Benutzer",
-      "part2": "löschen möchtest?",
-      "button": "Benutzer löschen"
+      "part2": "löschen möchtest?"
     }
   },
-  "modeSwitcher": {
-    "basic": "Einfach",
-    "advanced": "Erweitert"
+  "queueDescription": {
+    "duration": "Dauer",
+    "title": "Titel"
   },
-  "logout": {
-    "buttonLabel": "Abmelden",
-    "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
-    "error": "Abmelden fehlgeschlagen",
-    "success": "Du wurdest abgemeldet.",
-    "info": "Du bist nicht angemeldet"
-  },
-  "altTexts": {
-    "playlistAdd": "Warteschlangen-Symbol mit Plus-Symbol, das die Möglichkeit zeigt, neue Songs zur Warteschlange hinzuzufügen",
-    "logoAndText": "Das OpenSoundQueue-Logo das aus den Buchstaben osq besteht und the ausgeschriebene Name OpenSoundQueue daneben",
-    "arrowRight": "Ein Pfeil der nach rechts zeigt",
-    "arrowLeft": "Ein Pfeil der nach links zeigt",
-    "arrowBack": "Ein Pfeil der auf einen Schritt zurück hinweist",
-    "arrowOutward": "Ein diagonaler Pfeil der nach rechts oben zeigt und auf externe Inhalte hinweist",
-    "arrowUp": "Ein Pfeil der nach oben zeigt",
-    "arrowDown": "Ein Pfeil der nach unten zeigt",
-    "sortingArrowUp": "Ein Pfeil der nach oben zeigt und die Suchrichtung anzeigt",
-    "sortingArrowDown": "Ein Pfeil der nach unten zeigt und die Suchrichtung anzeigt",
-    "logo": "Das OpenSoundQueue-Logo das aus der Buchstabenfolge osq besteht und einem weißen Strich darunter der durch einen Kreis unterbrochen wird",
-    "help": "Ein Fragezeichen, das von einem Kreis umgeben ist und auf Fragen hindeutet",
-    "menu": "Symbol für ein Burger-Menü",
-    "search": "Eine Lupe die auf Suchfunktion hindeutet",
-    "close": "Ein X-Symbol",
-    "user": "Ein Benutzersymbol",
-    "delete": "Ein X-Symbol",
-    "mail": "Ein Kuvertsymbol",
-    "time": "Ein Uhrensymbol",
-    "role": "Ein Rollensymbol",
-    "login": "Ein Anmeldesymbol",
-    "logout": "Ein Abmeldesymbol",
-    "skip": "Ein Überspringen-Symbol",
-    "replay": "Ein Wiederholen-Symbol",
-    "play": "Ein Symbol, das Wiedergabe fortsetzen bedeutet",
-    "pause": "Ein Symbol, das Wiedergabe pausieren bedeutet",
-    "hide": "Ein Symbol mit einem durchgestrichen Auge",
-    "show": "Ein Symbol mit einem offenen Auge",
-    "dragHandle": "Ein Symbol, das einen Griff darstellt",
-    "info": "Ein Kreis mit einem i darin, das für Information steht",
-    "check": "Ein Häkchen",
-    "error": "Ein Rufzeichen in einem gezackten Kreis",
-    "settings": "Ein Einstellungssymbol"
+  "queueEmpty": "Es befinden sich keine Songs in der Warteschlange",
+  "select": "Wähle eine Option",
+  "settings": "Einstellungen",
+  "team": "Team",
+  "username": {
+    "error": "Benutzername oder Passwort falsch",
+    "placeholder": "Benutzername eingeben",
+    "taken": "Benutzername bereits vergeben",
+    "title": "Benutzername",
+    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten"
   }
 }

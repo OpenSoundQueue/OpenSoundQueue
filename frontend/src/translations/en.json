@@ -1,112 +1,107 @@
 {
-  "nowPlaying": "Now Playing",
-  "inQueue": "In Queue",
-  "queueEmpty": "There are no songs in queue",
-  "currentSongEmpty": "There is currently no song playing",
-  "byLink": {
-    "title": "By Link",
-    "label": "Song Link",
-    "action": "Add to queue",
-    "placeholder": "Enter link...",
-    "incorrectInput": "Invalid link"
-  },
-  "bySearch": "By Search",
-  "forgotPassword": "Forgot Password?",
-  "createAccount": "Create Account",
-  "login": "Login",
-  "loginCTA": "Want to add your own songs?",
-  "alreadyHaveAnAccount": "Already have an account?",
-  "username": {
-    "title": "Username",
-    "error": "Username or Password wrong",
-    "taken": "Username is already taken",
-    "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)",
-    "placeholder": "Enter Username"
-  },
-  "email": {
-    "title": "Email",
-    "validation": "Not a valid email address",
-    "placeholder": "Enter Email Address"
-  },
-  "password": {
-    "title": "Password",
-    "error": "Username or Password wrong",
-    "validation": "Minimum of 8 characters long, upper case letter, lower case letter, number and special character",
-    "placeholder": "Enter Password"
-  },
-  "passwordRepeat": {
-    "title": "Repeat Password",
-    "validation": "Passwords do not match",
-    "placeholder": "Repeat Password"
-  },
-  "entryCode": {
-    "title": "Entry-Code",
-    "error": "Entry-Code wrong",
-    "validation": "The entry code is exactly 6 characters long",
-    "placeholder": "Enter Entry-Code"
-  },
-  "loginTitle": "Login to start contributing",
-  "settings": "Settings",
-  "documentation": "Docs",
-  "team": "Team",
-  "imprint": "Imprint",
   "about": "About",
-  "language": "Language",
-  "select": "Select",
   "addSong": "Add Song",
-  "notifications": {
-    "queueAddSuccess": "was added to queue.",
-    "queueAddError": "Song could not be added to the queue.",
-    "voteSkipRequestError": "Could not request vote.",
-    "voteSkipWithdrawError": "Could not withdraw vote.",
-    "userDelete": {
-      "user": "User",
-      "messageSuccess": "has been deleted.",
-      "messageError": "could not be deleted."
-    },
-    "queueChangeOrderError": "Song could not be moved.",
-    "skipSongSuccess": "Song has been skipped",
-    "skipSongError": "Song could not be skipped",
-    "replaySongError": "Song could not be restarted",
-    "stopError": "Queue could not be paused",
-    "startError": "Queue could not be started"
-  },
-  "historySearch": {
-    "noSongFound": "No song found for ",
-    "enterSearchTerm": "Enter a search term...",
-    "searchInHistory": "Search in history"
-  },
-  "queueDescription": {
-    "title": "Title",
-    "duration": "Duration"
-  },
-  "navBar": {
-    "public": "Public",
-    "home": "Home",
-    "settings": "Settings",
-    "project": "Project",
-    "team": "Team"
-  },
-  "help": {
-    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users).",
-    "addSong": "Soundcloud and YouTube links are supported."
-  },
   "adminPage": {
-    "tableHeader": {
-      "username": "Username",
-      "email": "Email",
-      "role": "Role",
-      "lastOnline": "last time online"
-    },
     "detail": {
+      "delete": "Delete User",
       "placeholder": {
-        "name": "No User selected",
+        "body": "Please select a User",
         "email": "No Email verified",
         "lastOnline": "Has never been online",
-        "body": "Please select a User"
-      },
-      "delete": "Delete User"
+        "name": "No User selected"
+      }
+    },
+    "tableHeader": {
+      "email": "Email",
+      "lastOnline": "last time online",
+      "role": "Role",
+      "username": "Username"
     }
+  },
+  "alreadyHaveAnAccount": "Already have an account?",
+  "altTexts": {
+    "arrowBack": "An arrow indicating a step backwards",
+    "arrowDown": "An arrow pointing down",
+    "arrowLeft": "An arrow pointing to the left",
+    "arrowOutward": "A diagonal arrow pointing to the top right and indicating external content",
+    "arrowRight": "An arrow pointing to the right",
+    "arrowUp": "An arrow pointing up",
+    "check": "A checkmark",
+    "close": "An x symbol",
+    "delete": "An x symbol",
+    "dragHandle": "A symbol indicating a grab handle",
+    "error": "An encircled exclamation mark",
+    "help": "A question mark surrounded by a circle, offering assistance to the user",
+    "hide": "A symbol of an eye with a diagonal line through it",
+    "info": "An encircled i that stand for information",
+    "login": "A login symbol",
+    "logo": "The OpenSoundQueue logo consisting of the letters osq and a white line underneath interrupted by a circle",
+    "logoAndText": "The OpenSoundQueue logo that consists of that spells osq and the full name OpenSoundQueue next to it",
+    "logout": "A logout symbol",
+    "mail": "A mail symbol",
+    "menu": "Icon for a burger menu",
+    "pause": "A symbol that means pause playback",
+    "play": "A symbol that means continue playback",
+    "playlistAdd": "Queue Icon with Plus Symbol, indicating the option to add new songs to the queue",
+    "replay": "A replay symbol",
+    "role": "A role symbol",
+    "search": "A magnifying glass that points to a search functionality",
+    "settings": "A settings icon",
+    "show": "A symbol with an opened eye",
+    "skip": "A skip symbol",
+    "sortingArrowDown": "An arrow which is pointing down indicating the sorting direction",
+    "sortingArrowUp": "An arrow which is pointing up indicating the sorting direction",
+    "time": "A clock symbol",
+    "user": "An user icon"
+  },
+  "byLink": {
+    "action": "Add to queue",
+    "incorrectInput": "Invalid link",
+    "label": "Song Link",
+    "placeholder": "Enter link...",
+    "title": "By Link"
+  },
+  "bySearch": "By Search",
+  "createAccount": "Create Account",
+  "currentSongEmpty": "There is currently no song playing",
+  "documentation": "Docs",
+  "email": {
+    "placeholder": "Enter Email Address",
+    "title": "Email",
+    "validation": "Not a valid email address"
+  },
+  "entryCode": {
+    "error": "Entry-Code wrong",
+    "placeholder": "Enter Entry-Code",
+    "title": "Entry-Code",
+    "validation": "The entry code is exactly 6 characters long"
+  },
+  "forgotPassword": "Forgot Password?",
+  "help": {
+    "addSong": "Soundcloud and YouTube links are supported.",
+    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users)."
+  },
+  "historySearch": {
+    "enterSearchTerm": "Enter a search term...",
+    "noSongFound": "No song found for ",
+    "searchInHistory": "Search in history"
+  },
+  "imprint": "Imprint",
+  "inQueue": "In Queue",
+  "language": "Language",
+  "login": "Login",
+  "loginCTA": "Want to add your own songs?",
+  "loginTitle": "Login to start contributing",
+  "logout": {
+    "buttonLabel": "Logout",
+    "callToAction": "In order to access this page, you need to be logged out.",
+    "error": "Could not log out.",
+    "info": "You are not logged in",
+    "success": "You were logged out."
+  },
+  "modeSwitcher": {
+    "advanced": "Advanced",
+    "basic": "Basic"
   },
   "months": {
     "1": "January",
@@ -122,57 +117,62 @@
     "11": "November",
     "12": "December"
   },
+  "navBar": {
+    "home": "Home",
+    "project": "Project",
+    "public": "Public",
+    "settings": "Settings",
+    "team": "Team"
+  },
+  "notifications": {
+    "queueAddError": "Song could not be added to the queue.",
+    "queueAddSuccess": "was added to queue.",
+    "queueChangeOrderError": "Song could not be moved.",
+    "replaySongError": "Song could not be restarted",
+    "skipSongError": "Song could not be skipped",
+    "skipSongSuccess": "Song has been skipped",
+    "startError": "Queue could not be started",
+    "stopError": "Queue could not be paused",
+    "userDelete": {
+      "messageError": "could not be deleted.",
+      "messageSuccess": "has been deleted.",
+      "user": "User"
+    },
+    "voteSkipRequestError": "Could not request vote.",
+    "voteSkipWithdrawError": "Could not withdraw vote."
+  },
+  "nowPlaying": "Now Playing",
+  "password": {
+    "error": "Username or Password wrong",
+    "placeholder": "Enter Password",
+    "title": "Password",
+    "validation": "Minimum of 8 characters long, upper case letter, lower case letter, number and special character"
+  },
+  "passwordRepeat": {
+    "placeholder": "Repeat Password",
+    "title": "Repeat Password",
+    "validation": "Passwords do not match"
+  },
   "popUp": {
     "deleteUser": {
+      "button": "Delete User",
       "part1": "Are you sure you want to delete User",
-      "part2": "?",
-      "button": "Delete User"
+      "part2": "?"
     }
   },
-  "modeSwitcher": {
-    "basic": "Basic",
-    "advanced": "Advanced"
+  "queueDescription": {
+    "duration": "Duration",
+    "title": "Title"
   },
-  "logout": {
-    "buttonLabel": "Logout",
-    "callToAction": "In order to access this page, you need to be logged out.",
-    "error": "Could not log out.",
-    "success": "You were logged out.",
-    "info": "You are not logged in"
-  },
-  "altTexts": {
-    "playlistAdd": "Queue Icon with Plus Symbol, indicating the option to add new songs to the queue",
-    "logoAndText": "The OpenSoundQueue logo that consists of that spells osq and the full name OpenSoundQueue next to it",
-    "arrowRight": "An arrow pointing to the right",
-    "arrowLeft": "An arrow pointing to the left",
-    "arrowBack": "An arrow indicating a step backwards",
-    "arrowOutward": "A diagonal arrow pointing to the top right and indicating external content",
-    "arrowUp": "An arrow pointing up",
-    "arrowDown": "An arrow pointing down",
-    "sortingArrowUp": "An arrow which is pointing up indicating the sorting direction",
-    "sortingArrowDown": "An arrow which is pointing down indicating the sorting direction",
-    "logo": "The OpenSoundQueue logo consisting of the letters osq and a white line underneath interrupted by a circle",
-    "help": "A question mark surrounded by a circle, offering assistance to the user",
-    "menu": "Icon for a burger menu",
-    "search": "A magnifying glass that points to a search functionality",
-    "close": "An x symbol",
-    "user": "An user icon",
-    "delete": "An x symbol",
-    "mail": "A mail symbol",
-    "time": "A clock symbol",
-    "role": "A role symbol",
-    "login": "A login symbol",
-    "logout": "A logout symbol",
-    "skip": "A skip symbol",
-    "replay": "A replay symbol",
-    "play": "A symbol that means continue playback",
-    "pause": "A symbol that means pause playback",
-    "hide": "A symbol of an eye with a diagonal line through it",
-    "show": "A symbol with an opened eye",
-    "dragHandle": "A symbol indicating a grab handle",
-    "info": "An encircled i that stand for information",
-    "check": "A checkmark",
-    "error": "An encircled exclamation mark",
-    "settings": "A settings icon"
+  "queueEmpty": "There are no songs in queue",
+  "select": "Select",
+  "settings": "Settings",
+  "team": "Team",
+  "username": {
+    "error": "Username or Password wrong",
+    "placeholder": "Enter Username",
+    "taken": "Username is already taken",
+    "title": "Username",
+    "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)"
   }
 }
