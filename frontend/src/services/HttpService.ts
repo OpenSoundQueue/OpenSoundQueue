@@ -245,6 +245,15 @@ export class HttpService {
             });
     }
 
+    async postResendMail(email: string) {
+        return httpClient.post(`/register/resend-email`, {email: email})
+            .then(response => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+            });
+    }
+
     async postLogout(apiKey: string) {
         return await httpClient.post(`/logout`, undefined, apiKey)
             .then(response => {

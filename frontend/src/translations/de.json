@@ -153,7 +153,9 @@
     "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
     "noCode": {
       "text": "Ich habe keinen Code erhalten",
-      "button": "Code erneut senden"
+      "button": "Code erneut senden",
+      "success": "Wir haben dir einen neuen Code gesendet.",
+      "error": "Es kam zu einem Fehler. Bitte versuche es erneut."
     },
     "success": "Registrierung erfolgreich"
   }

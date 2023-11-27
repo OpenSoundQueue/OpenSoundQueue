@@ -153,7 +153,9 @@
     "explanation": "We have sent a code to your email address, please check your inbox.",
     "noCode": {
       "text": "I have not received a code",
-      "button": "Resend Code"
+      "button": "Resend Code",
+      "success": "We have sent you a new code.",
+      "error": "Something didn't work. Please try again."
     },
     "success": "Registration successful"
   }

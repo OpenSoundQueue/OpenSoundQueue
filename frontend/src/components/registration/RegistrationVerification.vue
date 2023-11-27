@@ -22,13 +22,13 @@
         />
       </div>
       <div class="submit-container">
-        <DefaultButton :is-disabled="formStatus || waitingForResponse" :text="translate('registration.createAccount')"
+        <DefaultButton :is-disabled="formStatus || waitingForResponseValidation" :text="translate('registration.createAccount')"
                        @click="sendVerification"/>
       </div>
     </form>
     <div class="no-code-section">
       <div>{{ translate('registration.noCode.text') }}</div>
-      <router-link class="link" to="/login">{{ $translate("registration.noCode.button") }}</router-link>
+      <div class="link" @click="resendMail">{{ $translate("registration.noCode.button") }}</div>
     </div>
   </div>
 </template>
@@ -57,7 +57,8 @@ const emits = defineEmits<{
   change: []
 }>()
 
-const waitingForResponse = ref(false);
+const waitingForResponseValidation = ref(false);
+const waitingForResponseResend = ref(false);
 
 const user = ref({
   username: "",
@@ -90,7 +91,7 @@ onMounted(() => {
 })
 
 async function sendVerification() {
-  waitingForResponse.value = true;
+  waitingForResponseValidation.value = true;
 
   await httpService.postRegisterVerify(verificationCode.value.input, user.value.email)
       .then((apiKey: string) => {
@@ -104,7 +105,22 @@ async function sendVerification() {
         verificationCode.value.errorStatus = true;
       });
 
-  waitingForResponse.value = false;
+  waitingForResponseValidation.value = false;
+}
+async function resendMail() {
+  if (waitingForResponseResend.value) return;
+
+  waitingForResponseResend.value = true;
+
+  await httpService.postResendMail(user.value.email)
+      .then(() => {
+        ToastService.sendNotification(translate('registration.noCode.success'), 'success', 3000)
+      })
+      .catch(() => {
+        ToastService.sendNotification(translate('registration.noCode.error'), 'error', 3000)
+      });
+
+  waitingForResponseResend.value = false;
 }
 </script>
 
@@ -157,6 +173,7 @@ form {
   text-decoration: none;
   color: var(--pink);
   text-align: center;
+  user-select: none;
 }
 
 .change {
@@ -168,6 +185,7 @@ form {
 }
 
 .link:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 </style>
