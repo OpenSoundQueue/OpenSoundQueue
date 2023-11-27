@@ -5,7 +5,6 @@ type Form = {
     timestamp: number
 }
 
-
 export function saveForm(username: string, email: string, password: string) {
     const form = {
         username: username,
@@ -32,14 +31,15 @@ export function getForm(): Form {
     }
 }
 
-export function deleteForm(){
+export function deleteForm() {
     localStorage.removeItem("form")
 }
 
-export function setRegisterPosition(position:number){
-    localStorage.setItem("registerPosition",position+"")
+export function setRegisterPosition(position: number) {
+    localStorage.setItem("registerPosition", position + "")
 }
-export function getRegisterPosition():number{
+
+export function getRegisterPosition(): number {
     const position = localStorage.getItem("registerPosition")
     if (!position)
         return 0;
@@ -47,6 +47,6 @@ export function getRegisterPosition():number{
         return parseInt(position);
 }
 
-export function deleteRegisterPosition(){
+export function deleteRegisterPosition() {
     localStorage.removeItem("registerPosition")
 }
