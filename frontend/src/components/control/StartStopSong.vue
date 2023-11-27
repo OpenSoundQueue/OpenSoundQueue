@@ -1,7 +1,7 @@
 <template>
   <div class="skip-song" @click="isLoading?{}:startStop()" :class="isClicked?'animate':''">
-    <img class="play-icon" v-show="!isPlaying" src="@/assets/icons/music/play.svg" alt="skip icon">
-    <img class="stop-icon" v-show="isPlaying" src="@/assets/icons/music/pause.svg" alt="skip icon">
+    <img class="play-icon" v-show="!isPlaying" src="@/assets/icons/music/play.svg" :alt="$translate('altTexts.play')">
+    <img class="stop-icon" v-show="isPlaying" src="@/assets/icons/music/pause.svg" :alt="$translate('altTexts.pause')">
   </div>
 </template>
 

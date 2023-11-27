@@ -3,7 +3,7 @@
     <div class="slider" :class="[voteSkipData.hasVoted ? 'active' : 'inactive']">
       <div class="button-label-container">
         <div class="button unselectable" :class="[voteSkipData.hasVoted ? 'active' : 'inactive', isLoading ? 'loading' : 'not-loading']">
-          <img src="@/assets/icons/music/skip.svg" alt="skip icon">
+          <img src="@/assets/icons/music/skip.svg" :alt="$translate('altTexts.skip')">
         </div>
         <div class="label unselectable" :class="[voteSkipData.hasVoted ? 'active' : 'inactive']">
           {{ voteSkipData.received }} / {{ voteSkipData.required }}

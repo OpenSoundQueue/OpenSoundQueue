@@ -8,7 +8,7 @@
                   :custom-icon="true"
       >
         <template #icon>
-          <img src="@/assets/icons/input/search.svg">
+          <img src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')">
         </template>
       </InputField>
     </div>
@@ -18,13 +18,13 @@
       </div>
       <div v-else-if="Object.keys(searchResults).length > 0">
         <div v-for="(result, index) in searchResults" :key="index" class="search-result">
-          <img src="@/assets/icons/input/search.svg"/>
+          <img src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
           <div class="song-data">
             <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>
           </div>
           <div class="add-to-queue-button">
             <DefaultButton @click="addSong(result.link)" :is-disabled="queueAddIsDisabled" text="">
-              <img src="@/assets/icons/music/playlist_add.svg">
+              <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
             </DefaultButton>
           </div>
         </div>

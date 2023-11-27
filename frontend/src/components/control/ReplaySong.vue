@@ -1,6 +1,6 @@
 <template>
   <div class="replay" @click="isLoading?{}:replaySong()" :class="isClicked?'rotate':''">
-      <img src="@/assets/icons/arrows/replay.svg" alt="skip icon">
+      <img src="@/assets/icons/arrows/replay.svg" :alt="$translate('altTexts.replay')">
   </div>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <main>
     <header>
-      <div class="link-back" @click="linkBack">
-        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg">
+      <div class="link-back" @click="router.back()">
+        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowBack')">
       </div>
-      <img class="header-image" src="@/assets/logo/logo_white.svg">
+      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
     <component :is="component"
                @continue="() => {

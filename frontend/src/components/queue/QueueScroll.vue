@@ -33,7 +33,7 @@
               />
             </span>
             <span class="fa fa-align-justify handle">
-              <img src="@/assets/icons/drag_handle.svg"/>
+              <img src="@/assets/icons/drag_handle.svg" :alt="$translate('altTexts.dragHandle')"/>
             </span>
           </li>
         </template>
