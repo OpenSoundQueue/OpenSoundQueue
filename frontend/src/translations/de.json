@@ -183,22 +183,22 @@
       "success": "Du wurdest abgemeldet."
     },
     "placeholder": "Benutzername eingeben",
-    "registration": {
-      "change": "Ändern",
-      "continue": "Weiter",
-      "createAccount": "Account erstellen",
-      "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
-      "heading": "Account erstellen",
-      "noCode": {
-        "button": "Code erneut senden",
-        "error": "Es kam zu einem Fehler. Bitte versuche es erneut.",
-        "success": "Wir haben dir einen neuen Code gesendet.",
-        "text": "Ich habe keinen Code erhalten"
-      },
-      "success": "Registrierung erfolgreich"
-    },
     "taken": "Benutzername bereits vergeben",
     "title": "Benutzername",
     "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten"
+  },
+  "registration": {
+    "change": "Ändern",
+    "continue": "Weiter",
+    "createAccount": "Account erstellen",
+    "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
+    "heading": "Account erstellen",
+    "noCode": {
+      "button": "Code erneut senden",
+      "error": "Es kam zu einem Fehler. Bitte versuche es erneut.",
+      "success": "Wir haben dir einen neuen Code gesendet.",
+      "text": "Ich habe keinen Code erhalten"
+    },
+    "success": "Registrierung erfolgreich"
   }
 }

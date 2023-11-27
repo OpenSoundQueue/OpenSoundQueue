@@ -183,22 +183,22 @@
       "success": "You were logged out."
     },
     "placeholder": "Enter Username",
-    "registration": {
-      "change": "Change",
-      "continue": "Continue",
-      "createAccount": "Create account",
-      "explanation": "We have sent a code to your email address, please check your inbox.",
-      "heading": "Create an account",
-      "noCode": {
-        "button": "Resend Code",
-        "error": "Something didn't work. Please try again.",
-        "success": "We have sent you a new code.",
-        "text": "I have not received a code"
-      },
-      "success": "Registration successful"
-    },
     "taken": "Username is already taken",
     "title": "Username",
     "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)"
-  }
+  },
+  "registration": {
+  "change": "Change",
+  "continue": "Continue",
+  "createAccount": "Create account",
+  "explanation": "We have sent a code to your email address, please check your inbox.",
+  "heading": "Create an account",
+  "noCode": {
+    "button": "Resend Code",
+    "error": "Something didn't work. Please try again.",
+    "success": "We have sent you a new code.",
+    "text": "I have not received a code"
+  },
+  "success": "Registration successful"
+}
 }
