@@ -53,8 +53,7 @@
     "sortingArrowUp": "Pfeil nach oben für aufsteigende Sortierreihenfolge",
     "time": "Uhrensymbol",
     "user": "Benutzersymbol"
-  }
-,
+  },
   "byLink": {
     "action": "Zur Warteschlange hinzufügen",
     "incorrectInput": "Ungültiger Link",
@@ -176,29 +175,30 @@
   "team": "Team",
   "username": {
     "error": "Benutzername oder Passwort falsch",
+    "logout": {
+      "buttonLabel": "Abmelden",
+      "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
+      "error": "Abmelden fehlgeschlagen",
+      "info": "Du bist nicht angemeldet",
+      "success": "Du wurdest abgemeldet."
+    },
     "placeholder": "Benutzername eingeben",
+    "registration": {
+      "change": "Ändern",
+      "continue": "Weiter",
+      "createAccount": "Account erstellen",
+      "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
+      "heading": "Account erstellen",
+      "noCode": {
+        "button": "Code erneut senden",
+        "error": "Es kam zu einem Fehler. Bitte versuche es erneut.",
+        "success": "Wir haben dir einen neuen Code gesendet.",
+        "text": "Ich habe keinen Code erhalten"
+      },
+      "success": "Registrierung erfolgreich"
+    },
     "taken": "Benutzername bereits vergeben",
     "title": "Benutzername",
     "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten"
-  "logout": {
-    "buttonLabel": "Abmelden",
-    "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
-    "error": "Abmelden fehlgeschlagen",
-    "success": "Du wurdest abgemeldet.",
-    "info": "Du bist nicht angemeldet"
-  },
-  "registration": {
-    "continue": "Weiter",
-    "heading": "Account erstellen",
-    "createAccount": "Account erstellen",
-    "change": "Ändern",
-    "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
-    "noCode": {
-      "text": "Ich habe keinen Code erhalten",
-      "button": "Code erneut senden",
-      "success": "Wir haben dir einen neuen Code gesendet.",
-      "error": "Es kam zu einem Fehler. Bitte versuche es erneut."
-    },
-    "success": "Registrierung erfolgreich"
   }
 }

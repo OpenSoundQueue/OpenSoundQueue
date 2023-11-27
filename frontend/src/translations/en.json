@@ -53,8 +53,7 @@
     "sortingArrowUp": "Arrow pointing up, indicating sorting direction",
     "time": "Clock symbol",
     "user": "User symbol"
-  }
-,
+  },
   "byLink": {
     "action": "Add to queue",
     "incorrectInput": "Invalid link",
@@ -176,29 +175,30 @@
   "team": "Team",
   "username": {
     "error": "Username or Password wrong",
+    "logout": {
+      "buttonLabel": "Logout",
+      "callToAction": "In order to access this page, you need to be logged out.",
+      "error": "Could not log out.",
+      "info": "You are not logged in",
+      "success": "You were logged out."
+    },
     "placeholder": "Enter Username",
+    "registration": {
+      "change": "Change",
+      "continue": "Continue",
+      "createAccount": "Create account",
+      "explanation": "We have sent a code to your email address, please check your inbox.",
+      "heading": "Create an account",
+      "noCode": {
+        "button": "Resend Code",
+        "error": "Something didn't work. Please try again.",
+        "success": "We have sent you a new code.",
+        "text": "I have not received a code"
+      },
+      "success": "Registration successful"
+    },
     "taken": "Username is already taken",
     "title": "Username",
     "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)"
-  "logout": {
-    "buttonLabel": "Logout",
-    "callToAction": "In order to access this page, you need to be logged out.",
-    "error": "Could not log out.",
-    "success": "You were logged out.",
-    "info": "You are not logged in"
-  },
-  "registration": {
-    "continue": "Continue",
-    "heading": "Create an account",
-    "createAccount": "Create account",
-    "change": "Change",
-    "explanation": "We have sent a code to your email address, please check your inbox.",
-    "noCode": {
-      "text": "I have not received a code",
-      "button": "Resend Code",
-      "success": "We have sent you a new code.",
-      "error": "Something didn't work. Please try again."
-    },
-    "success": "Registration successful"
   }
 }
