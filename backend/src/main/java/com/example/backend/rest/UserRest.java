@@ -144,6 +144,7 @@ public class UserRest {
         UserInfoEntity user = userService.getUserByToken(token);
 
         userService.removeToken(user);
+        userService.updateLastOnline(user);
 
 
         return ResponseEntity.ok().build();
@@ -154,6 +155,8 @@ public class UserRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
+
+        userService.updateLastOnline(userService.getUserByToken(token));
 
         return ResponseEntity.ok().build();
     }
@@ -175,6 +178,8 @@ public class UserRest {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastOnline(userService.getUserByToken(token));
+
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
@@ -192,6 +197,8 @@ public class UserRest {
             return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
         }
 
+        userService.updateLastOnline(userService.getUserByToken(token));
+
         userService.deleteUser(id);
 
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
@@ -204,6 +211,7 @@ public class UserRest {
         }
 
         UserInfoEntity user = userService.getUserByToken(token);
+        userService.updateLastOnline(user);
 
         return new ResponseEntity<>(new UserDto(user.getId(), user.getUsername(), user.getLastOnline()), HttpStatus.OK);
     }

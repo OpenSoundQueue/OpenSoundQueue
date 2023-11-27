@@ -63,6 +63,7 @@ public class SoundQueueRest {
         }
 
         Song song = songQueueService.addSong(requestBody.get("link"));
+        userService.updateLastOnline(userService.getUserByToken(token));
 
         if (song != null) {
             return new ResponseEntity<>(song.getInfo(), HttpStatus.OK);
@@ -75,6 +76,7 @@ public class SoundQueueRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
+        userService.updateLastOnline(userService.getUserByToken(token));
         songQueueService.skip();
         return ResponseEntity.ok().build();
     }
@@ -85,6 +87,7 @@ public class SoundQueueRest {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
         UserInfoEntity user = userService.getUserByToken(token);
+        userService.updateLastOnline(user);
         return new ResponseEntity<>(songQueueService.getVoteSkipStatus(user.getId()), HttpStatus.OK);
     }
 
@@ -93,6 +96,7 @@ public class SoundQueueRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
+        userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.setVoteSkip(token), HttpStatus.OK);
     }
 
@@ -101,6 +105,7 @@ public class SoundQueueRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
+        userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.withdrawVoteSkip(token), HttpStatus.OK);
     }
 
@@ -109,7 +114,7 @@ public class SoundQueueRest {
         if (!userService.verifyApiKey(token)) {
             return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
         }
-
+        userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
     }
 
@@ -120,7 +125,7 @@ public class SoundQueueRest {
         }
 
         if (!songQueueService.isPlaying()) songQueueService.play();
-
+        userService.updateLastOnline(userService.getUserByToken(token));
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
@@ -131,7 +136,7 @@ public class SoundQueueRest {
         }
 
         if (songQueueService.isPlaying()) songQueueService.stop();
-
+        userService.updateLastOnline(userService.getUserByToken(token));
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
@@ -147,7 +152,7 @@ public class SoundQueueRest {
         if (oldPos >= songQueueService.getQueue().size() || oldPos < 0 || newPos < 0) return new ResponseEntity<>(new ErrorDto("Position of song does not exist"), HttpStatus.BAD_REQUEST);
 
         songQueueService.changeOrder(oldPos, newPos);
-
+        userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
 
@@ -158,7 +163,7 @@ public class SoundQueueRest {
         }
 
         songQueueService.replaySong();
-
+        userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
