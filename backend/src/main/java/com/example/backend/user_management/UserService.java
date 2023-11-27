@@ -3,13 +3,14 @@ package com.example.backend.user_management;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.Repository.UserInfoRepository;
 import com.example.backend.ResponseDtos.UserDto;
-import com.example.backend.util.EmailComponent;
-import com.example.backend.util.EmailUtils;
+import com.example.backend.email.EmailComponent;
+import com.example.backend.email.EmailUtils;
 import com.example.backend.util.TokenUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,10 +112,10 @@ public class UserService {
         userInfoRepository.deleteById(id);
     }
 
-    public void sendEmailVerification(UserInfoEntity user) throws MessagingException {
+    public void sendEmailVerification(UserInfoEntity user) throws MessagingException, IOException {
         String emailCode = emailUtils.generateEmailCode();
         emailVerificationCodes.put(user.getEmail(), emailCode);
-        emailComponent.sendMail(user.getEmail(), emailCode);
+        emailComponent.sendMail(user.getEmail(), emailCode, user.getUsername());
     }
 
     public boolean verifyEmail(String email, String code) {
