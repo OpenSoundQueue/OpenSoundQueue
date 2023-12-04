@@ -3,6 +3,7 @@ package com.example.backend.Repository;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -26,6 +27,9 @@ public class UserInfoEntity {
 
     @Column(name = "verified")
     private boolean verified;
+
+    @ManyToMany(targetEntity = Role.class)
+    private Collection<Role> roles;
 
     @Column
     @DateTimeFormat
