@@ -4,8 +4,13 @@ import type {ModelDefinition, Registry} from "miragejs/-types";
 import type Schema from "miragejs/orm/schema";
 import songs from "@/mirage/fixtures/songs";
 import users from "@/mirage/fixtures/users";
+import roles from "@/mirage/fixtures/roles";
+import permissions from "@/mirage/fixtures/permissions";
 import {Song} from "@/models/Song";
 import {User} from "@/models/User";
+import {Role} from "@/models/Role";
+import {Permission} from "@/models/Permission";
+import Permissions from "@/mirage/fixtures/permissions";
 
 // typescript help:
 // https://github.com/miragejs/examples/blob/master/react-typescript/src/mirage/index.ts
@@ -14,23 +19,31 @@ import {User} from "@/models/User";
 export function makeServer({environment = "development"} = {}) {
     const SongModel: ModelDefinition<Song> = Model.extend({});
     const UserModel: ModelDefinition<User> = Model.extend({});
+    const RoleModel: ModelDefinition<Role> = Model.extend({});
+    const PermissionModel: ModelDefinition<Permission> = Model.extend({});
 
     return createServer({
         environment,
 
         models: {
             song: SongModel,
-            user: UserModel
+            user: UserModel,
+            role: RoleModel,
+            permissions: PermissionModel
         },
 
         fixtures: {
             songs,
             users,
+            roles,
+            permissions
         },
 
         seeds(server: Server) {
             server.loadFixtures("songs");
             server.loadFixtures("users");
+            server.loadFixtures("roles");
+            server.loadFixtures("permissions");
             //disable console.log()
             server.logging = false;
         },
@@ -38,7 +51,12 @@ export function makeServer({environment = "development"} = {}) {
         routes() {
             this.namespace = "api"
 
-            type AppRegistry = Registry<{ song: typeof SongModel, user: typeof SongModel }, { /* factories can be defined here */ }>
+            type AppRegistry = Registry<{
+                song: typeof SongModel,
+                user: typeof SongModel
+                role: typeof RoleModel
+                permission: typeof PermissionModel
+            }, { /* factories can be defined here */ }>
             type AppSchema = Schema<AppRegistry>
 
             this.get("/queue/page/:pageNumber/page-size/:pageSize", (schema: AppSchema, request) => {
@@ -47,7 +65,7 @@ export function makeServer({environment = "development"} = {}) {
 
                 const songs = schema.db.songs;
 
-                if (songs.length==0)
+                if (songs.length == 0)
                     return {page: undefined, numberOfPages: undefined}
 
                 const start: number = pageSize * pageNumber;
@@ -81,7 +99,7 @@ export function makeServer({environment = "development"} = {}) {
             this.get("/queue/now-playing", (schema: AppSchema) => {
                 const songs = schema.db.songs;
 
-                if (songs.length==0){
+                if (songs.length == 0) {
                     return {
                         isPlaying: false,
                         time: 0,
@@ -322,6 +340,72 @@ export function makeServer({environment = "development"} = {}) {
             this.post("/logout", () => {
                 return {};
             })
+
+            this.get("/roles", (schema: AppSchema) => {
+                return schema.db.roles;
+            })
+
+            this.get("/permissions", (schema: AppSchema) => {
+                return schema.db.permissions;
+            })
+
+            this.get("/role/get/:id", (schema: AppSchema, request) => {
+                const id = request.params.id;
+                return schema.db.roles.find(id);
+            })
+
+            this.delete("/role/:id", (schema: AppSchema, request) => {
+                const id = request.params.id;
+                const role: Role = schema.db.roles.find(id);
+
+                schema.db.roles.remove(role);
+
+                return schema.db.roles;
+            })
+
+            this.post("/role/create", (schema: AppSchema, request) => {
+                const id = schema.db.roles.length;
+
+                const newRole = schema.db.roles.insert({
+                    "id": id,
+                    "name": "SCHODL",
+                    "permissions": [
+                        {
+                            "skip": false
+                        },
+                        {
+                            "play": false
+                        },
+                        {
+                            "viewAdminPanel": false
+                        }
+                    ]
+                });
+
+                return schema.db.roles;
+            });
+
+            this.patch("/role/edit", (schema: AppSchema, request) => {
+                const id = schema.db.roles.length;
+
+                const newRole = schema.db.roles.update(1, {
+                    "name": "Mod MOD",
+                    "permissions": [
+                        {
+                            "skip": true
+                        },
+                        {
+                            "play": true
+                        },
+                        {
+                            "viewAdminPanel": false
+                        }
+                    ]
+                });
+
+                return schema.db.roles;
+            });
+
         },
     })
 }
