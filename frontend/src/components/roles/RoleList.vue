@@ -2,7 +2,7 @@
   <div>
     <div class="new-role-button-wrapper">
       <div class="mobile overlay" @click="() => toDisplay()">
-        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg"/>
+        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
       </div>
       <div class="new-role-button-container" @click="() => selectRole()">
         New Role
@@ -12,10 +12,10 @@
 
     <div class="select-role-button-wrapper" v-for="id in 5">
       <div class="mobile overlay" @click="toDisplay(id)">
-        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg"/>
+        <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
       </div>
       <div class="select-role-button-container" @click="selectRole(id)">
-        <img src="@/assets/icons/role.svg"/>
+        <img src="@/assets/icons/role.svg" :alt="$translate('altTexts.role')"/>
         Role {{ id }}
       </div>
     </div>
