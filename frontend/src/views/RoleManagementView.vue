@@ -10,12 +10,20 @@
       <component :is="component"
                  :role-id="roleId"
                  @back="back"
-                 @to-display="(id?: number) => toDisplay(id)"
+                 @select-role="(id?: number) => selectRole(id)"
+                 @to-display="toDisplay"
                  @to-members="toMembers"
                  @to-permissions="toPermissions"
       />
     </div>
-    <div class="detail-container"></div>
+    <div class="detail-container desktop">
+      <component :is="detailComponent"
+                 :role-id="roleId"
+                 @to-display="toDisplay"
+                 @to-members="toMembers"
+                 @to-permissions="toPermissions"
+      />
+    </div>
     <GridBackground/>
   </main>
 </template>
@@ -30,6 +38,7 @@ import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
 
 const component: ShallowRef<Component> = shallowRef(RoleList);
+const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const history: ShallowRef<Component[]> = shallowRef([RoleList]);
 const roleId: Ref<number | undefined> = ref();
 
@@ -41,25 +50,34 @@ function back() {
   component.value = history.value.pop();
 }
 
-function toDisplay(id?: number) {
-  roleId.value = id;
-
+function toDisplay() {
   history.value.push(component.value);
   component.value = RoleDisplay;
+  detailComponent.value = RoleDisplay;
+}
+
+function selectRole(id?: number) {
+  roleId.value = id;
 }
 
 function toMembers() {
   history.value.push(component.value);
   component.value = RoleMembers;
+  detailComponent.value = RoleMembers;
 }
 
 function toPermissions() {
   history.value.push(component.value);
   component.value = RolePermissions;
+  detailComponent.value = RolePermissions;
 }
 </script>
 
 <style scoped>
+.desktop {
+  display: none;
+}
+
 main {
   width: calc(100% - 30px);
   height: calc(100vh - 60px);
@@ -122,6 +140,10 @@ nav {
 }
 
 @media screen and (min-width: 1250px) {
+  .desktop {
+    display: initial;
+  }
+
   main {
     width: 1250px;
     display: grid;

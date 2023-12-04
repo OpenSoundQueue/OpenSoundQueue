@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <button @click="emit('back')">back</button>
-    <button @click="emit('toMembers')">to members</button>
-    <button @click="emit('toPermissions')">to perms</button>
+  <div class="role-display-wrapper">
+    <nav class="mobile">
+      <button @click="emit('back')">back</button>
+    </nav>
+    <button class="mobile" @click="emit('toMembers')">to members</button>
+    <button class="mobile" @click="emit('toPermissions')">to perms</button>
     <div v-if="roleId">
       Display of Role with Id {{ roleId }}
     </div>
@@ -24,7 +26,25 @@ defineProps<{
 }>()
 </script>
 
-
 <style scoped>
+.role-display-wrapper {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--background-color);
+}
 
+@media screen and (min-width: 1250px) {
+  .mobile {
+    display: none;
+  }
+
+  .role-display-wrapper {
+    position: static;
+    height: fit-content;
+    background: none;
+  }
+}
 </style>
