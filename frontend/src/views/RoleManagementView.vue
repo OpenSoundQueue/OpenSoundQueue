@@ -193,6 +193,8 @@ nav {
 
   .role-container {
     grid-column: 1;
+    padding: 20px;
+    box-sizing: border-box;
     grid-row: 2;
     height: 100%;
     border-bottom: none;
