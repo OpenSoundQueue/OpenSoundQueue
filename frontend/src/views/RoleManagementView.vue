@@ -17,11 +17,28 @@
       />
     </div>
     <div class="detail-container desktop">
+      <nav class="desktop">
+        <div class="nav-element"
+             :class="[detailComponent === RoleDisplay ? 'active' : '']"
+             @click="detailComponent = RoleDisplay">
+          Display
+          <div class="underline"></div>
+        </div>
+        <div class="nav-element"
+             :class="[detailComponent === RoleMembers ? 'active' : '']"
+             @click="detailComponent = RoleMembers">
+          Members
+          <div class="underline"></div>
+        </div>
+        <div class="nav-element"
+             :class="[detailComponent === RolePermissions ? 'active' : '']"
+             @click="detailComponent = RolePermissions">
+          Permissions
+          <div class="underline"></div>
+        </div>
+      </nav>
       <component :is="detailComponent"
                  :role-id="roleId"
-                 @to-display="toDisplay"
-                 @to-members="toMembers"
-                 @to-permissions="toPermissions"
       />
     </div>
     <GridBackground/>
@@ -156,6 +173,22 @@ nav {
     grid-row: 2;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
+  }
+
+  .detail-container nav {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-element.active {
+    font-weight: bold;
+  }
+
+  .nav-element.active .underline {
+    background: var(--primary-color);
+    margin-top: 4px;
+    height: 3px;
+    width: 100%;
   }
 
   .role-container {
