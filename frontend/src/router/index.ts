@@ -10,6 +10,7 @@ import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import {ToastService} from "@/services/ToastService";
 import RegistrationView from "@/views/RegistrationView.vue";
+import RoleManagementView from "@/views/RoleManagementView.vue";
 
 const httpService = new HttpService();
 
@@ -89,6 +90,14 @@ const router = createRouter({
             path: "/admin/user-management",
             name: "user-management",
             component: UserManagementView,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/admin/role-management",
+            name: "role-management",
+            component: RoleManagementView,
             meta: {
                 requiresAuth: true
             }

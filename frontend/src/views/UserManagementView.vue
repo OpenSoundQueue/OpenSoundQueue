@@ -1,5 +1,11 @@
 <template>
   <main>
+    <nav>
+      <div class="mode-switcher">
+        <router-link to="/admin/user-management" class="link">Users</router-link>
+        <router-link to="/admin/role-management" class="link">Roles</router-link>
+      </div>
+    </nav>
     <div class="user-container">
       <div class="table-header">
         <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')"
@@ -21,6 +27,7 @@
     </div>
     <UserDetail class="detail-container" :user="selectedUser" :selfID="selfID"
                 @update:Users="updateUsers($event)"></UserDetail>
+    <GridBackground/>
   </main>
 </template>
 
@@ -31,6 +38,7 @@ import {computed, onMounted, ref} from "vue";
 import {User} from "@/models/User";
 import SortingButton from "@/components/buttons/SortingButton.vue";
 import UserDetail from "@/components/UserDetail.vue";
+import GridBackground from "@/components/background/GridBackground.vue";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
@@ -133,6 +141,39 @@ main {
   padding-top: 20px;
 }
 
+nav {
+  height: 60px;
+}
+
+.mode-switcher {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 15px;
+  height: 50px;
+}
+
+.link {
+  height: 35px;
+  width: 100%;
+  background: var(--background-color);
+  border: 3px solid var(--secondary-color);
+  color: var(--text-color);
+  font-size: var(--font-size-medium);
+  border-radius: var(--border-radius-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.link.router-link-active {
+  color: var(--background-color);
+  border-color: var(--tertiary-color);
+  background: var(--tertiary-color);
+  font-weight: bold;
+}
+
 .dot {
   height: 5px;
   aspect-ratio: 1/1;
@@ -229,6 +270,12 @@ main {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+@media screen and (min-width: 420px) {
+  nav {
+    width: 270px;
+  }
 }
 
 @media screen and (min-width: 800px) {

@@ -1,10 +1,5 @@
 <template>
   <main :class="{'show-mode-switcher': hasAdvancedPermissions}">
-    <teleport v-if="displayAdvanced" to="#app">
-      <div class="background">
-        <div class="gradient"></div>
-      </div>
-    </teleport>
     <div v-if="hasAdvancedPermissions" class="mode-switcher">
       <router-link to="/home/basic" class="link">{{ $translate('modeSwitcher.basic') }}</router-link>
       <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced')}}</router-link>
@@ -53,6 +48,7 @@
         </div>
       </div>
     </div>
+    <GridBackground v-if="displayAdvanced"/>
   </main>
 </template>
 
@@ -64,6 +60,7 @@ import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
+import GridBackground from "@/components/background/GridBackground.vue";
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {
@@ -138,23 +135,6 @@ main.show-mode-switcher {
 
   .queue-scroll-container {
     height: calc(100% - 70px - 190px - 50px);
-  }
-}
-
-.background {
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-image: url("@/assets/background/grid-background_big.png");
-  background-size: 300px;
-
-  .gradient {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, var(--background-color) 54.69%);
-    height: 100%;
-    width: 100%;
   }
 }
 
