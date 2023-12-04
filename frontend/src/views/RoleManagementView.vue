@@ -2,11 +2,17 @@
   <main>
     <nav>
       <div class="mode-switcher">
-        <router-link to="/admin/user-management" class="link">Users</router-link>
-        <router-link to="/admin/role-management" class="link">Roles</router-link>
+        <router-link to="/admin/roles" class="link">Roles</router-link>
+        <router-link to="/admin/users" class="link">Users</router-link>
       </div>
     </nav>
-    <div class="user-container">
+    <div class="role-container">
+      <component :is="component"
+                 @back="back"
+                 @to-display="toDisplay"
+                 @to-members="toMembers"
+                 @to-permissions="toPermissions"
+      />
     </div>
     <div class="detail-container"></div>
     <GridBackground/>
@@ -15,6 +21,42 @@
 
 <script setup lang="ts">
 import GridBackground from "@/components/background/GridBackground.vue";
+import {onMounted, shallowRef} from "vue";
+import type {ShallowRef, Component} from "vue";
+import RoleList from "@/components/roles/RoleList.vue";
+import RoleDisplay from "@/components/roles/RoleDisplay.vue";
+import RoleMembers from "@/components/roles/RoleMembers.vue";
+import RolePermissions from "@/components/roles/RolePermissions.vue";
+
+const component: ShallowRef<Component> = shallowRef(RoleList);
+const history: ShallowRef<Component[]> = shallowRef([RoleList]);
+
+onMounted(() => {
+  console.log(history.value);
+})
+
+function back() {
+  if (history.value.length < 1) {
+      return;
+  }
+
+  component.value = history.value.pop();
+}
+
+function toDisplay() {
+  history.value.push(component.value);
+  component.value = RoleDisplay;
+}
+
+function toMembers() {
+  history.value.push(component.value);
+  component.value = RoleMembers;
+}
+
+function toPermissions() {
+  history.value.push(component.value);
+  component.value = RolePermissions;
+}
 </script>
 
 <style scoped>
@@ -62,7 +104,7 @@ nav {
   font-weight: bold;
 }
 
-.user-container {
+.role-container {
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
@@ -94,7 +136,7 @@ nav {
     background: var(--secondary-color);
   }
 
-  .user-container {
+  .role-container {
     grid-column: 1;
     grid-row: 2;
     height: 100%;

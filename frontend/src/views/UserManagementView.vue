@@ -2,11 +2,11 @@
   <main>
     <nav>
       <div class="mode-switcher">
-        <router-link to="/admin/user-management" class="link">Users</router-link>
-        <router-link to="/admin/role-management" class="link">Roles</router-link>
+        <router-link to="/admin/roles" class="link">Roles</router-link>
+        <router-link to="/admin/users" class="link">Users</router-link>
       </div>
     </nav>
-    <div class="user-container">
+    <div class="role-container">
       <div class="table-header">
         <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')"
                        @update:sortingStatus="updateSorting('username',$event)"></SortingButton>
@@ -183,7 +183,7 @@ nav {
   margin-right: 5px;
 }
 
-.user-container {
+.role-container {
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
@@ -301,7 +301,7 @@ nav {
     grid-row: 2;
   }
 
-  .user-container {
+  .role-container {
     grid-column: 1;
     grid-row: 2;
     height: 100%;

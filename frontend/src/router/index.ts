@@ -87,21 +87,36 @@ const router = createRouter({
             }
         },
         {
-            path: "/admin/user-management",
-            name: "user-management",
-            component: UserManagementView,
-            meta: {
-                requiresAuth: true
-            }
+            path: '/admin',
+            name: 'admin',
+            children: [
+                {
+                    path: '',
+                    name: 'default',
+                    component: RoleManagementView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'roles',
+                    name: 'roles',
+                    component: RoleManagementView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'users',
+                    name: 'users',
+                    component: UserManagementView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                }
+
+            ]
         },
-        {
-            path: "/admin/role-management",
-            name: "role-management",
-            component: RoleManagementView,
-            meta: {
-                requiresAuth: true
-            }
-        }
     ]
 })
 
