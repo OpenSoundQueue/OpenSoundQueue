@@ -10,7 +10,6 @@ import {Song} from "@/models/Song";
 import {User} from "@/models/User";
 import {Role} from "@/models/Role";
 import {Permission} from "@/models/Permission";
-import Permissions from "@/mirage/fixtures/permissions";
 
 // typescript help:
 // https://github.com/miragejs/examples/blob/master/react-typescript/src/mirage/index.ts
@@ -178,7 +177,7 @@ export function makeServer({environment = "development"} = {}) {
                 };
             })
 
-            this.post("/queue/skip", (schema: AppSchema, request) => {
+            this.post("/queue/skip", (schema: AppSchema) => {
                 const currentSong = schema.db.songs[0];
                 schema.db.songs.remove(currentSong);
 
@@ -363,10 +362,10 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.roles;
             })
 
-            this.post("/role/create", (schema: AppSchema, request) => {
+            this.post("/role/create", (schema: AppSchema) => {
                 const id = schema.db.roles.length;
 
-                const newRole = schema.db.roles.insert({
+                schema.db.roles.insert({
                     "id": id,
                     "name": "SCHODL",
                     "permissions": [
@@ -385,10 +384,10 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.roles;
             });
 
-            this.patch("/role/edit", (schema: AppSchema, request) => {
+            this.patch("/role/edit", (schema: AppSchema) => {
                 const id = schema.db.roles.length;
 
-                const newRole = schema.db.roles.update(1, {
+                schema.db.roles.update(1, {
                     "name": "Mod MOD",
                     "permissions": [
                         {
