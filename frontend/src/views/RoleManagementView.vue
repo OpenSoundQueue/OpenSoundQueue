@@ -8,8 +8,9 @@
     </nav>
     <div class="role-container">
       <component :is="component"
+                 :role-id="roleId"
                  @back="back"
-                 @to-display="toDisplay"
+                 @to-display="(id?: number) => toDisplay(id)"
                  @to-members="toMembers"
                  @to-permissions="toPermissions"
       />
@@ -21,8 +22,8 @@
 
 <script setup lang="ts">
 import GridBackground from "@/components/background/GridBackground.vue";
-import {onMounted, shallowRef} from "vue";
-import type {ShallowRef, Component} from "vue";
+import {ref, shallowRef} from "vue";
+import type {Ref, ShallowRef, Component} from "vue";
 import RoleList from "@/components/roles/RoleList.vue";
 import RoleDisplay from "@/components/roles/RoleDisplay.vue";
 import RoleMembers from "@/components/roles/RoleMembers.vue";
@@ -30,10 +31,7 @@ import RolePermissions from "@/components/roles/RolePermissions.vue";
 
 const component: ShallowRef<Component> = shallowRef(RoleList);
 const history: ShallowRef<Component[]> = shallowRef([RoleList]);
-
-onMounted(() => {
-  console.log(history.value);
-})
+const roleId: Ref<number | undefined> = ref();
 
 function back() {
   if (history.value.length < 1) {
@@ -43,7 +41,9 @@ function back() {
   component.value = history.value.pop();
 }
 
-function toDisplay() {
+function toDisplay(id?: number) {
+  roleId.value = id;
+
   history.value.push(component.value);
   component.value = RoleDisplay;
 }

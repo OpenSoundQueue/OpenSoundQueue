@@ -1,7 +1,12 @@
 <template>
   <div>
     <button @click="emit('back')">back</button>
-    Members
+    <div v-if="roleId">
+      Members of Role with Id {{ roleId }}
+    </div>
+    <div v-else>
+      Members of New Role
+    </div>
   </div>
 </template>
 
@@ -9,8 +14,11 @@
 const emit = defineEmits<{
   back: [],
 }>();
-</script>
 
+defineProps<{
+  roleId?: number
+}>()
+</script>
 
 <style scoped>
 
