@@ -8,7 +8,7 @@
     </nav>
     <div class="role-container">
       <component :is="component"
-                 :role-id="roleId"
+                 :role-id="selectedRoleId"
                  @back="back"
                  @select-role="(id?: number) => selectRole(id)"
                  @to-display="toDisplay"
@@ -38,7 +38,7 @@
         </div>
       </nav>
       <component :is="detailComponent"
-                 :role-id="roleId"
+                 :role-id="selectedRoleId"
       />
     </div>
     <GridBackground/>
@@ -55,9 +55,13 @@ import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
 import router from "@/router";
 
+const props = defineProps<{
+  roleId?: string
+}>()
+
 const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
-const roleId: Ref<number | undefined> = ref(0);
+const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
 
 onMounted(() => {
   chooseComponent();
@@ -69,6 +73,7 @@ watch(router.currentRoute, () => {
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
+  console.log(routeName);
 
   if (routeName === 'roles') component.value = RoleList
   if (routeName === 'roles-display') component.value = RoleDisplay
@@ -81,19 +86,20 @@ function back() {
 }
 
 function toDisplay() {
-  router.push('/admin/roles/display');
+  router.push("/admin/roles/display/" + selectedRoleId);
 }
 
 function selectRole(id?: number) {
-  roleId.value = id;
+  console.log(id);
+  selectedRoleId.value = id;
 }
 
 function toMembers() {
-  router.push('/admin/roles/members');
+  router.push('/admin/roles/members/' + selectedRoleId);
 }
 
 function toPermissions() {
-  router.push('/admin/roles/permissions');
+  router.push('/admin/roles/permissions/' + selectedRoleId);
 }
 </script>
 

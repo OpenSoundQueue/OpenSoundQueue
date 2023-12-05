@@ -16,7 +16,7 @@
 
       <!-- MOBILE -->
       <div class="nav-button-wrapper mobile">
-        <div class="mobile overlay" @click="emit('toMembers')">
+        <div class="mobile overlay" @click="roleId ? router.push(`/admin/roles/members/${roleId}`) : router.push('/admin/roles/members/new')">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
         <div class="nav-button-container">
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="nav-button-wrapper mobile">
-        <div class="mobile overlay" @click="emit('toPermissions')">
+        <div class="mobile overlay" @click="roleId ? router.push(`/admin/roles/permissions/${roleId}`) : router.push('/admin/roles/permissions/new')">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
         <div class="nav-button-container">
@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
+import router from "@/router";
 
 const emit = defineEmits<{
   back: [],

@@ -3,7 +3,7 @@
     <div class="role-permissions-container">
       <!-- MOBILE -->
       <nav class="mobile">
-        <RolePagedNavBar @back="emit('back')"/>
+        <RolePagedNavBar @back="router.back()"/>
       </nav>
 
       <!-- ALL VIEWPORTS -->
@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
+import router from "@/router";
 
 const emit = defineEmits<{
   back: [],

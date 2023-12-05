@@ -1,7 +1,7 @@
 <template>
   <div class="role-list-wrapper">
     <div class="new-role-button-wrapper">
-      <div class="mobile overlay" @click="() => toDisplay()">
+      <div class="mobile overlay" @click="toDisplay()">
         <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
       </div>
       <div class="new-role-button-container" @click="() => selectRole()">
@@ -27,19 +27,19 @@
 </template>
 
 <script setup lang="ts">
+import router from "@/router";
+
 defineProps<{
   roleId?: number
 }>();
 
 const emit = defineEmits<{
-  back: [],
-  toDisplay: []
   selectRole: [id?: number]
 }>();
 
 function toDisplay(roleId?: number) {
   emit("selectRole", roleId);
-  emit("toDisplay");
+  router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
 }
 
 function selectRole(roleId?: number) {

@@ -107,25 +107,28 @@ const router = createRouter({
                     }
                 },
                 {
-                    path: 'roles/display',
+                    path: 'roles/display/:roleId',
                     name: 'roles-display',
                     component: RoleManagementView,
+                    props: true,
                     meta: {
                         requiresAuth: true
                     }
                 },
                 {
-                    path: 'roles/members',
+                    path: 'roles/members/:roleId',
                     name: 'roles-members',
                     component: RoleManagementView,
+                    props: true,
                     meta: {
                         requiresAuth: true
                     }
                 },
                 {
-                    path: 'roles/permissions',
+                    path: 'roles/permissions/:roleId',
                     name: 'roles-permissions',
                     component: RoleManagementView,
+                    props: true,
                     meta: {
                         requiresAuth: true
                     }
