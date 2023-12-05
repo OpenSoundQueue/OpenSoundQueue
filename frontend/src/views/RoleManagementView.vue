@@ -115,7 +115,7 @@ nav {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 15px;
-  height: 50px;
+  height: 35px;
 }
 
 .link {
@@ -123,6 +123,7 @@ nav {
   width: 100%;
   background: var(--background-color);
   border: 3px solid var(--secondary-color);
+  box-sizing: border-box;
   color: var(--text-color);
   font-size: var(--font-size-medium);
   border-radius: var(--border-radius-medium);

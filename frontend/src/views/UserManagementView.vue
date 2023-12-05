@@ -149,12 +149,13 @@ nav {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 15px;
-  height: 50px;
+  gap: 10px;
+  height: 35px;
 }
 
 .link {
   height: 35px;
+  box-sizing: border-box;
   width: 100%;
   background: var(--background-color);
   border: 3px solid var(--secondary-color);
