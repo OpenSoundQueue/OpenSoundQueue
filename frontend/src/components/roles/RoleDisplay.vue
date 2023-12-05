@@ -3,7 +3,7 @@
     <div class="role-display-container">
       <!-- MOBILE -->
       <div class="mobile">
-        <RolePagedNavBar @back="emit('back')"/>
+        <RolePagedNavBar @back="router.back()"/>
       </div>
 
       <!-- ALL VIEWPORTS -->

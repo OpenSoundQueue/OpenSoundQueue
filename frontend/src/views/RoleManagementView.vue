@@ -9,11 +9,7 @@
     <div class="role-container">
       <component :is="component"
                  :role-id="selectedRoleId"
-                 @back="back"
                  @select-role="(id?: number) => selectRole(id)"
-                 @to-display="toDisplay"
-                 @to-members="toMembers"
-                 @to-permissions="toPermissions"
       />
     </div>
     <div class="detail-container desktop">
