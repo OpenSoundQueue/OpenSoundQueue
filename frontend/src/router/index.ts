@@ -92,7 +92,7 @@ const router = createRouter({
             children: [
                 {
                     path: '',
-                    name: 'default',
+                    name: 'admin-default',
                     component: RoleManagementView,
                     meta: {
                         requiresAuth: true
