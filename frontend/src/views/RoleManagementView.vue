@@ -47,33 +47,41 @@
 
 <script setup lang="ts">
 import GridBackground from "@/components/background/GridBackground.vue";
-import {ref, shallowRef} from "vue";
+import {onMounted, ref, shallowRef, watch} from "vue";
 import type {Ref, ShallowRef, Component} from "vue";
 import RoleList from "@/components/roles/RoleList.vue";
 import RoleDisplay from "@/components/roles/RoleDisplay.vue";
 import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
+import router from "@/router";
 
 const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
-const history: ShallowRef<Component[]> = shallowRef([RoleList]);
 const roleId: Ref<number | undefined> = ref(0);
 
-function back() {
-  if (history.value.length < 1) {
-    return;
-  }
+onMounted(() => {
+  chooseComponent();
+})
 
-  component.value = history.value.pop();
+watch(router.currentRoute, () => {
+  chooseComponent();
+})
+
+function chooseComponent() {
+  const routeName = router.currentRoute.value.name;
+
+  if (routeName === 'roles') component.value = RoleList
+  if (routeName === 'roles-display') component.value = RoleDisplay
+  if (routeName === 'roles-members') component.value = RoleMembers
+  if (routeName === 'roles-permissions') component.value = RolePermissions
+}
+
+function back() {
+  router.back();
 }
 
 function toDisplay() {
-  if (component.value) {
-    history.value.push(component.value);
-  }
-
-  component.value = RoleDisplay;
-  detailComponent.value = RoleDisplay;
+  router.push('/admin/roles/display');
 }
 
 function selectRole(id?: number) {
@@ -81,21 +89,11 @@ function selectRole(id?: number) {
 }
 
 function toMembers() {
-  if (component.value) {
-    history.value.push(component.value);
-  }
-
-  component.value = RoleMembers;
-  detailComponent.value = RoleMembers;
+  router.push('/admin/roles/members');
 }
 
 function toPermissions() {
-  if (component.value) {
-    history.value.push(component.value);
-  }
-
-  component.value = RolePermissions;
-  detailComponent.value = RolePermissions;
+  router.push('/admin/roles/permissions');
 }
 </script>
 
