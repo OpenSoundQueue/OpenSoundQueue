@@ -1,19 +1,25 @@
 <template>
   <div class="role-members-wrapper">
-    <nav class="mobile">
-      <button @click="emit('back')">back</button>
-    </nav>
+    <div class="role-members-container">
+      <!-- MOBILE -->
+      <div class="mobile">
+        <RolePagedNavBar @back="emit('back')"/>
+      </div>
 
-    <div v-if="roleId">
-      Members of Role with Id {{ roleId }}
-    </div>
-    <div v-else>
-      Members of New Role
+      <!-- ALL VIEWPORTS -->
+      <div v-if="roleId">
+        Members of Role with Id {{ roleId }}
+      </div>
+      <div v-else>
+        Members of New Role
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
+
 const emit = defineEmits<{
   back: [],
 }>();
@@ -31,6 +37,21 @@ defineProps<{
   width: 100%;
   height: 100vh;
   background: var(--background-color);
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.role-members-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+@media screen and (min-width: 800px) {
+  .role-members-container {
+    width: 800px;
+    margin: auto;
+  }
 }
 
 @media screen and (min-width: 1250px) {
@@ -39,6 +60,7 @@ defineProps<{
   }
 
   .role-members-wrapper {
+    padding: 0;
     position: static;
     height: fit-content;
     background: none;

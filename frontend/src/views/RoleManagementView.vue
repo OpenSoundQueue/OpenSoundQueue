@@ -54,21 +54,24 @@ import RoleDisplay from "@/components/roles/RoleDisplay.vue";
 import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
 
-const component: ShallowRef<Component> = shallowRef(RoleList);
+const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const history: ShallowRef<Component[]> = shallowRef([RoleList]);
-const roleId: Ref<number | undefined> = ref();
+const roleId: Ref<number | undefined> = ref(0);
 
 function back() {
   if (history.value.length < 1) {
-      return;
+    return;
   }
 
   component.value = history.value.pop();
 }
 
 function toDisplay() {
-  history.value.push(component.value);
+  if (component.value) {
+    history.value.push(component.value);
+  }
+
   component.value = RoleDisplay;
   detailComponent.value = RoleDisplay;
 }
@@ -78,13 +81,19 @@ function selectRole(id?: number) {
 }
 
 function toMembers() {
-  history.value.push(component.value);
+  if (component.value) {
+    history.value.push(component.value);
+  }
+
   component.value = RoleMembers;
   detailComponent.value = RoleMembers;
 }
 
 function toPermissions() {
-  history.value.push(component.value);
+  if (component.value) {
+    history.value.push(component.value);
+  }
+
   component.value = RolePermissions;
   detailComponent.value = RolePermissions;
 }
@@ -101,7 +110,7 @@ main {
   margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   box-sizing: border-box;
   padding-top: 20px;
 }
@@ -144,6 +153,7 @@ nav {
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .detail-container {
@@ -157,6 +167,12 @@ nav {
   }
 }
 
+@media screen and (min-width: 800px) {
+  main {
+    width: 800px;
+  }
+}
+
 @media screen and (min-width: 1250px) {
   .desktop {
     display: initial;
@@ -165,6 +181,7 @@ nav {
   main {
     width: 1250px;
     display: grid;
+    justify-content: space-between;
     grid-template-columns: 33% 66%;
     grid-template-rows: 60px calc(100% - 90px);
   }
@@ -174,11 +191,17 @@ nav {
     grid-row: 2;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
+    padding: 20px;
   }
 
   .detail-container nav {
     display: flex;
     gap: 20px;
+    height: 40px;
+  }
+
+  .nav-element:hover {
+    cursor: pointer;
   }
 
   .nav-element.active {
