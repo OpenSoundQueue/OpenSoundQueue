@@ -1,5 +1,6 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.Role;
 import com.example.backend.Repository.RoleRepository;
 import com.example.backend.ResponseDtos.ErrorDto;
@@ -29,5 +30,12 @@ public class RoleRest {
         roleRepository.save(role);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/permissions")
+    public ResponseEntity<Object> getAllPermissions(@RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) return new ResponseEntity<>(new ErrorDto("unauthorized"), HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(Permissions.values(), HttpStatus.OK);
     }
 }
