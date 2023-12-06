@@ -1,46 +1,46 @@
 export default [
     {
-        "id": 0,
-        "name": "Admin",
-        "permissions": [
+        id: 0,
+        name: "Admin",
+        permissions: [
             {
-                "skip": true
+                skip: true
             },
             {
-                "play": true
+                play: true
             },
             {
-                "viewAdminPanel": true
+                viewAdminPanel: true
             }
         ]
     },
     {
-        "id": 1,
-        "name": "Mod",
-        "permissions": [
+        id: 1,
+        name: "Mod",
+        permissions: [
             {
-                "skip": true
+                skip: true
             },
             {
-                "play": true
+                play: true
             },
             {
-                "viewAdminPanel": false
+                viewAdminPanel: false
             }
         ]
     },
     {
-        "id": 2,
-        "name": "default",
-        "permissions": [
+        id: 2,
+        name: "default",
+        permissions: [
             {
-                "skip": false
+                skip: false
             },
             {
-                "play": false
+                play: false
             },
             {
-                "viewAdminPanel": false
+                viewAdminPanel: false
             }
         ]
     }
