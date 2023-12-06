@@ -9,7 +9,7 @@
       </div>
     </div>
     <p>search</p>
-    <div class="role-list-container">
+    <div class="role-list-container scrollbar">
       <div class="select-role-button-wrapper" v-for="id in 20" :class="id === roleId ? 'selected' : ''">
         <div class="mobile overlay" @click="toDisplay(id)">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
