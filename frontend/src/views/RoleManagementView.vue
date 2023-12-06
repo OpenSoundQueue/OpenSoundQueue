@@ -69,7 +69,6 @@ watch(router.currentRoute, () => {
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
-  console.log(routeName);
 
   if (routeName === 'roles') component.value = RoleList
   if (routeName === 'roles-display') component.value = RoleDisplay
@@ -77,16 +76,7 @@ function chooseComponent() {
   if (routeName === 'roles-permissions') component.value = RolePermissions
 }
 
-function back() {
-  router.back();
-}
-
-function toDisplay() {
-  router.push("/admin/roles/display/" + selectedRoleId);
-}
-
 function selectRole(id?: number) {
-  console.log(id);
   selectedRoleId.value = id;
 }
 
