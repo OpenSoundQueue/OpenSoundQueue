@@ -2,6 +2,8 @@ import HttpClient from "@/services/HttpClient";
 import {Song} from "@/models/Song";
 import {User} from "@/models/User";
 import * as cookieService from "@/services/cookieService";
+import type {Role} from "@/models/Role";
+import type {Permission} from "@/models/Permission";
 
 const httpClient = new HttpClient();
 
@@ -324,6 +326,84 @@ export class HttpService {
 
                 return response.json();
             }).then((data) => {
+                return data;
+            });
+    }
+
+    async getRoles() {
+        return httpClient.get(`/roles`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Role[]) => {
+                return data;
+            });
+    }
+
+    async getPermissions() {
+        return httpClient.get(`/permissions`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Permission[]) => {
+                return data;
+            });
+    }
+
+    async getRole(id: number) {
+        return httpClient.get(`/role/get/${id}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Permission[]) => {
+                return data;
+            });
+    }
+
+    async deleteRole(id: number) {
+        return httpClient.delete(`/role/${id}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Permission[]) => {
+                return data;
+            });
+    }
+
+    async postRoleAdd(name: string, permissions: { [key: string]: boolean }[]) {
+        return httpClient.post(`/role/create`, {name: name, permissions: permissions})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Permission[]) => {
+                return data;
+            });
+    }
+
+    async updateRole(role: Role) {
+        return httpClient.patch(`/role/edit`, {role})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: Permission[]) => {
                 return data;
             });
     }
