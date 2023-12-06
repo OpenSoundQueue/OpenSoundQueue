@@ -1,9 +1,3 @@
-<script setup lang="ts">
-const emit = defineEmits<{
-  back: []
-}>()
-</script>
-
 <template>
   <nav>
     <div class="nav-element back" @click="emit('back')">
@@ -16,6 +10,12 @@ const emit = defineEmits<{
     <div class="nav-element"></div>
   </nav>
 </template>
+
+<script setup lang="ts">
+const emit = defineEmits<{
+  back: []
+}>()
+</script>
 
 <style scoped>
 nav {
