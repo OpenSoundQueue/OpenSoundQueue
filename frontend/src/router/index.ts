@@ -10,6 +10,7 @@ import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import {ToastService} from "@/services/ToastService";
 import RegistrationView from "@/views/RegistrationView.vue";
+import RoleManagementView from "@/views/RoleManagementView.vue";
 
 const httpService = new HttpService();
 
@@ -86,13 +87,63 @@ const router = createRouter({
             }
         },
         {
-            path: "/admin/user-management",
-            name: "user-management",
-            component: UserManagementView,
-            meta: {
-                requiresAuth: true
-            }
-        }
+            path: '/admin',
+            name: 'admin',
+            children: [
+                {
+                    path: '',
+                    name: 'admin-default',
+                    component: RoleManagementView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'roles',
+                    name: 'roles',
+                    component: RoleManagementView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'roles/display/:roleId',
+                    name: 'roles-display',
+                    component: RoleManagementView,
+                    props: true,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'roles/members/:roleId',
+                    name: 'roles-members',
+                    component: RoleManagementView,
+                    props: true,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'roles/permissions/:roleId',
+                    name: 'roles-permissions',
+                    component: RoleManagementView,
+                    props: true,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'users',
+                    name: 'users',
+                    component: UserManagementView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                }
+
+            ]
+        },
     ]
 })
 
