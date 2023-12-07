@@ -1,7 +1,6 @@
 package com.example.backend.user_management;
 
-import com.example.backend.Repository.UserInfoEntity;
-import com.example.backend.Repository.UserInfoRepository;
+import com.example.backend.Repository.*;
 import com.example.backend.ResponseDtos.UserDto;
 import com.example.backend.email.EmailComponent;
 import com.example.backend.email.EmailUtils;
@@ -11,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -25,6 +21,8 @@ public class UserService {
     private EmailUtils emailUtils;
     private EmailComponent emailComponent;
 
+    RoleRepository roleRepository;
+
     private Map<String, String> emailVerificationCodes = new HashMap<>();
 
     public UserService(
@@ -32,13 +30,15 @@ public class UserService {
             PasswordEncoder passwordEncoder,
             TokenUtils tokenUtils,
             EmailUtils emailUtils,
-            EmailComponent emailComponent
+            EmailComponent emailComponent,
+            RoleRepository roleRepository
     ) {
         this.userInfoRepository = userInfoRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenUtils = tokenUtils;
         this.emailUtils = emailUtils;
         this.emailComponent = emailComponent;
+        this.roleRepository = roleRepository;
     }
 
     public UserInfoEntity getUserByUsername(String username) {
@@ -130,5 +130,30 @@ public class UserService {
         }
 
         return verified;
+    }
+
+    public void changeRolesOfUser(long id, List<Role> roles) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+        List<Role> savedRoles = new ArrayList<>();
+
+        for (Role r :roles) {
+            if (roleRepository.findById(r.getId()).orElse(null) == null) continue;
+            savedRoles.add(roleRepository.findById(r.getId()).get());
+        }
+
+        user.setRoles(savedRoles);
+
+        userInfoRepository.save(user);
+    }
+
+    public List<Permissions> getPermissionsOfUser(long id) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+        Set<Permissions> permissions = new HashSet<>();
+
+        for (Role r :user.getRoles()) {
+            permissions.addAll(r.getPermissions());
+        }
+
+        return permissions.stream().toList();
     }
 }

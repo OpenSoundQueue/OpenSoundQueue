@@ -1,6 +1,8 @@
 package com.example.backend.Repository;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
@@ -29,6 +31,7 @@ public class UserInfoEntity {
     private boolean verified;
 
     @ManyToMany(targetEntity = Role.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Role> roles;
 
     @Column
@@ -106,6 +109,18 @@ public class UserInfoEntity {
         this.lastOnline = lastOnline;
     }
 
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "UserInfoEntity{" +
@@ -116,6 +131,7 @@ public class UserInfoEntity {
                 ", email='" + email + '\'' +
                 ", verified='" + verified + '\'' +
                 ", lastOnline=" + lastOnline +
+                ", roles=" + getRoles() +
                 '}';
     }
 }

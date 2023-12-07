@@ -700,7 +700,7 @@ paths:
               schema:
                 example:
                   error: user does not exist
-  /user/{id}/permissions/:
+  /user/{id}/permissions:
     get:
       tags:
         - auth
