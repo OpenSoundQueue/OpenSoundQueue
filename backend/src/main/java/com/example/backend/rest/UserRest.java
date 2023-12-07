@@ -219,7 +219,7 @@ public class UserRest {
     @PostMapping("/register/create-account")
     public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws MessagingException, IOException {
         UserInfoEntity savedUser;
-        if (userService.getUserByUsername(user.getUsername()) != null ) return new ResponseEntity<>(new ErrorDto("username is already taken"), HttpStatus.BAD_REQUEST);
+        if (userService.getUserByUsername(user.getUsername()) != null && userService.getUserByUsername(user.getUsername()).getVerified()) return new ResponseEntity<>(new ErrorDto("username is already taken"), HttpStatus.BAD_REQUEST);
         if (userService.getUserByEmail(user.getEmail()) != null) {
             if (userService.getUserByEmail(user.getEmail()).getVerified()) {
                 return ResponseEntity.badRequest().body(new ErrorDto("Email address is already taken"));
