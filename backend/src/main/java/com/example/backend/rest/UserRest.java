@@ -1,5 +1,6 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.Role;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.ApiKeyDto;
 import com.example.backend.ResponseDtos.ErrorDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -183,6 +185,21 @@ public class UserRest {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/user/get/{id}")
+    public ResponseEntity<Object> getUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (userService.getUserById(id) == null) {
+            return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
+        }
+
+        userService.updateLastOnline(userService.getUserByToken(token));
+
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
         if (!userService.verifyApiKey(token)) {
@@ -268,5 +285,27 @@ public class UserRest {
         userService.sendEmailVerification(userService.getUserByEmail(email));
 
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/user/{id}/roles")
+    public ResponseEntity<Object> changeRolesOfUser(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") Long id, @RequestBody List<Role> roles) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+        if (userService.getUserById(id) == null) return new ResponseEntity<>(new ErrorDto("user with id not found"), HttpStatus.BAD_REQUEST);
+
+        userService.changeRolesOfUser(id, roles);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/{id}/permissions")
+    public ResponseEntity<Object> getPermissionsOfUser(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") Long id) {
+        if (!userService.verifyApiKey(token)) {
+            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
+        }
+        if (userService.getUserById(id) == null) return new ResponseEntity<>(new ErrorDto("user with id not found"), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(userService.getPermissionsOfUser(id), HttpStatus.CREATED);
     }
 }

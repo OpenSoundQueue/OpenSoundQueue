@@ -1,6 +1,8 @@
 package com.example.backend.Repository;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Collection;
 
@@ -19,6 +21,7 @@ public class Role {
     private Collection<Permissions> permissions;
 
     @ManyToMany(targetEntity = UserInfoEntity.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<UserInfoEntity> usersList;
 
     public Role() {
@@ -69,7 +72,6 @@ public class Role {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", permissions=" + permissions +
-                ", usersList=" + usersList +
                 '}';
     }
 }
