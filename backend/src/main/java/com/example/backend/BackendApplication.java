@@ -1,11 +1,8 @@
 package com.example.backend;
 
-import com.example.backend.Repository.UserInfoEntity;
-import com.example.backend.Repository.UserInfoRepository;
 import com.example.backend.settings_management.PropertyService;
 import com.example.backend.settings_management.SettingsService;
 import com.example.backend.streaming.SongQueueService;
-import com.example.backend.user_management.UserService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +23,6 @@ public class BackendApplication {
 
     @Autowired
     private SongQueueService songQueueService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserInfoRepository userInfoRepository;
 
     @Autowired
     private SettingsService settingsService;
@@ -72,29 +63,6 @@ public class BackendApplication {
     @Order(2)
     @PostConstruct
     private void feedTestUsers() throws IOException {
-        if (userInfoRepository.findByUsername("Markus") == null) {
-            LOG.info("Feeding test users");
-            userService.registerNewAuthUser(new UserInfoEntity("Markus", "Passwort1!", "user1@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Daniel", "Passwort2!", "user2@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Luki", "Passwort3!", "user3@email.com", false));
-            userService.registerNewAuthUser(new UserInfoEntity("Eyüp", "Passwort4!", "user4@email.com", false));
-            userService.registerNewAuthUser(new UserInfoEntity("Toni", "Passwort5!", "user5@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Nico Zach", "Passwort6!", "user6@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Philip", "Passwort7!", "user7@email.com", false));
-            userService.registerNewAuthUser(new UserInfoEntity("Dren", "Passwort8!", "user8@email.com", false));
-            userService.registerNewAuthUser(new UserInfoEntity("Sebi", "Passwort9!", "user9@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Markus II", "Passwort10!", "user10@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Nils", "Passwort11!", "user11@email.com", false));
-            userService.registerNewAuthUser(new UserInfoEntity("Zyprian", "Passwort12!", "user12@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Severin", "Passwort13!", "user13@email.com", false));
-            userService.registerNewAuthUser(new UserInfoEntity("Raphi", "Passwort14!", "user14@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Luki Linke", "Passwort15!", "user15@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Nina", "Passwort16!", "user16@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Laurenz", "Passwort17!", "user17@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Lorenz", "Passwort18!", "user18@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Benji", "Passwort19!", "user19@email.com", true));
-            userService.registerNewAuthUser(new UserInfoEntity("Steffen Hofmann", "Passwort20!", "user20@email.com", true));
-        }
         settingsService.printSettings();
         // propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
     }
