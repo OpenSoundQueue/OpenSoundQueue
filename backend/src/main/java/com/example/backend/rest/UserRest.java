@@ -1,10 +1,12 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.Role;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.ApiKeyDto;
 import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.ResponseDtos.UserDto;
+import com.example.backend.annotations.AuthRequest;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
@@ -137,12 +139,9 @@ public class UserRest {
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
 
+    @AuthRequest
     @PostMapping("/logout")
     public ResponseEntity<Object> logout(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         UserInfoEntity user = userService.getUserByToken(token);
 
         userService.removeToken(user);
@@ -152,12 +151,9 @@ public class UserRest {
         return ResponseEntity.ok().build();
     }
 
+    @AuthRequest
     @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verifyApiKey(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         userService.updateLastOnline(userService.getUserByToken(token));
 
         return ResponseEntity.ok().build();
@@ -174,23 +170,17 @@ public class UserRest {
         }
     }
 
+    @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @GetMapping("/users")
     public ResponseEntity<Object> users(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         userService.updateLastOnline(userService.getUserByToken(token));
 
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @GetMapping("/user/get/{id}")
     public ResponseEntity<Object> getUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         if (userService.getUserById(id) == null) {
             return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
         }
@@ -200,12 +190,9 @@ public class UserRest {
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         if (userService.getUserByToken(token).equals(userService.getUserById(id))) {
             return new ResponseEntity<>(new ErrorDto("You can not delete your own user"), HttpStatus.BAD_REQUEST);
         }
@@ -221,12 +208,9 @@ public class UserRest {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
+    @AuthRequest
     @GetMapping("/self")
     public ResponseEntity<Object> self(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         UserInfoEntity user = userService.getUserByToken(token);
         userService.updateLastOnline(user);
 
@@ -287,11 +271,9 @@ public class UserRest {
         return ResponseEntity.ok().build();
     }
 
+    @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @PatchMapping("/user/{id}/roles")
     public ResponseEntity<Object> changeRolesOfUser(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") Long id, @RequestBody List<Role> roles) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         if (userService.getUserById(id) == null) return new ResponseEntity<>(new ErrorDto("user with id not found"), HttpStatus.BAD_REQUEST);
 
         userService.changeRolesOfUser(id, roles);
@@ -299,11 +281,9 @@ public class UserRest {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @GetMapping("/user/{id}/permissions")
     public ResponseEntity<Object> getPermissionsOfUser(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") Long id) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         if (userService.getUserById(id) == null) return new ResponseEntity<>(new ErrorDto("user with id not found"), HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(userService.getPermissionsOfUser(id), HttpStatus.CREATED);

@@ -1,7 +1,9 @@
 package com.example.backend.rest;
 
+import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.*;
+import com.example.backend.annotations.AuthRequest;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
@@ -56,12 +58,9 @@ public class SoundQueueRest {
         return new ResponseEntity<>(currentSong, HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.ADD_SONG)
     @PostMapping("/queue/add")
     public ResponseEntity<Object> addSongToQueue(@RequestHeader(value = "X-API-KEY") String token, @RequestBody Map<String, String> requestBody) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         Song song = songQueueService.addSong(requestBody.get("link"));
         userService.updateLastOnline(userService.getUserByToken(token));
 
@@ -71,81 +70,63 @@ public class SoundQueueRest {
             return new ResponseEntity<>(new ErrorDto("Song could not be added"), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @AuthRequest(requiredPermission = Permissions.SKIP)
     @PostMapping("/queue/skip")
     public ResponseEntity<Object> skipSong(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         userService.updateLastOnline(userService.getUserByToken(token));
         songQueueService.skip();
         return ResponseEntity.ok().build();
     }
 
+    @AuthRequest(requiredPermission = Permissions.VOTESKIP)
     @GetMapping("/vote-skip/status")
     public ResponseEntity<Object> getVoteSkipStatus(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         UserInfoEntity user = userService.getUserByToken(token);
         userService.updateLastOnline(user);
         return new ResponseEntity<>(songQueueService.getVoteSkipStatus(user.getId()), HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.VOTESKIP)
     @GetMapping("/vote-skip/vote")
     public ResponseEntity<Object> setVoteSkip(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.setVoteSkip(token), HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.VOTESKIP)
     @GetMapping("/vote-skip/withdraw")
     public ResponseEntity<Object> withdrawVoteSkip(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.withdrawVoteSkip(token), HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.HISTORY_SEARCH)
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
     public ResponseEntity<Object> searchSongHistory(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
     }
 
+    @AuthRequest(requiredPermission = Permissions.PAUSE_PLAY)
     @PostMapping("/queue/start")
     public ResponseEntity<Object> startQueue(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         if (!songQueueService.isPlaying()) songQueueService.play();
         userService.updateLastOnline(userService.getUserByToken(token));
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    @AuthRequest(requiredPermission = Permissions.PAUSE_PLAY)
     @PostMapping("/queue/stop")
     public ResponseEntity<Object> stopQueue(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         if (songQueueService.isPlaying()) songQueueService.stop();
         userService.updateLastOnline(userService.getUserByToken(token));
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    @AuthRequest(requiredPermission = Permissions.CHANGE_ORDER)
     @PatchMapping("/queue/change-order")
     public ResponseEntity<Object> changeOrder(@RequestHeader(value = "X-API-KEY") String token, @RequestBody Map<String, Integer> positions) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         int oldPos = positions.get("oldPos");
         int newPos = positions.get("newPos");
 
@@ -156,12 +137,9 @@ public class SoundQueueRest {
         return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
 
+    @AuthRequest(requiredPermission = Permissions.SKIP)
     @PostMapping("/queue/replay")
     public ResponseEntity<Object> replaySong(@RequestHeader(value = "X-API-KEY") String token) {
-        if (!userService.verifyApiKey(token)) {
-            return new ResponseEntity<>(new ErrorDto("Invalid API key"), HttpStatus.UNAUTHORIZED);
-        }
-
         songQueueService.replaySong();
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(HttpStatus.OK);
