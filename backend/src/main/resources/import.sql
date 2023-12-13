@@ -19,7 +19,7 @@ INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'HISTORY_SEARCH')
 /* Password is 'Passwort{id}!' */
 INSERT INTO User_Info (id, username, password, email, verified) VALUES (1, 'Markus', '$2a$10$YFqbWQmdKvSNBih6B9.Mbu7ckdxUuSaqRtiFTtFQaOE9Qt57sEwmy', 'user1@email.com', true);
 INSERT INTO User_Info (id, username, password, email, verified) VALUES (2, 'Daniel', '$2a$10$Xfe5nPCrBVUUIVicrKzsQ.18lAmt/ZvMwpFFBPfG6.LZxhv6reqCe', 'user2@email.com', true);
-INSERT INTO User_Info (id, username, password, email, verified) VALUES (3, 'Luki', '$2a$10$BjvLIdNMgQbk9jhmcfkmfOWEkdb3lhl9bPI4J1ws894s51iGhUqAq', 'user3@email.com', false);
+INSERT INTO User_Info (id, username, password, email, verified) VALUES (3, 'Luki', '$2a$10$NGu3EeUX24steDEI7iYqaOmRjyX/rJ9kNGFXJl1Ylu2PACxj7O9Hq', 'user3@email.com', true);
 INSERT INTO User_Info (id, username, password, email, verified) VALUES (4, 'Eyüp', '$2a$10$wPLZYagc9LV7Tc8TGUNqGe8bVDExpIEC1g8wnNgwR4bVgo4Qfe4/i', 'user4@email.com', false);
 INSERT INTO User_Info (id, username, password, email, verified) VALUES (5, 'Toni', '$2a$10$Qwc8qAQhlF1HLurcZxFrs.HuG3TdgmAQ8GEKV.gK3U6AhLwC9yzr6', 'user5@email.com', true);
 INSERT INTO User_Info (id, username, password, email, verified) VALUES (6, 'Nico Zach', '$2a$10$6533aj/775lPPHE4ocFkR.bBa7qmzmb/s7YsdHeqzNYyrEoJFVlkW', 'user6@email.com', true);
