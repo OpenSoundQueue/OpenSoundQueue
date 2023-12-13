@@ -2,10 +2,7 @@ package com.example.backend.streaming.youtube;
 
 import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.Repository.SongInfoRepository;
-import com.example.backend.streaming.Song;
-import com.example.backend.streaming.SongInfo;
-import com.example.backend.streaming.SongQueueService;
-import com.example.backend.streaming.SongServiceInterface;
+import com.example.backend.streaming.*;
 import com.example.backend.streaming.ytdlp.YtDlpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +34,9 @@ public class YoutubeSongService implements SongServiceInterface {
     @Autowired
     YtDlpService ytDlpService;
 
+    @Autowired
+    ConvertSongTitle convertSongTitle;
+
     private int timeoutCounter = 0;
 
     public Song validateSong(String link) {
@@ -66,7 +66,7 @@ public class YoutubeSongService implements SongServiceInterface {
         }
         if (!song.isDownloaded()) this.downloadDependencies(song);
 
-        String filePath = song.getDOWNLOAD_PATH() + song.getFileName();
+        String filePath = song.getDOWNLOAD_PATH() + convertSongTitle.parseToFileName(song.getFileName());
         File musicPath = new File(filePath);
 
         if (!musicPath.exists()) {
@@ -150,9 +150,9 @@ public class YoutubeSongService implements SongServiceInterface {
         List<SongInfoHistoryEntity> foundSongs = songInfoRepository.findBySongLink(song.getLink());
         if (foundSongs.size() == 0) {
             SongInfo info = this.getInfos(song);
-            song.setTitle(info.getTitle().replaceAll("#?\\\\", "").replaceAll(":", " "));
+            song.setTitle(info.getTitle());
             song.setDuration(info.getDuration());
-            song.setArtist(info.getArtist());
+            song.setArtist(info.getArtist().trim());
             song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
 
             SongInfoHistoryEntity songInfoHistoryEntity = new SongInfoHistoryEntity(song.getTitle(), song.getArtist(), song.getLink(), song.getDuration());
@@ -161,7 +161,7 @@ public class YoutubeSongService implements SongServiceInterface {
             SongInfoHistoryEntity songHistory = foundSongs.get(0);
             song.setTitle(songHistory.getTitle());
             song.setDuration(songHistory.getDuration());
-            song.setArtist(songHistory.getArtist());
+            song.setArtist(songHistory.getArtist().trim());
             song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
         }
 

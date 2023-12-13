@@ -23,6 +23,7 @@ This project also features a modular structure and is therefore easily extendabl
 ### Supported sources for streaming
 
 ![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)
+![SoundCloud](https://img.shields.io/badge/SoundCloud-FF3300?style=for-the-badge&logo=soundcloud&logoColor=white)
 
 ## Visuals
 
@@ -53,12 +54,17 @@ Planned final release: 30.01.2024
 
 ## Contributing
 
-### TODO
-State if you are open to contributions and what your requirements are for accepting them.
+As developers, we are open to anyone who is willing to contribute to this project. To get started, pull the repository to your local environment: 
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+    git clone https://github.com/OpenSoundQueue/OpenSoundQueue.git
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Before you can use the application, you have to execute the installation script for your operating system. These scripts can be found in /installation-scripts/{your-operating-system}/installation.*
+
+Now, create a new branch with a meaningful name. Please choose meaningful commit messages as well.
+
+You are good to go and start developing your feature. 
+
+Once you are done with the feature, and you are certain that you removed all the bugs, you can go ahead and create a pull request. Our Devs will have a look at your change, run some tests to verify the integrity and finally either approve the request or get back to you with suggestions or comments for you to improve your code.
 
 ## Authors and acknowledgment
 Project owners: 

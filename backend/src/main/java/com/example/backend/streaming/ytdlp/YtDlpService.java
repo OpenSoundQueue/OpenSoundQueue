@@ -1,6 +1,7 @@
 package com.example.backend.streaming.ytdlp;
 
 import com.example.backend.Repository.SongInfoRepository;
+import com.example.backend.streaming.ConvertSongTitle;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongInfo;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,6 +28,9 @@ public class YtDlpService {
     @Autowired
     SongInfoRepository songInfoRepository;
 
+    @Autowired
+    ConvertSongTitle convertSongTitle;
+
     public SongInfo getInfos(Song song) {
         String title = "";
         String artist = "";
@@ -44,7 +48,7 @@ public class YtDlpService {
             while ((line = reader.readLine()) != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode rootNode = mapper.readTree(line);
-                title = (rootNode.get("title") + "").replaceAll("\"", "");
+                title = (rootNode.get("title") + "").replaceAll("\"", "").replaceAll("(?i)\\[(official\\s*(?:video|music\\s*video)|visualiser|official\\s*audio)]|\\((official\\s*(?:video|music\\s*video)|visualiser|official\\s*audio)\\)", "");
                 artist = "";
                 artistTag = (rootNode.get("artist") + "").replaceAll("\"", "");
                 creatorTag = (rootNode.get("creator") + "").replaceAll("\"", "");
@@ -103,7 +107,8 @@ public class YtDlpService {
     public void downloadSong(Song song, String downloadPath, String url) {
         Process p;
         try {
-            p = Runtime.getRuntime().exec("yt-dlp --output \"" + downloadPath + song.getArtist() + " - " + song.getTitle() + ".%(ext)s\" --extract-audio --audio-format wav \"" + url + "\"");
+            String title = convertSongTitle.parseToFileName(song.getArtist() + " - " + song.getTitle());
+            p = Runtime.getRuntime().exec("yt-dlp --output \"" + downloadPath + title + ".%(ext)s\" --extract-audio --audio-format wav \"" + url + "\"");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

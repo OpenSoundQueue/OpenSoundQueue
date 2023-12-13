@@ -937,6 +937,11 @@ paths:
                     - skip: true
                     - play: false
                     - viewAdminPanel: false
+                  member:
+                    - name: Luki
+                      id: 1
+                    - name: Dani
+                      id: 2
         400:
           description: a role with this name already exists
           content:
@@ -1032,6 +1037,11 @@ paths:
                       - skip: true
                       - play: false
                       - viewAdminPanel: false
+                    member:
+                      - name: Luki
+                        id: 1
+                      - name: Dani
+                        id: 2
         400:
           description: role with id not found
           content:
@@ -1103,6 +1113,11 @@ paths:
                     - skip: true
                     - play: false
                     - viewAdminPanel: false
+                  member:
+                    - name: Luki
+                      id: 1
+                    - name: Dani
+                      id: 2
         400:
           description: role does not exist
           content:

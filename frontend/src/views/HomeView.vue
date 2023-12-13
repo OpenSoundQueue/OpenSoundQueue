@@ -3,7 +3,7 @@
   <main :class="{'show-mode-switcher': hasAdvancedPermissions}">
     <div v-if="hasAdvancedPermissions" class="mode-switcher">
       <router-link to="/home/basic" class="link">{{ $translate('modeSwitcher.basic') }}</router-link>
-      <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced')}}</router-link>
+      <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced') }}</router-link>
     </div>
     <div class="add-song-container">
       <div class="mobile">
@@ -316,18 +316,18 @@ main.show-mode-switcher {
     width: 100%;
     margin-bottom: 20px;
     grid-row: 1;
-    grid-column: 2;
+    grid-column: 1;
     padding: 20px;
     box-sizing: border-box;
   }
 
   .vote-skip-container {
     width: 100%;
-    border-right: var(--secondary-color) 3px solid;
+    border-left: var(--secondary-color) 3px solid;
     height: 85%;
     box-sizing: border-box;
     grid-row: 1;
-    grid-column: 1;
+    grid-column: 2;
     margin: 0;
   }
 
