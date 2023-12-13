@@ -39,6 +39,10 @@ const inputField = ref<InstanceType<typeof InputField>>();
 const linkRegex = /^https:\/\/.*/;
 
 const showSearch = computed(() => {
+  if (!addSongInput.value) {
+    return false;
+  }
+
   return !linkRegex.test(addSongInput.value);
 });
 
@@ -102,17 +106,23 @@ function closeOverlay() {
 <style scoped>
 .add-song-wrapper {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   position: relative;
   z-index: 2;
 }
 
 .add-song-overlay {
   position: absolute;
+  top: 55px;
   width: 100%;
+  max-height: calc(100svh - 150px);
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-medium);
   padding: 10px;
   box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 .add-song-overlay.not-visible {
@@ -121,5 +131,22 @@ function closeOverlay() {
 
 .add-song-overlay.visible {
   visibility: visible;
+}
+
+@media screen and (min-width: 1250px) {
+  .add-song-wrapper {
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+  }
+
+  .add-song-overlay {
+    position: static;
+    height: 100%;
+    padding: 0;
+  }
+
+  .add-song-overlay.not-visible {
+    visibility: visible;
+  }
 }
 </style>
