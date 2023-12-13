@@ -112,6 +112,7 @@ function sortUsers(usersArray: User[], attributeName: string, direction: 'asc' |
     const bValue = b[attributeName as keyof User];
 
     if (direction === 'none') return 0;
+    if (aValue == undefined || bValue === undefined) return 0;
 
     if (direction === 'asc') {
       if (aValue < bValue) return -1;

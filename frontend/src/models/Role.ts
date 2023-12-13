@@ -1,10 +1,10 @@
 import {User} from "@/models/User";
 
 export class Role {
-    private readonly _id;
-    private _name;
-    private _permissions;
-    private _members;
+    readonly _id;
+    _name;
+    _permissions;
+    _members;
 
 
     constructor(id: number, name: string, permissions: string[], members: User[]) {

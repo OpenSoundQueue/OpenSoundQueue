@@ -35,7 +35,11 @@ export const useRoleStore = defineStore('role', () => {
     function cloneRole(role: Role | undefined): Role | undefined {
         if (role === undefined)
             return undefined;
-        return structuredClone({...role, name: role.name, permissions: [...role.permissions],})
+        return structuredClone({...role,
+            id: role.id,
+            name: role.name,
+            permissions: [...role.permissions],
+            members: [...role.members]},)
     }
 
     async function rollback() {
