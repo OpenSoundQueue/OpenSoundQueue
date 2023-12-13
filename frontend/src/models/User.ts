@@ -1,9 +1,9 @@
 export class User {
     private readonly _id: number;
     private readonly _username: string;
-    private readonly _lastOnline: Date;
-    private readonly _email: string;
-    private readonly _role: string;
+    private readonly _lastOnline: Date | undefined;
+    private readonly _email: string | undefined;
+    private readonly _role: string | undefined;
 
     constructor(id: number, username: string, lastOnline?: Date, email?: string, role?: string) {
         this._id = id;
