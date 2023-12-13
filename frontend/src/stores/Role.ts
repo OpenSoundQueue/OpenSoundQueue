@@ -15,7 +15,7 @@ export const useRoleStore = defineStore('role', () => {
             return false;
         }
 
-        return !Role.areEqual(fetchedRole.value,patchedRole.value);
+        return !Role.areEqual(fetchedRole.value, patchedRole.value);
     });
 
     patchedRole.value = cloneRole(fetchedRole.value);
@@ -32,10 +32,10 @@ export const useRoleStore = defineStore('role', () => {
             });
     }
 
-    function cloneRole(role:Role):Role{
+    function cloneRole(role: Role | undefined): Role | undefined {
         if (role === undefined)
             return undefined;
-        return structuredClone({ ...role, name: role.name,permissions: [...role.permissions],})
+        return structuredClone({...role, name: role.name, permissions: [...role.permissions],})
     }
 
     async function rollback() {
@@ -61,6 +61,7 @@ export const useRoleStore = defineStore('role', () => {
         }
         patchedRole.value.name = name;
     }
+
     async function patchPermissions(permissions: string[]) {
         if (permissions.length === 0 || patchedRole.value === undefined) {
             return;
