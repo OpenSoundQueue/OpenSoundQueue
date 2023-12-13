@@ -5,23 +5,7 @@
       <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced')}}</router-link>
     </div>
     <div class="add-song-container">
-      <div class="mobile">
-        <OverlayCollapse :label="$translate('addSong')"
-                         :is-collapsed="true"
-        >
-          <template #custom-icon>
-            <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
-          </template>
-          <template #content>
-            <div class="add-song-slot">
-              <AddSong/>
-            </div>
-          </template>
-        </OverlayCollapse>
-      </div>
-      <div class="add-song desktop">
-        <AddSong/>
-      </div>
+      <AddSongNew/>
     </div>
     <div class="queue-scroll-container">
       <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
@@ -55,12 +39,11 @@
 <script setup lang="ts">
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
-import AddSong from "@/components/control/AddSong.vue";
-import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
+import AddSongNew from "@/components/control/AddSongNew.vue";
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {
