@@ -5,7 +5,7 @@ export class User {
     private readonly _email: string;
     private readonly _role: string;
 
-    constructor(id: number, username: string, lastOnline: Date, email: string, role: string) {
+    constructor(id: number, username: string, lastOnline?: Date, email?: string, role?: string) {
         this._id = id;
         this._username = username;
         this._lastOnline = lastOnline;
@@ -13,14 +13,10 @@ export class User {
         this._role = role;
     }
 
-    constructor(id:number,username:string) {
-        this._id = id;
-        this._username = username;
-    }
-
     get id(): number {
         return this._id;
     }
+
     get username(): string {
         return this._username;
     }
