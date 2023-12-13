@@ -1,4 +1,5 @@
 <template>
+  <div>{{ role }}</div>
   <main :class="{'show-mode-switcher': hasAdvancedPermissions}">
     <div v-if="hasAdvancedPermissions" class="mode-switcher">
       <router-link to="/home/basic" class="link">{{ $translate('modeSwitcher.basic') }}</router-link>
@@ -61,6 +62,18 @@ import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
+import {useRoleStore} from "@/stores/Role";
+const role = ref("");
+
+onMounted(async () => {
+  const store = useRoleStore();
+  await store.newSelection(1);
+  console.log(store.patchedRole)
+  await store.patchName("LUKI");
+  console.log(store.patchedRole)
+  await store.patchPermissions(["DU_NIX"]);
+  console.log(store.patchedRole)
+})
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {

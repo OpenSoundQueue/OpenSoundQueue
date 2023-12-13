@@ -8,15 +8,19 @@ import {TranslationPlugin} from "@/plugins/TranslationPlugin";
 import translations from "@/translations/en.json";
 import {ValidationPlugin} from "@/plugins/ValidationPlugin";
 import Closable from "@/directives/ClosableDirective";
+import { createPinia } from 'pinia';
 
 if (import.meta.env.DEV) {
-    makeServer();
+    //makeServer();
 }
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.directive('closable', Closable())
 app.directive('closableonmount', Closable(true))
+
+app.use(pinia)
 
 app.use(router)
 

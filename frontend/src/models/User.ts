@@ -13,6 +13,11 @@ export class User {
         this._role = role;
     }
 
+    constructor(id:number,username:string) {
+        this._id = id;
+        this._username = username;
+    }
+
     get id(): number {
         return this._id;
     }

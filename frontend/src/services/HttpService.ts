@@ -331,7 +331,7 @@ export class HttpService {
     }
 
     async getRoles() {
-        return httpClient.get(`/roles`)
+        return httpClient.get(`/roles`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -344,7 +344,7 @@ export class HttpService {
     }
 
     async getPermissions() {
-        return httpClient.get(`/permissions`)
+        return httpClient.get(`/permissions`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -357,20 +357,20 @@ export class HttpService {
     }
 
     async getRole(id: number) {
-        return httpClient.get(`/role/get/${id}`)
+        return httpClient.get(`/role/get/${id}`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data: Role) => {
                 return data;
             });
     }
 
     async deleteRole(id: number) {
-        return httpClient.delete(`/role/${id}`)
+        return httpClient.delete(`/role/${id}`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -383,7 +383,7 @@ export class HttpService {
     }
 
     async postRoleAdd(name: string, permissions: { [key: string]: boolean }[]) {
-        return httpClient.post(`/role/create`, {name: name, permissions: permissions})
+        return httpClient.post(`/role/create`, {name: name, permissions: permissions},cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -396,14 +396,14 @@ export class HttpService {
     }
 
     async updateRole(role: Role) {
-        return httpClient.patch(`/role/edit`, {role})
+        return httpClient.patch(`/role/edit`, role,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data:Role) => {
                 return data;
             });
     }
