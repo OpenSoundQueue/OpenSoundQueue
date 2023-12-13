@@ -21,15 +21,15 @@ export class User {
         return this._username;
     }
 
-    get lastOnline(): Date {
+    get lastOnline(): Date | undefined {
         return this._lastOnline;
     }
 
-    get email(): string {
+    get email(): string | undefined {
         return this._email;
     }
 
-    get role(): string {
+    get role(): string | undefined {
         return this._role;
     }
 }
