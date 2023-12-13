@@ -1,12 +1,19 @@
 <template>
   <div class="add-song-wrapper" @click="openOverlay" v-closable="{excluded: [], handler: closeOverlay}">
-    <InputField placeholder="Suchen oder Link" v-model="addSongInput"/>
+    <InputField placeholder="Suchen oder Link"
+                v-model="addSongInput"
+                ref="inputField"
+    />
     <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-if="showSearch">
         <SearchResults :search-term="addSongInput"/>
       </div>
       <div v-else>
-        <DefaultButton text="Add to queue"/>
+        <DefaultButton :text="$translate('byLink.action')"
+                       :is-disabled="!inputIsValid"
+                       :is-loading="waitingForResponse"
+                       @click="addSong(addSongInput)"
+        />
       </div>
     </div>
   </div>
@@ -17,9 +24,17 @@ import InputField from "@/components/inputs/InputField.vue";
 import {computed, ref, watch} from "vue";
 import SearchResults from "@/components/control/SearchResults.vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
+import * as cookieService from "@/services/cookieService";
+import {ToastService} from "@/services/ToastService";
+import {translate} from "@/plugins/TranslationPlugin";
+import {validateSonglink} from "@/plugins/ValidationPlugin";
+import {HttpService} from "@/services/HttpService";
 
 const addSongInput = ref("");
 const showOverlay = ref(false);
+const waitingForResponse = ref(false);
+const httpService = new HttpService();
+const inputField = ref<InstanceType<typeof InputField>>();
 
 const linkRegex = /^https:\/\/.*/;
 
@@ -35,6 +50,40 @@ watch(addSongInput, () => {
 
   showOverlay.value = true;
 })
+
+const inputIsValid = computed(() => {
+  if (!addSongInput.value) {
+    return false;
+  }
+
+  return validateSonglink(addSongInput.value)();
+});
+
+function addSong(link: string) {
+  waitingForResponse.value = true;
+
+  httpService.postQueueAdd(link, cookieService.getApiKey())
+      .then((data) => {
+        waitingForResponse.value = false;
+        inputField.value?.clearInput();
+
+        ToastService.sendNotification(
+            `"${data.title}" ${translate("notifications.queueAddSuccess")}`,
+            "success",
+            3000
+        );
+      })
+      .catch(() => {
+        waitingForResponse.value = false;
+        inputField.value?.clearInput();
+
+        ToastService.sendNotification(
+            translate("notifications.queueAddError"),
+            "error",
+            3000
+        );
+      });
+}
 
 function openOverlay() {
   if (!addSongInput.value) {
