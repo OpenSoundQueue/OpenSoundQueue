@@ -131,7 +131,7 @@ function clearInputField() {
   position: absolute;
   top: 75px;
   width: 100%;
-  max-height: calc(100svh - 170px);
+  max-height: calc(100svh - 220px);
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-medium);
   padding: 10px;

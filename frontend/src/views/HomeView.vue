@@ -88,6 +88,7 @@ main.show-mode-switcher {
     align-items: flex-start;
     gap: 15px;
     height: 50px;
+    margin-bottom: 10px;
   }
 
   .link {
