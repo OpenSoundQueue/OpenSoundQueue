@@ -1,6 +1,7 @@
 {
   "about": "About",
   "addSong": {
+    "title": "Add Song",
     "placeholder": "Search in history or use song link",
     "action": "Add to queue"
   },

@@ -72,7 +72,7 @@ onMounted(() => {
 
 main {
   width: calc(100% - 30px);
-  height: calc(100svh - 60px);
+  height: calc(100svh - 70px);
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -119,11 +119,6 @@ main.show-mode-switcher {
   .queue-scroll-container {
     height: calc(100% - 70px - 190px - 50px);
   }
-}
-
-.add-song-slot {
-  width: 100%;
-  height: 100%;
 }
 
 .queue-scroll-container {

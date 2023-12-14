@@ -4,10 +4,14 @@
                 v-model="inputString"
                 ref="inputField"
                 :custom-icon="true"
+                :label="$translate('addSong.title')"
     >
       <template #icon>
         <img v-if="showSearch" src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
         <img v-else src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
+      </template>
+      <template #help>
+        <InfoButton>{{ $translate('help.addSong') }}</InfoButton>
       </template>
     </InputField>
     <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
@@ -36,6 +40,7 @@ import {translate} from "@/plugins/TranslationPlugin";
 import {validateSonglink} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import type {Song} from "@/models/Song";
+import InfoButton from "@/components/InfoButton.vue";
 
 const inputString = ref("");
 const showOverlay = ref(false);
@@ -125,7 +130,7 @@ function clearInputField() {
 
 .add-song-overlay {
   position: absolute;
-  top: 55px;
+  top: 75px;
   width: 100%;
   max-height: calc(100svh - 150px);
   background-color: var(--secondary-color);

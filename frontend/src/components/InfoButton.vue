@@ -101,6 +101,7 @@ function updateValues() {
   position: relative;
   height: 24px;
   width: 24px;
+  z-index: 4;
 }
 
 .img:hover {
