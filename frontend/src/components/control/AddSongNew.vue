@@ -1,6 +1,6 @@
 <template>
   <div class="add-song-wrapper" @click="openOverlay" v-closable="{excluded: [], handler: closeOverlay}">
-    <InputField placeholder="Suchen oder Link"
+    <InputField placeholder="Suchen im Verlauf oder Songlink"
                 v-model="inputString"
                 ref="inputField"
                 :custom-icon="true"
@@ -36,6 +36,7 @@ import {translate} from "@/plugins/TranslationPlugin";
 import {validateSonglink} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import type {Song} from "@/models/Song";
+import InfoButton from "@/components/InfoButton.vue";
 
 const inputString = ref("");
 const showOverlay = ref(false);
