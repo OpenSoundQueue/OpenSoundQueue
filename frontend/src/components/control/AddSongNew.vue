@@ -36,7 +36,7 @@ const waitingForResponse = ref(false);
 const httpService = new HttpService();
 const inputField = ref<InstanceType<typeof InputField>>();
 
-const linkRegex = /^https:\/\/.*/;
+const linkRegex = /^(https?|ftp):\/\/[^\s/$.?#].\S*$/;
 
 const showSearch = computed(() => {
   if (!addSongInput.value) {
