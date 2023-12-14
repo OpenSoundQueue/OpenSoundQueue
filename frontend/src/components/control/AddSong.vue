@@ -150,7 +150,7 @@ function clearInputField() {
 
 @media screen and (min-width: 1250px) {
   .add-song-wrapper {
-    padding: 10px 10px 10px 10px;
+    padding: 20px 10px 10px 10px;
     box-sizing: border-box;
   }
 
