@@ -73,11 +73,17 @@ public class UserService {
         String clearTextPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(clearTextPassword));
 
-        return userInfoRepository.save(user);
+        user = userInfoRepository.save(user);
+
+        changeRolesOfUser(user.getId(), List.of(roleRepository.findById(1).get()));
+
+        return user;
     }
 
     public UserInfoEntity registerNewUser(UserInfoEntity user) {
-        return userInfoRepository.save(user);
+        user = userInfoRepository.save(user);
+        changeRolesOfUser(user.getId(), List.of(roleRepository.findById(1).get()));
+        return user;
     }
 
     public void updateToken(Long id, String token) {
