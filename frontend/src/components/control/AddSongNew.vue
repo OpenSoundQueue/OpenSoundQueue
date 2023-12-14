@@ -3,7 +3,13 @@
     <InputField placeholder="Suchen oder Link"
                 v-model="inputString"
                 ref="inputField"
-    />
+                :custom-icon="true"
+    >
+      <template #icon>
+        <img v-if="showSearch" src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
+        <img v-else src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
+      </template>
+    </InputField>
     <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-if="showSearch">
         <SearchResults :search-term="inputString" @add-song="clearInputField"/>
