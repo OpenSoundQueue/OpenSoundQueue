@@ -101,7 +101,6 @@ public class SoundQueueRest {
         return new ResponseEntity<>(songQueueService.withdrawVoteSkip(token), HttpStatus.OK);
     }
 
-    @AuthRequest(requiredPermission = Permissions.HISTORY_SEARCH)
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
     public ResponseEntity<Object> searchSongHistory(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
         userService.updateLastOnline(userService.getUserByToken(token));

@@ -119,7 +119,7 @@ img {
   background-color: var(--secondary-color);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
-  z-index: 5;
+  z-index: 4;
 }
 
 .info-container > * {

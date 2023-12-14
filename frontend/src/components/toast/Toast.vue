@@ -40,7 +40,7 @@ function close() {
   position: fixed;
   top: 10px;
   right: 10px;
-  z-index: 4;
+  z-index: 5;
   padding: 5px;
   transition: transform 0.2s ease;
   display: flex;
