@@ -1,18 +1,18 @@
 <template>
   <div class="add-song-wrapper" @click="openOverlay" v-closable="{excluded: [], handler: closeOverlay}">
     <InputField placeholder="Suchen oder Link"
-                v-model="addSongInput"
+                v-model="inputString"
                 ref="inputField"
     />
     <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-if="showSearch">
-        <SearchResults :search-term="addSongInput"/>
+        <SearchResults :search-term="inputString" @add-song="clearInputField"/>
       </div>
       <div v-else>
         <DefaultButton :text="$translate('byLink.action')"
                        :is-disabled="!inputIsValid"
                        :is-loading="waitingForResponse"
-                       @click="addSong(addSongInput)"
+                       @click="addSong(inputString)"
         />
       </div>
     </div>
@@ -29,8 +29,9 @@ import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 import {validateSonglink} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
+import type {Song} from "@/models/Song";
 
-const addSongInput = ref("");
+const inputString = ref("");
 const showOverlay = ref(false);
 const waitingForResponse = ref(false);
 const httpService = new HttpService();
@@ -39,15 +40,15 @@ const inputField = ref<InstanceType<typeof InputField>>();
 const linkRegex = /^(https?|ftp):\/\/[^\s/$.?#].\S*$/;
 
 const showSearch = computed(() => {
-  if (!addSongInput.value) {
+  if (!inputString.value) {
     return false;
   }
 
-  return !linkRegex.test(addSongInput.value);
+  return !linkRegex.test(inputString.value);
 });
 
-watch(addSongInput, () => {
-  if (!addSongInput.value) {
+watch(inputString, () => {
+  if (!inputString.value) {
     showOverlay.value = false;
     return;
   }
@@ -56,20 +57,20 @@ watch(addSongInput, () => {
 })
 
 const inputIsValid = computed(() => {
-  if (!addSongInput.value) {
+  if (!inputString.value) {
     return false;
   }
 
-  return validateSonglink(addSongInput.value)();
+  return validateSonglink(inputString.value)();
 });
 
 function addSong(link: string) {
   waitingForResponse.value = true;
 
   httpService.postQueueAdd(link, cookieService.getApiKey())
-      .then((data) => {
+      .then((data: Song) => {
         waitingForResponse.value = false;
-        inputField.value?.clearInput();
+        clearInputField();
 
         ToastService.sendNotification(
             `"${data.title}" ${translate("notifications.queueAddSuccess")}`,
@@ -79,7 +80,7 @@ function addSong(link: string) {
       })
       .catch(() => {
         waitingForResponse.value = false;
-        inputField.value?.clearInput();
+        clearInputField();
 
         ToastService.sendNotification(
             translate("notifications.queueAddError"),
@@ -90,7 +91,7 @@ function addSong(link: string) {
 }
 
 function openOverlay() {
-  if (!addSongInput.value) {
+  if (!inputString.value) {
     return;
   }
 
@@ -101,6 +102,9 @@ function closeOverlay() {
   showOverlay.value = false;
 }
 
+function clearInputField() {
+  inputField.value?.clearInput();
+}
 </script>
 
 <style scoped>

@@ -38,7 +38,11 @@ import * as cookieService from "@/services/cookieService";
 
 const props = defineProps<{
   searchTerm: string
-}>()
+}>();
+
+const emit = defineEmits<{
+    addSong: []
+}>();
 
 const maxSearchResults = 20;
 
@@ -91,13 +95,14 @@ function addSong(link?: string) {
   queueAddIsDisabled.value = true;
 
   httpService.postQueueAdd(link, cookieService.getApiKey())
-      .then((data) => {
+      .then((data: Song) => {
         queueAddIsDisabled.value = false;
         ToastService.sendNotification(
             `"${data.title}" ${translate("notifications.queueAddSuccess")}`,
             "success",
             3000
         );
+        emit("addSong");
       })
       .catch(() => {
         queueAddIsDisabled.value = false
