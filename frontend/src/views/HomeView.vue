@@ -72,7 +72,7 @@ onMounted(() => {
 
 main {
   width: calc(100% - 30px);
-  height: calc(100svh - 70px);
+  height: calc(100svh - 60px);
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -122,9 +122,15 @@ main.show-mode-switcher {
   }
 }
 
+.add-song-container {
+  height: 80px;
+  position: relative;
+}
+
 .queue-scroll-container {
   border-bottom: var(--secondary-color) dashed 2px;
-  height: calc(100% - 70px - 190px);
+  box-sizing: border-box;
+  height: calc(100% - 80px - 190px);
 }
 
 .queue-scroll-component {
