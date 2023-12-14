@@ -20,7 +20,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private Collection<Permissions> permissions;
 
-    @ManyToMany(targetEntity = UserInfoEntity.class)
+    @ManyToMany(targetEntity = UserInfoEntity.class, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<UserInfoEntity> usersList;
 

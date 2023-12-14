@@ -2,6 +2,7 @@ package com.example.backend.Serializer;
 
 import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.Role;
+import com.example.backend.Repository.UserInfoEntity;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -18,6 +19,14 @@ public class RoleSerializer extends JsonSerializer<Role> {
         jsonGenerator.writeArrayFieldStart("permissions");
         for (Permissions p:role.getPermissions()) {
             jsonGenerator.writeString(p.name());
+        }
+        jsonGenerator.writeEndArray();
+        jsonGenerator.writeArrayFieldStart("members");
+        for (UserInfoEntity u:role.getUsersList()) {
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("id", u.getId());
+            jsonGenerator.writeStringField("name", u.getUsername());
+            jsonGenerator.writeEndObject();
         }
         jsonGenerator.writeEndArray();
         jsonGenerator.writeEndObject();

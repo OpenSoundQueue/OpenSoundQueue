@@ -30,7 +30,7 @@ public class UserInfoEntity {
     @Column(name = "verified")
     private boolean verified;
 
-    @ManyToMany(targetEntity = Role.class)
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Role> roles;
 

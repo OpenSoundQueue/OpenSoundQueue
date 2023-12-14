@@ -150,6 +150,11 @@ public class UserService {
         user.setRoles(savedRoles);
 
         userInfoRepository.save(user);
+
+        for (Role r :roleRepository.findAll()) {
+            r.setUsersList(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
+        }
     }
 
     public List<Permissions> getPermissionsOfUser(long id) {
