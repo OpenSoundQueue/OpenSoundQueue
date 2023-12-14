@@ -131,12 +131,13 @@ function clearInputField() {
   position: absolute;
   top: 75px;
   width: 100%;
-  max-height: calc(100svh - 150px);
+  max-height: calc(100svh - 170px);
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-medium);
   padding: 10px;
   box-sizing: border-box;
   overflow-y: scroll;
+  z-index: 2;
 }
 
 .add-song-overlay.not-visible {

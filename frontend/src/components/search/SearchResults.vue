@@ -18,7 +18,9 @@
     </div>
     <div v-else class="error-container">
       <p>
-        {{ searchTerm ? `${translate("historySearch.noSongFound")} "${searchTerm}"` : translate("historySearch.enterSearchTerm") }}
+        {{
+          searchTerm ? `${translate("historySearch.noSongFound")} "${searchTerm}"` : translate("historySearch.enterSearchTerm")
+        }}
       </p>
     </div>
   </div>
@@ -41,7 +43,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    addSong: []
+  addSong: []
 }>();
 
 const maxSearchResults = 20;
@@ -186,5 +188,11 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
 .search-result .song-data {
   width: 100%;
   overflow: hidden;
+}
+
+@media screen and (min-width: 1250px) {
+  .error-container, .loading-container {
+    height: 100px;
+  }
 }
 </style>
