@@ -26,7 +26,8 @@ export const useRoleStore = defineStore('role', () => {
                 fetchedRole.value = role;
                 patchedRole.value = cloneRole(role);
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log(error)
                 fetchedRole.value = undefined;
                 patchedRole.value = undefined;
             });

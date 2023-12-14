@@ -10,16 +10,16 @@
     </div>
     <p>search</p>
     <div class="role-list-container scrollbar">
-      <div class="select-role-button-wrapper" v-for="id in 20" :class="id === roleId ? 'selected' : ''">
-        <div class="mobile overlay" @click="toDisplay(id)">
+      <div class="select-role-button-wrapper" v-for="role in roles" :class="role.id === roleId ? 'selected' : ''">
+        <div class="mobile overlay" @click="toDisplay(role.id)">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
-        <div class="select-role-button-container" @click="selectRole(id)">
+        <div class="select-role-button-container" @click="selectRole(role.id)">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path
                 d="M480-440q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0-80q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0 440q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-400Zm0-315-240 90v189q0 54 15 105t41 96q42-21 88-33t96-12q50 0 96 12t88 33q26-45 41-96t15-105v-189l-240-90Zm0 515q-36 0-70 8t-65 22q29 30 63 52t72 34q38-12 72-34t63-52q-31-14-65-22t-70-8Z"/>
           </svg>
-          Role {{ id }}
+          {{ role.name }}
         </div>
       </div>
     </div>
@@ -28,6 +28,20 @@
 
 <script setup lang="ts">
 import router from "@/router";
+import {onMounted, ref} from "vue";
+import type {Ref} from "vue";
+import {HttpService} from "@/services/HttpService";
+import type {Role} from "@/models/Role";
+import {useRoleStore} from "@/stores/Role";
+
+const httpService = new HttpService();
+
+const roles:Ref<Role[]> = ref([]);
+const store = useRoleStore();
+
+onMounted(async () => {
+   roles.value = await httpService.getRoles();
+})
 
 defineProps<{
   roleId?: number
@@ -37,12 +51,19 @@ const emit = defineEmits<{
   selectRole: [id?: number]
 }>();
 
-function toDisplay(roleId?: number) {
+async function toDisplay(roleId?: number) {
+  if (roleId === undefined) return;
+
+  await store.newSelection(roleId);
   emit("selectRole", roleId);
+
   router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
 }
 
-function selectRole(roleId?: number) {
+async function selectRole(roleId?: number) {
+  if (roleId === undefined) return;
+
+  await store.newSelection(roleId);
   emit("selectRole", roleId);
 }
 </script>

@@ -50,6 +50,15 @@ import RoleDisplay from "@/components/roles/RoleDisplay.vue";
 import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
 import router from "@/router";
+import {useRoleStore} from "@/stores/Role";
+
+onMounted(()=>{
+
+  const store = useRoleStore();
+  setInterval(()=>{
+    console.log(store.fetchedRole)
+  },1000)
+})
 
 const props = defineProps<{
   roleId?: string
@@ -188,6 +197,10 @@ nav {
     display: flex;
     gap: 20px;
     height: 40px;
+  }
+
+  .nav-element{
+    margin-top: 10px;
   }
 
   .nav-element:hover {
