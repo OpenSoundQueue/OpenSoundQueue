@@ -33,6 +33,8 @@ import type {Ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import type {Role} from "@/models/Role";
 import {useRoleStore} from "@/stores/Role";
+import {PopUpService} from "@/services/PopUpService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
@@ -57,11 +59,20 @@ async function toDisplay(roleId?: number) {
   await store.newSelection(roleId);
   emit("selectRole", roleId);
 
-  router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
+  await router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
 }
 
 async function selectRole(roleId?: number) {
   if (roleId === undefined) return;
+
+  if(store.roleEdited){
+    PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
+    const userAction = await PopUpService.waitForUserAction();
+
+    if (userAction === "accepted") {
+      await store.save();
+    }
+  }
 
   await store.newSelection(roleId);
   emit("selectRole", roleId);

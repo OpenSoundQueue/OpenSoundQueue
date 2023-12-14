@@ -4,6 +4,8 @@ import type {Ref} from "vue";
 import {Role} from "@/models/Role";
 import {HttpService} from "@/services/HttpService";
 import type {User} from "@/models/User";
+import {ToastService} from "@/services/ToastService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
@@ -27,7 +29,6 @@ export const useRoleStore = defineStore('role', () => {
                 patchedRole.value = cloneRole(role);
             })
             .catch((error) => {
-                console.log(error)
                 fetchedRole.value = undefined;
                 patchedRole.value = undefined;
             });
@@ -57,6 +58,7 @@ export const useRoleStore = defineStore('role', () => {
                 .catch(() => {
                     fetchedRole.value = undefined;
                     patchedRole.value = undefined;
+                    ToastService.sendNotification(translate('popUp.editRole.saveError'),"error",3000)
                 });
     }
 

@@ -163,6 +163,11 @@
       "button": "Benutzer löschen",
       "part1": "Sicher, dass du den Benutzer",
       "part2": "löschen möchtest?"
+    },
+    "editRole": {
+      "unsavedChanges": "Du hast Änderungen gemacht, die nicht gespeichert worden sind. Möchtest du sie speichern?",
+      "save": "Änderungen speichern",
+      "saveError": "Änderungen konnten nicht gespeichert werden"
     }
   },
   "queueDescription": {

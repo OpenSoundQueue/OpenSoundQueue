@@ -56,7 +56,8 @@ onMounted(()=>{
 
   const store = useRoleStore();
   setInterval(()=>{
-    console.log(store.fetchedRole)
+    console.log(store.patchedRole)
+    store.patchName("LUKKKAS")
   },1000)
 })
 
