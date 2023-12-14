@@ -101,7 +101,6 @@ function updateValues() {
   position: relative;
   height: 24px;
   width: 24px;
-  z-index: 4;
 }
 
 .img:hover {
@@ -119,8 +118,8 @@ img {
   padding: var(--font-size-small);
   background-color: var(--secondary-color);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  z-index: 9999;
   box-sizing: border-box;
+  z-index: 5;
 }
 
 .info-container > * {

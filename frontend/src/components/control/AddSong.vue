@@ -125,7 +125,6 @@ function clearInputField() {
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 2;
 }
 
 .add-song-overlay {
