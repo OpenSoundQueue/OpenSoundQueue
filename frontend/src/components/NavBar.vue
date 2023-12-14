@@ -69,7 +69,7 @@ function determineArea() {
   height: 60px;
   width: 100%;
   border-bottom: 2px var(--dark-gray) solid;
-  z-index: 2;
+  z-index: 3;
   background: var(--background-color);
   display: flex;
 }

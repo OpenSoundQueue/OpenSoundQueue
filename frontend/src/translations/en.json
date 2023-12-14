@@ -1,6 +1,10 @@
 {
   "about": "About",
-  "addSong": "Add Song",
+  "addSong": {
+    "title": "Add Song",
+    "placeholder": "Search in history or use song link",
+    "action": "Add to queue"
+  },
   "adminPage": {
     "detail": {
       "delete": "Delete User",
@@ -54,14 +58,6 @@
     "time": "Clock symbol",
     "user": "User symbol"
   },
-  "byLink": {
-    "action": "Add to queue",
-    "incorrectInput": "Invalid link",
-    "label": "Song Link",
-    "placeholder": "Enter link...",
-    "title": "By Link"
-  },
-  "bySearch": "By Search",
   "createAccount": "Create Account",
   "currentSongEmpty": "There is currently no song playing",
   "documentation": "Docs",

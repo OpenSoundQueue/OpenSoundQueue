@@ -37,7 +37,6 @@ function getDurationString(durationInSeconds: number): string {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  padding-left: 5px;
   box-sizing: border-box;
 }
 
@@ -46,8 +45,7 @@ function getDurationString(durationInSeconds: number): string {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 28px;
-  padding-left: 7px;
+  width: 32px;
   box-sizing: border-box;
 }
 
