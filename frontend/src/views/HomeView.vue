@@ -159,6 +159,10 @@ main.show-mode-switcher {
   align-items: center;
 }
 
+.now-playing-container {
+  margin-bottom: 20px;
+}
+
 @media screen and (min-width: 800px) {
   main {
     width: 750px;
