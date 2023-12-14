@@ -1,6 +1,9 @@
 {
   "about": "Über uns",
-  "addSong": "Song hinzufügen",
+  "addSong": {
+    "placeholder": "Suchen im Verlauf oder Songlink",
+    "action": "Zur Warteschlange hinzufügen"
+  },
   "adminPage": {
     "detail": {
       "delete": "Benutzer löschen",
@@ -54,14 +57,6 @@
     "time": "Uhrensymbol",
     "user": "Benutzersymbol"
   },
-  "byLink": {
-    "action": "Zur Warteschlange hinzufügen",
-    "incorrectInput": "Ungültiger Link",
-    "label": "Songlink",
-    "placeholder": "Link einfügen...",
-    "title": "Mit Link"
-  },
-  "bySearch": "Mit Suche",
   "createAccount": "Ein Konto erstellen",
   "currentSongEmpty": "Aktuell wird kein Song abgespielt",
   "documentation": "Dokumentation",

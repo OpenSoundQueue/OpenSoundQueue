@@ -5,7 +5,7 @@
       <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced') }}</router-link>
     </div>
     <div class="add-song-container">
-      <AddSongNew/>
+      <AddSong/>
     </div>
     <div class="queue-scroll-container">
       <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
@@ -43,7 +43,7 @@ import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
-import AddSongNew from "@/components/control/AddSongNew.vue";
+import AddSong from "@/components/control/AddSong.vue";
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {

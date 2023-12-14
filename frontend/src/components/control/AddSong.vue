@@ -1,6 +1,6 @@
 <template>
   <div class="add-song-wrapper" @click="openOverlay" v-closable="{excluded: [], handler: closeOverlay}">
-    <InputField placeholder="Suchen im Verlauf oder Songlink"
+    <InputField :placeholder="$translate('addSong.placeholder')"
                 v-model="inputString"
                 ref="inputField"
                 :custom-icon="true"
@@ -15,7 +15,7 @@
         <SearchResults :search-term="inputString" @add-song="clearInputField"/>
       </div>
       <div v-else>
-        <DefaultButton :text="$translate('byLink.action')"
+        <DefaultButton :text="$translate('addSong.action')"
                        :is-disabled="!inputIsValid"
                        :is-loading="waitingForResponse"
                        @click="addSong(inputString)"
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
 import {computed, ref, watch} from "vue";
-import SearchResults from "@/components/control/SearchResults.vue";
+import SearchResults from "@/components/search/SearchResults.vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import * as cookieService from "@/services/cookieService";
 import {ToastService} from "@/services/ToastService";
@@ -36,7 +36,6 @@ import {translate} from "@/plugins/TranslationPlugin";
 import {validateSonglink} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import type {Song} from "@/models/Song";
-import InfoButton from "@/components/InfoButton.vue";
 
 const inputString = ref("");
 const showOverlay = ref(false);
