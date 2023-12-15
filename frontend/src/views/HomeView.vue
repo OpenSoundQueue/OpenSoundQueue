@@ -21,7 +21,7 @@
     <div class="control-panel-wrapper">
       <div class="control-panel-container">
         <div class="now-playing-container">
-          <NowPlaying :update-interval="1000"/>
+          <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress"/>
         </div>
         <div class="vote-skip-container">
           <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
@@ -44,6 +44,17 @@ import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
+import {HttpService} from "@/services/HttpService";
+import type {Ref} from "vue";
+import type {Song} from "@/models/Song";
+
+const httpService = new HttpService();
+
+const updateInterval = 1000;
+
+const currentSong: Ref<Song | undefined> = ref();
+const progress = ref(0);
+const currentTime = ref(0);
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {
@@ -62,7 +73,21 @@ onMounted(() => {
   if (router.currentRoute.value.name !== "default") {
     hasAdvancedPermissions.value = true;
   }
+
+  setInterval(getTime, updateInterval);
 })
+
+function getTime() {
+  httpService.getNowPlaying().then(data => {
+    console.log(data);
+    if (data.song) {
+      currentSong.value = data.song;
+
+      currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
+      progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
+    }
+  })
+}
 </script>
 
 <style scoped>
