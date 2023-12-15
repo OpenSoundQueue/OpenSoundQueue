@@ -20,13 +20,11 @@ export const useRoleStore = defineStore('role', () => {
         return !Role.areEqual(fetchedRole.value, patchedRole.value);
     });
 
-    patchedRole.value = cloneRole(fetchedRole.value);
-
     async function newSelection(id: number) {
         await httpService.getRole(id)
             .then((role: Role) => {
                 fetchedRole.value = role;
-                patchedRole.value = cloneRole(role);
+                patchedRole.value = Role.clone(role);
             })
             .catch((error) => {
                 fetchedRole.value = undefined;
@@ -34,23 +32,16 @@ export const useRoleStore = defineStore('role', () => {
             });
     }
 
-    function cloneRole(role: Role | undefined): Role | undefined {
-        if (role === undefined)
-            return undefined;
-        return structuredClone({...role,
-            id: role.id,
-            name: role.name,
-            permissions: [...role.permissions],
-            members: [...role.members]},)
-    }
-
     async function rollback() {
-        patchedRole.value = cloneRole(fetchedRole.value);
+        if (fetchedRole.value === undefined)
+            patchedRole.value = undefined;
+        else
+            patchedRole.value = Role.clone(fetchedRole.value)
     }
 
     async function save() {
         if (patchedRole.value != undefined)
-            await httpService.updateRole(patchedRole.value)
+            await httpService.updateRole(Role.toDto(patchedRole.value))
                 .then((role: Role) => {
                     fetchedRole.value = role;
                     patchedRole.value = role;

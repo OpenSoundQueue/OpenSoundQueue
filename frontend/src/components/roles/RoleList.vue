@@ -28,13 +28,14 @@
 
 <script setup lang="ts">
 import router from "@/router";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import type {Ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import type {Role} from "@/models/Role";
 import {useRoleStore} from "@/stores/Role";
 import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
+import {storeToRefs} from "pinia";
 
 const httpService = new HttpService();
 
@@ -43,6 +44,11 @@ const store = useRoleStore();
 
 onMounted(async () => {
    roles.value = await httpService.getRoles();
+
+   const refStore = storeToRefs(store);
+   watch(refStore.fetchedRole,async ()=>{
+     roles.value = await httpService.getRoles();
+   })
 })
 
 defineProps<{
@@ -61,6 +67,8 @@ async function toDisplay(roleId?: number) {
 
   await router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
 }
+
+
 
 async function selectRole(roleId?: number) {
   if (roleId === undefined) return;

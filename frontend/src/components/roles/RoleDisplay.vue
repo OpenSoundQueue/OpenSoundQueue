@@ -7,8 +7,13 @@
       </div>
 
       <!-- ALL VIEWPORTS -->
-      <div v-if="roleId">
-        Change name of role with Id {{ roleId }}
+      <div v-if="role">
+        <InputField
+            :label="translate('roleEdit.display.roleName')"
+            :placeholder="translate('roleEdit.display.placeholder')"
+            :manual-value="role.name"
+            @userInput="(input)=>store.patchName(input)"
+        ></InputField>
       </div>
       <div v-else>
         Change name of new role
@@ -16,7 +21,8 @@
 
       <!-- MOBILE -->
       <div class="nav-button-wrapper mobile">
-        <div class="mobile overlay" @click="roleId ? router.push(`/admin/roles/members/${roleId}`) : router.push('/admin/roles/members/new')">
+        <div class="mobile overlay"
+             @click="role?.id ? router.push(`/admin/roles/members/${role?.id}`) : router.push('/admin/roles/members/new')">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
         <div class="nav-button-container">
@@ -24,7 +30,8 @@
         </div>
       </div>
       <div class="nav-button-wrapper mobile">
-        <div class="mobile overlay" @click="roleId ? router.push(`/admin/roles/permissions/${roleId}`) : router.push('/admin/roles/permissions/new')">
+        <div class="mobile overlay"
+             @click="role?.id ? router.push(`/admin/roles/permissions/${role?.id}`) : router.push('/admin/roles/permissions/new')">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
         <div class="nav-button-container">
@@ -41,16 +48,35 @@
 <script setup lang="ts">
 import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
+import {useRoleStore} from "@/stores/Role";
+import type {Role} from "@/models/Role";
+import {translate} from "@/plugins/TranslationPlugin";
+import InputField from "@/components/inputs/InputField.vue";
+import {onMounted, ref, watch} from "vue";
+import type {Ref} from "vue";
+import {storeToRefs} from "pinia";
+
+const store = useRoleStore();
+const role: Ref<Role> = ref();
+
+onMounted(() => {
+  const refStore = storeToRefs(store);
+
+  watch(refStore.patchedRole, () => {
+    role.value = refStore.patchedRole.value
+  });
+
+  setInterval(() => {
+    //console.log(role.value)
+  }, 1000)
+})
+
 
 const emit = defineEmits<{
   back: [],
   toMembers: []
   toPermissions: []
 }>();
-
-defineProps<{
-  roleId?: number
-}>()
 </script>
 
 <style scoped>
@@ -69,6 +95,7 @@ defineProps<{
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
 }
 
 .nav-button-wrapper {
@@ -100,7 +127,6 @@ defineProps<{
 
 @media screen and (min-width: 800px) {
   .role-display-container {
-    width: 800px;
     margin: auto;
   }
 }

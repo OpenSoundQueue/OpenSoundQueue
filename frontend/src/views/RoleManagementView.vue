@@ -16,26 +16,25 @@
       <nav class="desktop">
         <div class="nav-element"
              :class="[detailComponent === RoleDisplay ? 'active' : '']"
-             @click="detailComponent = RoleDisplay">
+             @click="changeTab(RoleDisplay)">
           Display
           <div class="underline"></div>
         </div>
         <div class="nav-element"
              :class="[detailComponent === RoleMembers ? 'active' : '']"
-             @click="detailComponent = RoleMembers">
+             @click="changeTab(RoleMembers)">
           Members
           <div class="underline"></div>
         </div>
         <div class="nav-element"
              :class="[detailComponent === RolePermissions ? 'active' : '']"
-             @click="detailComponent = RolePermissions">
+             @click="changeTab(RolePermissions)">
           Permissions
           <div class="underline"></div>
         </div>
       </nav>
       <component :is="detailComponent"
-                 :role-id="selectedRoleId"
-      />
+                 :role="store.patchedRole"/>
     </div>
     <GridBackground/>
   </main>
@@ -51,15 +50,11 @@ import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
 import router from "@/router";
 import {useRoleStore} from "@/stores/Role";
+import {PopUpService} from "@/services/PopUpService";
+import {translate} from "@/plugins/TranslationPlugin";
 
-onMounted(()=>{
+const store = useRoleStore();
 
-  const store = useRoleStore();
-  setInterval(()=>{
-    console.log(store.patchedRole)
-    store.patchName("LUKKKAS")
-  },1000)
-})
 
 const props = defineProps<{
   roleId?: string
@@ -76,6 +71,20 @@ onMounted(() => {
 watch(router.currentRoute, () => {
   chooseComponent();
 })
+
+async function changeTab(component: Component) {
+  if (store.roleEdited) {
+    PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
+    const userAction = await PopUpService.waitForUserAction();
+
+    if (userAction === "accepted") {
+      await store.save();
+    }else{
+      await store.rollback();
+    }
+  }
+  detailComponent.value = component
+}
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
@@ -200,7 +209,7 @@ nav {
     height: 40px;
   }
 
-  .nav-element{
+  .nav-element {
     margin-top: 10px;
   }
 

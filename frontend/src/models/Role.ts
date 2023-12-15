@@ -26,6 +26,19 @@ export class Role {
         return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
     }
 
+    static clone(role:Role): Role {
+        return new Role(role.id, role.name, [...role.permissions], [...role.members]);
+    }
+
+    static toDto(role:Role): object {
+        return {
+            id: role.id,
+            name: role.name,
+            permissions: role.permissions,
+            members: role.members
+        };
+    }
+
 
     get id() {
         return this._id;

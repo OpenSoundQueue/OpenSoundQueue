@@ -7,8 +7,8 @@
       </div>
 
       <!-- ALL VIEWPORTS -->
-      <div v-if="roleId">
-        Members of Role with Id {{ roleId }}
+      <div v-if="role">
+        Members of Role with Id {{ role.members }}
       </div>
       <div v-else>
         Members of New Role
@@ -20,13 +20,15 @@
 <script setup lang="ts">
 import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
+import {Role} from "@/models/Role";
 
 const emit = defineEmits<{
   back: [],
 }>();
 
+
 defineProps<{
-  roleId?: number
+  role?: Role
 }>()
 </script>
 

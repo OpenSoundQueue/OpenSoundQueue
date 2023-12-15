@@ -7,8 +7,8 @@
       </nav>
 
       <!-- ALL VIEWPORTS -->
-      <div v-if="roleId">
-        Permissions of Role with Id {{ roleId }}
+      <div v-if="role">
+        Permissions of Role with Id {{ role.permissions }}
       </div>
       <div v-else>
         Permissions of New Role
@@ -20,13 +20,15 @@
 <script setup lang="ts">
 import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
+import {Role} from "@/models/Role";
 
 const emit = defineEmits<{
   back: [],
 }>();
 
+
 defineProps<{
-  roleId?: number
+  role?: Role
 }>()
 </script>
 

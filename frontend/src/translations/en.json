@@ -205,5 +205,11 @@
       "text": "I have not received a code"
     },
     "success": "Registration successful"
+  },
+  "roleEdit": {
+    "display":{
+      "roleName": "Role Name",
+      "placeholder": "Enter Role Name..."
+    }
   }
 }
