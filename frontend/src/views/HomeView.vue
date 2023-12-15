@@ -27,8 +27,9 @@
           <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
                         :start-stop="hasAdvancedControlPanelPermission"
                         :skip="hasAdvancedControlPanelPermission"
-                        :replay="hasAdvancedControlPanelPermission">
-          </ControlPanel>
+                        :replay="hasAdvancedControlPanelPermission"
+                        :is-playing="isPlaying"
+          />
         </div>
       </div>
     </div>
@@ -55,6 +56,7 @@ const updateInterval = 1000;
 const currentSong: Ref<Song | undefined> = ref();
 const progress = ref(0);
 const currentTime = ref(0);
+const isPlaying = ref(false);
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {
@@ -79,12 +81,12 @@ onMounted(() => {
 
 function getTime() {
   httpService.getNowPlaying().then(data => {
-    console.log(data);
     if (data.song) {
       currentSong.value = data.song;
 
       currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
       progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
+      isPlaying.value = data.isPlaying;
     }
   })
 }

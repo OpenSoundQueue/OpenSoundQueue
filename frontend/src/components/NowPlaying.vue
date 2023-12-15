@@ -23,11 +23,8 @@
 
 <script setup lang="ts">
 import ProgressBar from "@/components/ProgressBar.vue";
-import {HttpService} from "@/services/HttpService";
-import {computed, onMounted, ref} from "vue";
+import {computed} from "vue";
 import {Song} from "@/models/Song";
-
-import type {Ref} from "vue";
 
 const props = defineProps<{
   currentSong?: Song
