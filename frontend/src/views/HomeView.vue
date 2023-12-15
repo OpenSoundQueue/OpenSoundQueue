@@ -118,13 +118,12 @@ main.show-mode-switcher {
   }
 
   .queue-scroll-container {
-    height: calc(100% - 70px - 190px - 50px);
+    height: calc(100% - 80px - 190px - 50px);
   }
 }
 
 .add-song-container {
   height: 80px;
-  position: relative;
 }
 
 .queue-scroll-container {
