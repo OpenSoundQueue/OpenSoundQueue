@@ -5,23 +5,7 @@
       <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced') }}</router-link>
     </div>
     <div class="add-song-container">
-      <div class="mobile">
-        <OverlayCollapse :label="$translate('addSong')"
-                         :is-collapsed="true"
-        >
-          <template #custom-icon>
-            <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
-          </template>
-          <template #content>
-            <div class="add-song-slot">
-              <AddSong/>
-            </div>
-          </template>
-        </OverlayCollapse>
-      </div>
-      <div class="add-song desktop">
-        <AddSong/>
-      </div>
+      <AddSong/>
     </div>
     <div class="queue-scroll-container">
       <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
@@ -55,12 +39,11 @@
 <script setup lang="ts">
 import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
-import AddSong from "@/components/control/AddSong.vue";
-import OverlayCollapse from "@/components/collapse/OverlayCollapse.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
+import AddSong from "@/components/control/AddSong.vue";
 
 
 const hasAdvancedPermissions = ref(false);
@@ -106,6 +89,7 @@ main.show-mode-switcher {
     align-items: flex-start;
     gap: 15px;
     height: 50px;
+    margin-bottom: 10px;
   }
 
   .link {
@@ -135,18 +119,18 @@ main.show-mode-switcher {
   }
 
   .queue-scroll-container {
-    height: calc(100% - 70px - 190px - 50px);
+    height: calc(100% - 80px - 190px - 50px);
   }
 }
 
-.add-song-slot {
-  width: 100%;
-  height: 100%;
+.add-song-container {
+  height: 80px;
 }
 
 .queue-scroll-container {
   border-bottom: var(--secondary-color) dashed 2px;
-  height: calc(100% - 70px - 190px);
+  box-sizing: border-box;
+  height: calc(100% - 80px - 190px);
 }
 
 .queue-scroll-component {
@@ -175,6 +159,10 @@ main.show-mode-switcher {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.now-playing-container {
+  margin-bottom: 20px;
 }
 
 @media screen and (min-width: 800px) {

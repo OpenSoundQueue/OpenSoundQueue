@@ -148,7 +148,7 @@ watch(manualValue, (newValue) => {
 .input-field {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 40px 0 5px;
+  padding: 0 40px 0 10px;
   height: 40px;
   font-size: var(--font-size-medium);
   background: none;

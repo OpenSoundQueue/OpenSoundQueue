@@ -121,7 +121,7 @@ function endDrag() {
 
 <style scoped>
 .queue-scroll-wrapper {
-  padding: 0 20px 10px 20px;
+  padding: 0 20px 10px 10px;
   overflow-y: scroll;
   height: 100%;
   box-sizing: border-box;
@@ -186,5 +186,11 @@ function endDrag() {
   color: var(--tertiary-color);
   font-weight: bold;
   font-size: var(--font-size-medium);
+}
+
+@media screen and (min-width: 1250px) {
+  .queue-scroll-wrapper {
+    padding: 0 20px 10px 25px;
+  }
 }
 </style>

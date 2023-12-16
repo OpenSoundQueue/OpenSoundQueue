@@ -1,71 +1,87 @@
 <template>
-  <div class="add-song-wrapper">
-    <Tabs :tabs="[$translate('byLink.title'), $translate('bySearch')]">
-      <template #tab-0>
-        <div class="tab-wrapper">
-          <InputField v-model="songLink"
-                      :label="$translate('byLink.label')"
-                      input-type="text"
-                      :validation-function="validateSonglink"
-                      :validation-message="$translate('byLink.incorrectInput')"
-                      :placeholder="$translate('byLink.placeholder')"
-                      ref="inputField">
-
-            <template #help>
-              <InfoButton>{{ translate('help.addSong') }}</InfoButton>
-            </template>
-          </InputField>
-          <DefaultButton @click="addSong(songLink)"
-                         :is-disabled="!inputIsValid"
-                         :is-loading="waitingForResponse"
-                         :text="$translate('byLink.action')">
-            <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
-          </DefaultButton>
-        </div>
+  <div class="add-song-wrapper" @click="openOverlay" v-closable="{excluded: [], handler: closeOverlay}">
+    <InputField :placeholder="$translate('addSong.placeholder')"
+                v-model="inputString"
+                ref="inputField"
+                :custom-icon="true"
+                :label="$translate('addSong.title')"
+    >
+      <template #icon>
+        <img v-if="showSearch" src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
+        <img v-else src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
       </template>
-      <template #tab-1>
-        <div class="tab-wrapper">
-          <HistorySearch/>
-        </div>
+      <template #help>
+        <InfoButton>{{ $translate('help.addSong') }}</InfoButton>
       </template>
-    </Tabs>
+    </InputField>
+    <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
+      <div v-if="showSearch">
+        <SearchResults :search-term="inputString" @add-song="clearInputField"/>
+      </div>
+      <div v-else>
+        <DefaultButton :text="$translate('addSong.action')"
+                       :is-disabled="!inputIsValid"
+                       :is-loading="waitingForResponse"
+                       @click="addSong(inputString)"
+        />
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
-import {validateSonglink} from "@/plugins/ValidationPlugin";
 import InputField from "@/components/inputs/InputField.vue";
-import HistorySearch from "@/components/search/HistorySearch.vue";
-import Tabs from "@/components/Tabs.vue";
+import {computed, ref, watch} from "vue";
+import SearchResults from "@/components/search/SearchResults.vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
-import {HttpService} from "@/services/HttpService";
-import {computed, ref} from "vue";
+import * as cookieService from "@/services/cookieService";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
+import {validateSonglink} from "@/plugins/ValidationPlugin";
+import {HttpService} from "@/services/HttpService";
+import type {Song} from "@/models/Song";
 import InfoButton from "@/components/InfoButton.vue";
-import * as cookieService from "@/services/cookieService";
 
-const httpService = new HttpService();
-const songLink = ref("");
+const inputString = ref("");
+const showOverlay = ref(false);
 const waitingForResponse = ref(false);
+const httpService = new HttpService();
 const inputField = ref<InstanceType<typeof InputField>>();
 
-const inputIsValid = computed(() => {
-  if (!songLink.value) {
+const linkRegex = /^(https?|ftp):\/\/[^\s/$.?#].\S*$/;
+
+const showSearch = computed(() => {
+  if (!inputString.value) {
     return false;
   }
 
-  return validateSonglink(songLink.value)();
+  return !linkRegex.test(inputString.value);
+});
+
+watch(inputString, () => {
+  if (!inputString.value) {
+    showOverlay.value = false;
+    return;
+  }
+
+  showOverlay.value = true;
 })
+
+const inputIsValid = computed(() => {
+  if (!inputString.value) {
+    return false;
+  }
+
+  return validateSonglink(inputString.value)();
+});
 
 function addSong(link: string) {
   waitingForResponse.value = true;
 
   httpService.postQueueAdd(link, cookieService.getApiKey())
-      .then((data) => {
+      .then((data: Song) => {
         waitingForResponse.value = false;
-        inputField.value?.clearInput();
+        clearInputField();
 
         ToastService.sendNotification(
             `"${data.title}" ${translate("notifications.queueAddSuccess")}`,
@@ -75,7 +91,7 @@ function addSong(link: string) {
       })
       .catch(() => {
         waitingForResponse.value = false;
-        inputField.value?.clearInput();
+        clearInputField();
 
         ToastService.sendNotification(
             translate("notifications.queueAddError"),
@@ -85,16 +101,67 @@ function addSong(link: string) {
       });
 }
 
+function openOverlay() {
+  if (!inputString.value) {
+    return;
+  }
+
+  showOverlay.value = true;
+}
+
+function closeOverlay() {
+  showOverlay.value = false;
+}
+
+function clearInputField() {
+  inputField.value?.clearInput();
+}
 </script>
 
 <style scoped>
 .add-song-wrapper {
+  width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
-.tab-wrapper {
-  height: 100%;
+.add-song-overlay {
+  position: absolute;
+  top: 75px;
   width: 100%;
-  margin: auto;
+  max-height: calc(100svh - 220px);
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius-medium);
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  z-index: 2;
+}
+
+.add-song-overlay.not-visible {
+  visibility: hidden;
+}
+
+.add-song-overlay.visible {
+  visibility: visible;
+}
+
+@media screen and (min-width: 1250px) {
+  .add-song-wrapper {
+    padding: 20px 10px 10px 10px;
+    box-sizing: border-box;
+  }
+
+  .add-song-overlay {
+    position: static;
+    height: 100%;
+    padding: 0;
+  }
+
+  .add-song-overlay.not-visible {
+    visibility: visible;
+  }
 }
 </style>
