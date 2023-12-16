@@ -35,6 +35,7 @@
       </div>
 
       <!-- ALL VIEWPORTS -->
+      <!-- TODO:  button style fix and testing -->
       <DynamicButton v-show="store.fetchedRole"
                      b-style="delete"
                      :status="deleteStatus"
@@ -57,7 +58,7 @@ import {storeToRefs} from "pinia";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 
 const store = useRoleStore();
-const role: Ref<Role> = ref();
+const role: Ref<Role | undefined> = ref();
 const deleteStatus = ref("active");
 
 onMounted(() => {
@@ -66,12 +67,6 @@ onMounted(() => {
   watch(refStore.patchedRole, () => {
     role.value = refStore.patchedRole.value
   });
-  /*
-    setInterval(() => {
-      console.log(role.value)
-    }, 1000)
-
-   */
 })
 
 

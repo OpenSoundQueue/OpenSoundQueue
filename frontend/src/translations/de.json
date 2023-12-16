@@ -211,6 +211,10 @@
     "display":{
       "roleName": "Rollen-Name",
       "placeholder": "Rollen-Name eingeben..."
+    },
+    "member": {
+      "search": "Nach Benutzern suchen...",
+      "noResults": "Keine Treffer für "
     }
   }
 }

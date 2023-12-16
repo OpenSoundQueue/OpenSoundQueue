@@ -211,6 +211,10 @@
     "display":{
       "roleName": "Role Name",
       "placeholder": "Enter Role Name..."
+    },
+    "member": {
+      "search": "Search for Users...",
+      "noResults": "No results for "
     }
   }
 }
