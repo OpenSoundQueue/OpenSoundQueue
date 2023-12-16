@@ -168,7 +168,8 @@
     "editRole": {
       "unsavedChanges": "Du hast Änderungen gemacht, die nicht gespeichert worden sind. Möchtest du sie speichern?",
       "save": "Änderungen speichern",
-      "saveError": "Änderungen konnten nicht gespeichert werden"
+      "saveError": "Änderungen konnten nicht gespeichert werden",
+      "deleteError": "Beim Löschen der Rolle ist ein Fehler aufgetreten"
     }
   },
   "queueDescription": {
@@ -210,6 +211,7 @@
   "roleEdit": {
     "save": "Speichern",
     "rollback": "Änderungen verwerfen",
+    "delete": "Rolle löschen",
     "display":{
       "roleName": "Rollen-Name",
       "placeholder": "Rollen-Name eingeben..."

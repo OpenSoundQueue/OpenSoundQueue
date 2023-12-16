@@ -35,7 +35,11 @@
       </div>
 
       <!-- ALL VIEWPORTS -->
-      <div>Delete</div>
+      <DynamicButton v-show="store.fetchedRole"
+                     b-style="delete"
+                     :status="deleteStatus"
+                     @click="deleteRole()"
+      >{{translate('roleEdit.delete')}}</DynamicButton>
     </div>
   </div>
 </template>
@@ -50,9 +54,11 @@ import InputField from "@/components/inputs/InputField.vue";
 import {onMounted, ref, watch} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
+import DynamicButton from "@/components/buttons/DynamicButton.vue";
 
 const store = useRoleStore();
 const role: Ref<Role> = ref();
+const deleteStatus = ref("active");
 
 onMounted(() => {
   const refStore = storeToRefs(store);
@@ -69,6 +75,10 @@ onMounted(() => {
 })
 
 
+function deleteRole(){
+  store.deleteRole();
+}
+
 const emit = defineEmits<{
   back: [],
   toMembers: []
@@ -80,6 +90,7 @@ const emit = defineEmits<{
 .role-display-wrapper {
   position: fixed;
   top: 60px;
+  margin-top: 10px;
   left: 0;
   width: 100%;
   height: 100vh;

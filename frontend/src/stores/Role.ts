@@ -26,7 +26,7 @@ export const useRoleStore = defineStore('role', () => {
                 fetchedRole.value = role;
                 patchedRole.value = Role.clone(role);
             })
-            .catch((error) => {
+            .catch(() => {
                 fetchedRole.value = undefined;
                 patchedRole.value = undefined;
             });
@@ -45,6 +45,20 @@ export const useRoleStore = defineStore('role', () => {
                 .then((role: Role) => {
                     fetchedRole.value = role;
                     patchedRole.value = role;
+                })
+                .catch(() => {
+                    fetchedRole.value = undefined;
+                    patchedRole.value = undefined;
+                    ToastService.sendNotification(translate('popUp.editRole.saveError'),"error",3000)
+                });
+    }
+
+    async function deleteRole(){
+        if (fetchedRole.value !=undefined)
+            await httpService.deleteRole(fetchedRole.value?.id)
+                .then(() => {
+                    fetchedRole.value = undefined;
+                    patchedRole.value = undefined;
                 })
                 .catch(() => {
                     fetchedRole.value = undefined;
@@ -81,6 +95,7 @@ export const useRoleStore = defineStore('role', () => {
         newSelection,
         rollback,
         save,
+        deleteRole,
         patchPermissions,
         patchMember,
         patchName

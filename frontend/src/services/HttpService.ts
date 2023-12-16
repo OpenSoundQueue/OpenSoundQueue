@@ -395,7 +395,7 @@ export class HttpService {
             });
     }
 
-    async updateRole(role: Role) {
+    async updateRole(role: object) {
         return httpClient.patch(`/role/edit`, role,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
