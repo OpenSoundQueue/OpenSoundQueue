@@ -71,7 +71,9 @@ async function toDisplay(roleId?: number) {
 
 
 async function selectRole(roleId?: number) {
-  if (roleId === undefined) return;
+  if (roleId === undefined){
+    return;
+  }
 
   if(store.roleEdited){
     PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));

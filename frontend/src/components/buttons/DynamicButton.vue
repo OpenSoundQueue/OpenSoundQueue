@@ -46,17 +46,22 @@ button:hover {
   cursor: pointer;
 }
 
-.login.active {
+.save{
+  box-shadow: none;
+  margin-top: 0;
+}
+
+.login.active.save.active {
   color: var(--text-color);
   background: var(--primary-color);
 }
 
-.login.inactive {
+.login.inactive.save.inactive {
   color: var(--text-color);
   background: var(--dark-gray);
 }
 
-.login.waiting {
+.login.waiting.save.waiting {
   color: var(--text-color);
   border: solid 2px;
   border-color: var(--primary-color);

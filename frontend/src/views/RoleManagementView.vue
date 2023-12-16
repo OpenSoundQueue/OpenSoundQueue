@@ -32,6 +32,14 @@
           Permissions
           <div class="underline"></div>
         </div>
+        <div v-show="store.roleEdited" class="nav-element save-button">
+          <!-- TODO: Style title -->
+          <img class="undo" src="@/assets/icons/undo.svg"
+               :alt="translate('altTexts.undo')"
+               :title="translate('roleEdit.rollback')"
+               @click="store.rollback()"/>
+          <DynamicButton b-style="save" status="active">{{ translate('roleEdit.save') }}</DynamicButton>
+        </div>
       </nav>
       <component :is="detailComponent"
                  :role="store.patchedRole"/>
@@ -52,6 +60,8 @@ import router from "@/router";
 import {useRoleStore} from "@/stores/Role";
 import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
+import DefaultButton from "@/components/buttons/DefaultButton.vue";
+import DynamicButton from "@/components/buttons/DynamicButton.vue";
 
 const store = useRoleStore();
 
@@ -79,7 +89,7 @@ async function changeTab(component: Component) {
 
     if (userAction === "accepted") {
       await store.save();
-    }else{
+    } else {
       await store.rollback();
     }
   }
@@ -169,6 +179,23 @@ nav {
   flex: 0 0 auto;
 }
 
+.save-button {
+  margin-top: 0 !important;
+  margin-left: auto;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.save-button > button {
+  min-width: 100px;
+}
+
+.undo {
+  height: 30px;
+  margin: auto 0 auto 0;
+}
 
 @media screen and (min-width: 420px) {
   nav {
@@ -205,6 +232,7 @@ nav {
 
   .detail-container nav {
     display: flex;
+    width: 100%;
     gap: 20px;
     height: 40px;
   }

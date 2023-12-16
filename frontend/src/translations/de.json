@@ -52,6 +52,7 @@
     "sortingArrowDown": "Pfeil nach unten für absteigende Sortierreihenfolge",
     "sortingArrowUp": "Pfeil nach oben für aufsteigende Sortierreihenfolge",
     "time": "Uhrensymbol",
+    "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängi machen zu lassen",
     "user": "Benutzersymbol"
   },
   "byLink": {
@@ -207,6 +208,8 @@
     "success": "Registrierung erfolgreich"
   },
   "roleEdit": {
+    "save": "Speichern",
+    "rollback": "Änderungen verwerfen",
     "display":{
       "roleName": "Rollen-Name",
       "placeholder": "Rollen-Name eingeben..."

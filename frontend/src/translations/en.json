@@ -52,6 +52,7 @@
     "sortingArrowDown": "Arrow pointing down, indicating sorting direction",
     "sortingArrowUp": "Arrow pointing up, indicating sorting direction",
     "time": "Clock symbol",
+    "undo": "An arrow pointing back to undo the changes",
     "user": "User symbol"
   },
   "byLink": {
@@ -207,6 +208,8 @@
     "success": "Registration successful"
   },
   "roleEdit": {
+    "save": "Save",
+    "rollback": "Discard changes",
     "display":{
       "roleName": "Role Name",
       "placeholder": "Enter Role Name..."

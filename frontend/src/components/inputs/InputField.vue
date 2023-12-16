@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {generateUUID} from "@/services/uuidService";
 
 interface Props {
@@ -104,6 +104,12 @@ function clearInput(): void {
   emit("update:modelValue", inputValue.value);
   emit("userInput", inputValue.value);
 }
+
+onMounted(()=>{
+  if (typeof props.manualValue !== "undefined") {
+    inputValue.value = props.manualValue;
+  }
+})
 
 watch(manualValue, (newValue) => {
   if (typeof newValue !== "undefined") {

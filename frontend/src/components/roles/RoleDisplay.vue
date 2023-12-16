@@ -7,17 +7,12 @@
       </div>
 
       <!-- ALL VIEWPORTS -->
-      <div v-if="role">
-        <InputField
-            :label="translate('roleEdit.display.roleName')"
-            :placeholder="translate('roleEdit.display.placeholder')"
-            :manual-value="role.name"
-            @userInput="(input)=>store.patchName(input)"
-        ></InputField>
-      </div>
-      <div v-else>
-        Change name of new role
-      </div>
+      <InputField
+          :label="translate('roleEdit.display.roleName')"
+          :placeholder="translate('roleEdit.display.placeholder')"
+          :manual-value="role?.name"
+          @userInput="(input)=>store.patchName(input)"
+      ></InputField>
 
       <!-- MOBILE -->
       <div class="nav-button-wrapper mobile">
@@ -65,10 +60,12 @@ onMounted(() => {
   watch(refStore.patchedRole, () => {
     role.value = refStore.patchedRole.value
   });
+  /*
+    setInterval(() => {
+      console.log(role.value)
+    }, 1000)
 
-  setInterval(() => {
-    //console.log(role.value)
-  }, 1000)
+   */
 })
 
 
