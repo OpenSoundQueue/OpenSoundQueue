@@ -1,10 +1,6 @@
 package com.example.backend.Repository;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Collection;
 
@@ -23,8 +19,6 @@ public class Role {
     private Collection<Permissions> permissions;
 
     @ManyToMany(targetEntity = UserInfoEntity.class, fetch = FetchType.EAGER)
-    @Cascade(value = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<UserInfoEntity> usersList;
 
     public Role() {
