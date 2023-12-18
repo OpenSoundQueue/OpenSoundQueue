@@ -14,7 +14,7 @@
         <InfoButton>{{ $translate('help.addSong') }}</InfoButton>
       </template>
     </InputField>
-    <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
+    <div class="add-song-overlay scrollbar" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-if="showSearch">
         <SearchResults :search-term="inputString" @add-song="clearInputField"/>
       </div>
