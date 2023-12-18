@@ -52,6 +52,7 @@ public class RoleRest {
     @DeleteMapping("/role/{id}")
     public ResponseEntity<Object> deleteRole(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") int id) {
         if (roleRepository.findById(id).orElse(null) == null) return new ResponseEntity<>(new ErrorDto("role with id '" + id + "' not found"), HttpStatus.BAD_REQUEST);
+        userService.removeRole(id);
         roleRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

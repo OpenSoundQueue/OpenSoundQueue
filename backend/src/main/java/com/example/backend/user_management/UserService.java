@@ -167,4 +167,12 @@ public class UserService {
 
         return permissions.stream().toList();
     }
+
+    public void removeRole(int id) {
+        for (UserInfoEntity u : userInfoRepository.findAll()) {
+            if (!u.getRoles().stream().filter(x -> x.getId() == id).toList().isEmpty()) {
+                changeRolesOfUser(u.getId(), u.getRoles().stream().filter(x -> x.getId() != id).toList());
+            }
+        }
+    }
 }
