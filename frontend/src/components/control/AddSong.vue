@@ -20,7 +20,7 @@
     </div>
     <div class="add-song-overlay scrollbar" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-show="showSearch">
-        <SearchResults :search-term="inputString" @add-song="clearInputField"/>
+        <SearchResults :search-term="inputString" @add-song="clearInputField" :block-search="!showSearch"/>
       </div>
       <div v-show="!showSearch">
         <DefaultButton :text="$translate('addSong.action')"
