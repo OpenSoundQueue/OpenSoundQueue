@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {ToastService} from "@/services/ToastService";
 import * as cookieService from "@/services/cookieService";
@@ -25,6 +25,12 @@ type VoteSkipDto = {
   required: number,
   received: number
 }
+
+const animationDuration = 200;
+
+const animationDurationString = computed(() => {
+  return `${animationDuration}ms`;
+})
 
 const props = defineProps<{
   updateInterval: number
@@ -54,9 +60,14 @@ function requestStatus() {
 }
 
 async function requestVote() {
+  isLoading.value = true;
+
+  voteSkipData.value.hasVoted = true;
+  voteSkipData.value.received++;
+
   await httpService.getVoteSkipVote(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
-        voteSkipData.value = data;
+        setTimeout(() => voteSkipData.value = data, animationDuration);
       })
       .catch(() => {
         ToastService.sendNotification(translate("notifications.voteSkipRequestError"), "error", 3000);
@@ -67,9 +78,11 @@ async function requestVote() {
 }
 
 async function withdrawVote() {
+  isLoading.value = true;
+
   await httpService.getVoteSkipWithdraw(cookieService.getApiKey())
       .then((data: VoteSkipDto) => {
-        voteSkipData.value = data;
+        setTimeout(() => voteSkipData.value = data, animationDuration);
       })
       .catch(() => {
         ToastService.sendNotification(translate("notifications.voteSkipWithdrawError"), "error", 3000);
@@ -85,8 +98,6 @@ function activate() {
   }
 
   resetInterval();
-
-  isLoading.value = true;
 
   if (voteSkipData.value.hasVoted) {
     withdrawVote();
@@ -152,7 +163,7 @@ function resetInterval() {
   justify-content: center;
   align-items: center;
   transition-property: left;
-  transition-duration: .2s;
+  transition-duration: v-bind(animationDurationString);
 }
 
 .button img {
@@ -175,7 +186,7 @@ function resetInterval() {
   width: calc(100% - 50px);
   text-align: center;
   transition-property: transform;
-  transition-duration: .2s;
+  transition-duration: v-bind(animationDurationString);
 }
 
 .label.active {
