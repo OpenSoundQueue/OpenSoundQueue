@@ -1,19 +1,23 @@
 <template>
-  <div class="add-song-wrapper" @click="openOverlay" v-closable="{excluded: [], handler: closeOverlay}">
-    <InputField :placeholder="$translate('addSong.placeholder')"
-                v-model="inputString"
-                ref="inputField"
-                :custom-icon="true"
-                :label="$translate('addSong.title')"
-    >
-      <template #icon>
-        <img v-if="showSearch" src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
-        <img v-else src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
-      </template>
-      <template #help>
+  <div class="add-song-wrapper">
+    <div class="add-song-container">
+      <div class="add-song-label">
+        <span>{{ $translate('addSong.title') }}</span>
         <InfoButton>{{ $translate('help.addSong') }}</InfoButton>
-      </template>
-    </InputField>
+      </div>
+      <InputField @click="openOverlay"
+                  v-closable="{excluded: ['add-song-overlay'], handler: closeOverlay}"
+                  :placeholder="$translate('addSong.placeholder')"
+                  v-model="inputString"
+                  ref="inputField"
+                  :custom-icon="true"
+      >
+        <template #icon>
+          <img v-if="showSearch" src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
+          <img v-else src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
+        </template>
+      </InputField>
+    </div>
     <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-if="showSearch">
         <SearchResults :search-term="inputString" @add-song="clearInputField"/>
@@ -122,16 +126,34 @@ function clearInputField() {
 .add-song-wrapper {
   width: 100%;
   height: 100%;
+  position: relative;
+  background: var(--secondary-color);
+  border-radius: var(--border-radius-medium);
+}
+
+.add-song-container {
+  padding: 10px 10px 0 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  position: relative;
+  gap: 5px;
+}
+
+.add-song-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-song-label span {
+  font-size: var(--font-size-big);
 }
 
 .add-song-overlay {
   position: absolute;
-  top: 75px;
+  top: 90px;
   width: 100%;
-  max-height: calc(100svh - 220px);
+  max-height: calc(100svh - 240px);
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-medium);
   padding: 10px;
@@ -150,14 +172,17 @@ function clearInputField() {
 
 @media screen and (min-width: 1250px) {
   .add-song-wrapper {
-    padding: 20px 10px 10px 10px;
+    padding: 10px 0 0 0;
     box-sizing: border-box;
+    background: none;
+    display: flex;
+    flex-direction: column;
   }
 
   .add-song-overlay {
     position: static;
     height: 100%;
-    padding: 0;
+    padding-top: 0;
   }
 
   .add-song-overlay.not-visible {
