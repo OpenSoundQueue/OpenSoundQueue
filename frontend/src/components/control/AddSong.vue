@@ -156,7 +156,7 @@ function clearInputField() {
   max-height: calc(100svh - 240px);
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-medium);
-  padding: 10px;
+  padding: 10px 0 10px 10px;
   box-sizing: border-box;
   overflow-y: scroll;
   z-index: 2;
@@ -182,7 +182,8 @@ function clearInputField() {
   .add-song-overlay {
     position: static;
     height: 100%;
-    padding-top: 0;
+    width: calc(100% - 10px);
+    padding: 0 0 10px 10px;
   }
 
   .add-song-overlay.not-visible {
