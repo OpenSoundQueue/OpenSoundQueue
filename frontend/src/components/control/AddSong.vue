@@ -18,7 +18,7 @@
         </template>
       </InputField>
     </div>
-    <div class="add-song-overlay" :class="[showOverlay ? 'visible' : 'not-visible']">
+    <div class="add-song-overlay scrollbar" :class="[showOverlay ? 'visible' : 'not-visible']">
       <div v-if="showSearch">
         <SearchResults :search-term="inputString" @add-song="clearInputField"/>
       </div>

@@ -30,7 +30,7 @@
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {HttpService} from "@/services/HttpService";
 import type {Ref} from "vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import type {User} from "@/models/User";
 import router from "@/router";
 import * as cookieService from "@/services/cookieService";
@@ -48,6 +48,10 @@ const emit = defineEmits<{
 }>();
 
 onMounted(() => {
+  getSelf();
+})
+
+watch(router.currentRoute, () => {
   getSelf();
 })
 
