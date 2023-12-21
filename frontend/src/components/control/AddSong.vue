@@ -19,10 +19,10 @@
       </InputField>
     </div>
     <div class="add-song-overlay scrollbar" :class="[showOverlay ? 'visible' : 'not-visible']">
-      <div v-if="showSearch">
+      <div v-show="showSearch">
         <SearchResults :search-term="inputString" @add-song="clearInputField"/>
       </div>
-      <div v-else>
+      <div v-show="!showSearch">
         <DefaultButton :text="$translate('addSong.action')"
                        :is-disabled="!inputIsValid"
                        :is-loading="waitingForResponse"
@@ -62,8 +62,8 @@ const showSearch = computed(() => {
   return !linkRegex.test(inputString.value);
 });
 
-watch(inputString, () => {
-  if (!inputString.value) {
+watch(inputString, (newValue) => {
+  if (!newValue) {
     showOverlay.value = false;
     return;
   }
@@ -156,7 +156,7 @@ function clearInputField() {
   max-height: calc(100svh - 240px);
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-medium);
-  padding: 10px 0 10px 10px;
+  padding: 10px 10px 10px 10px;
   box-sizing: border-box;
   overflow-y: scroll;
   z-index: 2;
@@ -172,7 +172,7 @@ function clearInputField() {
 
 @media screen and (min-width: 1250px) {
   .add-song-wrapper {
-    padding: 10px 0 0 0;
+    padding: 20px 0 0 0;
     box-sizing: border-box;
     background: none;
     display: flex;
