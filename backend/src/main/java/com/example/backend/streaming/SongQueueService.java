@@ -59,8 +59,9 @@ public class SongQueueService {
     public void skip() {
         songService.close(currentSong);
         voteSkipUserList.clear();
-        if (songQueue.size() == 0) {
+        if (songQueue.isEmpty()) {
             currentSong = null;
+            isPlaying = false;
             return;
         }
         currentSong = songQueue.get(0);
@@ -102,13 +103,13 @@ public class SongQueueService {
     }
 
     public void play() {
-        if (songQueue.size() == 0 && currentSong == null) {
+        if (songQueue.isEmpty() && currentSong == null) {
             LOG.info("Song queue is empty!");
             return;
         }
         songService.play(currentSong);
 
-        if (songQueue.size() > 0) {
+        if (!songQueue.isEmpty()) {
             new Thread(() -> songService.downloadDependencies(songQueue.get(0))).start();
         }
 
