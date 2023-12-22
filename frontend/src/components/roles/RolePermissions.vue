@@ -34,7 +34,7 @@
         <div v-for="(permission,index) in filteredPermissions" :key="index" class="permission"
              @click="updatePermission(permission.name)">
           <div>{{ permission.name }}</div>
-          <div>{{ permission.isActive }}</div>
+          <ToggleSwitch :checked="permission.isActive" @change="updatePermission(permission.name)"/>
         </div>
         <div v-show="filteredPermissions.length==0">{{ translate('roleEdit.permissions.noResults') }}'{{ searchText }}'</div>
       </div>
@@ -53,6 +53,7 @@ import {storeToRefs} from "pinia";
 import {HttpService} from "@/services/HttpService";
 import InputField from "@/components/inputs/InputField.vue";
 import {translate} from "@/plugins/TranslationPlugin";
+import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
 
 type PermissionCheck = {
   name:string,

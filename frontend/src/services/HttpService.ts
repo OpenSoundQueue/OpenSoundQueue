@@ -351,7 +351,7 @@ export class HttpService {
                 }
 
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data: string[]) => {
                 return data;
             });
     }
