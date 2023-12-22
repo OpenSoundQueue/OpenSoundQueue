@@ -23,7 +23,7 @@ import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import router from "@/router";
 import {useNowPlaying} from "@/composables/nowPlaying";
 
-const {currentSong, currentTime, progress} = useNowPlaying();
+const {currentSong, currentTime, progress} = useNowPlaying(7000, 100);
 
 </script>
 

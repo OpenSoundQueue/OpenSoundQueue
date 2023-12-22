@@ -51,7 +51,7 @@ import {useNowPlaying} from "@/composables/nowPlaying";
 
 const httpService = new HttpService();
 
-const {currentSong, currentTime, progress, isPlaying} = useNowPlaying();
+const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
 const hasAdvancedPermissions = ref(false);
 

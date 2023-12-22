@@ -3,11 +3,8 @@ import {Song} from "@/models/Song";
 import type {Ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 
-export function useNowPlaying() {
+export function useNowPlaying(updateInterval: number, renderingInterval: number) {
     const httpService = new HttpService();
-
-    const updateInterval = 4000;
-    const renderingInterval = 100;
 
     const currentSong: Ref<Song | undefined> = ref();
     const progress = ref(0);
