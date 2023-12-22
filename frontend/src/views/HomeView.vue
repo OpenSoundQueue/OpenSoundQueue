@@ -21,7 +21,7 @@
     <div class="control-panel-wrapper">
       <div class="control-panel-container">
         <div class="now-playing-container">
-          <NowPlaying :update-interval="1000"/>
+          <NowPlaying :update-interval="4000"/>
         </div>
         <div class="vote-skip-container">
           <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
