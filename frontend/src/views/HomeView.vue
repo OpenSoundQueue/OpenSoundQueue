@@ -29,6 +29,7 @@
                         :skip="hasAdvancedControlPanelPermission"
                         :replay="hasAdvancedControlPanelPermission"
                         :is-playing="isPlaying"
+                        @update="getTime"
           />
         </div>
       </div>
@@ -51,7 +52,8 @@ import type {Song} from "@/models/Song";
 
 const httpService = new HttpService();
 
-const updateInterval = 1000;
+const updateInterval = 10000;
+const renderingInterval = 100;
 
 const currentSong: Ref<Song | undefined> = ref();
 const progress = ref(0);
@@ -78,7 +80,7 @@ onMounted(() => {
   }
 
   setInterval(getTime, updateInterval);
-  setInterval(calculateProgress, 50);
+  setInterval(calculateProgress, renderingInterval);
   getTime();
 })
 
@@ -103,7 +105,14 @@ function calculateProgress() {
     return;
   }
 
+  // song is playing
   progress.value = (1 - ((songEndTime.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
+
+  // song has ended
+  if (songEndTime.value - Date.now() < 0) {
+    getTime();
+  }
+
   currentTime.value = currentSong.value.duration - (songEndTime.value - Date.now()) / 1000;
 }
 
