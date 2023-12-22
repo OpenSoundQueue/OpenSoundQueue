@@ -23,49 +23,30 @@
 
 <script setup lang="ts">
 import ProgressBar from "@/components/ProgressBar.vue";
-import {HttpService} from "@/services/HttpService";
-import {computed, onMounted, ref} from "vue";
+import {computed} from "vue";
 import {Song} from "@/models/Song";
 
-import type {Ref} from "vue";
-
 const props = defineProps<{
-  updateInterval: number
+  currentSong?: Song
+  currentTime: number,
+  progress: number
 }>();
 
-const progress = ref(0);
-const currentTime = ref(0);
-const currentSong: Ref<Song | undefined> = ref();
-const httpService = new HttpService();
-const isLoading = ref(true);
-
-onMounted(() => {
-  setInterval(getTime, props.updateInterval);
+const isLoading = computed(() =>  {
+  return !props.currentSong;
 });
 
 const getCurrentTime = computed(() => {
-  return secondsToTimeString(currentTime.value);
+  return secondsToTimeString(props.currentTime);
 });
 
 const getDuration = computed(() => {
-  if (currentSong.value) {
-    return secondsToTimeString(currentSong.value?.duration);
+  if (props.currentSong) {
+    return secondsToTimeString(props.currentSong.duration);
   } else {
     return "0:00";
   }
 });
-
-function getTime() {
-  httpService.getNowPlaying().then(data => {
-    isLoading.value = false;
-    if (data.song) {
-      currentSong.value = data.song;
-
-      currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-      progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
-    }
-  })
-}
 
 function secondsToTimeString(time: number): string {
   const minutes = Math.floor(time / 60);

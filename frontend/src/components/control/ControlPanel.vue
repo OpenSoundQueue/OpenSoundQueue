@@ -2,7 +2,7 @@
   <div class="control-panel">
     <ReplaySong v-show="replay"/>
     <div class="skip-container">
-      <StartStopSong v-show="startStop"/>
+      <StartStopSong v-show="startStop" :is-playing="isPlaying"/>
       <div v-show="voteSkip && !startStop" class="vote-skip">
         <VoteSkip :update-interval="4000"/>
         <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
@@ -27,7 +27,8 @@ const props = defineProps<{
   voteSkip: boolean,
   startStop: boolean,
   skip: boolean,
-  replay: boolean
+  replay: boolean,
+  isPlaying: boolean
 }>();
 </script>
 

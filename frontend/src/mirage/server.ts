@@ -121,7 +121,7 @@ export function makeServer({environment = "development"} = {}) {
                 lastRequest = Date.now();
 
                 return {
-                    isPlaying: true,
+                    isPlaying: queueIsPlaying,
                     time: time,
                     stamp: Date.now(),
                     song: songs[0]
