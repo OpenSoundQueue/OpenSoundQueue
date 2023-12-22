@@ -39,7 +39,8 @@ import LoadingAnimation from "@/components/LoadingAnimation.vue";
 import * as cookieService from "@/services/cookieService";
 
 const props = defineProps<{
-  searchTerm: string
+  searchTerm: string,
+  blockSearch: boolean
 }>();
 
 const emit = defineEmits<{
@@ -78,6 +79,10 @@ const processChange = debounce(() => {
 });
 
 function searchHistory(searchTerm: string) {
+  if (props.blockSearch) {
+    return;
+  }
+
   httpService.getSearchHistory(searchTerm, maxSearchResults, cookieService.getApiKey())
       .then((data: Song[]) => {
         searchResults.value = data

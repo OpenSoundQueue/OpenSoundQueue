@@ -1,8 +1,6 @@
 package com.example.backend.Repository;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
@@ -31,7 +29,6 @@ public class UserInfoEntity {
     private boolean verified;
 
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Role> roles;
 
     @Column

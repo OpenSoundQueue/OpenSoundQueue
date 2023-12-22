@@ -145,19 +145,19 @@ main.show-mode-switcher {
   }
 
   .queue-scroll-container {
-    height: calc(100% - 70px - 190px - 50px);
+    height: calc(100% - 100px - 190px - 50px);
   }
 }
 
 .add-song-container {
-  height: 80px;
-  position: relative;
+  height: 100px;
 }
 
 .queue-scroll-container {
   border-bottom: var(--secondary-color) dashed 2px;
+  height: calc(100% - 100px - 190px);
+  padding-top: 10px;
   box-sizing: border-box;
-  height: calc(100% - 80px - 190px);
 }
 
 .queue-scroll-component {
@@ -294,7 +294,7 @@ main.show-mode-switcher {
 
   .queue-scroll-component {
     height: calc(100% - 50px);
-    padding: 10px 10px 10px 0;
+    padding: 10px 10px 0 0;
     box-sizing: border-box;
   }
 
