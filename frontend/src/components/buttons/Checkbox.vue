@@ -25,7 +25,7 @@ defineEmits<{
   aspect-ratio: 1/1;
   height: var(--font-size-medium);
   box-sizing: border-box;
-  border: 2px solid white;
+  border: 1px solid white;
   border-radius: 2px;
   background-color: transparent;
 }

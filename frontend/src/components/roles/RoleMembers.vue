@@ -219,7 +219,7 @@ async function getUsers() {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: calc(var(--font-size-medium) / 2);
+  padding: calc(var(--font-size-medium) / 1.5);
   border-radius: var(--border-radius-small);
 }
 
