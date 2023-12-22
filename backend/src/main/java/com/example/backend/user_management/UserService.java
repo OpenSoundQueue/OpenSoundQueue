@@ -175,4 +175,28 @@ public class UserService {
             }
         }
     }
+
+    public void updateName(long id, String name) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+
+        user.setUsername(name);
+        userInfoRepository.save(user);
+
+        for (Role r : roleRepository.findAll()) {
+            r.setUsersList(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
+        }
+    }
+
+    public void updateEmail(long id, String email) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+
+        user.setEmail(email);
+        userInfoRepository.save(user);
+
+        for (Role r : roleRepository.findAll()) {
+            r.setUsersList(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
+        }
+    }
 }
