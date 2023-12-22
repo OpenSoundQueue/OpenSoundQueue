@@ -148,15 +148,17 @@ public class YoutubeSongService implements SongServiceInterface {
     public void fetchInfos(Song song) {
         song.setFetchingInfos(true);
         List<SongInfoHistoryEntity> foundSongs = songInfoRepository.findBySongLink(song.getLink());
-        if (foundSongs.size() == 0) {
+        if (foundSongs.isEmpty()) {
             SongInfo info = this.getInfos(song);
             song.setTitle(info.getTitle());
             song.setDuration(info.getDuration());
             song.setArtist(info.getArtist().trim());
             song.setFileName(song.getArtist() + " - " + song.getTitle() + ".wav");
 
-            SongInfoHistoryEntity songInfoHistoryEntity = new SongInfoHistoryEntity(song.getTitle(), song.getArtist(), song.getLink(), song.getDuration());
-            songInfoRepository.save(songInfoHistoryEntity);
+            if (songInfoRepository.findByTitle(song.getTitle()).isEmpty()) {
+                SongInfoHistoryEntity songInfoHistoryEntity = new SongInfoHistoryEntity(song.getTitle(), song.getArtist(), song.getLink(), song.getDuration());
+                songInfoRepository.save(songInfoHistoryEntity);
+            }
         } else {
             SongInfoHistoryEntity songHistory = foundSongs.get(0);
             song.setTitle(songHistory.getTitle());
