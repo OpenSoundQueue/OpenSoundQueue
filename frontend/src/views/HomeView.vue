@@ -29,7 +29,7 @@
                         :skip="hasAdvancedControlPanelPermission"
                         :replay="hasAdvancedControlPanelPermission"
                         :is-playing="isPlaying"
-                        @update="getTime"
+                        @update="update"
           />
         </div>
       </div>
@@ -67,12 +67,14 @@ const displayAdvanced = computed(() => {
   return router.currentRoute.value.name === "advanced";
 })
 
-function getTime() {
+function update() {
   httpService.getNowPlaying().then(data => {
     if (data.song) {
       currentSong.value = data.song;
 
       isPlaying.value = data.isPlaying;
+      currentTime.value = data.time / 1000;
+      progress.value = (data.time / (data.song.duration * 1000)) * 100;
     }
   })
 }

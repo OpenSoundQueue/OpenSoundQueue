@@ -1,4 +1,4 @@
-import {onMounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import {Song} from "@/models/Song";
 import type {Ref} from "vue";
 import {HttpService} from "@/services/HttpService";
@@ -13,13 +13,22 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
     const playHead = ref(0);
     const songEndTime = ref(0);
 
+    let updateIntervalId: number | undefined;
+    let renderingIntervalId: number | undefined;
+
     onMounted(() => {
-        setInterval(getTime, updateInterval);
-        setInterval(calculateProgress, renderingInterval);
+        updateIntervalId = setInterval(getTime, updateInterval);
+        renderingIntervalId = setInterval(calculateProgress, renderingInterval);
         getTime();
     });
 
+    onUnmounted(() => {
+        clearInterval(updateIntervalId);
+        clearInterval(renderingIntervalId);
+    });
+
     function getTime() {
+        console.log("helolo");
         httpService.getNowPlaying().then(data => {
             if (data.song) {
                 currentSong.value = data.song;
