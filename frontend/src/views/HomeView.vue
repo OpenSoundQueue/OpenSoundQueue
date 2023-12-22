@@ -43,26 +43,18 @@ import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
 import {HttpService} from "@/services/HttpService";
-import type {Ref} from "vue";
-import type {Song} from "@/models/Song";
+import {useNowPlaying} from "@/composables/nowPlaying";
 
 const httpService = new HttpService();
 
-const updateInterval = 4000;
-const renderingInterval = 100;
-
-const currentSong: Ref<Song | undefined> = ref();
-const progress = ref(0);
-const currentTime = ref(0);
-const isPlaying = ref(false);
-const playHead = ref(0);
-const songEndTime = ref(0);
+const {currentSong, currentTime, progress, isPlaying} = useNowPlaying();
 
 const hasAdvancedPermissions = ref(false);
+
 const hasQueueReorderPermission = computed(() => {
   return router.currentRoute.value.name === "advanced";
 });
@@ -75,57 +67,15 @@ const displayAdvanced = computed(() => {
   return router.currentRoute.value.name === "advanced";
 })
 
-onMounted(() => {
-  if (router.currentRoute.value.name !== "default") {
-    hasAdvancedPermissions.value = true;
-  }
-
-  setInterval(getTime, updateInterval);
-  setInterval(calculateProgress, renderingInterval);
-  getTime();
-})
-
 function getTime() {
   httpService.getNowPlaying().then(data => {
     if (data.song) {
       currentSong.value = data.song;
 
       isPlaying.value = data.isPlaying;
-
-      playHead.value = addTransmissionTime(data.time, data.stamp);
-
-      songEndTime.value = Date.now() + (data.song.duration * 1000) - addTransmissionTime(data.time, data.stamp);
     }
   })
 }
-
-function calculateProgress() {
-  if (!currentSong.value) {
-    return;
-  }
-
-  if (!isPlaying.value) {
-    // match progress and time label with time from now playing request
-    currentTime.value = playHead.value / 1000;
-    progress.value = (playHead.value / (currentSong.value?.duration * 1000)) * 100;
-    return;
-  }
-
-  // song has ended
-  if (songEndTime.value - Date.now() < 0) {
-    getTime();
-  }
-
-  // song is playing
-  progress.value = (1 - ((songEndTime.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
-  currentTime.value = currentSong.value.duration - (songEndTime.value - Date.now()) / 1000;
-}
-
-function addTransmissionTime(value: number, stampSender: number) {
-  return value + Date.now() - stampSender;
-}
-
-
 </script>
 
 <style scoped>

@@ -21,67 +21,10 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import Footer from "@/components/Footer.vue";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import router from "@/router";
-import {onMounted, ref} from "vue";
-import {HttpService} from "@/services/HttpService";
-import {Song} from "@/models/Song";
-import type {Ref} from "vue";
+import {useNowPlaying} from "@/composables/nowPlaying";
 
-const httpService = new HttpService();
-const updateInterval = 7000;
-const renderingInterval = 100;
+const {currentSong, currentTime, progress} = useNowPlaying();
 
-const currentSong: Ref<Song | undefined> = ref();
-const progress = ref(0);
-const currentTime = ref(0);
-const isPlaying = ref(false);
-const playHead = ref(0);
-const songEndTime = ref(0);
-
-onMounted(() => {
-  setInterval(getTime, updateInterval);
-  setInterval(calculateProgress, renderingInterval);
-  getTime();
-})
-
-function getTime() {
-  httpService.getNowPlaying().then(data => {
-    if (data.song) {
-      currentSong.value = data.song;
-
-      isPlaying.value = data.isPlaying;
-
-      playHead.value = addTransmissionTime(data.time, data.stamp);
-
-      songEndTime.value = Date.now() + (data.song.duration * 1000) - addTransmissionTime(data.time, data.stamp);
-    }
-  })
-}
-
-function calculateProgress() {
-  if (!currentSong.value) {
-    return;
-  }
-
-  if (!isPlaying.value) {
-    // match progress and time label with time from now playing request
-    currentTime.value = playHead.value / 1000;
-    progress.value = (playHead.value / (currentSong.value?.duration * 1000)) * 100;
-    return;
-  }
-
-  // song has ended
-  if (songEndTime.value - Date.now() < 0) {
-    getTime();
-  }
-
-  // song is playing
-  progress.value = (1 - ((songEndTime.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
-  currentTime.value = currentSong.value.duration - (songEndTime.value - Date.now()) / 1000;
-}
-
-function addTransmissionTime(value: number, stampSender: number) {
-  return value + Date.now() - stampSender;
-}
 </script>
 
 <style scoped>
