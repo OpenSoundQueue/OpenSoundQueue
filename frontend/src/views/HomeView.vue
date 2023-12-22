@@ -52,7 +52,7 @@ import type {Song} from "@/models/Song";
 
 const httpService = new HttpService();
 
-const updateInterval = 10000;
+const updateInterval = 4000;
 const renderingInterval = 100;
 
 const currentSong: Ref<Song | undefined> = ref();
@@ -101,18 +101,17 @@ function calculateProgress() {
     return;
   }
 
-  if (!isPlaying.value && progress.value && currentTime.value) {
+  if (!isPlaying.value) {
     return;
   }
-
-  // song is playing
-  progress.value = (1 - ((songEndTime.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
 
   // song has ended
   if (songEndTime.value - Date.now() < 0) {
     getTime();
   }
 
+  // song is playing
+  progress.value = (1 - ((songEndTime.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
   currentTime.value = currentSong.value.duration - (songEndTime.value - Date.now()) / 1000;
 }
 
