@@ -19,7 +19,7 @@
       <div class="user-container">
         <div v-for="(user,index) in filteredUsers" :key="index" class="user">
           <div>{{ user.username }} --- {{ user.isMember }}</div>
-          <input type="checkbox" :checked="user.isMember">
+          <input type="checkbox" :checked="user.isMember" v-on:change="updateMember(user.id,user.username)">
         </div>
         <div v-show="filteredUsers.length==0">{{ translate('roleEdit.member.noResults') }}'{{ searchText }}'</div>
       </div>
@@ -46,6 +46,10 @@ type UserCheck = {
   isMember: boolean
 }
 
+defineProps<{
+  role?: Role
+}>()
+
 const httpService = new HttpService();
 
 const store = useRoleStore();
@@ -67,6 +71,10 @@ onMounted(async () => {
   await getUsers();
 })
 
+function updateMember(id:number,name:string){
+  store.toggleMember(id,name)
+}
+
 function mapUsers(users: Ref<User[]>): UserCheck[] {
 
   const mappedUsers: Ref<UserCheck[]> = ref(toUserCheck(users));
@@ -81,9 +89,7 @@ function mapUsers(users: Ref<User[]>): UserCheck[] {
     }
   }
 
-  mappedUsers.value.filter(user => user.username.toLowerCase().includes(searchText.value.toLowerCase()))
-
-  return mappedUsers.value;
+  return mappedUsers.value.filter(user => user.username.toLowerCase().includes(searchText.value.toLowerCase()));
 }
 
 function toUserCheck(users: Ref<User[]>): UserCheck[] {
@@ -103,15 +109,6 @@ async function getUsers() {
       });
   return users;
 }
-
-const emit = defineEmits<{
-  back: [],
-}>();
-
-
-defineProps<{
-  role?: Role
-}>()
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@ import {computed, ref} from "vue";
 import type {Ref} from "vue";
 import {Role} from "@/models/Role";
 import {HttpService} from "@/services/HttpService";
-import type {User} from "@/models/User";
+import {User} from "@/models/User";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 
@@ -13,6 +13,7 @@ export const useRoleStore = defineStore('role', () => {
     const fetchedRole: Ref<Role | undefined> = ref();
     const patchedRole: Ref<Role | undefined> = ref();
     const roleEdited = computed(() => {
+        console.log(fetchedRole.value)
         if (fetchedRole.value === undefined || patchedRole.value === undefined) {
             return false;
         }
@@ -32,7 +33,7 @@ export const useRoleStore = defineStore('role', () => {
             });
     }
 
-    async function rollback() {
+    function rollback() {
         if (fetchedRole.value === undefined)
             patchedRole.value = undefined;
         else
@@ -49,12 +50,12 @@ export const useRoleStore = defineStore('role', () => {
                 .catch(() => {
                     fetchedRole.value = undefined;
                     patchedRole.value = undefined;
-                    ToastService.sendNotification(translate('popUp.editRole.saveError'),"error",3000)
+                    ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
                 });
     }
 
-    async function deleteRole(){
-        if (fetchedRole.value !=undefined)
+    async function deleteRole() {
+        if (fetchedRole.value != undefined)
             await httpService.deleteRole(fetchedRole.value?.id)
                 .then(() => {
                     fetchedRole.value = undefined;
@@ -63,29 +64,44 @@ export const useRoleStore = defineStore('role', () => {
                 .catch(() => {
                     fetchedRole.value = undefined;
                     patchedRole.value = undefined;
-                    ToastService.sendNotification(translate('popUp.editRole.saveError'),"error",3000)
+                    ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
                 });
     }
 
-    async function patchName(name: string) {
+    function patchName(name: string) {
         if (name.length === 0 || patchedRole.value === undefined) {
             return;
         }
         patchedRole.value.name = name;
     }
 
-    async function patchPermissions(permissions: string[]) {
+    function patchPermissions(permissions: string[]) {
         if (permissions.length === 0 || patchedRole.value === undefined) {
             return;
         }
         patchedRole.value.permissions = permissions;
     }
 
-    async function patchMember(members: User[]) {
+    function patchMember(members: User[]) {
         if (members.length == 0 || patchedRole.value == undefined)
             return
 
         patchedRole.value.members = members;
+    }
+
+    function toggleMember(id: number, name: string) {
+        if (patchedRole.value == undefined)
+            return;
+        for (let i = 0; i < patchedRole.value?.members.length; i++) {
+            if (patchedRole.value?.members[i].id == id) {
+                patchedRole.value?.members.splice(i, 1)
+                return;
+            }
+        }
+        patchedRole.value?.members.push(<User>{
+            id: id,
+            username: name
+        })
     }
 
     return {
@@ -98,7 +114,8 @@ export const useRoleStore = defineStore('role', () => {
         deleteRole,
         patchPermissions,
         patchMember,
-        patchName
+        patchName,
+        toggleMember
     }
 
 })
