@@ -57,6 +57,7 @@ const currentSong: Ref<Song | undefined> = ref();
 const progress = ref(0);
 const currentTime = ref(0);
 const isPlaying = ref(false);
+const songEndTime = ref(0);
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = computed(() => {
@@ -77,6 +78,8 @@ onMounted(() => {
   }
 
   setInterval(getTime, updateInterval);
+  setInterval(calculateProgress, 50);
+  getTime();
 })
 
 function getTime() {
@@ -84,12 +87,31 @@ function getTime() {
     if (data.song) {
       currentSong.value = data.song;
 
-      currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-      progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
       isPlaying.value = data.isPlaying;
+
+      songEndTime.value = Date.now() + (data.song.duration * 1000) - addTransmissionTime(data.time, data.stamp);
     }
   })
 }
+
+function calculateProgress() {
+  if (!currentSong.value) {
+    return;
+  }
+
+  if (!isPlaying.value && progress.value && currentTime.value) {
+    return;
+  }
+
+  progress.value = (1 - ((songEndTime.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
+  currentTime.value = currentSong.value.duration - (songEndTime.value - Date.now()) / 1000;
+}
+
+function addTransmissionTime(value: number, stampSender: number) {
+  return value + Date.now() - stampSender;
+}
+
+
 </script>
 
 <style scoped>
