@@ -30,6 +30,8 @@ export class Role {
     static membersAreEqual(arr1: User[], arr2: User[]): boolean {
         if (arr1.length !== arr2.length)
             return false;
+        arr1.sort((a, b) => a.id - b.id);
+        arr2.sort((a, b) => a.id - b.id);
         for (let i = 0; i < arr1.length; i++) {
             if (arr1[i].id !== arr2[i].id || arr1[i].username !== arr2[i].username)
                 return false;

@@ -25,7 +25,7 @@ public class RoleSerializer extends JsonSerializer<Role> {
         for (UserInfoEntity u:role.getUsersList()) {
             jsonGenerator.writeStartObject();
             jsonGenerator.writeNumberField("id", u.getId());
-            jsonGenerator.writeStringField("name", u.getUsername());
+            jsonGenerator.writeStringField("username", u.getUsername());
             jsonGenerator.writeEndObject();
         }
         jsonGenerator.writeEndArray();

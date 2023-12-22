@@ -16,10 +16,25 @@
           <img src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
         </template>
       </InputField>
-      <div class="user-container">
-        <div v-for="(user,index) in filteredUsers" :key="index" class="user">
-          <div>{{ user.username }} --- {{ user.isMember }}</div>
-          <input type="checkbox" :checked="user.isMember" v-on:change="updateMember(user.id,user.username)">
+      <div class="selection-manipulation-container">
+        <div class="selection-manipulator" @click="selectAll">
+          <img src="@/assets/icons/user_selection/all.svg" :alt="translate('altTexts.selectAll')"/>
+          <div>{{ $translate('roleEdit.member.selectAll') }}</div>
+        </div>
+        <div class="selection-manipulator" @click="selectNone">
+          <img src="@/assets/icons/user_selection/none.svg" :alt="translate('altTexts.selectNone')"/>
+          <div>{{ $translate('roleEdit.member.selectNone') }}</div>
+        </div>
+        <div class="selection-manipulator" @click="invertSelection">
+          <img src="@/assets/icons/user_selection/invert.svg" :alt="translate('altTexts.invertSelection')"/>
+          <div>{{ $translate('roleEdit.member.invert') }}</div>
+        </div>
+      </div>
+      <div class="user-container scrollbar">
+        <div v-for="(user,index) in filteredUsers" :key="index" class="user"
+             @click="updateMember(user.id,user.username)">
+          <div>{{ user.username }}</div>
+          <Checkbox :checked="user.isMember" @change="updateMember(user.id,user.username)"/>
         </div>
         <div v-show="filteredUsers.length==0">{{ translate('roleEdit.member.noResults') }}'{{ searchText }}'</div>
       </div>
@@ -32,13 +47,14 @@ import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
 import {Role} from "@/models/Role";
 import {useRoleStore} from "@/stores/Role";
-import {computed, ComputedRef, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import {HttpService} from "@/services/HttpService";
 import type {User} from "@/models/User";
 import InputField from "@/components/inputs/InputField.vue";
 import {translate} from "@/plugins/TranslationPlugin";
+import Checkbox from "@/components/buttons/Checkbox.vue";
 
 type UserCheck = {
   id: number,
@@ -71,8 +87,35 @@ onMounted(async () => {
   await getUsers();
 })
 
-function updateMember(id:number,name:string){
-  store.toggleMember(id,name)
+function selectAll() {
+  if (store.patchedRole == undefined)
+    return
+
+  for (let i = 0; i < users.value.length; i++) {
+    if (store.patchedRole.members.filter(user => user.id == users.value[i].id).length == 0)
+      store.toggleMember(users.value[i].id, users.value[i].username)
+  }
+}
+
+function selectNone() {
+  if (store.patchedRole == undefined)
+    return
+
+  for (let i = 0; i < users.value.length; i++) {
+    if (store.patchedRole.members.filter(user => user.id == users.value[i].id).length > 0)
+      store.toggleMember(users.value[i].id, users.value[i].username)
+  }
+
+}
+
+function invertSelection() {
+  for (let i = 0; i < users.value.length; i++) {
+    store.toggleMember(users.value[i].id, users.value[i].username)
+  }
+}
+
+function updateMember(id: number, name: string) {
+  store.toggleMember(id, name)
 }
 
 function mapUsers(users: Ref<User[]>): UserCheck[] {
@@ -117,7 +160,6 @@ async function getUsers() {
   top: 60px;
   left: 0;
   width: 100%;
-  height: 100vh;
   background: var(--background-color);
   padding: 15px;
   box-sizing: border-box;
@@ -126,19 +168,67 @@ async function getUsers() {
 
 .role-members-container {
   display: flex;
+  height: 100%;
   flex-direction: column;
   gap: 15px;
+  width: 100% !important;
+}
+
+.selection-manipulation-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  margin-top: -10px;
+}
+
+.selection-manipulator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 5px;
+
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: solid 2px var(--primary-color);
+  border-radius: var(--border-radius-small);
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.selection-manipulator:hover {
+  cursor: pointer;
+}
+
+.selection-manipulator > img {
+  aspect-ratio: 1;
+  height: var(--font-size-medium);
+  border: solid 1px var(--primary-color);
+  border-radius: 2px;
 }
 
 .user-container {
   margin: 0 20px;
+  overflow: scroll;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 .user {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: var(--font-size-medium);
+  padding: calc(var(--font-size-medium) / 2);
+  border-radius: var(--border-radius-small);
+}
+
+.user:hover {
+  background-color: var(--primary-color);
+}
+
+.user:hover>.checkbox{
+  border-color: white !important;
 }
 
 @media screen and (min-width: 800px) {

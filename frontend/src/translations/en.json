@@ -57,7 +57,10 @@
     "sortingArrowUp": "Arrow pointing up, indicating sorting direction",
     "time": "Clock symbol",
     "undo": "An arrow pointing back to undo the changes",
-    "user": "User symbol"
+    "user": "User symbol",
+    "selectAll": "An grid of big rectangles of equal height and width, indicating all of them are selected",
+    "selectNone": "An grid of small rectangles of equal height and width, indicating none of them are selected",
+    "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted"
   },
   "createAccount": "Create Account",
   "currentSongEmpty": "There is currently no song playing",
@@ -205,6 +208,11 @@
     "success": "Registration successful"
   },
   "roleEdit": {
+    "navigation": {
+      "display": "Display",
+      "members": "Members",
+      "permissions": "Permissions"
+    },
     "save": "Save",
     "rollback": "Discard changes",
     "delete": "Delete Role",
@@ -214,7 +222,10 @@
     },
     "member": {
       "search": "Search for Users...",
-      "noResults": "No results for "
+      "noResults": "No results for ",
+      "selectAll": "Select All",
+      "selectNone": "Select None",
+      "invert": "Invert Selection"
     }
   }
 }

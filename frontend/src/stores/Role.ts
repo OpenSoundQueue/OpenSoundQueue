@@ -13,7 +13,6 @@ export const useRoleStore = defineStore('role', () => {
     const fetchedRole: Ref<Role | undefined> = ref();
     const patchedRole: Ref<Role | undefined> = ref();
     const roleEdited = computed(() => {
-        console.log(fetchedRole.value)
         if (fetchedRole.value === undefined || patchedRole.value === undefined) {
             return false;
         }

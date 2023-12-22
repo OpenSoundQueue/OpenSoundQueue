@@ -57,7 +57,10 @@
     "sortingArrowUp": "Pfeil nach oben für aufsteigende Sortierreihenfolge",
     "time": "Uhrensymbol",
     "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängi machen zu lassen",
-    "user": "Benutzersymbol"
+    "user": "Benutzersymbol",
+    "selectAll": "Ein Gitter aus großen Rechtecken gleicher Höhe und Breite, das anzeigt, dass alle Rechtecke ausgewählt sind",
+    "selectNone": "Ein Gitter aus kleinen Rechtecken gleicher Höhe und Breite, das anzeigt, dass keines der Rechtecke ausgewählt ist",
+    "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann"
   },
   "createAccount": "Ein Konto erstellen",
   "currentSongEmpty": "Aktuell wird kein Song abgespielt",
@@ -205,16 +208,24 @@
     "success": "Registrierung erfolgreich"
   },
   "roleEdit": {
+    "navigation": {
+      "display": "Anzeige",
+      "members": "Mitglieder",
+      "permissions": "Berechtigungen"
+    },
     "save": "Speichern",
     "rollback": "Änderungen verwerfen",
     "delete": "Rolle löschen",
-    "display":{
+    "display": {
       "roleName": "Rollen-Name",
       "placeholder": "Rollen-Name eingeben..."
     },
     "member": {
       "search": "Nach Benutzern suchen...",
-      "noResults": "Keine Treffer für "
+      "noResults": "Keine Treffer für ",
+      "selectAll": "Alle auswählen",
+      "selectNone": "keinen auswählen",
+      "invert": "Auswahl invertieren"
     }
   }
 }

@@ -17,19 +17,19 @@
         <div class="nav-element"
              :class="[detailComponent === RoleDisplay ? 'active' : '']"
              @click="changeTab(RoleDisplay)">
-          Display
+          {{ $translate('roleEdit.navigation.display') }}
           <div class="underline"></div>
         </div>
         <div class="nav-element"
              :class="[detailComponent === RoleMembers ? 'active' : '']"
              @click="changeTab(RoleMembers)">
-          Members
+          {{ $translate('roleEdit.navigation.members') }}
           <div class="underline"></div>
         </div>
         <div class="nav-element"
              :class="[detailComponent === RolePermissions ? 'active' : '']"
              @click="changeTab(RolePermissions)">
-          Permissions
+          {{ $translate('roleEdit.navigation.permissions') }}
           <div class="underline"></div>
         </div>
         <div v-show="store.roleEdited" class="nav-element save-button">
@@ -60,7 +60,6 @@ import router from "@/router";
 import {useRoleStore} from "@/stores/Role";
 import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
-import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 
 const store = useRoleStore();
@@ -235,6 +234,11 @@ nav {
     width: 100%;
     gap: 20px;
     height: 40px;
+  }
+
+  .detail-container > div {
+    height: calc(100% - 40px);
+    width:100%;
   }
 
   .nav-element {
