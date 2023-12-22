@@ -39,16 +39,22 @@ import {storeToRefs} from "pinia";
 
 const httpService = new HttpService();
 
-const roles:Ref<Role[]> = ref([]);
+const roles: Ref<Role[]> = ref([]);
 const store = useRoleStore();
 
 onMounted(async () => {
-   roles.value = await httpService.getRoles();
+  roles.value = await httpService.getRoles();
 
-   const refStore = storeToRefs(store);
-   watch(refStore.fetchedRole,async ()=>{
-     roles.value = await httpService.getRoles();
-   })
+  const refStore = storeToRefs(store);
+  watch(refStore.fetchedRole, async () => {
+    await httpService.getRoles()
+        .then((data) => {
+          roles.value = data;
+        })
+        .catch(() => {
+          router.push('/home')
+        });
+  })
 })
 
 defineProps<{
@@ -69,13 +75,12 @@ async function toDisplay(roleId?: number) {
 }
 
 
-
 async function selectRole(roleId?: number) {
-  if (roleId === undefined){
+  if (roleId === undefined) {
     return;
   }
 
-  if(store.roleEdited){
+  if (store.roleEdited) {
     PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
     const userAction = await PopUpService.waitForUserAction();
 

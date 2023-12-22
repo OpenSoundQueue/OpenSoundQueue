@@ -18,10 +18,10 @@
       </InputField>
       <div class="user-container">
         <div v-for="(user,index) in filteredUsers" :key="index" class="user">
-          <div>{{ user.username }}</div>
-          <input type="checkbox">
+          <div>{{ user.username }} --- {{ user.isMember }}</div>
+          <input type="checkbox" :checked="user.isMember">
         </div>
-        <div v-show="filteredUsers.length==0">{{ translate('roleEdit.member.noResults')}}'{{ searchText}}'</div>
+        <div v-show="filteredUsers.length==0">{{ translate('roleEdit.member.noResults') }}'{{ searchText }}'</div>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
 import {Role} from "@/models/Role";
 import {useRoleStore} from "@/stores/Role";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, ComputedRef, onMounted, ref, watch} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import {HttpService} from "@/services/HttpService";
@@ -40,26 +40,69 @@ import type {User} from "@/models/User";
 import InputField from "@/components/inputs/InputField.vue";
 import {translate} from "@/plugins/TranslationPlugin";
 
+type UserCheck = {
+  id: number,
+  username: string,
+  isMember: boolean
+}
+
 const httpService = new HttpService();
 
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
 const users: Ref<User[]> = ref([]);
 const searchText = ref("");
-const filteredUsers = computed(()=>{
-  if (users === undefined)
-    return [];
-  return users.value.filter(user=>user.username.toLowerCase().includes(searchText.value.toLowerCase()));
+const filteredUsers = computed(() => {
+  return mapUsers(users);
 })
 
 onMounted(async () => {
   const refStore = storeToRefs(store);
+  role.value = refStore.patchedRole.value
+
   watch(refStore.patchedRole, () => {
     role.value = refStore.patchedRole.value
   });
 
-  users.value = await httpService.getUsers();
+  await getUsers();
 })
+
+function mapUsers(users: Ref<User[]>): UserCheck[] {
+
+  const mappedUsers: Ref<UserCheck[]> = ref(toUserCheck(users));
+
+  if (role.value == undefined)
+    return mappedUsers.value;
+
+  for (let i = 0; i < mappedUsers.value.length; i++) {
+    for (let ii = 0; ii < role.value?.members.length; ii++) {
+      if (mappedUsers.value[i].id == role.value?.members[ii].id)
+        mappedUsers.value[i].isMember = true;
+    }
+  }
+
+  mappedUsers.value.filter(user => user.username.toLowerCase().includes(searchText.value.toLowerCase()))
+
+  return mappedUsers.value;
+}
+
+function toUserCheck(users: Ref<User[]>): UserCheck[] {
+  return users.value.map((user) => {
+    return <UserCheck>{
+      id: user.id,
+      username: user.username,
+      isMember: false,
+    }
+  })
+}
+
+async function getUsers() {
+  await httpService.getUsers()
+      .then((data) => {
+        users.value = data
+      });
+  return users;
+}
 
 const emit = defineEmits<{
   back: [],
