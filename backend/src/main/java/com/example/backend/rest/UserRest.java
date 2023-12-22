@@ -226,13 +226,17 @@ public class UserRest {
                 return ResponseEntity.badRequest().body(new ErrorDto("Email address is already taken"));
             } else {
                 savedUser = userService.getUserByEmail(user.getEmail());
+                userService.updateName(savedUser.getId(), user.getUsername());
                 savedUser.setUsername(user.getUsername());
-                savedUser.setPassword(user.getPassword());
-                userService.deleteUser(savedUser.getId());
-                savedUser = userService.registerNewAuthUser(savedUser);
             }
         } else {
-            savedUser = userService.registerNewAuthUser(user);
+            if (userService.getUserByUsername(user.getUsername()) == null) {
+                savedUser = userService.registerNewAuthUser(user);
+            } else {
+                savedUser = userService.getUserByUsername(user.getUsername());
+                userService.updateEmail(savedUser.getId(), user.getEmail());
+                savedUser.setEmail(user.getEmail());
+            }
         }
 
         userService.sendEmailVerification(savedUser);
