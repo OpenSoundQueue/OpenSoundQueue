@@ -150,7 +150,6 @@ async function getUsers() {
       .then((data) => {
         users.value = data
       });
-  return users;
 }
 </script>
 

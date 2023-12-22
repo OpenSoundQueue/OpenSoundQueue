@@ -103,6 +103,18 @@ export const useRoleStore = defineStore('role', () => {
         })
     }
 
+    function togglePermission(name: string) {
+        if (patchedRole.value == undefined)
+            return;
+        for (let i = 0; i < patchedRole.value?.permissions.length; i++) {
+            if (patchedRole.value?.permissions[i] == name) {
+                patchedRole.value?.permissions.splice(i, 1)
+                return;
+            }
+        }
+        patchedRole.value?.permissions.push(name)
+    }
+
     return {
         fetchedRole,
         patchedRole,
@@ -114,7 +126,8 @@ export const useRoleStore = defineStore('role', () => {
         patchPermissions,
         patchMember,
         patchName,
-        toggleMember
+        toggleMember,
+        togglePermission
     }
 
 })

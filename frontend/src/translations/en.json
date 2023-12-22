@@ -226,6 +226,13 @@
       "selectAll": "Select All",
       "selectNone": "Select None",
       "invert": "Invert Selection"
+    },
+    "permissions": {
+      "search": "Search for Permissions...",
+      "noResults": "No results for ",
+      "selectAll": "Select All",
+      "selectNone": "Select None",
+      "invert": "Invert Selection"
     }
   }
 }

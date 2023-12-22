@@ -226,6 +226,13 @@
       "selectAll": "Alle auswählen",
       "selectNone": "keinen auswählen",
       "invert": "Auswahl invertieren"
+    },
+    "permissions": {
+      "search": "Nach Berechtigungen suchen...",
+      "noResults": "Keine Treffer für ",
+      "selectAll": "Alle auswählen",
+      "selectNone": "keinen auswählen",
+      "invert": "Auswahl invertieren"
     }
   }
 }
