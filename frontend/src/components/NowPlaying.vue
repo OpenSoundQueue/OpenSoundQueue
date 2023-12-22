@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import ProgressBar from "@/components/ProgressBar.vue";
 import {HttpService} from "@/services/HttpService";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {Song} from "@/models/Song";
 
 import type {Ref} from "vue";
@@ -42,37 +42,23 @@ const isLoading = ref(true);
 
 const countdownDate = ref(0);
 
-const calculateProgressIntervalId: Ref<number> = ref(0);
-
 onMounted(() => {
   setInterval(getTime, props.updateInterval);
-  startProgressCalculation();
+  setInterval(calculateProgress, 50);
   getTime();
 });
 
-watch(isPlaying, (newValue) => {
-  if (newValue) {
-    startProgressCalculation();
+function calculateProgress() {
+  if (!currentSong.value) {
     return;
   }
 
-  stopProgressCalculation();
-})
+  if (!isPlaying.value && progress.value && currentTime.value) {
+    return;
+  }
 
-function startProgressCalculation() {
-  calculateProgressIntervalId.value = setInterval(calculateProgress, 50);
-  console.log(calculateProgressIntervalId.value);
-}
-
-function stopProgressCalculation() {
-  console.log("stopped")
-  console.log(calculateProgressIntervalId.value);
-  clearInterval(calculateProgressIntervalId.value);
-  calculateProgressIntervalId.value = 0;
-}
-
-function calculateProgress() {
   progress.value = (1 - ((countdownDate.value - Date.now()) / 1000) / currentSong.value?.duration) * 100;
+  currentTime.value = currentSong.value.duration - (countdownDate.value - Date.now()) / 1000;
 }
 
 const getCurrentTime = computed(() => {
@@ -95,16 +81,8 @@ async function getTime() {
       isPlaying.value = data.isPlaying;
 
       currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-      // progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
 
-
-      // countdownDate.value = Date.now() + (data.song.duration * 1000) - data.time;
       countdownDate.value = Date.now() + (data.song.duration * 1000) - addTransmissionTime(data.time, data.stamp);
-
-      // console.log(data.time, addTransmissionTime(data.time, data.stamp), (data.time + Date.now() - data.stamp) - data.time);
-
-      //console.log(countdownDate.value - Date.now());
-      // console.log(1 - ((countdownDate.value - Date.now()) / 1000) / data.song.duration)
     }
   })
 }
