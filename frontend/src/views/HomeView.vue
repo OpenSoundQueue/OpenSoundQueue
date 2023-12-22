@@ -59,6 +59,7 @@ const currentSong: Ref<Song | undefined> = ref();
 const progress = ref(0);
 const currentTime = ref(0);
 const isPlaying = ref(false);
+const playHead = ref(0);
 const songEndTime = ref(0);
 
 const hasAdvancedPermissions = ref(false);
@@ -91,6 +92,8 @@ function getTime() {
 
       isPlaying.value = data.isPlaying;
 
+      playHead.value = addTransmissionTime(data.time, data.stamp);
+
       songEndTime.value = Date.now() + (data.song.duration * 1000) - addTransmissionTime(data.time, data.stamp);
     }
   })
@@ -102,6 +105,9 @@ function calculateProgress() {
   }
 
   if (!isPlaying.value) {
+    // match progress and time label with time from now playing request
+    currentTime.value = playHead.value / 1000;
+    progress.value = (playHead.value / (currentSong.value?.duration * 1000)) * 100;
     return;
   }
 
