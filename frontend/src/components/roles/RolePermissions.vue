@@ -88,36 +88,27 @@ onMounted(async () => {
 function selectAll() {
   if (store.patchedRole == undefined)
     return
-/*
-  for (let i = 0; i < permissions.value.length; i++) {
-    if (store.patchedRole.members.filter(permissions => user.id == permissions.value[i].id).length == 0)
-      store.toggleMember(permissions.value[i].id, users.value[i].username)
-  }
 
- */
+  for (let i = 0; i < permissions.value.length; i++) {
+    if (store.patchedRole.permissions.filter(permission => permission == permissions.value[i]).length == 0)
+      store.togglePermission(permissions.value[i])
+  }
 }
 
 function selectNone() {
   if (store.patchedRole == undefined)
     return
 
-/*
   for (let i = 0; i < permissions.value.length; i++) {
-    if (store.patchedRole.members.filter(user => user.id == permissions.value[i].id).length > 0)
-      //store.toggleMember(permissions.value[i].id, permissions.value[i].username)
+    if (store.patchedRole.permissions.filter(permission => permission == permissions.value[i]).length > 0)
+      store.togglePermission(permissions.value[i])
   }
-
- */
-
 }
 
 function invertSelection() {
-/*
   for (let i = 0; i < permissions.value.length; i++) {
-    //store.toggleMember(permissions.value[i], permissions.value[i])
+    store.togglePermission(permissions.value[i])
   }
-
- */
 }
 
 function updatePermission(name: string) {
