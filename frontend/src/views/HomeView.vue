@@ -43,7 +43,7 @@ import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
 import {HttpService} from "@/services/HttpService";
@@ -54,6 +54,12 @@ const httpService = new HttpService();
 const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
 const hasAdvancedPermissions = ref(false);
+
+onMounted(() => {
+  if (router.currentRoute.value.name !== "default") {
+    hasAdvancedPermissions.value = true;
+  }
+})
 
 const hasQueueReorderPermission = computed(() => {
   return router.currentRoute.value.name === "advanced";
