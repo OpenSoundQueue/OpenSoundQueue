@@ -13,22 +13,21 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
     const playHead = ref(0);
     const songEndTime = ref(0);
 
-    let updateIntervalId: number | undefined;
-    let renderingIntervalId: number | undefined;
+    let updateIntervalTimer: ReturnType<typeof setInterval> | undefined;
+    let renderingIntervalTimer: ReturnType<typeof setInterval> | undefined;
 
     onMounted(() => {
-        updateIntervalId = setInterval(getTime, updateInterval);
-        renderingIntervalId = setInterval(calculateProgress, renderingInterval);
+        updateIntervalTimer = setInterval(getTime, updateInterval);
+        renderingIntervalTimer = setInterval(calculateProgress, renderingInterval);
         getTime();
     });
 
     onUnmounted(() => {
-        clearInterval(updateIntervalId);
-        clearInterval(renderingIntervalId);
+        clearInterval(updateIntervalTimer);
+        clearInterval(renderingIntervalTimer);
     });
 
     function getTime() {
-        console.log("helolo");
         httpService.getNowPlaying().then(data => {
             if (data.song) {
                 currentSong.value = data.song;
