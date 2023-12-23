@@ -383,8 +383,9 @@ export class HttpService {
     }
 
     async postRoleAdd(name: string, permissions: { [key: string]: boolean }[]) {
-        return httpClient.post(`/role/create`, {name: name, permissions: permissions},cookieService.getApiKey())
+        return httpClient.patch(`/role/create`, {name: name, permissions: permissions},cookieService.getApiKey())
             .then((response) => {
+                console.log(response.ok)
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
@@ -401,7 +402,6 @@ export class HttpService {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
                 return response.json();
             }).then((data:Role) => {
                 return data;

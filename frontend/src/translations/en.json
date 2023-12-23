@@ -168,6 +168,7 @@
       "unsavedChanges": "There are unsaved changes. Do you want to save them?",
       "save": "Save changes",
       "saveError": "Changes could not be saved",
+      "saveSuccess": "Changes successfully saved",
       "deleteError": "An error occurred when deleting the role"
     }
   },

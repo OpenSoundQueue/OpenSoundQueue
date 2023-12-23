@@ -44,11 +44,12 @@ export const useRoleStore = defineStore('role', () => {
             await httpService.updateRole(Role.toDto(patchedRole.value))
                 .then((role: Role) => {
                     fetchedRole.value = role;
-                    patchedRole.value = role;
+                    patchedRole.value = Role.clone(role);
+                    ToastService.sendNotification(translate('popUp.editRole.saveSuccess'), "success", 3000)
                 })
-                .catch(() => {
-                    fetchedRole.value = undefined;
-                    patchedRole.value = undefined;
+                .catch((error) => {
+                    if (fetchedRole.value != undefined)
+                        patchedRole.value = Role.clone(fetchedRole.value)
                     ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
                 });
     }

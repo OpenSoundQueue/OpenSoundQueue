@@ -38,7 +38,7 @@
                :alt="translate('altTexts.undo')"
                :title="translate('roleEdit.rollback')"
                @click="store.rollback()"/>
-          <DynamicButton b-style="save" status="active">{{ translate('roleEdit.save') }}</DynamicButton>
+          <DynamicButton b-style="save" status="active" @click="store.save()">{{ translate('roleEdit.save') }}</DynamicButton>
         </div>
       </nav>
       <component :is="detailComponent"
