@@ -1,4 +1,4 @@
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import {Song} from "@/models/Song";
 import type {Ref} from "vue";
 import {HttpService} from "@/services/HttpService";
@@ -12,6 +12,7 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
     const isPlaying = ref(false);
     const playHead = ref(0);
     const songEndTime = ref(0);
+    const songHasEnded = ref(false);
 
     let updateIntervalTimer: ReturnType<typeof setInterval> | undefined;
     let renderingIntervalTimer: ReturnType<typeof setInterval> | undefined;
@@ -27,8 +28,13 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
         clearInterval(renderingIntervalTimer);
     });
 
+    watch(currentSong, () => {
+        songHasEnded.value = false;
+    })
+
     function getTime() {
         httpService.getNowPlaying().then(data => {
+            console.log(data);
             if (data.song) {
                 currentSong.value = data.song;
 
@@ -55,7 +61,14 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
 
         // song has ended
         if (songEndTime.value - Date.now() < 0) {
+            // getTime() request only fired once
+            if (songHasEnded.value) {
+                return;
+            }
+
             getTime();
+
+            songHasEnded.value = true;
         }
 
         // song is playing
