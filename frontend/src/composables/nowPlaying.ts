@@ -34,7 +34,6 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
 
     function getTime() {
         httpService.getNowPlaying().then(data => {
-            console.log(data);
             if (data.song) {
                 currentSong.value = data.song;
 
