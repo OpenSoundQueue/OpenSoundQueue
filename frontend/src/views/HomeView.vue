@@ -80,7 +80,6 @@ const displayAdvanced = computed(() => {
 function update() {
   httpService.getNowPlaying().then(data => {
     if (data.song) {
-      currentSong.value = data.song;
       isPlaying.value = data.isPlaying;
     }
   })
