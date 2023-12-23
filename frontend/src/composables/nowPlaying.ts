@@ -9,7 +9,7 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
     const currentSong: Ref<Song | undefined> = ref();
     const progress = ref(0);
     const currentTime = ref(0);
-    const isPlaying = ref(false);
+    const isPlaying = ref(true);
     const playHead = ref(0);
     const songEndTime = ref(0);
     const songHasEnded = ref(false);
@@ -34,11 +34,11 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
 
     function getTime() {
         httpService.getNowPlaying().then(data => {
+            currentSong.value = data.song;
+
+            isPlaying.value = data.isPlaying;
+
             if (data.song) {
-                currentSong.value = data.song;
-
-                isPlaying.value = data.isPlaying;
-
                 playHead.value = addTransmissionTime(data.time, data.stamp);
 
                 songEndTime.value = Date.now() + (data.song.duration * 1000) - addTransmissionTime(data.time, data.stamp);
@@ -48,6 +48,8 @@ export function useNowPlaying(updateInterval: number, renderingInterval: number)
 
     function calculateProgress() {
         if (!currentSong.value) {
+            progress.value = 0;
+            currentTime.value = 0;
             return;
         }
 

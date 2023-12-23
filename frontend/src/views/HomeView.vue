@@ -21,7 +21,11 @@
     <div class="control-panel-wrapper">
       <div class="control-panel-container">
         <div class="now-playing-container">
-          <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress"/>
+          <NowPlaying :current-song="currentSong"
+                      :current-time="currentTime"
+                      :progress="progress"
+                      :is-playing="isPlaying"
+          />
         </div>
         <div class="vote-skip-container">
           <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"

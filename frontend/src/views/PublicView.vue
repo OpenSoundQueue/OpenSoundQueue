@@ -1,7 +1,7 @@
 <template>
   <main>
     <ExpandCollapse :label="$translate('nowPlaying')" :is-collapsed="false">
-      <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress"/>
+      <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress" :is-playing="isPlaying"/>
     </ExpandCollapse>
     <ExpandCollapse :label="$translate('inQueue')" :is-collapsed="false">
       <Queue :page-update-interval="4000"/>
@@ -23,7 +23,7 @@ import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import router from "@/router";
 import {useNowPlaying} from "@/composables/nowPlaying";
 
-const {currentSong, currentTime, progress} = useNowPlaying(7000, 100);
+const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(7000, 100);
 
 </script>
 
