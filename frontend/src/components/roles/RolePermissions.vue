@@ -89,9 +89,9 @@ function selectAll() {
   if (store.patchedRole == undefined)
     return
 
-  for (let i = 0; i < permissions.value.length; i++) {
-    if (store.patchedRole.permissions.filter(permission => permission == permissions.value[i]).length == 0)
-      store.togglePermission(permissions.value[i])
+  for (let i = 0; i < filteredPermissions.value.length; i++) {
+    if (store.patchedRole.permissions.filter(permission => permission == filteredPermissions.value[i].name).length == 0)
+      store.togglePermission(filteredPermissions.value[i].name)
   }
 }
 
@@ -99,15 +99,15 @@ function selectNone() {
   if (store.patchedRole == undefined)
     return
 
-  for (let i = 0; i < permissions.value.length; i++) {
-    if (store.patchedRole.permissions.filter(permission => permission == permissions.value[i]).length > 0)
-      store.togglePermission(permissions.value[i])
+  for (let i = 0; i < filteredPermissions.value.length; i++) {
+    if (store.patchedRole.permissions.filter(permission => permission == filteredPermissions.value[i].name).length > 0)
+      store.togglePermission(filteredPermissions.value[i].name)
   }
 }
 
 function invertSelection() {
-  for (let i = 0; i < permissions.value.length; i++) {
-    store.togglePermission(permissions.value[i])
+  for (let i = 0; i < filteredPermissions.value.length; i++) {
+    store.togglePermission(filteredPermissions.value[i].name)
   }
 }
 

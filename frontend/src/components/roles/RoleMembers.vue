@@ -91,9 +91,9 @@ function selectAll() {
   if (store.patchedRole == undefined)
     return
 
-  for (let i = 0; i < users.value.length; i++) {
-    if (store.patchedRole.members.filter(user => user.id == users.value[i].id).length == 0)
-      store.toggleMember(users.value[i].id, users.value[i].username)
+  for (let i = 0; i < filteredUsers.value.length; i++) {
+    if (store.patchedRole.members.filter(user => user.id == filteredUsers.value[i].id).length == 0)
+      store.toggleMember(filteredUsers.value[i].id, filteredUsers.value[i].username)
   }
 }
 
@@ -101,16 +101,16 @@ function selectNone() {
   if (store.patchedRole == undefined)
     return
 
-  for (let i = 0; i < users.value.length; i++) {
-    if (store.patchedRole.members.filter(user => user.id == users.value[i].id).length > 0)
-      store.toggleMember(users.value[i].id, users.value[i].username)
+  for (let i = 0; i < filteredUsers.value.length; i++) {
+    if (store.patchedRole.members.filter(user => user.id == filteredUsers.value[i].id).length > 0)
+      store.toggleMember(filteredUsers.value[i].id, filteredUsers.value[i].username)
   }
 
 }
 
 function invertSelection() {
-  for (let i = 0; i < users.value.length; i++) {
-    store.toggleMember(users.value[i].id, users.value[i].username)
+  for (let i = 0; i < filteredUsers.value.length; i++) {
+    store.toggleMember(filteredUsers.value[i].id, filteredUsers.value[i].username)
   }
 }
 

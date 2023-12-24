@@ -10,7 +10,7 @@
       <InputField
           :label="translate('roleEdit.display.roleName')"
           :placeholder="translate('roleEdit.display.placeholder')"
-          :manual-value="role?.name"
+          :manual-value="role?.name == undefined? store.patchedRole?.name: role?.name"
           @userInput="(input)=>store.patchName(input)"
       ></InputField>
 
@@ -60,7 +60,6 @@ import DynamicButton from "@/components/buttons/DynamicButton.vue";
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
 const deleteStatus = ref("active");
-
 onMounted(() => {
   const refStore = storeToRefs(store);
 
@@ -68,7 +67,6 @@ onMounted(() => {
     role.value = refStore.patchedRole.value
   });
 })
-
 
 function deleteRole(){
   store.deleteRole();
