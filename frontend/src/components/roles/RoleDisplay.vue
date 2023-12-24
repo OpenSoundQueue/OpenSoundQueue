@@ -17,7 +17,7 @@
       <!-- MOBILE -->
       <div class="nav-button-wrapper mobile">
         <div class="mobile overlay"
-             @click="role?.id ? router.push(`/admin/roles/members/${role?.id}`) : router.push('/admin/roles/members/new')">
+             @click="changeTab('members')">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
         <div class="nav-button-container">
@@ -26,7 +26,7 @@
       </div>
       <div class="nav-button-wrapper mobile">
         <div class="mobile overlay"
-             @click="role?.id ? router.push(`/admin/roles/permissions/${role?.id}`) : router.push('/admin/roles/permissions/new')">
+             @click="changeTab('permissions')">
           <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
         <div class="nav-button-container">
@@ -56,6 +56,7 @@ import {onMounted, ref, watch} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import {PopUpService} from "@/services/PopUpService";
 
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
@@ -68,8 +69,23 @@ onMounted(() => {
   });
 })
 
-function deleteRole(){
-  store.deleteRole();
+async function deleteRole(){
+  await store.deleteRole();
+  await router.push("/admin/roles")
+}
+
+async function changeTab(destination:"members"|"permissions"){
+  if (store.roleEdited) {
+    PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
+    const userAction = await PopUpService.waitForUserAction();
+
+    if (userAction === "accepted") {
+      await store.save();
+    } else {
+      await store.rollback();
+    }
+  }
+  role.value?.id ? await router.push(`/admin/roles/${destination}/${role.value?.id}`) : await router.push(`/admin/roles/${destination}/new`)
 }
 
 const emit = defineEmits<{
