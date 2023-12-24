@@ -56,17 +56,39 @@ button:hover {
   margin-top: 0;
 }
 
-.login.active.save.active {
+.login.active {
   color: var(--text-color);
   background: var(--primary-color);
 }
 
-.login.inactive.save.inactive {
+.login.inactive {
   color: var(--text-color);
   background: var(--dark-gray);
 }
 
-.login.waiting.save.waiting {
+.login.waiting {
+  color: var(--text-color);
+  border: solid 2px;
+  border-color: var(--primary-color);
+  background: transparent;
+}
+
+.save{
+  width: fit-content;
+  padding: 5px 10px;
+}
+
+.save.active {
+  color: var(--text-color);
+  background: var(--primary-color);
+}
+
+.save.inactive {
+  color: var(--text-color);
+  background: var(--dark-gray);
+}
+
+.save.waiting {
   color: var(--text-color);
   border: solid 2px;
   border-color: var(--primary-color);
