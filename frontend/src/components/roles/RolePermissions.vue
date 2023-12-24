@@ -162,6 +162,7 @@ async function getPermissions() {
 
 .role-permissions-container {
   display: flex;
+  height: 100%;
   flex-direction: column;
   gap: 15px;
   width: 100% !important;
