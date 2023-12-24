@@ -87,3 +87,110 @@ INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (1, 17);
 INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (1, 18);
 INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (1, 19);
 INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (1, 20);
+
+--ChatGPT-Testdata
+
+-- Role 3: The Silent Voter
+INSERT INTO Role (name) VALUES ('The Silent Voter');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'VOTESKIP');
+
+-- Role 4: Audio Engineer
+INSERT INTO Role (name) VALUES ('Audio Engineeeeeeeeeeeeeeeeeeeeeeeeer');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (4, 'CHANGE_VOLUME');
+
+-- Role 5: Song Enthusiast
+INSERT INTO Role (name) VALUES ('Song Enthusiast');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (5, 'ADD_SONG');
+
+-- Role 6: Role Manager
+INSERT INTO Role (name) VALUES ('Role Manager');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (6, 'MANAGE_ROLES');
+
+-- Role 7: Skipper
+INSERT INTO Role (name) VALUES ('Skipper');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (7, 'SKIP');
+
+-- Role 8: Song Deleter
+INSERT INTO Role (name) VALUES ('Song Deleter');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (8, 'DELETE_SONGS');
+
+-- Role 9: History Explorer
+INSERT INTO Role (name) VALUES ('History Explorer');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (9, 'HISTORY_SEARCH');
+
+-- Role 10: Playback Maestro
+INSERT INTO Role (name) VALUES ('Playback Maestro');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (10, 'PAUSE_PLAY');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (10, 'CHANGE_ORDER');
+
+-- Users for Role 3
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (3, 2);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (3, 5);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (3, 12);
+
+-- Users for Role 4
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (4, 8);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (4, 15);
+
+-- Users for Role 5
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (5, 3);
+
+-- Users for Role 6
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (6, 7);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (6, 10);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (6, 18);
+
+-- Users for Role 7
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (7, 1);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (7, 14);
+
+-- Users for Role 8
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (8, 9);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (8, 13);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (8, 17);
+
+-- Users for Role 9
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (9, 6);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (9, 20);
+
+-- Users for Role 10
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (10, 4);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (10, 11);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (10, 16);
+INSERT INTO User_Info_Roles (roles_id, user_info_entity_id) VALUES (10, 19);
+
+-- Users for Role 3
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (3, 2);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (3, 5);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (3, 12);
+
+-- Users for Role 4
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (4, 8);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (4, 15);
+
+-- Users for Role 5
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (5, 3);
+
+-- Users for Role 6
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (6, 7);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (6, 10);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (6, 18);
+
+-- Users for Role 7
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (7, 1);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (7, 14);
+
+-- Users for Role 8
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (8, 9);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (8, 13);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (8, 17);
+
+-- Users for Role 9
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (9, 6);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (9, 20);
+
+-- Users for Role 10
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (10, 4);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (10, 11);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (10, 16);
+INSERT INTO ROLE_USERS_LIST (role_id, USERS_LIST_ID) VALUES (10, 19);
