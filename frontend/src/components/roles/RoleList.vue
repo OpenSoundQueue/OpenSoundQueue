@@ -44,6 +44,7 @@ const store = useRoleStore();
 
 onMounted(async () => {
   roles.value = await httpService.getRoles();
+  await selectRole(roles.value[0].id)
 
   const refStore = storeToRefs(store);
   watch(refStore.fetchedRole, async () => {
