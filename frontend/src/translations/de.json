@@ -170,7 +170,10 @@
       "saveError": "Änderungen konnten nicht gespeichert werden",
       "saveSuccess": "Änderungen wurden gespeichert",
       "deleteError": "Beim Löschen der Rolle ist ein Fehler aufgetreten",
-      "deleteSuccess": "Rolle wurde gelöscht"
+      "deleteSuccess": "Rolle wurde gelöscht",
+      "createError": "Eine Rolle mit diesem Namen exisitert bereits",
+      "createSuccess": "Rolle wurde erstellt",
+      "newRoleRedirectError": "Der Rolle muss erste ein Name gegeben werden, bevor weitere Einstellungen möglich sind"
     }
   },
   "queueDescription": {
@@ -210,6 +213,7 @@
     "success": "Registrierung erfolgreich"
   },
   "roleEdit": {
+    "newRole": "Neue Rolle",
     "navigation": {
       "display": "Anzeige",
       "members": "Mitglieder",

@@ -40,26 +40,44 @@ export const useRoleStore = defineStore('role', () => {
     }
 
     async function save() {
-        if (patchedRole.value != undefined)
-            await httpService.updateRole(Role.toDto(patchedRole.value))
+        if (patchedRole.value == undefined)
+            return;
+
+        if (patchedRole.value?.id == -1) {
+            await httpService.createRole({
+                "name": patchedRole.value.name,
+                "permissions":[]
+            })
                 .then((role: Role) => {
                     fetchedRole.value = role;
                     patchedRole.value = Role.clone(role);
-                    ToastService.sendNotification(translate('popUp.editRole.saveSuccess'), "success", 3000)
+                    ToastService.sendNotification(translate('popUp.editRole.createSuccess'), "success", 3000)
                 })
                 .catch(() => {
                     if (fetchedRole.value != undefined)
                         patchedRole.value = Role.clone(fetchedRole.value)
-                    ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
+                    ToastService.sendNotification(translate('popUp.editRole.createError'), "error", 3000)
                 });
+        }
+
+        await httpService.updateRole(Role.toDto(patchedRole.value))
+            .then((role: Role) => {
+                fetchedRole.value = role;
+                patchedRole.value = Role.clone(role);
+                ToastService.sendNotification(translate('popUp.editRole.saveSuccess'), "success", 3000)
+            })
+            .catch(() => {
+                if (fetchedRole.value != undefined)
+                    patchedRole.value = Role.clone(fetchedRole.value)
+                ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
+            });
     }
 
     async function deleteRole() {
         if (fetchedRole.value != undefined)
             await httpService.deleteRole(fetchedRole.value?.id)
                 .then(() => {
-                    fetchedRole.value = undefined;
-                    patchedRole.value = undefined;
+                    newRole()
                     ToastService.sendNotification(translate('popUp.editRole.deleteSuccess'), "success", 3000)
                 })
                 .catch(() => {
@@ -117,6 +135,11 @@ export const useRoleStore = defineStore('role', () => {
         patchedRole.value?.permissions.push(name)
     }
 
+    function newRole() {
+        fetchedRole.value = Role.createNewRole()
+        patchedRole.value = Role.createNewRole()
+    }
+
     return {
         fetchedRole,
         patchedRole,
@@ -129,7 +152,8 @@ export const useRoleStore = defineStore('role', () => {
         patchMember,
         patchName,
         toggleMember,
-        togglePermission
+        togglePermission,
+        newRole
     }
 
 })

@@ -5,7 +5,7 @@
     </div>
     <div class="nav-element">
       <img src="@/assets/icons/role.svg" :alt="$translate('altTexts.role')"/>
-      <div class="role-name">{{ roleName }}</div>
+      <div class="role-name">{{ roleName == "" ? translate('roleEdit.newRole') : roleName }}</div>
     </div>
     <div class="nav-element save-button">
       <!-- TODO: Style title -->

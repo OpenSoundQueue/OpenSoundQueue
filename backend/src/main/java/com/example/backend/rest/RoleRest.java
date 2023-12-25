@@ -32,7 +32,7 @@ public class RoleRest {
 
         roleRepository.save(role);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(roleRepository.findByName(role.getName()),HttpStatus.CREATED);
     }
 
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)

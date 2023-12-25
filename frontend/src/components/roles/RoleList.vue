@@ -5,7 +5,7 @@
         <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
       </div>
       <div class="new-role-button-container" @click="() => selectRole()">
-        New Role
+        {{ translate('roleEdit.newRole') }}
       </div>
     </div>
     <p>search</p>
@@ -66,7 +66,12 @@ const emit = defineEmits<{
 }>();
 
 async function toDisplay(roleId?: number) {
-  if (roleId === undefined) return;
+  if (roleId === undefined) {
+    store.newRole();
+    emit("selectRole", -1);
+    await router.push(`/admin/roles/display/new`);
+    return;
+  }
 
   await store.newSelection(roleId);
   emit("selectRole", roleId);
@@ -76,8 +81,10 @@ async function toDisplay(roleId?: number) {
 
 
 async function selectRole(roleId?: number) {
-  if (roleId === undefined) {
-    return;
+  if (roleId == undefined) {
+    store.newRole();
+    emit("selectRole", store.fetchedRole?.id);
+    return
   }
 
   if (store.roleEdited) {
@@ -129,6 +136,8 @@ async function selectRole(roleId?: number) {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius-medium);
 }
 
 .new-role-button-wrapper .overlay img {
@@ -187,7 +196,7 @@ async function selectRole(roleId?: number) {
 }
 
 .select-role-button-container > div {
-  width: calc(100% );
+  width: calc(100%);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

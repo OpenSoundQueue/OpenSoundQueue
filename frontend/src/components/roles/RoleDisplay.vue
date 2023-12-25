@@ -57,6 +57,7 @@ import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {PopUpService} from "@/services/PopUpService";
+import {ToastService} from "@/services/ToastService";
 
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
@@ -75,6 +76,10 @@ async function deleteRole(){
 }
 
 async function changeTab(destination:"members"|"permissions"){
+  if (store.patchedRole?.id==-1){
+    ToastService.sendNotification(translate('popUp.editRole.newRoleRedirectError'), "error", 3000)
+    return
+  }
   if (store.roleEdited) {
     PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
     const userAction = await PopUpService.waitForUserAction();

@@ -17,16 +17,18 @@ public class RoleSerializer extends JsonSerializer<Role> {
         jsonGenerator.writeNumberField("id", role.getId());
         jsonGenerator.writeStringField("name", role.getName());
         jsonGenerator.writeArrayFieldStart("permissions");
-        for (Permissions p:role.getPermissions()) {
+        for (Permissions p : role.getPermissions()) {
             jsonGenerator.writeString(p.name());
         }
         jsonGenerator.writeEndArray();
         jsonGenerator.writeArrayFieldStart("members");
-        for (UserInfoEntity u:role.getUsersList()) {
-            jsonGenerator.writeStartObject();
-            jsonGenerator.writeNumberField("id", u.getId());
-            jsonGenerator.writeStringField("username", u.getUsername());
-            jsonGenerator.writeEndObject();
+        if (role.getUsersList() != null) {
+            for (UserInfoEntity u : role.getUsersList()) {
+                jsonGenerator.writeStartObject();
+                jsonGenerator.writeNumberField("id", u.getId());
+                jsonGenerator.writeStringField("username", u.getUsername());
+                jsonGenerator.writeEndObject();
+            }
         }
         jsonGenerator.writeEndArray();
         jsonGenerator.writeEndObject();

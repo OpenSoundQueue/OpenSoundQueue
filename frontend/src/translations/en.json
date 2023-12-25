@@ -170,7 +170,10 @@
       "saveError": "Changes could not be saved",
       "saveSuccess": "Changes successfully saved",
       "deleteError": "An error occurred when deleting the role",
-      "deleteSuccess": "Role successfully deleted"
+      "deleteSuccess": "Role successfully deleted",
+      "createError": "A Role with this name already exists",
+      "createSuccess": "Role successfully created",
+      "newRoleRedirectError": "The role must first be given a name before further settings are possible"
     }
   },
   "queueDescription": {
@@ -210,6 +213,7 @@
     "success": "Registration successful"
   },
   "roleEdit": {
+    "newRole": "New Role",
     "navigation": {
       "display": "Display",
       "members": "Members",

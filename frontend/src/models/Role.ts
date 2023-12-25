@@ -52,6 +52,10 @@ export class Role {
         };
     }
 
+    static createNewRole():Role{
+        return new Role(-1,"",[],[]);
+    }
+
 
     get id() {
         return this._id;

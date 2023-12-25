@@ -38,7 +38,7 @@
                :alt="translate('altTexts.undo')"
                :title="translate('roleEdit.rollback')"
                @click="store.rollback()"/>
-          <DynamicButton b-style="save" status="active" @click="store.save()">{{
+          <DynamicButton b-style="save" status="active" @click="save()">{{
               translate('roleEdit.save')
             }}
           </DynamicButton>
@@ -64,6 +64,7 @@ import {useRoleStore} from "@/stores/Role";
 import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import {ToastService} from "@/services/ToastService";
 
 const store = useRoleStore();
 
@@ -88,6 +89,10 @@ watch(router.currentRoute, () => {
 })
 
 async function changeTab(component: Component) {
+  if (store.patchedRole?.id == -1) {
+    ToastService.sendNotification(translate('popUp.editRole.newRoleRedirectError'), "error", 3000)
+    return
+  }
   if (store.roleEdited) {
     PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
     const userAction = await PopUpService.waitForUserAction();
@@ -111,7 +116,15 @@ function chooseComponent() {
 }
 
 function selectRole(id?: number) {
+  if (id == -1) {
+    detailComponent.value = RoleDisplay;
+  }
   selectedRoleId.value = id;
+}
+
+async function save(){
+  await store.save()
+  selectRole(store.fetchedRole?.id)
 }
 
 function toMembers() {

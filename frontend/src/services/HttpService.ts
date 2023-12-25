@@ -405,4 +405,15 @@ export class HttpService {
                 return data;
             });
     }
+    async createRole(role: object) {
+        return httpClient.post(`/role/create`, role,cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data:Role) => {
+                return data;
+            });
+    }
 }
