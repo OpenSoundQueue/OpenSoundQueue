@@ -40,7 +40,8 @@
                      b-style="delete"
                      :status="deleteStatus"
                      @click="deleteRole()"
-      >{{translate('roleEdit.delete')}}</DynamicButton>
+      >{{ translate('roleEdit.delete') }}
+      </DynamicButton>
     </div>
   </div>
 </template>
@@ -49,7 +50,7 @@
 import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
 import {useRoleStore} from "@/stores/Role";
-import type {Role} from "@/models/Role";
+import {Role} from "@/models/Role";
 import {translate} from "@/plugins/TranslationPlugin";
 import InputField from "@/components/inputs/InputField.vue";
 import {onMounted, ref, watch} from "vue";
@@ -58,6 +59,7 @@ import {storeToRefs} from "pinia";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {PopUpService} from "@/services/PopUpService";
 import {ToastService} from "@/services/ToastService";
+import {User} from "@/models/User";
 
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
@@ -66,17 +68,25 @@ onMounted(() => {
   const refStore = storeToRefs(store);
 
   watch(refStore.patchedRole, () => {
-    role.value = refStore.patchedRole.value
+    if (refStore.patchedRole.value != undefined) {
+      let members: User[] = []
+
+      refStore.patchedRole.value.members.forEach(user => {
+        members.push(new User(user.id, user.username))
+      })
+
+      role.value = new Role(refStore.patchedRole.value?.id, refStore.patchedRole.value?.name, refStore.patchedRole.value?.permissions, members)
+    }
   });
 })
 
-async function deleteRole(){
+async function deleteRole() {
   await store.deleteRole();
   await router.push("/admin/roles")
 }
 
-async function changeTab(destination:"members"|"permissions"){
-  if (store.patchedRole?.id==-1){
+async function changeTab(destination: "members" | "permissions") {
+  if (store.patchedRole?.id == -1) {
     ToastService.sendNotification(translate('popUp.editRole.newRoleRedirectError'), "error", 3000)
     return
   }
@@ -90,7 +100,7 @@ async function changeTab(destination:"members"|"permissions"){
       store.rollback();
     }
   }
- store.fetchedRole?.id != undefined ? await router.push(`/admin/roles/${destination}/${store.fetchedRole?.id}`) : await router.push(`/admin/roles/${destination}/new`)
+  store.fetchedRole?.id != undefined ? await router.push(`/admin/roles/${destination}/${store.fetchedRole?.id}`) : await router.push(`/admin/roles/${destination}/new`)
 }
 
 const emit = defineEmits<{

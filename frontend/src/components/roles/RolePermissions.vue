@@ -54,6 +54,7 @@ import {HttpService} from "@/services/HttpService";
 import InputField from "@/components/inputs/InputField.vue";
 import {translate} from "@/plugins/TranslationPlugin";
 import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
+import {User} from "@/models/User";
 
 type PermissionCheck = {
   name:string,
@@ -76,10 +77,27 @@ const filteredPermissions = computed(() => {
 
 onMounted(async () => {
   const refStore = storeToRefs(store);
-  role.value = refStore.patchedRole.value
+
+  if (refStore.patchedRole.value != undefined) {
+    let members: User[] = []
+
+    refStore.patchedRole.value.members.forEach(user => {
+      members.push(new User(user.id, user.username))
+    })
+
+    role.value = new Role(refStore.patchedRole.value?.id, refStore.patchedRole.value?.name, refStore.patchedRole.value?.permissions, members)
+  }
 
   watch(refStore.patchedRole, () => {
-    role.value = refStore.patchedRole.value
+    if (refStore.patchedRole.value != undefined) {
+      let members: User[] = []
+
+      refStore.patchedRole.value.members.forEach(user => {
+        members.push(new User(user.id, user.username))
+      })
+
+      role.value = new Role(refStore.patchedRole.value?.id, refStore.patchedRole.value?.name, refStore.patchedRole.value?.permissions, members)
+    }
   });
 
   await getPermissions();

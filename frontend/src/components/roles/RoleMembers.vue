@@ -51,7 +51,7 @@ import {computed, onMounted, ref, watch} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import {HttpService} from "@/services/HttpService";
-import type {User} from "@/models/User";
+import {User} from "@/models/User";
 import InputField from "@/components/inputs/InputField.vue";
 import {translate} from "@/plugins/TranslationPlugin";
 import Checkbox from "@/components/buttons/Checkbox.vue";
@@ -78,10 +78,27 @@ const filteredUsers = computed(() => {
 
 onMounted(async () => {
   const refStore = storeToRefs(store);
-  role.value = refStore.patchedRole.value
+
+  if (refStore.patchedRole.value != undefined) {
+    let members: User[] = []
+
+    refStore.patchedRole.value.members.forEach(user => {
+      members.push(new User(user.id, user.username))
+    })
+
+    role.value = new Role(refStore.patchedRole.value?.id, refStore.patchedRole.value?.name, refStore.patchedRole.value?.permissions, members)
+  }
 
   watch(refStore.patchedRole, () => {
-    role.value = refStore.patchedRole.value
+    if (refStore.patchedRole.value != undefined) {
+      let members: User[] = []
+
+      refStore.patchedRole.value.members.forEach(user => {
+        members.push(new User(user.id, user.username))
+      })
+
+      role.value = new Role(refStore.patchedRole.value?.id, refStore.patchedRole.value?.name, refStore.patchedRole.value?.permissions, members)
+    }
   });
 
   await getUsers();
@@ -225,7 +242,7 @@ async function getUsers() {
   background-color: var(--primary-color);
 }
 
-.user:hover>.checkbox{
+.user:hover > .checkbox {
   border-color: white !important;
 }
 
