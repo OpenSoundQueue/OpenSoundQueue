@@ -47,7 +47,7 @@ import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
 import {Role} from "@/models/Role";
 import {useRoleStore} from "@/stores/Role";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import {HttpService} from "@/services/HttpService";
@@ -89,7 +89,7 @@ onMounted(async () => {
     role.value = new Role(refStore.patchedRole.value?.id, refStore.patchedRole.value?.name, refStore.patchedRole.value?.permissions, members)
   }
 
-  watch(refStore.patchedRole, () => {
+  watchEffect(() => {
     if (refStore.patchedRole.value != undefined) {
       let members: User[] = []
 
