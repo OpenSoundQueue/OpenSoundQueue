@@ -82,10 +82,10 @@ async function changeTab(destination:"members"|"permissions"){
     if (userAction === "accepted") {
       await store.save();
     } else {
-      await store.rollback();
+      store.rollback();
     }
   }
-  role.value?.id ? await router.push(`/admin/roles/${destination}/${role.value?.id}`) : await router.push(`/admin/roles/${destination}/new`)
+ store.fetchedRole?.id != undefined ? await router.push(`/admin/roles/${destination}/${store.fetchedRole?.id}`) : await router.push(`/admin/roles/${destination}/new`)
 }
 
 const emit = defineEmits<{
@@ -99,11 +99,9 @@ const emit = defineEmits<{
 .role-display-wrapper {
   position: fixed;
   top: 60px;
-  margin-top: 10px;
   left: 0;
   width: 100%;
   height: 100vh;
-  background: var(--background-color);
   padding: 15px;
   box-sizing: border-box;
 }
@@ -155,6 +153,7 @@ const emit = defineEmits<{
 
   .role-display-wrapper {
     padding: 0;
+    margin-top: 10px;
     position: static;
     height: fit-content;
     background: none;

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div class="nav-element back" @click="emit('back')">
+    <div class="nav-element back" @click="goBack()">
       <img src="@/assets/icons/arrows/arrow_back.svg" :alt="$translate('altTexts.arrowBack')"/>
     </div>
     <div class="nav-element">
@@ -28,6 +28,7 @@ import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import {PopUpService} from "@/services/PopUpService";
 
 const store = useRoleStore();
 const roleName: Ref<string> = ref("New Role");
@@ -37,9 +38,20 @@ onMounted(() => {
 
   if (refStore.fetchedRole.value !== undefined) {
     roleName.value = refStore.fetchedRole.value?.name
-    console.log(roleName.value);
   }
 })
+
+async function goBack() {
+  if (store.roleEdited) {
+    PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
+    const userAction = await PopUpService.waitForUserAction();
+
+    if (userAction === "accepted") {
+      await store.save();
+    }
+  }
+  emit('back')
+}
 
 const emit = defineEmits<{
   back: []

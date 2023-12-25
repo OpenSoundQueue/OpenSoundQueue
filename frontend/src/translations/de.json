@@ -169,7 +169,8 @@
       "save": "Änderungen speichern",
       "saveError": "Änderungen konnten nicht gespeichert werden",
       "saveSuccess": "Änderungen wurden gespeichert",
-      "deleteError": "Beim Löschen der Rolle ist ein Fehler aufgetreten"
+      "deleteError": "Beim Löschen der Rolle ist ein Fehler aufgetreten",
+      "deleteSuccess": "Rolle wurde gelöscht"
     }
   },
   "queueDescription": {

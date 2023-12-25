@@ -159,7 +159,6 @@ async function getUsers() {
   top: 60px;
   left: 0;
   width: 100%;
-  background: var(--background-color);
   padding: 15px;
   box-sizing: border-box;
 }

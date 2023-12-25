@@ -1,7 +1,7 @@
 <template>
   <main>
     <nav>
-      <div class="mode-switcher">
+      <div v-show="roleId == undefined" class="mode-switcher">
         <router-link to="/admin/roles" class="link">Roles</router-link>
         <router-link to="/admin/users" class="link">Users</router-link>
       </div>
@@ -38,7 +38,10 @@
                :alt="translate('altTexts.undo')"
                :title="translate('roleEdit.rollback')"
                @click="store.rollback()"/>
-          <DynamicButton b-style="save" status="active" @click="store.save()">{{ translate('roleEdit.save') }}</DynamicButton>
+          <DynamicButton b-style="save" status="active" @click="store.save()">{{
+              translate('roleEdit.save')
+            }}
+          </DynamicButton>
         </div>
       </nav>
       <component :is="detailComponent"
@@ -73,7 +76,10 @@ const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
 
-onMounted(() => {
+onMounted(async () => {
+  if (props.roleId != undefined) {
+    await store.newSelection(Number(props.roleId))
+  }
   chooseComponent();
 })
 
@@ -238,7 +244,7 @@ nav {
 
   .detail-container > div {
     height: calc(100% - 40px);
-    width:100%;
+    width: 100%;
   }
 
   .nav-element {

@@ -47,7 +47,7 @@ export const useRoleStore = defineStore('role', () => {
                     patchedRole.value = Role.clone(role);
                     ToastService.sendNotification(translate('popUp.editRole.saveSuccess'), "success", 3000)
                 })
-                .catch((error) => {
+                .catch(() => {
                     if (fetchedRole.value != undefined)
                         patchedRole.value = Role.clone(fetchedRole.value)
                     ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
@@ -60,11 +60,12 @@ export const useRoleStore = defineStore('role', () => {
                 .then(() => {
                     fetchedRole.value = undefined;
                     patchedRole.value = undefined;
+                    ToastService.sendNotification(translate('popUp.editRole.deleteSuccess'), "success", 3000)
                 })
                 .catch(() => {
                     fetchedRole.value = undefined;
                     patchedRole.value = undefined;
-                    ToastService.sendNotification(translate('popUp.editRole.saveError'), "error", 3000)
+                    ToastService.sendNotification(translate('popUp.editRole.deleteError'), "error", 3000)
                 });
     }
 

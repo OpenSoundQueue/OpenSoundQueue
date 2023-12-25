@@ -169,7 +169,8 @@
       "save": "Save changes",
       "saveError": "Changes could not be saved",
       "saveSuccess": "Changes successfully saved",
-      "deleteError": "An error occurred when deleting the role"
+      "deleteError": "An error occurred when deleting the role",
+      "deleteSuccess": "Role successfully deleted"
     }
   },
   "queueDescription": {

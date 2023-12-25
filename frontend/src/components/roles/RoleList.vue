@@ -102,7 +102,6 @@ async function selectRole(roleId?: number) {
 }
 
 .new-role-button-wrapper {
-  background: var(--primary-color);
   position: relative;
   height: 40px;
   display: flex;

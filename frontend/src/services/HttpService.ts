@@ -375,9 +375,7 @@ export class HttpService {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
-                return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data) => {
                 return data;
             });
     }
