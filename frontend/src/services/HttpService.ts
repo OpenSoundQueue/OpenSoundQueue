@@ -3,7 +3,6 @@ import {Song} from "@/models/Song";
 import {User} from "@/models/User";
 import * as cookieService from "@/services/cookieService";
 import type {Role} from "@/models/Role";
-import type {Permission} from "@/models/Permission";
 
 const httpClient = new HttpClient();
 
@@ -376,20 +375,6 @@ export class HttpService {
                     return Promise.reject(response.status);
                 }
             }).then((data) => {
-                return data;
-            });
-    }
-
-    async postRoleAdd(name: string, permissions: { [key: string]: boolean }[]) {
-        return httpClient.patch(`/role/create`, {name: name, permissions: permissions},cookieService.getApiKey())
-            .then((response) => {
-                console.log(response.ok)
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-
-                return response.json();
-            }).then((data: Permission[]) => {
                 return data;
             });
     }
