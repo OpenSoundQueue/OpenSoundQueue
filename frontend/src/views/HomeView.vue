@@ -68,6 +68,7 @@ const httpService = new HttpService();
 
 const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
+
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = ref(false);
 const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false});
