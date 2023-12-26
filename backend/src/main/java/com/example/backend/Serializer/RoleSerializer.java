@@ -22,7 +22,7 @@ public class RoleSerializer extends JsonSerializer<Role> {
         }
         jsonGenerator.writeEndArray();
         jsonGenerator.writeArrayFieldStart("members");
-        if (role.getUsersList() != null) {
+        if (role.getMembers() != null) {
             for (UserInfoEntity u : role.getMembers()) {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeNumberField("id", u.getId());
