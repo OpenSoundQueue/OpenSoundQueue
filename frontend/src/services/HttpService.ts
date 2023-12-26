@@ -354,6 +354,18 @@ export class HttpService {
                 return data;
             });
     }
+    async getOwnPermissions() {
+        return httpClient.get(`/user/permissions`,cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: string[]) => {
+                return data;
+            });
+    }
 
     async getRole(id: number) {
         return httpClient.get(`/role/get/${id}`,cookieService.getApiKey())

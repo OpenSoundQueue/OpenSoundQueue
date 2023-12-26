@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import type {Ref} from "vue";
-import {ref, watch} from "vue";
+import { ref, watch} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
 import Entry from "@/components/queue/Entry.vue";
@@ -37,6 +37,7 @@ import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 import LoadingAnimation from "@/components/LoadingAnimation.vue";
 import * as cookieService from "@/services/cookieService";
+import {PermissionService} from "@/services/PermissionService";
 
 const props = defineProps<{
   searchTerm: string,
@@ -80,6 +81,10 @@ const processChange = debounce(() => {
 
 function searchHistory(searchTerm: string) {
   if (props.blockSearch) {
+    return;
+  }
+  if (!PermissionService.checkPermission('HISTORY_SEARCH')){
+    isLoading.value = false;
     return;
   }
 

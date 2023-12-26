@@ -11,6 +11,8 @@ import {translate} from "@/plugins/TranslationPlugin";
 import {ToastService} from "@/services/ToastService";
 import RegistrationView from "@/views/RegistrationView.vue";
 import RoleManagementView from "@/views/RoleManagementView.vue";
+import {PermissionService} from "@/services/PermissionService";
+import type {PermissionType} from "@/services/PermissionService";
 
 const httpService = new HttpService();
 
@@ -42,7 +44,7 @@ const router = createRouter({
                     name: 'basic',
                     component: HomeView,
                     meta: {
-                     requiresAuth: true
+                        requiresAuth: true
                     }
                 },
                 {
@@ -50,7 +52,8 @@ const router = createRouter({
                     name: 'advanced',
                     component: HomeView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["PAUSE_PLAY", "CHANGE_VOLUME", "CHANGE_ORDER", "DELETE_SONGS", "SKIP"]
                     }
                 }
             ],
@@ -95,7 +98,8 @@ const router = createRouter({
                     name: 'redirect',
                     redirect: '/admin/roles',
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES","MANAGE_USER"]
                     }
                 },
                 {
@@ -103,7 +107,8 @@ const router = createRouter({
                     name: 'roles',
                     component: RoleManagementView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -112,7 +117,8 @@ const router = createRouter({
                     component: RoleManagementView,
                     props: true,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -121,7 +127,8 @@ const router = createRouter({
                     component: RoleManagementView,
                     props: true,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -130,7 +137,8 @@ const router = createRouter({
                     component: RoleManagementView,
                     props: true,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -138,7 +146,8 @@ const router = createRouter({
                     name: 'users',
                     component: UserManagementView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_USER"]
                     }
                 }
 
@@ -158,8 +167,26 @@ router.beforeEach(async (to, from, next) => {
     }
 
     await httpService.getVerifyApiKey(cookieService.getApiKey())
-        .then(() => {
-            next()
+        .then(async () => {
+            for (const record of to.matched) {
+
+                if (record.meta.requiresPermission) {
+
+                    await PermissionService.getPermissions();
+                    const permissions = <PermissionType[]>record.meta.requiresPermission;
+
+                    if (PermissionService.hasAnyPermission(permissions)) {
+                        next();
+                    } else {
+                        next({
+                            path: '/home'
+                        })
+                    }
+                    return;
+                }
+            }
+            next();
+            return;
         })
         .catch(() => {
             cookieService.clearApiKey();
