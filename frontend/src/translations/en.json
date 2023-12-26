@@ -3,7 +3,8 @@
   "addSong": {
     "title": "Add Song",
     "placeholder": "Search in history or use song link",
-    "action": "Add to queue"
+    "action": "Add to queue",
+    "insufficientPermissions": "Sorry, you are not allowed to add songs :("
   },
   "adminPage": {
     "detail": {

@@ -5,7 +5,8 @@
       <router-link to="/home/advanced" class="link advanced">{{ $translate('modeSwitcher.advanced') }}</router-link>
     </div>
     <div class="add-song-container">
-      <AddSong/>
+      <AddSong  v-if="addSongPermission"/>
+      <div v-else class="no-add-permission">{{ translate("addSong.insufficientPermissions")}}</div>
     </div>
     <div class="queue-scroll-container">
       <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
@@ -54,6 +55,7 @@ import AddSong from "@/components/control/AddSong.vue";
 import {HttpService} from "@/services/HttpService";
 import {useNowPlaying} from "@/composables/nowPlaying";
 import {PermissionService} from "@/services/PermissionService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 type ControlPanelPermissions = {
   voteSkip:boolean,
@@ -69,6 +71,7 @@ const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100)
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = ref(false);
 const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false});
+const addSongPermission = ref(false);
 
 onMounted(async () => {
   await PermissionService.getPermissions();
@@ -81,6 +84,7 @@ onMounted(async () => {
   controlPanelPermissions.value.replay = PermissionService.checkPermission("VOTESKIP");
 
   hasAdvancedPermissions.value = PermissionService.hasAnyPermission(["SKIP","PAUSE_PLAY","CHANGE_VOLUME","CHANGE_ORDER","DELETE_SONGS"]);
+  addSongPermission.value = PermissionService.checkPermission("ADD_SONG");
 
   if (hasAdvancedPermissions.value && router.currentRoute.value.name === "default"){
     await router.push("/home/basic")
@@ -159,6 +163,13 @@ main.show-mode-switcher {
 
 .add-song-container {
   height: 100px;
+}
+
+.no-add-permission{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .queue-scroll-container {
