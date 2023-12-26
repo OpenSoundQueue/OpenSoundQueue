@@ -700,20 +700,12 @@ paths:
               schema:
                 example:
                   error: user does not exist
-  /user/{id}/permissions:
+  /user/permissions:
     get:
       tags:
         - auth
         - user
-      description: get the permissions of a user
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-            example: 2
-          required: true
-          description: Id of user
+      description: get the permissions of user
       responses:
         200:
           description: returns permissions of user
@@ -725,12 +717,12 @@ paths:
                   - play: false
                   - viewAdminPanel: false
         400:
-          description: user with id not found
+          description: user with token not found
           content:
             application/json:
               schema:
                 example:
-                  error: user with <id> not found
+                  error: user with <token> not found
   /queue/change-order:
     patch:
       tags:
