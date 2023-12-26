@@ -11,7 +11,7 @@ import Closable from "@/directives/ClosableDirective";
 import { createPinia } from 'pinia';
 
 if (import.meta.env.DEV) {
-    //makeServer();
+    makeServer();
 }
 
 const app = createApp(App)
