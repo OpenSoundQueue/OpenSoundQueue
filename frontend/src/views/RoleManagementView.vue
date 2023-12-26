@@ -1,7 +1,7 @@
 <template>
   <main>
     <nav>
-      <div class="mode-switcher">
+      <div v-show="roleId == undefined" class="mode-switcher">
         <router-link to="/admin/roles" class="link">Roles</router-link>
         <router-link to="/admin/users" class="link">Users</router-link>
       </div>
@@ -16,26 +16,36 @@
       <nav class="desktop">
         <div class="nav-element"
              :class="[detailComponent === RoleDisplay ? 'active' : '']"
-             @click="detailComponent = RoleDisplay">
-          Display
+             @click="changeTab(RoleDisplay)">
+          {{ $translate('roleEdit.navigation.display') }}
           <div class="underline"></div>
         </div>
         <div class="nav-element"
              :class="[detailComponent === RoleMembers ? 'active' : '']"
-             @click="detailComponent = RoleMembers">
-          Members
+             @click="changeTab(RoleMembers)">
+          {{ $translate('roleEdit.navigation.members') }}
           <div class="underline"></div>
         </div>
         <div class="nav-element"
              :class="[detailComponent === RolePermissions ? 'active' : '']"
-             @click="detailComponent = RolePermissions">
-          Permissions
+             @click="changeTab(RolePermissions)">
+          {{ $translate('roleEdit.navigation.permissions') }}
           <div class="underline"></div>
+        </div>
+        <div v-show="store.roleEdited" class="nav-element save-button">
+          <!-- TODO: Style title -->
+          <img class="undo" src="@/assets/icons/undo.svg"
+               :alt="translate('altTexts.undo')"
+               :title="translate('roleEdit.rollback')"
+               @click="store.rollback()"/>
+          <DynamicButton b-style="save" status="active" @click="save()">{{
+              translate('roleEdit.save')
+            }}
+          </DynamicButton>
         </div>
       </nav>
       <component :is="detailComponent"
-                 :role-id="selectedRoleId"
-      />
+                 :role="store.patchedRole"/>
     </div>
     <GridBackground/>
   </main>
@@ -50,6 +60,14 @@ import RoleDisplay from "@/components/roles/RoleDisplay.vue";
 import RoleMembers from "@/components/roles/RoleMembers.vue";
 import RolePermissions from "@/components/roles/RolePermissions.vue";
 import router from "@/router";
+import {useRoleStore} from "@/stores/Role";
+import {PopUpService} from "@/services/PopUpService";
+import {translate} from "@/plugins/TranslationPlugin";
+import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import {ToastService} from "@/services/ToastService";
+
+const store = useRoleStore();
+
 
 const props = defineProps<{
   roleId?: string
@@ -59,13 +77,34 @@ const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
 
-onMounted(() => {
+onMounted(async () => {
+  if (props.roleId != undefined) {
+    await store.newSelection(Number(props.roleId))
+  }
   chooseComponent();
 })
 
 watch(router.currentRoute, () => {
   chooseComponent();
 })
+
+async function changeTab(component: Component) {
+  if (store.patchedRole?.id == -1) {
+    ToastService.sendNotification(translate('popUp.editRole.newRoleRedirectError'), "error", 3000)
+    return
+  }
+  if (store.roleEdited) {
+    PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
+    const userAction = await PopUpService.waitForUserAction();
+
+    if (userAction === "accepted") {
+      await store.save();
+    } else {
+      await store.rollback();
+    }
+  }
+  detailComponent.value = component
+}
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
@@ -77,7 +116,15 @@ function chooseComponent() {
 }
 
 function selectRole(id?: number) {
+  if (id == -1) {
+    detailComponent.value = RoleDisplay;
+  }
   selectedRoleId.value = id;
+}
+
+async function save(){
+  await store.save()
+  selectRole(store.fetchedRole?.id)
 }
 
 function toMembers() {
@@ -150,6 +197,23 @@ nav {
   flex: 0 0 auto;
 }
 
+.save-button {
+  margin-top: 0 !important;
+  margin-left: auto;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.save-button > button {
+  min-width: 100px;
+}
+
+.undo {
+  height: 30px;
+  margin: auto 0 auto 0;
+}
 
 @media screen and (min-width: 420px) {
   nav {
@@ -186,8 +250,18 @@ nav {
 
   .detail-container nav {
     display: flex;
+    width: 100%;
     gap: 20px;
     height: 40px;
+  }
+
+  .detail-container > div {
+    height: calc(100% - 40px);
+    width: 100%;
+  }
+
+  .nav-element {
+    margin-top: 10px;
   }
 
   .nav-element:hover {

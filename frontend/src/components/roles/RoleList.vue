@@ -5,21 +5,21 @@
         <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
       </div>
       <div class="new-role-button-container" @click="() => selectRole()">
-        New Role
+        {{ translate('roleEdit.newRole') }}
       </div>
     </div>
     <p>search</p>
     <div class="role-list-container scrollbar">
-      <div class="select-role-button-wrapper" v-for="id in 20" :class="id === roleId ? 'selected' : ''">
-        <div class="mobile overlay" @click="toDisplay(id)">
-          <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
-        </div>
-        <div class="select-role-button-container" @click="selectRole(id)">
+      <div class="select-role-button-wrapper" v-for="role in roles" :class="role.id === roleId ? 'selected' : ''">
+        <div class="select-role-button-container" @click="selectRole(role.id)">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path
                 d="M480-440q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0-80q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0 440q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-400Zm0-315-240 90v189q0 54 15 105t41 96q42-21 88-33t96-12q50 0 96 12t88 33q26-45 41-96t15-105v-189l-240-90Zm0 515q-36 0-70 8t-65 22q29 30 63 52t72 34q38-12 72-34t63-52q-31-14-65-22t-70-8Z"/>
           </svg>
-          Role {{ id }}
+          <div>{{ role.name }}</div>
+        </div>
+        <div class="mobile overlay" @click="toDisplay(role.id)">
+          <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')"/>
         </div>
       </div>
     </div>
@@ -28,6 +28,35 @@
 
 <script setup lang="ts">
 import router from "@/router";
+import {onMounted, ref, watch} from "vue";
+import type {Ref} from "vue";
+import {HttpService} from "@/services/HttpService";
+import type {Role} from "@/models/Role";
+import {useRoleStore} from "@/stores/Role";
+import {PopUpService} from "@/services/PopUpService";
+import {translate} from "@/plugins/TranslationPlugin";
+import {storeToRefs} from "pinia";
+
+const httpService = new HttpService();
+
+const roles: Ref<Role[]> = ref([]);
+const store = useRoleStore();
+
+onMounted(async () => {
+  roles.value = await httpService.getRoles();
+  await selectRole(roles.value[0].id)
+
+  const refStore = storeToRefs(store);
+  watch(refStore.fetchedRole, async () => {
+    await httpService.getRoles()
+        .then((data) => {
+          roles.value = data;
+        })
+        .catch(() => {
+          router.push('/home')
+        });
+  })
+})
 
 defineProps<{
   roleId?: number
@@ -37,12 +66,38 @@ const emit = defineEmits<{
   selectRole: [id?: number]
 }>();
 
-function toDisplay(roleId?: number) {
+async function toDisplay(roleId?: number) {
+  if (roleId === undefined) {
+    store.newRole();
+    emit("selectRole", -1);
+    await router.push(`/admin/roles/display/new`);
+    return;
+  }
+
+  await store.newSelection(roleId);
   emit("selectRole", roleId);
-  router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
+
+  await router.push(`/admin/roles/display/${typeof roleId === "undefined" ? "new" : roleId}`);
 }
 
-function selectRole(roleId?: number) {
+
+async function selectRole(roleId?: number) {
+  if (roleId == undefined) {
+    store.newRole();
+    emit("selectRole", store.fetchedRole?.id);
+    return
+  }
+
+  if (store.roleEdited) {
+    PopUpService.openPopUp(translate('popUp.editRole.unsavedChanges'), translate('popUp.editRole.save'));
+    const userAction = await PopUpService.waitForUserAction();
+
+    if (userAction === "accepted") {
+      await store.save();
+    }
+  }
+
+  await store.newSelection(roleId);
   emit("selectRole", roleId);
 }
 </script>
@@ -55,7 +110,6 @@ function selectRole(roleId?: number) {
 }
 
 .new-role-button-wrapper {
-  background: var(--primary-color);
   position: relative;
   height: 40px;
   display: flex;
@@ -83,6 +137,8 @@ function selectRole(roleId?: number) {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius-medium);
 }
 
 .new-role-button-wrapper .overlay img {
@@ -94,6 +150,7 @@ function selectRole(roleId?: number) {
   flex-direction: column;
   gap: 15px;
   overflow-y: scroll;
+  height: 100%;
 }
 
 .select-role-button-wrapper {
@@ -103,6 +160,11 @@ function selectRole(roleId?: number) {
   border: 2px solid var(--secondary-color);
   border-radius: var(--border-radius-medium);
   box-sizing: border-box;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+
 }
 
 .select-role-button-wrapper:hover {
@@ -110,11 +172,9 @@ function selectRole(roleId?: number) {
 }
 
 .select-role-button-wrapper .overlay {
-  position: absolute;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 100%;
   height: 100%;
 }
 
@@ -128,11 +188,19 @@ function selectRole(roleId?: number) {
   align-items: center;
   gap: 10px;
   padding-left: 10px;
+  width: calc(100% - 45px);
 }
 
 .select-role-button-container svg {
   height: 25px;
   fill: var(--tertiary-color);
+}
+
+.select-role-button-container > div {
+  width: calc(100%);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 1250px) {

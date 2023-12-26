@@ -92,8 +92,8 @@ const router = createRouter({
             children: [
                 {
                     path: '',
-                    name: 'admin-default',
-                    component: RoleManagementView,
+                    name: 'redirect',
+                    redirect: '/admin/roles',
                     meta: {
                         requiresAuth: true
                     }

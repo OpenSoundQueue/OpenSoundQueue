@@ -56,7 +56,11 @@
     "sortingArrowDown": "Pfeil nach unten für absteigende Sortierreihenfolge",
     "sortingArrowUp": "Pfeil nach oben für aufsteigende Sortierreihenfolge",
     "time": "Uhrensymbol",
-    "user": "Benutzersymbol"
+    "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängi machen zu lassen",
+    "user": "Benutzersymbol",
+    "selectAll": "Ein Gitter aus großen Rechtecken gleicher Höhe und Breite, das anzeigt, dass alle Rechtecke ausgewählt sind",
+    "selectNone": "Ein Gitter aus kleinen Rechtecken gleicher Höhe und Breite, das anzeigt, dass keines der Rechtecke ausgewählt ist",
+    "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann"
   },
   "createAccount": "Ein Konto erstellen",
   "currentSongEmpty": "Aktuell wird kein Song abgespielt",
@@ -159,6 +163,17 @@
       "button": "Benutzer löschen",
       "part1": "Sicher, dass du den Benutzer",
       "part2": "löschen möchtest?"
+    },
+    "editRole": {
+      "unsavedChanges": "Du hast Änderungen gemacht, die nicht gespeichert worden sind. Möchtest du sie speichern?",
+      "save": "Änderungen speichern",
+      "saveError": "Änderungen konnten nicht gespeichert werden",
+      "saveSuccess": "Änderungen wurden gespeichert",
+      "deleteError": "Beim Löschen der Rolle ist ein Fehler aufgetreten",
+      "deleteSuccess": "Rolle wurde gelöscht",
+      "createError": "Eine Rolle mit diesem Namen exisitert bereits",
+      "createSuccess": "Rolle wurde erstellt",
+      "newRoleRedirectError": "Der Rolle muss erste ein Name gegeben werden, bevor weitere Einstellungen möglich sind"
     }
   },
   "queueDescription": {
@@ -196,5 +211,34 @@
       "text": "Ich habe keinen Code erhalten"
     },
     "success": "Registrierung erfolgreich"
+  },
+  "roleEdit": {
+    "newRole": "Neue Rolle",
+    "navigation": {
+      "display": "Anzeige",
+      "members": "Mitglieder",
+      "permissions": "Berechtigungen"
+    },
+    "save": "Speichern",
+    "rollback": "Änderungen verwerfen",
+    "delete": "Rolle löschen",
+    "display": {
+      "roleName": "Rollen-Name",
+      "placeholder": "Rollen-Name eingeben..."
+    },
+    "member": {
+      "search": "Nach Benutzern suchen...",
+      "noResults": "Keine Treffer für ",
+      "selectAll": "Alle auswählen",
+      "selectNone": "keinen auswählen",
+      "invert": "Auswahl invertieren"
+    },
+    "permissions": {
+      "search": "Nach Berechtigungen suchen...",
+      "noResults": "Keine Treffer für ",
+      "selectAll": "Alle auswählen",
+      "selectNone": "keinen auswählen",
+      "invert": "Auswahl invertieren"
+    }
   }
 }

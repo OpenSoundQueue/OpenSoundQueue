@@ -56,7 +56,11 @@
     "sortingArrowDown": "Arrow pointing down, indicating sorting direction",
     "sortingArrowUp": "Arrow pointing up, indicating sorting direction",
     "time": "Clock symbol",
-    "user": "User symbol"
+    "undo": "An arrow pointing back to undo the changes",
+    "user": "User symbol",
+    "selectAll": "An grid of big rectangles of equal height and width, indicating all of them are selected",
+    "selectNone": "An grid of small rectangles of equal height and width, indicating none of them are selected",
+    "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted"
   },
   "createAccount": "Create Account",
   "currentSongEmpty": "There is currently no song playing",
@@ -159,6 +163,17 @@
       "button": "Delete User",
       "part1": "Are you sure you want to delete User",
       "part2": "?"
+    },
+    "editRole": {
+      "unsavedChanges": "There are unsaved changes. Do you want to save them?",
+      "save": "Save changes",
+      "saveError": "Changes could not be saved",
+      "saveSuccess": "Changes successfully saved",
+      "deleteError": "An error occurred when deleting the role",
+      "deleteSuccess": "Role successfully deleted",
+      "createError": "A Role with this name already exists",
+      "createSuccess": "Role successfully created",
+      "newRoleRedirectError": "The role must first be given a name before further settings are possible"
     }
   },
   "queueDescription": {
@@ -184,17 +199,46 @@
     "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)"
   },
   "registration": {
-  "change": "Change",
-  "continue": "Continue",
-  "createAccount": "Create account",
-  "explanation": "We have sent a code to your email address, please check your inbox.",
-  "heading": "Create an account",
-  "noCode": {
-    "button": "Resend Code",
-    "error": "Something didn't work. Please try again.",
-    "success": "We have sent you a new code.",
-    "text": "I have not received a code"
+    "change": "Change",
+    "continue": "Continue",
+    "createAccount": "Create account",
+    "explanation": "We have sent a code to your email address, please check your inbox.",
+    "heading": "Create an account",
+    "noCode": {
+      "button": "Resend Code",
+      "error": "Something didn't work. Please try again.",
+      "success": "We have sent you a new code.",
+      "text": "I have not received a code"
+    },
+    "success": "Registration successful"
   },
-  "success": "Registration successful"
-}
+  "roleEdit": {
+    "newRole": "New Role",
+    "navigation": {
+      "display": "Display",
+      "members": "Members",
+      "permissions": "Permissions"
+    },
+    "save": "Save",
+    "rollback": "Discard changes",
+    "delete": "Delete Role",
+    "display":{
+      "roleName": "Role Name",
+      "placeholder": "Enter Role Name..."
+    },
+    "member": {
+      "search": "Search for Users...",
+      "noResults": "No results for ",
+      "selectAll": "Select All",
+      "selectNone": "Select None",
+      "invert": "Invert Selection"
+    },
+    "permissions": {
+      "search": "Search for Permissions...",
+      "noResults": "No results for ",
+      "selectAll": "Select All",
+      "selectNone": "Select None",
+      "invert": "Invert Selection"
+    }
+  }
 }

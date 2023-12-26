@@ -3,7 +3,6 @@ import {Song} from "@/models/Song";
 import {User} from "@/models/User";
 import * as cookieService from "@/services/cookieService";
 import type {Role} from "@/models/Role";
-import type {Permission} from "@/models/Permission";
 
 const httpClient = new HttpClient();
 
@@ -331,7 +330,7 @@ export class HttpService {
     }
 
     async getRoles() {
-        return httpClient.get(`/roles`)
+        return httpClient.get(`/roles`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -344,66 +343,61 @@ export class HttpService {
     }
 
     async getPermissions() {
-        return httpClient.get(`/permissions`)
+        return httpClient.get(`/permissions`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data: string[]) => {
                 return data;
             });
     }
 
     async getRole(id: number) {
-        return httpClient.get(`/role/get/${id}`)
+        return httpClient.get(`/role/get/${id}`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
 
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data: Role) => {
                 return data;
             });
     }
 
     async deleteRole(id: number) {
-        return httpClient.delete(`/role/${id}`)
+        return httpClient.delete(`/role/${id}`,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
-                return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data) => {
                 return data;
             });
     }
 
-    async postRoleAdd(name: string, permissions: { [key: string]: boolean }[]) {
-        return httpClient.post(`/role/create`, {name: name, permissions: permissions})
+    async updateRole(role: object) {
+        return httpClient.patch(`/role/edit`, role,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data:Role) => {
                 return data;
             });
     }
-
-    async updateRole(role: Role) {
-        return httpClient.patch(`/role/edit`, {role})
+    async createRole(role: object) {
+        return httpClient.post(`/role/create`, role,cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
                 return response.json();
-            }).then((data: Permission[]) => {
+            }).then((data:Role) => {
                 return data;
             });
     }
