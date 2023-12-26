@@ -1277,6 +1277,19 @@ paths:
                   - "youtube"
                   - "soundcloud"
                   - "apple music"
+  /system/installation-state:
+    get:
+      tags:
+        - system
+      description: get installation status
+      responses:
+        200:
+          description: installation status
+          content:
+            application/json:
+              schema:
+                example:
+                  finished: true
 components:
   securitySchemes:
     ApiKeyAuth:
