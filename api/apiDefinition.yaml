@@ -1092,6 +1092,11 @@ paths:
                   - skip: true
                   - play: false
                   - viewAdminPanel: false
+                members:
+                  - id: 1
+                    name: Markus
+                  - id: 2
+                    name: Lukas
       responses:
         201:
           description: role has been updated
