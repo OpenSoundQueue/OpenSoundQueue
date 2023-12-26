@@ -142,6 +142,8 @@ public class UserService {
         UserInfoEntity user = userInfoRepository.findById(id).get();
         List<Role> savedRoles = new ArrayList<>();
 
+        System.out.println(roles);
+
         for (Role r :roles) {
             if (roleRepository.findById(r.getId()).orElse(null) == null) continue;
             savedRoles.add(roleRepository.findById(r.getId()).get());
@@ -152,7 +154,7 @@ public class UserService {
         userInfoRepository.save(user);
 
         for (Role r :roleRepository.findAll()) {
-            r.setUsersList(userInfoRepository.findAllByRolesContains(r));
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
             roleRepository.save(r);
         }
     }
@@ -183,7 +185,7 @@ public class UserService {
         userInfoRepository.save(user);
 
         for (Role r : roleRepository.findAll()) {
-            r.setUsersList(userInfoRepository.findAllByRolesContains(r));
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
             roleRepository.save(r);
         }
     }
@@ -195,7 +197,7 @@ public class UserService {
         userInfoRepository.save(user);
 
         for (Role r : roleRepository.findAll()) {
-            r.setUsersList(userInfoRepository.findAllByRolesContains(r));
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
             roleRepository.save(r);
         }
     }
