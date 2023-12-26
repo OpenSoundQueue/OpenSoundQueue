@@ -285,7 +285,7 @@ public class UserRest {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
+    @AuthRequest
     @GetMapping("/user/permissions")
     public ResponseEntity<Object> getPermissionsOfUser(@RequestHeader(value = "X-API-KEY") String token) {
         if (userService.getUserByToken(token) == null) return new ResponseEntity<>(new ErrorDto("user with token not found"), HttpStatus.BAD_REQUEST);

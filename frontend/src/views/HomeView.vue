@@ -15,7 +15,7 @@
       </div>
       <div class="hr desktop"></div>
       <div class="queue-scroll-component">
-        <QueueScroll :update-interval="4000" :has-reorder="hasQueueReorderPermission"/>
+        <QueueScroll :update-interval="4000" :has-reorder="hasQueueReorderPermission && displayAdvanced"/>
       </div>
     </div>
     <div class="control-panel-wrapper">
@@ -28,10 +28,10 @@
           />
         </div>
         <div class="vote-skip-container">
-          <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
-                        :start-stop="hasAdvancedControlPanelPermission"
-                        :skip="hasAdvancedControlPanelPermission"
-                        :replay="hasAdvancedControlPanelPermission"
+          <ControlPanel :vote-skip="controlPanelPermissions.voteSkip && !displayAdvanced"
+                        :start-stop="controlPanelPermissions.startStop && displayAdvanced"
+                        :skip="controlPanelPermissions.skip && displayAdvanced"
+                        :replay="controlPanelPermissions.replay && displayAdvanced"
                         :is-playing="isPlaying"
                         @update="update"
           />
@@ -48,29 +48,43 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
 import {computed, onMounted, ref} from "vue";
+import type {Ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
 import {HttpService} from "@/services/HttpService";
 import {useNowPlaying} from "@/composables/nowPlaying";
+import {PermissionService} from "@/services/PermissionService";
+
+type ControlPanelPermissions = {
+  voteSkip:boolean,
+  startStop:boolean,
+  skip:boolean,
+  replay:boolean,
+}
 
 const httpService = new HttpService();
 
 const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
 const hasAdvancedPermissions = ref(false);
+const hasQueueReorderPermission = ref(false);
+const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false});
 
-onMounted(() => {
-  if (router.currentRoute.value.name !== "default") {
-    hasAdvancedPermissions.value = true;
+onMounted(async () => {
+  await PermissionService.getPermissions();
+  hasQueueReorderPermission.value = PermissionService.checkPermission("CHANGE_ORDER");
+
+  controlPanelPermissions.value.voteSkip = PermissionService.checkPermission("VOTESKIP");
+  controlPanelPermissions.value.startStop = PermissionService.checkPermission("PAUSE_PLAY");
+  controlPanelPermissions.value.skip = PermissionService.checkPermission("SKIP");
+  //TODO: change that to replay (currently missing in backend)
+  controlPanelPermissions.value.replay = PermissionService.checkPermission("VOTESKIP");
+
+  hasAdvancedPermissions.value = PermissionService.hasAnyPermission(["SKIP","PAUSE_PLAY","CHANGE_VOLUME","CHANGE_ORDER","DELETE_SONGS"]);
+
+  if (hasAdvancedPermissions.value && router.currentRoute.value.name === "default"){
+    await router.push("/home/basic")
   }
-})
-
-const hasQueueReorderPermission = computed(() => {
-  return router.currentRoute.value.name === "advanced";
-});
-
-const hasAdvancedControlPanelPermission = computed(() => {
-  return router.currentRoute.value.name === "advanced";
 })
 
 const displayAdvanced = computed(() => {
