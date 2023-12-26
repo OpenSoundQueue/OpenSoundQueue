@@ -15,6 +15,10 @@ const httpService = new HttpService();
 const isClicked = ref(false);
 const isLoading = ref(false);
 
+const emit = defineEmits<{
+  update: [];
+}>()
+
 async function replaySong() {
   isClicked.value = true;
   isLoading.value = true;
@@ -25,6 +29,8 @@ async function replaySong() {
   await new Promise((resolve) => setTimeout(resolve, 350));
   isClicked.value = false;
   isLoading.value = false;
+
+  emit("update");
 }
 </script>
 

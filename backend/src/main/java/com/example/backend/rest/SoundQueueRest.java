@@ -53,7 +53,7 @@ public class SoundQueueRest {
     public ResponseEntity<Object> getNowPlaying() {
         CurrentlyPlayingDto currentSong = songQueueService.getCurrentPlayingSong();
         if (currentSong == null) {
-            return new ResponseEntity<>(new StatusDto("No song currently playing"), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new CurrentlyPlayingDto(false, 0, 0L, null), HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(currentSong, HttpStatus.OK);
     }

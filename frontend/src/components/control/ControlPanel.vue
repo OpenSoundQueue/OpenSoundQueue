@@ -1,14 +1,14 @@
 <template>
   <div class="control-panel">
-    <ReplaySong v-show="replay"/>
+    <ReplaySong v-show="replay" @update="() => emit('update')"/>
     <div class="skip-container">
-      <StartStopSong v-show="startStop" :is-playing="isPlaying"/>
+      <StartStopSong v-show="startStop" :is-playing="isPlaying" @update="() => emit('update')"/>
       <div v-show="voteSkip && !startStop" class="vote-skip">
         <VoteSkip :update-interval="4000"/>
         <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
       </div>
     </div>
-    <SkipSong v-show="skip"/>
+    <SkipSong v-show="skip" @update="() => emit('update')"/>
     <div v-show="voteSkip && startStop" class="vote-skip">
       <VoteSkip :update-interval="4000"/>
       <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
@@ -23,13 +23,17 @@ import SkipSong from "@/components/control/SkipSong.vue";
 import ReplaySong from "@/components/control/ReplaySong.vue";
 import StartStopSong from "@/components/control/StartStopSong.vue";
 
-const props = defineProps<{
+defineProps<{
   voteSkip: boolean,
   startStop: boolean,
   skip: boolean,
   replay: boolean,
   isPlaying: boolean
 }>();
+
+const emit = defineEmits<{
+  update: [];
+}>()
 </script>
 
 <style scoped>

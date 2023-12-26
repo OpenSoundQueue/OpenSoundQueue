@@ -2,13 +2,13 @@
   <div class="now-playing-wrapper">
     <div class="title-artist-wrapper">
       <div class="title-container">
-        <div v-if="isLoading" class="skeleton"></div>
-        <div v-else-if="!currentSong">{{ $translate('currentSongEmpty') }}</div>
+        <div v-if="!currentSong && !isPlaying">{{ $translate('currentSongEmpty') }}</div>
+        <div v-else-if="!currentSong" class="skeleton"></div>
         <div v-else class="title">{{ currentSong?.title }}</div>
       </div>
       <div class="artist-container">
-        <div v-if="isLoading" class="skeleton"></div>
-        <div v-else-if="!currentSong" class="artist"/>
+        <div v-if="!currentSong && !isPlaying" class="artist"/>
+        <div v-else-if="!currentSong" class="skeleton"></div>
         <div v-else class="artist">{{ currentSong?.artist }}</div>
       </div>
     </div>
@@ -29,12 +29,9 @@ import {Song} from "@/models/Song";
 const props = defineProps<{
   currentSong?: Song
   currentTime: number,
-  progress: number
+  progress: number,
+  isPlaying: boolean
 }>();
-
-const isLoading = computed(() =>  {
-  return !props.currentSong;
-});
 
 const getCurrentTime = computed(() => {
   return secondsToTimeString(props.currentTime);
