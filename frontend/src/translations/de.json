@@ -124,7 +124,8 @@
     "project": "Projekt",
     "public": "Öffentlich",
     "settings": "Einstellungen",
-    "team": "Team"
+    "team": "Team",
+    "admin": "Administration"
   },
   "notifications": {
     "queueAddError": "Song konnte nicht zur Warteschlange hinzugefügt werden.",

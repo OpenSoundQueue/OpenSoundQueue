@@ -98,7 +98,8 @@ const router = createRouter({
                     name: 'admin-default',
                     component: RoleManagementView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES","MANAGE_USER"]
                     }
                 },
                 {
@@ -106,7 +107,8 @@ const router = createRouter({
                     name: 'roles',
                     component: RoleManagementView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -115,7 +117,8 @@ const router = createRouter({
                     component: RoleManagementView,
                     props: true,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -124,7 +127,8 @@ const router = createRouter({
                     component: RoleManagementView,
                     props: true,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -133,7 +137,8 @@ const router = createRouter({
                     component: RoleManagementView,
                     props: true,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
                     }
                 },
                 {
@@ -141,7 +146,8 @@ const router = createRouter({
                     name: 'users',
                     component: UserManagementView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_USER"]
                     }
                 }
 

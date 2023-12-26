@@ -124,7 +124,8 @@
     "project": "Project",
     "public": "Public",
     "settings": "Settings",
-    "team": "Team"
+    "team": "Team",
+    "admin": "Administration"
   },
   "notifications": {
     "queueAddError": "Song could not be added to the queue.",

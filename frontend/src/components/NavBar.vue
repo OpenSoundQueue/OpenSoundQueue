@@ -20,6 +20,7 @@
             <Link path="/" :label="$translate('navBar.public')" :is-outer-area="!userIsInPublicArea"/>
             <Link path="/home" :label="$translate('navBar.home')" :is-outer-area="userIsInPublicArea"/>
             <Link path="/settings" :label="$translate('navBar.settings')" :is-outer-area="userIsInPublicArea"/>
+            <Link v-show="hasAdminPermissions" path="/admin" :label="$translate('navBar.admin')" :is-outer-area="userIsInPublicArea"/>
           </div>
           <div class="other-nav-links">
             <Link path="https://opensoundqueue.org/" :label="$translate('navBar.project')" :is-external="true"/>
@@ -42,10 +43,12 @@ import Link from "@/components/Link.vue";
 import {onMounted, ref, watch} from "vue";
 import router from "@/router";
 import UserMenu from "@/components/UserMenu.vue";
+import {PermissionService} from "@/services/PermissionService";
 
 const navIsOpen = ref(false);
 const userMenuIsOpen = ref(false);
 const userIsInPublicArea = ref(true);
+const hasAdminPermissions = ref(false);
 
 watch(router.currentRoute, () => {
   determineArea();
@@ -53,8 +56,10 @@ watch(router.currentRoute, () => {
   navIsOpen.value = false;
 })
 
-onMounted(() => {
+onMounted(async () => {
   determineArea();
+  await PermissionService.getPermissions();
+  hasAdminPermissions.value = PermissionService.hasAnyPermission(["MANAGE_ROLES","MANAGE_USER"]);
 })
 
 function determineArea() {
