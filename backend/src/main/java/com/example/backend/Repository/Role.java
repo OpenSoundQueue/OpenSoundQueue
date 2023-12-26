@@ -19,16 +19,16 @@ public class Role {
     private Collection<Permissions> permissions;
 
     @ManyToMany(targetEntity = UserInfoEntity.class, fetch = FetchType.EAGER)
-    private Collection<UserInfoEntity> usersList;
+    private Collection<UserInfoEntity> members;
 
     public Role() {
     }
 
-    public Role(int id, String name, Collection<Permissions> permissions, Collection<UserInfoEntity> usersList) {
+    public Role(int id, String name, Collection<Permissions> permissions, Collection<UserInfoEntity> members) {
         this.id = id;
         this.name = name;
         this.permissions = permissions;
-        this.usersList = usersList;
+        this.members = members;
     }
 
     public int getId() {
@@ -55,12 +55,12 @@ public class Role {
         this.permissions = permissions;
     }
 
-    public Collection<UserInfoEntity> getUsersList() {
-        return usersList;
+    public Collection<UserInfoEntity> getMembers() {
+        return members;
     }
 
-    public void setUsersList(Collection<UserInfoEntity> usersList) {
-        this.usersList = usersList;
+    public void setMembers(Collection<UserInfoEntity> members) {
+        this.members = members;
     }
 
     @Override
