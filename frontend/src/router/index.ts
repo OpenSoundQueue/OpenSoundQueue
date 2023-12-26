@@ -53,7 +53,7 @@ const router = createRouter({
                     component: HomeView,
                     meta: {
                         requiresAuth: true,
-                        requiresPermission: ["PAUSE_PLAY", "CHANGE_VOLUME", "CHANGE_ORDER", "DELETE_SONGS"]
+                        requiresPermission: ["PAUSE_PLAY", "CHANGE_VOLUME", "CHANGE_ORDER", "DELETE_SONGS", "SKIP"]
                     }
                 }
             ],
