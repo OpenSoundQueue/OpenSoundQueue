@@ -1,7 +1,7 @@
 <template>
   <main>
     <ExpandCollapse :label="$translate('nowPlaying')" :is-collapsed="false">
-      <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress"/>
+      <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress" :is-playing="isPlaying"/>
     </ExpandCollapse>
     <ExpandCollapse :label="$translate('inQueue')" :is-collapsed="false">
       <Queue :page-update-interval="4000"/>
@@ -21,32 +21,10 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import Footer from "@/components/Footer.vue";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import router from "@/router";
-import {onMounted, ref} from "vue";
-import {HttpService} from "@/services/HttpService";
-import {Song} from "@/models/Song";
-import type {Ref} from "vue";
+import {useNowPlaying} from "@/composables/nowPlaying";
 
-const httpService = new HttpService();
-const updateInterval = 1000;
+const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(7000, 100);
 
-const currentSong: Ref<Song | undefined> = ref();
-const progress = ref(0);
-const currentTime = ref(0);
-
-onMounted(() => {
-  setInterval(getTime,  updateInterval);
-})
-
-function getTime() {
-  httpService.getNowPlaying().then(data => {
-    if (data.song) {
-      currentSong.value = data.song;
-
-      currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-      progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
-    }
-  })
-}
 </script>
 
 <style scoped>

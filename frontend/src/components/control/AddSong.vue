@@ -129,6 +129,7 @@ function clearInputField() {
   position: relative;
   background: var(--secondary-color);
   border-radius: var(--border-radius-medium);
+  z-index: 2;
 }
 
 .add-song-container {
@@ -159,7 +160,6 @@ function clearInputField() {
   padding: 10px 10px 10px 10px;
   box-sizing: border-box;
   overflow-y: scroll;
-  z-index: 2;
 }
 
 .add-song-overlay.not-visible {

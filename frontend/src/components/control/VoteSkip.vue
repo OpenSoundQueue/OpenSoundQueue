@@ -46,7 +46,7 @@ const voteSkipData = ref({
   received: 0
 });
 
-let interval: any;
+let intervalTimer: ReturnType<typeof setInterval> | undefined;
 
 onMounted(() => {
   requestStatus();
@@ -108,9 +108,9 @@ function activate() {
 }
 
 function resetInterval() {
-  clearInterval(interval);
+  clearInterval(intervalTimer);
 
-  interval = setInterval(() => {
+  intervalTimer = setInterval(() => {
     requestStatus()
   }, props.updateInterval);
 }

@@ -286,10 +286,10 @@ public class UserRest {
     }
 
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
-    @GetMapping("/user/{id}/permissions")
-    public ResponseEntity<Object> getPermissionsOfUser(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") Long id) {
-        if (userService.getUserById(id) == null) return new ResponseEntity<>(new ErrorDto("user with id not found"), HttpStatus.BAD_REQUEST);
+    @GetMapping("/user/permissions")
+    public ResponseEntity<Object> getPermissionsOfUser(@RequestHeader(value = "X-API-KEY") String token) {
+        if (userService.getUserByToken(token) == null) return new ResponseEntity<>(new ErrorDto("user with token not found"), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(userService.getPermissionsOfUser(id), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.getPermissionsOfUser(userService.getUserByToken(token).getId()), HttpStatus.CREATED);
     }
 }

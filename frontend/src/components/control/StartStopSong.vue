@@ -18,6 +18,10 @@ const props = defineProps<{
   isPlaying: boolean
 }>();
 
+const emit = defineEmits<{
+  update: [];
+}>()
+
 const httpService = new HttpService();
 const isClicked = ref(false);
 const isLoading = ref(false);
@@ -40,6 +44,8 @@ async function startStop() {
   await new Promise((resolve) => setTimeout(resolve, 200));
   isClicked.value = false;
   isLoading.value = false;
+
+  emit("update");
 }
 </script>
 

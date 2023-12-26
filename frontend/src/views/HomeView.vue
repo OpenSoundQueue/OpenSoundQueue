@@ -21,7 +21,11 @@
     <div class="control-panel-wrapper">
       <div class="control-panel-container">
         <div class="now-playing-container">
-          <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress"/>
+          <NowPlaying :current-song="currentSong"
+                      :current-time="currentTime"
+                      :progress="progress"
+                      :is-playing="isPlaying"
+          />
         </div>
         <div class="vote-skip-container">
           <ControlPanel :vote-skip="!hasAdvancedControlPanelPermission"
@@ -29,6 +33,7 @@
                         :skip="hasAdvancedControlPanelPermission"
                         :replay="hasAdvancedControlPanelPermission"
                         :is-playing="isPlaying"
+                        @update="update"
           />
         </div>
       </div>
@@ -46,20 +51,21 @@ import {computed, onMounted, ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
 import {HttpService} from "@/services/HttpService";
-import type {Ref} from "vue";
-import type {Song} from "@/models/Song";
+import {useNowPlaying} from "@/composables/nowPlaying";
 
 const httpService = new HttpService();
 
-const updateInterval = 1000;
-
-const currentSong: Ref<Song | undefined> = ref();
-const progress = ref(0);
-const currentTime = ref(0);
-const isPlaying = ref(false);
+const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
 
 const hasAdvancedPermissions = ref(false);
+
+onMounted(() => {
+  if (router.currentRoute.value.name !== "default") {
+    hasAdvancedPermissions.value = true;
+  }
+})
+
 const hasQueueReorderPermission = computed(() => {
   return router.currentRoute.value.name === "advanced";
 });
@@ -72,21 +78,9 @@ const displayAdvanced = computed(() => {
   return router.currentRoute.value.name === "advanced";
 })
 
-onMounted(() => {
-  if (router.currentRoute.value.name !== "default") {
-    hasAdvancedPermissions.value = true;
-  }
-
-  setInterval(getTime, updateInterval);
-})
-
-function getTime() {
+function update() {
   httpService.getNowPlaying().then(data => {
     if (data.song) {
-      currentSong.value = data.song;
-
-      currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-      progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
       isPlaying.value = data.isPlaying;
     }
   })

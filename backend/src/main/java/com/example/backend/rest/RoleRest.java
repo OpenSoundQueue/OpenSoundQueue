@@ -3,6 +3,7 @@ package com.example.backend.rest;
 import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.Role;
 import com.example.backend.Repository.RoleRepository;
+import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.annotations.AuthRequest;
 import com.example.backend.user_management.UserService;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -68,8 +71,26 @@ public class RoleRest {
 
         Role savedRole = roleRepository.findById(role.getId()).get();
 
+        List<UserInfoEntity> oldMembers = new ArrayList<>(savedRole.getMembers());
+        List<UserInfoEntity> newMembers = new ArrayList<>(role.getMembers());
+
+        for (UserInfoEntity member :oldMembers) {
+            member = userService.getUserById(member.getId());
+            member.setRoles(member.getRoles().stream().filter(x -> x.getId() != role.getId()).toList());
+            System.out.println("Removing role from user: " + member.getUsername());
+            userService.changeRolesOfUser(member.getId(), member.getRoles().stream().toList());
+        }
+        for (UserInfoEntity member :newMembers) {
+            member = userService.getUserById(member.getId());
+            List<Role> roleList = new ArrayList<>(member.getRoles());
+            roleList.add(role);
+            member.setRoles(roleList);
+            userService.changeRolesOfUser(member.getId(), member.getRoles().stream().toList());
+        }
+
         savedRole.setName(role.getName());
         savedRole.setPermissions(role.getPermissions());
+        savedRole.setMembers(role.getMembers());
 
         roleRepository.save(savedRole);
 
