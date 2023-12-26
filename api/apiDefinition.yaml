@@ -1125,6 +1125,171 @@ paths:
               schema:
                 example:
                   error: role does not exist
+  /system/language/set/{language}:
+    patch:
+      tags:
+        - system
+      description: change default language
+      parameters:
+        - in: path
+          name: language
+          schema:
+            type: string
+            example: DE
+          required: true
+          description: abbreviation of language
+      responses:
+        201:
+          description: default language has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+  /system/language:
+    get:
+      tags:
+        - system
+      description: get default language
+      responses:
+        200:
+          description: default language
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+  /system/privacy/set:
+    patch:
+      tags:
+        - system
+      description: change privacy setting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                is-private: true
+                entry-code: Schodl
+      responses:
+        201:
+          description: default language has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  is-private: true
+                  entry-code: Schodl
+  /system/privacy:
+    get:
+      tags:
+        - system
+      description: get privacy setting
+      responses:
+        200:
+          description: privacy setting
+          content:
+            application/json:
+              schema:
+                example:
+                  is-private: true
+                  entry-code: Schodl
+  /system/email-auth/set/{email-auth}:
+    patch:
+      tags:
+        - system
+      description: change email auth setting
+      parameters:
+        - in: path
+          name: email-auth
+          schema:
+            type: boolean
+            example: true
+          required: true
+          description: is email auth
+      responses:
+        201:
+          description: email auth has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  email-auth: true
+  /system/email-auth:
+    get:
+      tags:
+        - system
+      description: get email auth
+      responses:
+        200:
+          description: email auth
+          content:
+            application/json:
+              schema:
+                example:
+                  email-auth: true
+  /system/sources/set:
+    patch:
+      tags:
+        - system
+      description: change sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                sources: ["youtube", "soundcloud"]
+      responses:
+        201:
+          description: sources has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  - "youtube"
+                  - "soundcloud"
+  /system/sources:
+    get:
+      tags:
+        - system
+      description: get sources
+      responses:
+        200:
+          description: supported sources
+          content:
+            application/json:
+              schema:
+                example:
+                  - "youtube"
+                  - "soundcloud"
+  /system/supported-sources:
+    get:
+      tags:
+        - system
+      description: get all supported sources
+      responses:
+        200:
+          description: supported sources
+          content:
+            application/json:
+              schema:
+                example:
+                  - "youtube"
+                  - "soundcloud"
+                  - "apple music"
+  /system/installation-state:
+    get:
+      tags:
+        - system
+      description: get installation status
+      responses:
+        200:
+          description: installation status
+          content:
+            application/json:
+              schema:
+                example:
+                  finished: true
 components:
   securitySchemes:
     ApiKeyAuth:
