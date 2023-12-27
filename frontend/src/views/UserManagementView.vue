@@ -1,7 +1,7 @@
 <template>
   <main>
-    <nav>
-      <div class="mode-switcher" v-show="hasAllManagementPermissions">
+    <nav v-show="hasAllManagementPermissions">
+      <div class="mode-switcher" >
         <router-link to="/admin/roles" class="link">Roles</router-link>
         <router-link to="/admin/users" class="link">Users</router-link>
       </div>
