@@ -1,7 +1,7 @@
 <template>
   <main>
     <nav>
-      <div class="mode-switcher">
+      <div class="mode-switcher" v-show="hasAllManagementPermissions">
         <router-link to="/admin/roles" class="link">Roles</router-link>
         <router-link to="/admin/users" class="link">Users</router-link>
       </div>
@@ -39,6 +39,7 @@ import {User} from "@/models/User";
 import SortingButton from "@/components/buttons/SortingButton.vue";
 import UserDetail from "@/components/UserDetail.vue";
 import GridBackground from "@/components/background/GridBackground.vue";
+import {PermissionService} from "@/services/PermissionService";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
@@ -50,7 +51,14 @@ const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
 const selfID = ref(0);
 const selectedID = ref(0);
-const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
+const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"});
+const hasAllManagementPermissions = ref(false);
+
+onMounted(async ()=>{
+  await PermissionService.getPermissions();
+
+  hasAllManagementPermissions.value = PermissionService.hasAllPermissions(["MANAGE_ROLES","MANAGE_USER"])
+})
 
 const selectedUser = computed(() => {
   return users.value.find((user) => user.id === selectedID.value);

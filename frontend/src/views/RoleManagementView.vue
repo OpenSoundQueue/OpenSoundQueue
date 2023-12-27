@@ -1,7 +1,7 @@
 <template>
   <main>
     <nav>
-      <div v-show="roleId == undefined" class="mode-switcher">
+      <div v-show="roleId == undefined && hasAllManagementPermissions" class="mode-switcher">
         <router-link to="/admin/roles" class="link">Roles</router-link>
         <router-link to="/admin/users" class="link">Users</router-link>
       </div>
@@ -65,6 +65,7 @@ import {PopUpService} from "@/services/PopUpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {ToastService} from "@/services/ToastService";
+import {PermissionService} from "@/services/PermissionService";
 
 const store = useRoleStore();
 
@@ -76,8 +77,17 @@ const props = defineProps<{
 const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
+const hasAllManagementPermissions = ref(false);
 
 onMounted(async () => {
+  await PermissionService.getPermissions();
+  if (PermissionService.checkPermission("MANAGE_ROLES"))
+    await router.push("/admin/roles");
+  else
+    await router.push("/admin/users");
+
+  hasAllManagementPermissions.value = PermissionService.hasAllPermissions(["MANAGE_ROLES","MANAGE_USER"])
+
   if (props.roleId != undefined) {
     await store.newSelection(Number(props.roleId))
   }
@@ -125,14 +135,6 @@ function selectRole(id?: number) {
 async function save(){
   await store.save()
   selectRole(store.fetchedRole?.id)
-}
-
-function toMembers() {
-  router.push('/admin/roles/members/' + selectedRoleId);
-}
-
-function toPermissions() {
-  router.push('/admin/roles/permissions/' + selectedRoleId);
 }
 </script>
 
