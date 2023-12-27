@@ -2,8 +2,8 @@
   <main>
     <nav v-show="hasAllManagementPermissions">
       <div v-show="roleId == undefined" class="mode-switcher">
-        <router-link to="/admin/roles" class="link">Roles</router-link>
-        <router-link to="/admin/users" class="link">Users</router-link>
+        <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
+        <router-link to="/admin/users" class="link">{{ translate('adminPage.nav.users') }}</router-link>
       </div>
     </nav>
     <div class="role-container">

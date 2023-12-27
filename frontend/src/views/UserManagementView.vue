@@ -2,8 +2,8 @@
   <main>
     <nav v-show="hasAllManagementPermissions">
       <div class="mode-switcher" >
-        <router-link to="/admin/roles" class="link">Roles</router-link>
-        <router-link to="/admin/users" class="link">Users</router-link>
+        <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
+        <router-link to="/admin/users" class="link">{{ translate('adminPage.nav.users') }}</router-link>
       </div>
     </nav>
     <div class="role-container">
@@ -40,6 +40,7 @@ import SortingButton from "@/components/buttons/SortingButton.vue";
 import UserDetail from "@/components/UserDetail.vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import {PermissionService} from "@/services/PermissionService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
