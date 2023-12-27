@@ -38,7 +38,7 @@
                :alt="translate('altTexts.undo')"
                :title="translate('roleEdit.rollback')"
                @click="store.rollback()"/>
-          <DynamicButton b-style="save" status="active" @click="save()">{{
+          <DynamicButton b-style="save" :status="saveButtonState" @click="save()">{{
               translate('roleEdit.save')
             }}
           </DynamicButton>
@@ -78,6 +78,7 @@ const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
 const hasAllManagementPermissions = ref(false);
+const saveButtonState = ref("active")
 
 onMounted(async () => {
   await PermissionService.getPermissions();
@@ -133,8 +134,13 @@ function selectRole(id?: number) {
 }
 
 async function save() {
+  if (saveButtonState.value != "active")
+    return
+
+  saveButtonState.value = "waiting"
   await store.save()
   selectRole(store.fetchedRole?.id)
+  saveButtonState.value = "active"
 }
 </script>
 

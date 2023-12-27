@@ -89,10 +89,10 @@ button:hover {
 }
 
 .save.waiting {
-  color: var(--text-color);
+  color: var(--tertiary-color);
   border: solid 2px;
-  border-color: var(--primary-color);
-  background: transparent;
+  border-color: var(--tertiary-color);
+  background-color: transparent;
 }
 
 .delete.active {
