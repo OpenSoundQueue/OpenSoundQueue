@@ -36,7 +36,8 @@
           <div>{{ user.username }}</div>
           <Checkbox :checked="user.isMember" @change="updateMember(user.id,user.username)"/>
         </div>
-        <div v-show="filteredUsers.length==0">{{ translate('roleEdit.member.noResults') }}'{{ searchText }}'</div>
+        <div v-show="filteredUsers.length==0 && !usersAreLoading">{{ translate('roleEdit.member.noResults') }}'{{ searchText }}'</div>
+        <div v-if="usersAreLoading" v-for="index of 10" class="skeleton"/>
       </div>
     </div>
   </div>
@@ -67,6 +68,7 @@ defineProps<{
 }>()
 
 const httpService = new HttpService();
+const usersAreLoading = ref(true);
 
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
@@ -166,6 +168,7 @@ async function getUsers() {
   await httpService.getUsers()
       .then((data) => {
         users.value = data
+        usersAreLoading.value = false;
       });
 }
 </script>
@@ -244,6 +247,14 @@ async function getUsers() {
 
 .user:hover > .checkbox {
   border-color: white !important;
+}
+
+.skeleton{
+  width: calc(100% - var(--font-size-medium) / 1.5 * 2);
+  height: 20px;
+  box-sizing: border-box;
+
+  margin: calc(var(--font-size-medium) / 1.5 * 2) calc(var(--font-size-medium) / 1.5);
 }
 
 @media screen and (min-width: 800px) {

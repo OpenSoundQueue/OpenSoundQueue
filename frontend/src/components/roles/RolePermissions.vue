@@ -36,7 +36,8 @@
           <div>{{ permission.name }}</div>
           <ToggleSwitch :checked="permission.isActive" @change="updatePermission(permission.name)"/>
         </div>
-        <div v-show="filteredPermissions.length==0">{{ translate('roleEdit.permissions.noResults') }}'{{ searchText }}'</div>
+        <div v-show="filteredPermissions.length==0 && !permissionsAreLoading">{{ translate('roleEdit.permissions.noResults') }}'{{ searchText }}'</div>
+        <div v-if="permissionsAreLoading" v-for="index of 10" class="skeleton"/>
       </div>
     </div>
   </div>
@@ -66,6 +67,7 @@ defineProps<{
 }>()
 
 const httpService = new HttpService();
+const permissionsAreLoading = ref(true);
 
 const store = useRoleStore();
 const role: Ref<Role | undefined> = ref();
@@ -163,6 +165,7 @@ async function getPermissions() {
   await httpService.getPermissions()
       .then((data) => {
         permissions.value = data
+        permissionsAreLoading.value = false;
       });
 }
 </script>
@@ -240,6 +243,15 @@ async function getPermissions() {
 .permission:hover>.checkbox{
   border-color: white !important;
 }
+
+.skeleton{
+  width: calc(100% - var(--font-size-medium) / 1.5 * 2);
+  height: 20px;
+  box-sizing: border-box;
+
+  margin: calc(var(--font-size-medium) / 1.5 * 2) calc(var(--font-size-medium) / 1.5);
+}
+
 @media screen and (min-width: 800px) {
   .role-permissions-container {
     width: 800px;
