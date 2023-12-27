@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
     <nav v-show="hasAllManagementPermissions">
       <div class="mode-switcher" >
         <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
@@ -300,8 +300,20 @@ nav {
     width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
-    grid-template-rows: 60px calc(100% - 90px);
+    grid-template-rows: calc(100% - 30px);
   }
+
+  main.show-mode-switcher {
+     grid-template-rows: 60px calc(100% - 90px);
+
+     .role-container {
+       grid-row: 2;
+     }
+
+     .detail-container {
+       grid-row: 2;
+     }
+   }
 
   .email {
     display: flex;
@@ -309,12 +321,12 @@ nav {
 
   .detail-container {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1;
   }
 
   .role-container {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);

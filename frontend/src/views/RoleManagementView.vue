@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
     <nav v-show="hasAllManagementPermissions">
       <div v-show="roleId == undefined" class="mode-switcher">
         <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
@@ -86,7 +86,7 @@ onMounted(async () => {
   else
     await router.push("/admin/users");
 
-  hasAllManagementPermissions.value = PermissionService.hasAllPermissions(["MANAGE_ROLES","MANAGE_USER"])
+  hasAllManagementPermissions.value = PermissionService.hasAllPermissions(["MANAGE_ROLES", "MANAGE_USER"])
 
   if (props.roleId != undefined) {
     await store.newSelection(Number(props.roleId))
@@ -132,7 +132,7 @@ function selectRole(id?: number) {
   selectedRoleId.value = id;
 }
 
-async function save(){
+async function save() {
   await store.save()
   selectRole(store.fetchedRole?.id)
 }
@@ -239,12 +239,25 @@ nav {
     display: grid;
     justify-content: space-between;
     grid-template-columns: 33% 66%;
-    grid-template-rows: 60px calc(100% - 90px);
+    grid-template-rows: calc(100% - 30px);
   }
+
+  main.show-mode-switcher {
+    grid-template-rows: 60px calc(100% - 90px);
+
+    .role-container {
+      grid-row: 2;
+    }
+
+    .detail-container {
+      grid-row: 2;
+    }
+  }
+
 
   .detail-container {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
     padding: 20px;
@@ -285,7 +298,7 @@ nav {
     grid-column: 1;
     padding: 20px;
     box-sizing: border-box;
-    grid-row: 2;
+    grid-row: 1;
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
