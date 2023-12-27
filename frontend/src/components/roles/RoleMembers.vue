@@ -37,7 +37,7 @@
           <Checkbox :checked="user.isMember" @change="updateMember(user.id,user.username)"/>
         </div>
         <div v-show="filteredUsers.length==0 && !usersAreLoading">{{ translate('roleEdit.member.noResults') }}'{{ searchText }}'</div>
-        <div v-if="usersAreLoading" v-for="index of 10" class="skeleton"/>
+        <div v-if="usersAreLoading" v-for="index of 10" :key="index" class="skeleton"/>
       </div>
     </div>
   </div>

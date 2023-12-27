@@ -37,7 +37,7 @@
           <ToggleSwitch :checked="permission.isActive" @change="updatePermission(permission.name)"/>
         </div>
         <div v-show="filteredPermissions.length==0 && !permissionsAreLoading">{{ translate('roleEdit.permissions.noResults') }}'{{ searchText }}'</div>
-        <div v-if="permissionsAreLoading" v-for="index of 10" class="skeleton"/>
+        <div v-if="permissionsAreLoading" v-for="index of 10" :key="index" class="skeleton"/>
       </div>
     </div>
   </div>
