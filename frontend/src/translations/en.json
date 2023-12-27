@@ -7,6 +7,10 @@
     "insufficientPermissions": "Sorry, you are not allowed to add songs :("
   },
   "adminPage": {
+    "nav": {
+      "users": "Users",
+      "roles": "Roles"
+    },
     "detail": {
       "delete": "Delete User",
       "placeholder": {
