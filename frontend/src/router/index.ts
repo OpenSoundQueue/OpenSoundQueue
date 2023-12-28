@@ -93,12 +93,8 @@ const router = createRouter({
         {
             path: "/installation",
             name: "installation",
+            redirect: "/installation/language",
             children: [
-                {
-                    path: '',
-                    name: 'redirect',
-                    component: InstallationView,
-                },
                 {
                     path: "language",
                     name: "language",
@@ -106,7 +102,7 @@ const router = createRouter({
                 },
                 {
                     path: "register",
-                    name: "register",
+                    name: "registration",
                     component: InstallationView,
                 },
                 {
