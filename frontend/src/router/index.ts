@@ -13,6 +13,7 @@ import RegistrationView from "@/views/RegistrationView.vue";
 import RoleManagementView from "@/views/RoleManagementView.vue";
 import {PermissionService} from "@/services/PermissionService";
 import type {PermissionType} from "@/services/PermissionService";
+import InstallationView from "@/views/InstallationView.vue";
 
 const httpService = new HttpService();
 
@@ -90,6 +91,14 @@ const router = createRouter({
             }
         },
         {
+            path: "/installation",
+            name: "installation",
+            component: InstallationView,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
             path: '/admin',
             name: 'admin',
             children: [
@@ -155,6 +164,7 @@ const router = createRouter({
         },
     ]
 })
+
 
 // runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
 // checks if the stored sessionKey is valid

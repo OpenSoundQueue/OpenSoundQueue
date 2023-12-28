@@ -3,6 +3,7 @@ import {Song} from "@/models/Song";
 import {User} from "@/models/User";
 import * as cookieService from "@/services/cookieService";
 import type {Role} from "@/models/Role";
+import {setLanguage} from "@/plugins/TranslationPlugin";
 
 const httpClient = new HttpClient();
 
@@ -330,7 +331,7 @@ export class HttpService {
     }
 
     async getRoles() {
-        return httpClient.get(`/roles`,cookieService.getApiKey())
+        return httpClient.get(`/roles`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -343,7 +344,7 @@ export class HttpService {
     }
 
     async getPermissions() {
-        return httpClient.get(`/permissions`,cookieService.getApiKey())
+        return httpClient.get(`/permissions`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -354,8 +355,9 @@ export class HttpService {
                 return data;
             });
     }
+
     async getOwnPermissions() {
-        return httpClient.get(`/user/permissions`,cookieService.getApiKey())
+        return httpClient.get(`/user/permissions`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -368,7 +370,7 @@ export class HttpService {
     }
 
     async getRole(id: number) {
-        return httpClient.get(`/role/get/${id}`,cookieService.getApiKey())
+        return httpClient.get(`/role/get/${id}`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -381,7 +383,7 @@ export class HttpService {
     }
 
     async deleteRole(id: number) {
-        return httpClient.delete(`/role/${id}`,cookieService.getApiKey())
+        return httpClient.delete(`/role/${id}`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -392,25 +394,148 @@ export class HttpService {
     }
 
     async updateRole(role: object) {
-        return httpClient.patch(`/role/edit`, role,cookieService.getApiKey())
+        return httpClient.patch(`/role/edit`, role, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
-            }).then((data:Role) => {
+            }).then((data: Role) => {
                 return data;
             });
     }
+
     async createRole(role: object) {
-        return httpClient.post(`/role/create`, role,cookieService.getApiKey())
+        return httpClient.post(`/role/create`, role, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
-            }).then((data:Role) => {
+            }).then((data: Role) => {
                 return data;
             });
     }
+
+    async getLanguage() {
+        return httpClient.get(`/system/language`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setLanguage(language: string) {
+        setLanguage(language);
+        return httpClient.patch(`/system/language/set/${language}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getPrivacy() {
+        return httpClient.get(`/system/privacy`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setPrivacy(privacySettings: object) {
+        return httpClient.patch(`/system/privacy/set`, privacySettings)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getAuthentication() {
+        return httpClient.get(`/system/email-auth`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setAuthentication(requireEMailAuthentication: boolean) {
+        return httpClient.patch(`/system/email-auth/set/${requireEMailAuthentication}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getSupportedSources() {
+        return httpClient.get(`/system/supported-sources`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getSources() {
+        return httpClient.get(`/system/sources`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setSources(sources: string[]) {
+        return httpClient.patch(`/system/sources/set`, {sources: sources})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getInstallationState() {
+        return httpClient.get(`/system/installation-state`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
 }

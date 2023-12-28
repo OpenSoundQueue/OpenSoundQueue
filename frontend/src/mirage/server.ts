@@ -405,6 +405,94 @@ export function makeServer({environment = "development"} = {}) {
                 return schema.db.roles;
             });
 
+            let language = "en"
+            let isPrivate = true
+            let entryCode = "Schodl"
+            let emailAuth = false
+            let sources: Record<string, boolean> = {
+                youtube: false,
+                soundcloud: false,
+            }
+            let installationFinished = false;
+
+            this.get("/system/language", (schema: AppSchema) => {
+
+                return {
+                    language: language
+                };
+            });
+
+            this.patch("/system/language/set/:language", (schema: AppSchema, request) => {
+                language = request.params.language;
+
+                return {
+                    language: language
+                };
+            });
+
+            this.get("/system/privacy", (schema: AppSchema) => {
+                return {
+                    "isPrivate": isPrivate,
+                    "entryCode": entryCode
+                };
+            });
+
+            this.patch("/system/privacy/set", (schema: AppSchema, request) => {
+                const body = JSON.parse(request.requestBody);
+                isPrivate = body.isPrivate
+                entryCode = body.entryCode
+
+                return {
+                    "isPrivate": isPrivate,
+                    "entryCode": entryCode
+                };
+            });
+
+            this.get("/system/email-auth", (schema: AppSchema) => {
+                return {
+                    "emailAuth": emailAuth
+                };
+            });
+
+            this.patch("/system/email-auth/set/:emailAuth", (schema: AppSchema, request) => {
+                emailAuth = (request.params.emailAuth == "true");
+
+                return {
+                    "emailAuth": emailAuth
+                };
+            });
+
+            this.get("/system/supported-sources", (schema: AppSchema) => {
+                return Object.keys(sources);
+            });
+
+            this.get("/system/sources", (schema: AppSchema) => {
+                return Object.keys(sources).filter((key) => sources[key])
+            });
+
+            this.patch("/system/sources/set", (schema: AppSchema, request) => {
+                const body = JSON.parse(request.requestBody);
+
+                for (const source of Object.keys(sources)) {
+                    sources[source] = false
+                }
+
+                body.sources.forEach((source: string) => {
+                    if (Object.keys(sources).includes(source)) {
+                        sources[source] = true
+                    }
+                })
+
+                installationFinished = true;
+
+                return Object.keys(sources).filter((key) => sources[key])
+            });
+
+            this.get("/system/installation-state", (schema: AppSchema) => {
+                return {
+                    finished: installationFinished
+                };
+            });
         },
     })
 }
