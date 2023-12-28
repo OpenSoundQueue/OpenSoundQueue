@@ -41,6 +41,8 @@ public class SongQueueService {
 
     private final Set<Long> voteSkipUserList = new HashSet<>();
 
+    private int volume = 50;
+
     public Song addSong(String link) {
         Song song = songService.validateSong(link);
 
@@ -179,5 +181,14 @@ public class SongQueueService {
 
     public void replaySong() {
         songService.replay(currentSong);
+    }
+
+    public void changeVolume(int volume) {
+        this.volume = volume;
+        songService.changeVolume(currentSong, volume);
+    }
+
+    public int getVolume() {
+        return this.volume;
     }
 }
