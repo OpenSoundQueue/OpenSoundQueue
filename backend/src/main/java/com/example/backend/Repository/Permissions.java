@@ -11,5 +11,6 @@ public enum Permissions {
     DELETE_SONGS,
     MANAGE_ROLES,
     MANAGE_USER,
-    NO_VALUE
+    NO_VALUE,
+    REPLAY
 }
