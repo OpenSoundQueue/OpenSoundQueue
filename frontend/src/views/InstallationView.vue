@@ -1,13 +1,13 @@
 <template>
-  <router-link to="/installation/language">Language</router-link>
-  <br>
-  <router-link to="/installation/privacy">Privacy</router-link>
-  <br>
-  <router-link to="/installation/register">Register</router-link>
-  <br>
-  <router-link to="/installation/sources">Sources</router-link>
-  <br>
-  <component :is="component"/>
+  <main>
+    <header>
+      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
+    </header>
+    <div class="install-container">
+      <InstallationProgress></InstallationProgress>
+      <component :is="component"/>
+    </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +17,7 @@ import {HttpService} from "@/services/HttpService";
 import LanguageSetting from "@/components/installation/LanguageSetting.vue";
 import PrivacySetting from "@/components/installation/PrivacySetting.vue";
 import SourceSetting from "@/components/installation/SourceSetting.vue";
+import InstallationProgress from "@/components/installation/InstallationProgress.vue";
 import router from "@/router";
 
 const httpService = new HttpService()
@@ -33,8 +34,6 @@ watch(router.currentRoute, () => {
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
 
-  if (routeName === 'redirect') router.push("/installation/language")
-
   if (routeName === 'language') component.value = LanguageSetting
   if (routeName === 'register') component.value = LanguageSetting
   if (routeName === 'privacy') component.value = PrivacySetting
@@ -44,4 +43,33 @@ function chooseComponent() {
 
 <style scoped>
 
+main {
+  background-color: var(--grayish-blue);
+  width: 100svw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.header-image {
+  height: calc(var(--font-size-big) * 1.5);
+  padding: 25px;
+}
+
+@media screen and (min-width: 600px) {
+  main {
+    width: 600px;
+    border-radius: var(--border-radius-big);
+    margin: 50px auto 0 auto;
+    min-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+  }
+}
 </style>
