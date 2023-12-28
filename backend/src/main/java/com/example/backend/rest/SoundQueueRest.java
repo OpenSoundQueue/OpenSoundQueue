@@ -136,7 +136,7 @@ public class SoundQueueRest {
         return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
 
-    @AuthRequest(requiredPermission = Permissions.SKIP)
+    @AuthRequest(requiredPermission = Permissions.REPLAY)
     @PostMapping("/queue/replay")
     public ResponseEntity<Object> replaySong(@RequestHeader(value = "X-API-KEY") String token) {
         if (songQueueService.getCurrentPlayingSong() == null) return new ResponseEntity<>(new ErrorDto("No song currently playing!"), HttpStatus.BAD_REQUEST);
