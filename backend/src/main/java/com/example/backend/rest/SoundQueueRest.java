@@ -144,4 +144,24 @@ public class SoundQueueRest {
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
+    @PostMapping("/queue/volume/{volume}")
+    public ResponseEntity<Object> changeVolume(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "volume") int volume) {
+        if (volume < 0 || volume > 100) {
+            return new ResponseEntity<>(new ErrorDto("invalid value for 'volume'"), HttpStatus.BAD_REQUEST);
+        }
+
+        songQueueService.changeVolume(volume);
+
+        return new ResponseEntity<>(new VolumeDto(volume), HttpStatus.OK);
+    }
+
+    @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
+    @GetMapping("/queue/current-volume")
+    public ResponseEntity<Object> getVolume(@RequestHeader(value = "X-API-KEY") String token) {
+        int volume = songQueueService.getVolume();
+
+        return new ResponseEntity<>(new VolumeDto(volume), HttpStatus.OK);
+    }
 }

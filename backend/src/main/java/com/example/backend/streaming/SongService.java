@@ -80,6 +80,18 @@ public class SongService implements SongServiceInterface {
         songService.replay(song);
     }
 
+    public void changeVolume(Song song, int volume) {
+        SongServiceInterface songService = getSongSource(song.getLink());
+        if (songService == null) return;
+        songService.changeVolume(song, volume);
+    }
+
+    public int getVolume(Song song) {
+        SongServiceInterface songService = getSongSource(song.getLink());
+        if (songService == null) return -1;
+        return songService.getVolume(song);
+    }
+
     // Validation which type of source is being used
     private SongServiceInterface getSongSource(String link) {
         if (LINK_VALIDATIONS.get("youtube").stream().filter(link::matches).toList().size() > 0) {
