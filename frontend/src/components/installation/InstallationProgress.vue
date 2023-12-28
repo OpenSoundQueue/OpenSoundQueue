@@ -3,12 +3,12 @@
     <div class="progress"/>
     <div v-for="(step,index) of installationOrder" class="installation-step" :key="index"
          :class="[currentlyActive(step) ? 'active' : '', alreadyFinished(step) ? 'finished' : '']"
-    @click="goToStep(step)">
+         @click="goToStep(step)">
       <div class="circle">
         <div class="number">{{ index + 1 }}</div>
         <img class="check" src="@/assets/icons/check.svg" :alt="translate('')"/>
       </div>
-      <div class="name">{{ translate('installation.progressBar.'+step) }}</div>
+      <div class="name">{{ translate('installation.progressBar.' + step) }}</div>
     </div>
   </div>
 </template>
@@ -16,27 +16,28 @@
 <script setup lang="ts">
 import {translate} from "@/plugins/TranslationPlugin";
 import router from "@/router";
+import type {RouteRecordName} from "vue-router";
 
 //these are the path names of the corresponding routes
 const props = defineProps<{
-  installationOrder:string[]
+  installationOrder: RouteRecordName[]
 }>();
 
-function currentlyActive(pathName: string) {
+function currentlyActive(pathName: RouteRecordName) {
   const routeName = router.currentRoute.value.name;
 
-  return (routeName === pathName);
+  return (routeName === <string>pathName);
 }
 
-function alreadyFinished(pathName: string){
+function alreadyFinished(pathName: RouteRecordName) {
   const routeName = router.currentRoute.value.name;
 
-  return props.installationOrder.indexOf(routeName) > props.installationOrder.indexOf(pathName);
+  return props.installationOrder.indexOf(routeName) > props.installationOrder.indexOf(<string>pathName);
 }
 
-function goToStep(pathName:string){
-  if (alreadyFinished(pathName))
-    router.push({name:pathName})
+function goToStep(pathName: RouteRecordName) {
+  if (alreadyFinished(<string>pathName))
+    router.push({name: pathName})
 }
 </script>
 
@@ -85,7 +86,7 @@ function goToStep(pathName:string){
   box-shadow: 0 0 0 4px var(--grayish-blue);
 }
 
-.installation-step:hover{
+.installation-step:hover {
   cursor: pointer;
 }
 
