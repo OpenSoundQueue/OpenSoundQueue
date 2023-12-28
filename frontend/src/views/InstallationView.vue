@@ -4,7 +4,8 @@
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
     <div class="install-container">
-      <InstallationProgress></InstallationProgress>
+      <InstallationProgress
+          :installation-order="['language', 'registration','privacy', 'sources']"/>
       <br><br>
       <component :is="component"/>
     </div>

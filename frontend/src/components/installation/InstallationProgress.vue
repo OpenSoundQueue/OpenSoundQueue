@@ -18,7 +18,9 @@ import {translate} from "@/plugins/TranslationPlugin";
 import router from "@/router";
 
 //these are the path names of the corresponding routes
-const installationOrder:string[] = ["language", "registration", "privacy", "sources"]
+const props = defineProps<{
+  installationOrder:string[]
+}>();
 
 function currentlyActive(pathName: string) {
   const routeName = router.currentRoute.value.name;
@@ -29,7 +31,7 @@ function currentlyActive(pathName: string) {
 function alreadyFinished(pathName: string){
   const routeName = router.currentRoute.value.name;
 
-  return installationOrder.indexOf(routeName) > installationOrder.indexOf(pathName);
+  return props.installationOrder.indexOf(routeName) > props.installationOrder.indexOf(pathName);
 }
 
 function goToStep(pathName:string){
