@@ -8,7 +8,7 @@
         <div class="number">{{ index + 1 }}</div>
         <img class="check" src="@/assets/icons/check.svg" :alt="translate('')"/>
       </div>
-      <div class="name">{{ translate('installation.progressBar.' + step) }}</div>
+      <div class="name">{{ translate(`installation.progressBar.${step.toString}`) }}</div>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ function currentlyActive(pathName: RouteRecordName) {
 function alreadyFinished(pathName: RouteRecordName) {
   const routeName = router.currentRoute.value.name;
 
-  return props.installationOrder.indexOf(routeName) > props.installationOrder.indexOf(<string>pathName);
+  return props.installationOrder.indexOf(<string>routeName) > props.installationOrder.indexOf(<string>pathName);
 }
 
 function goToStep(pathName: RouteRecordName) {
