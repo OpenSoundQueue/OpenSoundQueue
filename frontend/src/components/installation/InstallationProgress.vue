@@ -76,7 +76,7 @@ function goToStep(pathName:string){
   user-select: none;
 
   aspect-ratio: 1;
-  border-radius: 20px;
+  border-radius: 21px;
   height: 40px;
   background-color: var(--secondary-color);
   border: solid 1px var(--tertiary-color);
