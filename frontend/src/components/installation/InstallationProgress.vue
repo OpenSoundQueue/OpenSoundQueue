@@ -8,7 +8,7 @@
         <div class="number">{{ index + 1 }}</div>
         <img class="check" src="@/assets/icons/check.svg" :alt="translate('')"/>
       </div>
-      <div class="name">{{ translate(`installation.progressBar.${step.toString}`) }}</div>
+      <div class="name">{{ translate(`installation.progressBar.${step.toString()}`) }}</div>
     </div>
   </div>
 </template>
