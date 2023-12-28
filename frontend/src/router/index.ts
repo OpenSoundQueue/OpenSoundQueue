@@ -93,10 +93,33 @@ const router = createRouter({
         {
             path: "/installation",
             name: "installation",
-            component: InstallationView,
-            meta: {
-                requiresAuth: false
-            }
+            children: [
+                {
+                    path: '',
+                    name: 'redirect',
+                    component: InstallationView,
+                },
+                {
+                    path: "language",
+                    name: "language",
+                    component: InstallationView,
+                },
+                {
+                    path: "register",
+                    name: "register",
+                    component: InstallationView,
+                },
+                {
+                    path: "privacy",
+                    name: "privacy",
+                    component: InstallationView,
+                },
+                {
+                    path: "sources",
+                    name: "sources",
+                    component: InstallationView,
+                }
+            ]
         },
         {
             path: '/admin',
@@ -108,7 +131,7 @@ const router = createRouter({
                     component: RoleManagementView,
                     meta: {
                         requiresAuth: true,
-                        requiresPermission: ["MANAGE_ROLES","MANAGE_USER"]
+                        requiresPermission: ["MANAGE_ROLES", "MANAGE_USER"]
                     }
                 },
                 {
