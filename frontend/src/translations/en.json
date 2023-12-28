@@ -228,7 +228,7 @@
     "save": "Save",
     "rollback": "Discard changes",
     "delete": "Delete Role",
-    "display":{
+    "display": {
       "roleName": "Role Name",
       "placeholder": "Enter Role Name..."
     },
@@ -245,6 +245,14 @@
       "selectAll": "Select All",
       "selectNone": "Select None",
       "invert": "Invert Selection"
+    }
+  },
+  "installation": {
+    "progressBar": {
+      "language": "Language",
+      "registration": "Registration",
+      "privacy": "Privacy",
+      "sources": "Sources"
     }
   }
 }

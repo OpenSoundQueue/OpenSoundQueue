@@ -246,5 +246,13 @@
       "selectNone": "keinen auswählen",
       "invert": "Auswahl invertieren"
     }
+  },
+  "installation": {
+    "progressBar": {
+      "language": "Sprache",
+      "registration": "Registrieren",
+      "privacy": "Zugang",
+      "sources": "Quellen"
+    }
   }
 }

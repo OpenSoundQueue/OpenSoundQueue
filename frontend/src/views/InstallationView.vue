@@ -5,6 +5,7 @@
     </header>
     <div class="install-container">
       <InstallationProgress></InstallationProgress>
+      <br><br>
       <component :is="component"/>
     </div>
   </main>
