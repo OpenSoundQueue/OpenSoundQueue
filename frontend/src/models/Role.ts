@@ -24,7 +24,18 @@ export class Role {
     }
 
     static permissionsAreEqual(arr1: string[], arr2: string[]): boolean {
-        return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+        if (arr1.length !== arr2.length)
+            return false;
+
+        arr1.sort();
+        arr2.sort();
+
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i])
+                return false;
+        }
+
+        return true;
     }
 
     static membersAreEqual(arr1: User[], arr2: User[]): boolean {
@@ -52,8 +63,8 @@ export class Role {
         };
     }
 
-    static createNewRole():Role{
-        return new Role(-1,"",[],[]);
+    static createNewRole(): Role {
+        return new Role(-1, "", [], []);
     }
 
 

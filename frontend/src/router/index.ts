@@ -96,7 +96,7 @@ const router = createRouter({
                 {
                     path: '',
                     name: 'redirect',
-                    redirect: '/admin/roles',
+                    component: RoleManagementView,
                     meta: {
                         requiresAuth: true,
                         requiresPermission: ["MANAGE_ROLES","MANAGE_USER"]

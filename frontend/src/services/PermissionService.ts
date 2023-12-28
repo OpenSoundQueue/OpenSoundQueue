@@ -35,4 +35,8 @@ export class PermissionService{
     static hasAnyPermission(permissionArray: PermissionType[]) {
         return permissionArray.some((permission) => this.checkPermission(permission));
     }
+
+    static hasAllPermissions(permissionArray: PermissionType[]) {
+        return permissionArray.every((permission) => this.checkPermission(permission));
+    }
 }
