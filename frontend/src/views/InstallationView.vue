@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, shallowRef, watch} from "vue";
-import type {Component, ShallowRef} from "vue";
+import type {Component, ShallowRef, ComputedRef} from "vue";
 import {HttpService} from "@/services/HttpService";
 import LanguageSetting from "@/components/installation/LanguageSetting.vue";
 import PrivacySetting from "@/components/installation/PrivacySetting.vue";
@@ -39,11 +39,11 @@ const httpService = new HttpService()
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
 const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
 
-const nextStep: TranslationsKey = computed(() => {
-  return <TranslationsKey>`installation.navigation.next.${router.currentRoute.value.name}`
+const nextStep: ComputedRef<TranslationsKey> = computed(() => {
+  return <TranslationsKey>`installation.navigation.next.${String(router.currentRoute.value.name)}`
 });
-const lastStep: TranslationsKey = computed(() => {
-  return <TranslationsKey>`installation.navigation.back.${router.currentRoute.value.name}`
+const lastStep: ComputedRef<TranslationsKey> = computed(() => {
+  return <TranslationsKey>`installation.navigation.back.${String(router.currentRoute.value.name)}`
 });
 
 onMounted(() => {
