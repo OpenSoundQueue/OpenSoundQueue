@@ -253,6 +253,20 @@
       "registration": "Registration",
       "privacy": "Privacy",
       "sources": "Sources"
+    },
+    "navigation": {
+      "next": {
+        "language": "Continue to Registration",
+        "registration": "Continue to Privacy Settings",
+        "privacy": "Continue to Source Selection",
+        "sources": "Complete Installation"
+      },
+      "back": {
+        "language": "There is no going back",
+        "registration": "Back to Language Selection",
+        "privacy": "Back to Registration",
+        "sources": "Back to Access Control"
+      }
     }
   }
 }

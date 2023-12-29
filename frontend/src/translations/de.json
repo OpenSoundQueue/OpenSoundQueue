@@ -253,6 +253,20 @@
       "registration": "Registrieren",
       "privacy": "Zugang",
       "sources": "Quellen"
+    },
+    "navigation": {
+      "next": {
+        "language": "Weiter zur Registrierung",
+        "registration": "Weiter zur Zugangskontrolle",
+        "privacy": "Weiter zur Quellen-Auswahl",
+        "sources": "Installation abschließen"
+      },
+      "back": {
+        "language": "Es gibt keinen Weg zurück",
+        "registration": "Zurück zur Sprachauswahl",
+        "privacy": "Zurück zur Registrierung",
+        "sources": "Zurück zur Zugangskontrolle"
+      }
     }
   }
 }
