@@ -31,18 +31,19 @@ import PrivacySetting from "@/components/installation/PrivacySetting.vue";
 import SourceSetting from "@/components/installation/SourceSetting.vue";
 import InstallationProgress from "@/components/installation/InstallationProgress.vue";
 import router from "@/router";
-import {translate, TranslationsKey} from "@/plugins/TranslationPlugin";
-import {RouteRecordName} from "vue-router";
+import {translate} from "@/plugins/TranslationPlugin";
+import type {TranslationsKey} from "@/plugins/TranslationPlugin";
+import type {RouteRecordName} from "vue-router";
 
 const httpService = new HttpService()
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
 const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
 
 const nextStep:TranslationsKey = computed(()=>{
-  return `installation.navigation.next.${router.currentRoute.value.name}`
+  return <TranslationsKey>`installation.navigation.next.${router.currentRoute.value.name}`
 });
 const lastStep:TranslationsKey = computed(()=>{
-  return `installation.navigation.back.${router.currentRoute.value.name}`
+  return <TranslationsKey>`installation.navigation.back.${router.currentRoute.value.name}`
 });
 
 onMounted(() => {
