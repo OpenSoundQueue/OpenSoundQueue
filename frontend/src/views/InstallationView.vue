@@ -12,11 +12,11 @@
   </main>
   <div class="button-container">
     <div v-if="router.currentRoute.value.name!='language'" class="button back" @click="back()">
-      <div>{{ translate(lastStep) }}</div>
+      <div>{{ translate(lastStep.valueOf()) }}</div>
       <img src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowLeft')">
     </div>
     <div class="button next" :class="[router.currentRoute.value.name=='language'? 'full-width':'']" @click="next()">
-      <div>{{ translate(nextStep) }}</div>
+      <div>{{ translate(nextStep.valueOf()) }}</div>
       <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')">
     </div>
   </div>
@@ -39,10 +39,10 @@ const httpService = new HttpService()
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
 const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
 
-const nextStep:TranslationsKey = computed(()=>{
+const nextStep: TranslationsKey = computed(() => {
   return <TranslationsKey>`installation.navigation.next.${router.currentRoute.value.name}`
 });
-const lastStep:TranslationsKey = computed(()=>{
+const lastStep: TranslationsKey = computed(() => {
   return <TranslationsKey>`installation.navigation.back.${router.currentRoute.value.name}`
 });
 
@@ -65,6 +65,8 @@ function chooseComponent() {
 
 function back() {
   const routeName = router.currentRoute.value.name;
+  if (routeName == undefined)
+    return;
 
   if (installationSteps.indexOf(routeName) == 0) {
     return;
@@ -72,8 +74,11 @@ function back() {
 
   router.push({name: installationSteps[installationSteps.indexOf(routeName) - 1]});
 }
+
 function next() {
   const routeName = router.currentRoute.value.name;
+  if (routeName == undefined)
+    return;
 
   if (installationSteps.indexOf(routeName) == installationSteps.length - 1) {
     router.push("/home")
@@ -161,7 +166,7 @@ header {
   grid-column: 3;
 }
 
-.full-width{
+.full-width {
   grid-column: 1 / 4;
 }
 
