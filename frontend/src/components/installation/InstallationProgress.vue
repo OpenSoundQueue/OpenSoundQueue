@@ -83,7 +83,7 @@ function goToStep(pathName: RouteRecordName) {
   height: 40px;
   background-color: var(--secondary-color);
   border: solid 1px var(--tertiary-color);
-  box-shadow: 0 0 0 4px var(--grayish-blue);
+  box-shadow: 0 0 0 4px var(--background-color);
 }
 
 .installation-step:hover {
@@ -120,6 +120,12 @@ function goToStep(pathName: RouteRecordName) {
     .number {
       display: none;
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .circle {
+    box-shadow: 0 0 0 4px var(--grayish-blue);
   }
 }
 </style>

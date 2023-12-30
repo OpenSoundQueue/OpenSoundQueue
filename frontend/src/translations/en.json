@@ -267,6 +267,12 @@
         "privacy": "Back to Registration",
         "sources": "Back to Access Control"
       }
+    },
+    "privacy": {
+      "emailAuthTitle": "Email Authentication",
+      "emailAuthDescription": "People have to enter and verify their email address when creating an account.",
+      "roomPrivateTitle": "Room Private",
+      "roomPrivateDescription": "A private room is protected with an entry code. When logging in, users have to enter this code."
     }
   }
 }

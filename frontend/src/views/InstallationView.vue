@@ -4,41 +4,53 @@
   </nav>
   <main>
     <header>
-      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
+      <div class="step-name">{{ translate(currentRouteName.valueOf()) }}</div>
+      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="translate('altTexts.logo')">
     </header>
     <div class="install-container">
-      <component :is="component"/>
+      <component :is="component"
+                 @ready="readyForNextStep = true"
+                 @not-ready="readyForNextStep = false"/>
     </div>
   </main>
   <div class="button-container">
     <div v-if="router.currentRoute.value.name!='language'" class="button back" @click="back()">
       <div>{{ translate(lastStep.valueOf()) }}</div>
-      <img src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowLeft')">
+      <img src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="translate('altTexts.arrowLeft')">
     </div>
-    <div class="button next" :class="[router.currentRoute.value.name=='language'? 'full-width':'']" @click="next()">
+    <div class="button next"
+         :class="[router.currentRoute.value.name=='language'? 'full-width':'',readyForNextStep?'ready':'']"
+         @click="next()">
       <div>{{ translate(nextStep.valueOf()) }}</div>
-      <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')">
+      <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="translate('altTexts.arrowRight')">
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, shallowRef, watch} from "vue";
-import type {Component, ShallowRef, ComputedRef} from "vue";
+import {computed, onMounted, ref, shallowRef, watch} from "vue";
+import type {Component, Ref, ShallowRef, ComputedRef} from "vue";
 import {HttpService} from "@/services/HttpService";
 import LanguageSetting from "@/components/installation/LanguageSetting.vue";
 import PrivacySetting from "@/components/installation/PrivacySetting.vue";
 import SourceSetting from "@/components/installation/SourceSetting.vue";
 import InstallationProgress from "@/components/installation/InstallationProgress.vue";
 import router from "@/router";
-import {translate} from "@/plugins/TranslationPlugin";
 import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 import type {RouteRecordName} from "vue-router";
+import {useInstallationStore} from "@/stores/Installation";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService()
+const store = useInstallationStore();
+
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
 const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
+const readyForNextStep: Ref<boolean> = ref(false);
 
+const currentRouteName: ComputedRef<TranslationsKey> = computed(() => {
+  return <TranslationsKey>`installation.progressBar.${String(router.currentRoute.value.name)}`
+});
 const nextStep: ComputedRef<TranslationsKey> = computed(() => {
   return <TranslationsKey>`installation.navigation.next.${String(router.currentRoute.value.name)}`
 });
@@ -75,10 +87,15 @@ function back() {
   router.push({name: installationSteps[installationSteps.indexOf(routeName) - 1]});
 }
 
-function next() {
+async function next() {
   const routeName = router.currentRoute.value.name;
-  if (routeName == undefined)
+  if (routeName == undefined || !readyForNextStep.value)
     return;
+
+  switch (routeName){
+    case "privacy":
+      await store.savePrivacy();
+  }
 
   if (installationSteps.indexOf(routeName) == installationSteps.length - 1) {
     router.push("/home")
@@ -100,7 +117,7 @@ nav {
 main {
   background-color: var(--grayish-blue);
   width: 100svw;
-  min-height: calc(100vh - 92px);
+  min-height: calc(100vh - 92px - 45px);
   margin: 0;
   padding: 0;
   overflow-y: auto;
@@ -110,6 +127,15 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
+
+  .step-name {
+    width: 100%;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: var(--font-size-big);
+    font-weight: bold;
+  }
 }
 
 .header-image {
@@ -170,6 +196,10 @@ header {
   grid-column: 1 / 4;
 }
 
+.ready {
+  background-color: var(--primary-color);
+}
+
 @media screen and (min-width: 600px) {
   nav {
     background-color: transparent;
@@ -181,8 +211,8 @@ header {
     width: 600px;
     border-radius: var(--border-radius-big);
     margin: 0 auto;
-    min-height: calc(100vh - 270px);
-    max-height: calc(100vh - 270px);
+    min-height: calc(100vh - 270px - 45px);
+    max-height: calc(100vh - 270px - 45px);
   }
 
   .button-container {

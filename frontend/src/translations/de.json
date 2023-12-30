@@ -81,10 +81,10 @@
     "error": "Verifizierungs-Code falsch"
   },
   "entryCode": {
-    "error": "Eintritts-Code falsch",
-    "placeholder": "Eintritts-Code eingeben",
-    "title": "Eintritts-Code",
-    "validation": "Der Eintritts-Code ist genau 6 Zeichen lang"
+    "error": "Zugangscode falsch",
+    "placeholder": "Zugangscode eingeben",
+    "title": "Zugangscode",
+    "validation": "Der Zugangscode ist genau 6 Zeichen lang"
   },
   "forgotPassword": "Passwort vergessen?",
   "help": {
@@ -267,6 +267,12 @@
         "privacy": "Zurück zur Registrierung",
         "sources": "Zurück zur Zugangskontrolle"
       }
+    },
+    "privacy": {
+      "emailAuthTitle": "E-Mail-Authentifizierung",
+      "emailAuthDescription": "Bei der Einrichtung eines Kontos müssen die Nutzer ihre E-Mail-Adresse eingeben und verifizieren.",
+      "roomPrivateTitle": "privater Raum",
+      "roomPrivateDescription": "Ein privater Raum ist durch einen Zugangscode geschützt. Beim Einloggen müssen die Benutzer diesen Code eingeben."
     }
   }
 }
