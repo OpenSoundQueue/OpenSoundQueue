@@ -254,6 +254,7 @@
     }
   },
   "installation": {
+    "installation": "Installation",
     "progressBar": {
       "language": "Sprache",
       "registration": "Registrieren",

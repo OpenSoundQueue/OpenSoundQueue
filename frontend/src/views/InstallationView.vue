@@ -4,7 +4,10 @@
   </nav>
   <main class="scrollbar">
     <header>
-      <div class="step-name">{{ translate(currentRouteName.valueOf()) }}</div>
+      <div class="step-name">
+        <div class="darken">{{ translate('installation.installation')}}&nbsp;|&nbsp;</div>
+        <div>{{ translate(currentRouteName.valueOf()) }}</div>
+      </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="translate('altTexts.logo')">
     </header>
     <div class="install-container">
@@ -76,7 +79,7 @@ function chooseComponent() {
   if (routeName == undefined)
     return;
 
-  if (routeName !== installationProgress.value){
+  if (routeName !== installationProgress.value) {
     if (installationSteps.indexOf(routeName) > installationSteps.indexOf(installationProgress.value))
       router.push({name: installationProgress.value});
     else
@@ -156,7 +159,7 @@ main {
   width: calc(100svw - 20px);
   height: calc(100vh - 100px - 75px);
   padding: 0;
-  margin:10px;
+  margin: 10px;
   overflow-y: auto;
 }
 
@@ -169,18 +172,33 @@ header {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  width: 100%;
 
   .step-name {
-    width: 100%;
+    width: calc(100% - 166px);
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+
     padding-left: 25px;
     padding-right: 25px;
     font-size: var(--font-size-big);
     font-weight: bold;
+
+    .darken {
+      color: var(--cool-gray);
+      min-width: 0;
+      width: fit-content;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 }
 
 .header-image {
   height: calc(var(--font-size-big) * 1.5);
+  aspect-ratio: 2/1;
   padding: 25px;
 }
 
