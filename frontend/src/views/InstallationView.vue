@@ -30,7 +30,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, shallowRef, watch} from "vue";
 import type {Component, Ref, ShallowRef, ComputedRef} from "vue";
-import {HttpService} from "@/services/HttpService";
 import LanguageSetting from "@/components/installation/LanguageSetting.vue";
 import PrivacySetting from "@/components/installation/PrivacySetting.vue";
 import SourceSetting from "@/components/installation/SourceSetting.vue";
@@ -40,9 +39,15 @@ import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 import type {RouteRecordName} from "vue-router";
 import {useInstallationStore} from "@/stores/Installation";
 import {translate} from "@/plugins/TranslationPlugin";
+import {installation} from "@/store/store";
 
-const httpService = new HttpService()
 const store = useInstallationStore();
+const installationProgress = ref(installation.currentStep);
+
+watch(installationProgress, (newValue) => {
+  installation.currentStep = newValue;
+})
+
 
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
 const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
@@ -68,11 +73,25 @@ watch(router.currentRoute, () => {
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
+  if (routeName !== installationProgress.value){
+    if (installationSteps.indexOf(routeName) > installationSteps.indexOf(installationProgress.value))
+      router.push({name: installationProgress.value});
+    else
+      installationProgress.value = routeName;
+  }
 
-  if (routeName === 'language') component.value = LanguageSetting
-  if (routeName === 'register') component.value = LanguageSetting
-  if (routeName === 'privacy') component.value = PrivacySetting
-  if (routeName === 'sources') component.value = SourceSetting
+  if (routeName === 'language') {
+    component.value = LanguageSetting
+  }
+  if (routeName === 'registration') {
+    component.value = LanguageSetting
+  }
+  if (routeName === 'privacy') {
+    component.value = PrivacySetting
+  }
+  if (routeName === 'sources') {
+    component.value = SourceSetting
+  }
 }
 
 function back() {
@@ -94,14 +113,20 @@ async function next() {
 
   try {
     switch (routeName) {
-      case "privacy":
-        await store.savePrivacy()
-        break;
       case "language":
         await store.saveLanguage()
+        installationProgress.value = 'registration';
+        break;
+      case "registration":
+        installationProgress.value = 'privacy';
+        break;
+      case "privacy":
+        await store.savePrivacy()
+        installationProgress.value = 'registration';
         break;
       case "sources":
         await store.saveSources()
+        installationProgress.value = 'sources';
         break;
     }
   } catch {

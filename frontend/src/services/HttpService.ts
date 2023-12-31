@@ -430,12 +430,12 @@ export class HttpService {
     }
 
     async setLanguage(language: string) {
-        setLanguage(language);
         return httpClient.patch(`/system/language/set/${language}`)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
+                setLanguage(language);
                 return response.json();
             }).then((data) => {
                 return data;
