@@ -489,7 +489,6 @@ export function makeServer({environment = "development"} = {}) {
             });
 
             this.get("/system/installation-state", (schema: AppSchema) => {
-                console.log(installationFinished)
                 return {
                     finished: installationFinished
                 };

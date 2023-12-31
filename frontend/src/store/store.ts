@@ -26,6 +26,5 @@ watch(settings, (newValue) => {
     localStorage.setItem("settings", JSON.stringify(newValue));
 });
 watch(installation, (newValue) => {
-    console.log(newValue)
     localStorage.setItem("installation", JSON.stringify(newValue));
 });

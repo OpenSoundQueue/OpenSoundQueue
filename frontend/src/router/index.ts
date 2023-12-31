@@ -184,6 +184,42 @@ const router = createRouter({
     ]
 })
 
+// checks if installation is finished and redirects to installation if needed
+router.beforeEach(async (to, from, next) => {
+    await httpService.getInstallationState()
+        .then(data => {
+            console.log(data.finished)
+            const isInstallationPath = to.matched.some(record => record.path.includes("installation"));
+            if (!data.finished) {
+                if (isInstallationPath) {
+                    next();
+                    return;
+                } else {
+                    next({
+                        path: '/installation'
+                    })
+                    return;
+                }
+            } else {
+                if (isInstallationPath) {
+                    next({
+                        path: '/home'
+                    })
+                    return;
+                } else {
+                    next();
+                    return;
+                }
+            }
+
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
+            next({
+                path: '/installation'
+            })
+        });
+})
 
 // runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
 // checks if the stored sessionKey is valid
