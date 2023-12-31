@@ -411,7 +411,7 @@ export function makeServer({environment = "development"} = {}) {
             let emailAuth = false
             let sources: Record<string, boolean> = {
                 youtube: true,
-                soundcloud: true,
+                soundcloud: false,
             }
             let installationFinished = false;
 
@@ -489,6 +489,7 @@ export function makeServer({environment = "development"} = {}) {
             });
 
             this.get("/system/installation-state", (schema: AppSchema) => {
+                console.log(installationFinished)
                 return {
                     finished: installationFinished
                 };

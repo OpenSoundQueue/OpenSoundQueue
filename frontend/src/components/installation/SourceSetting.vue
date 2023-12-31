@@ -72,26 +72,24 @@ const emit = defineEmits<{
   align-items: center;
 
   width: 100%;
-  padding: calc(var(--font-size-medium) / 2);
+  padding: calc(var(--font-size-medium) / 2 + 2px);
 
   border-radius: var(--border-radius-medium);
   box-sizing: border-box;
 
   &&:hover{
-    background-color: var(--primary-color);
+    background-color: var(--cool-gray);
+    color: var(--dark-blue);
+    font-weight: bold;
 
      && > .checkbox {
-      border-color: white !important;
+      border-color: var(--dark-blue) !important;
     }
   }
 
   &&.selected{
-    background-color: rgba(151, 71, 255, 0.5);
-    border-color: var(--primary-color);
-  }
-
-  img{
-    height: var(--font-size-medium);
+    background-color: var(--cool-gray);
+    border-color: var(--cool-gray);
   }
 }
 </style>

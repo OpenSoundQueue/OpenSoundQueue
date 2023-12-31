@@ -1,15 +1,15 @@
 <template>
   <div class="language-container scrollbar">
-    <div class="description">{{ translate('installation.language')}} </div>
+    <div class="description">{{ translate('installation.language') }}</div>
     <div v-for="(language,index) of Object.keys(translations)"
          :key="index"
          @click="store.setLanguage(language)"
          class="language-wrapper"
-    :class="[store.language==language?'selected':'']">
+         :class="[store.language==language?'selected':'']">
       <div>{{ translate(`languages.${language}`) }}</div>
-      <img v-show="store.language==language"
-           src="@/assets/icons/check.svg"
-           :alt="translate('altTexts.check')">
+      <svg v-show="store.language==language" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" :alt="translate('altTexts.check')">
+        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+      </svg>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ const emit = defineEmits<{
 </script>
 
 <style scoped>
-.language-container{
+.language-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -54,11 +54,11 @@ const emit = defineEmits<{
   padding: 25px;
 }
 
-.description{
+.description {
   font-style: italic;
 }
 
-.language-wrapper{
+.language-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -72,13 +72,17 @@ const emit = defineEmits<{
   box-sizing: border-box;
 
 
-  &&.selected{
-    background-color: rgba(151, 71, 255, 0.5);
-    border-color: var(--primary-color);
+  &&.selected {
+    background-color: var(--cool-gray-transparent);
+    border-color: var(--cool-gray);
+    color: var(--dark-blue);
+    font-weight: bold;
   }
 
-  img{
+  svg {
     height: var(--font-size-medium);
+    fill: var(--dark-blue);
+    aspect-ratio: 1;
   }
 }
 </style>
