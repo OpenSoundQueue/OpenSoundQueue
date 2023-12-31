@@ -410,8 +410,8 @@ export function makeServer({environment = "development"} = {}) {
             let entryCode = "Schodl"
             let emailAuth = false
             let sources: Record<string, boolean> = {
-                youtube: false,
-                soundcloud: false,
+                youtube: true,
+                soundcloud: true,
             }
             let installationFinished = false;
 

@@ -150,7 +150,10 @@
       "user": "Benutzer"
     },
     "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
-    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden."
+    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden.",
+    "installation": {
+      "fetchError": "Die Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu."
+    }
   },
   "nowPlaying": "Spielt jetzt",
   "password": {

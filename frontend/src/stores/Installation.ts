@@ -1,16 +1,42 @@
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {ref, watchEffect} from "vue";
 import type {Ref} from "vue";
 import {HttpService} from "@/services/HttpService";
+import {ToastService} from "@/services/ToastService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
 export const useInstallationStore = defineStore('installation', () => {
-    const language: Ref<string> = ref("en");
-    const requireEmailAuth: Ref<boolean> = ref(true);
-    const isPrivate: Ref<boolean> = ref(true);
-    const entryCode: Ref<string> = ref("");
+    const fetchedSetting = ref(false);
+    const language = ref("en");
+    const requireEmailAuth = ref(true);
+    const isPrivate = ref(true);
+    const entryCode = ref("");
     const sources: Ref<string[]> = ref([]);
+
+    watchEffect(async () => {
+        if (!fetchedSetting.value) {
+            try {
+                const [languageData, authData, privacyData, sourcesData] = await Promise.all([
+                    httpService.getLanguage(),
+                    httpService.getAuthentication(),
+                    httpService.getPrivacy(),
+                    httpService.getSources()
+                ]);
+
+                language.value = languageData.language;
+                requireEmailAuth.value = authData.emailAuth;
+                isPrivate.value = privacyData.isPrivate;
+                entryCode.value = privacyData.entryCode;
+                sources.value = sourcesData;
+
+                fetchedSetting.value = true;
+            } catch (error) {
+                ToastService.sendNotification(translate(('notifications.installation.fetchError')),"error",3000);
+            }
+        }
+    });
 
     function setLanguage(newLanguage: string) {
         language.value = newLanguage;

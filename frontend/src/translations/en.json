@@ -150,7 +150,10 @@
       "user": "User"
     },
     "voteSkipRequestError": "Could not request vote.",
-    "voteSkipWithdrawError": "Could not withdraw vote."
+    "voteSkipWithdrawError": "Could not withdraw vote.",
+    "installation": {
+      "fetchError": "Settings could not be loaded. Please reload the page."
+    }
   },
   "nowPlaying": "Now Playing",
   "password": {
