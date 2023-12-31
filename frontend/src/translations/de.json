@@ -154,7 +154,8 @@
     "installation": {
       "fetchError": "Die Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.",
       "saveLanguageError": "Sprache konnte nicht gespeichert werden. Bitte versuche es erneut.",
-      "savePrivacyError": "Zugangseinstellungen konnten nicht gespeichert werden. Bitte versuche es erneut."
+      "savePrivacyError": "Zugangseinstellungen konnten nicht gespeichert werden. Bitte versuche es erneut.",
+      "saveSourcesError": "Die Quellenauswahl konnte nicht gespeichert werden. Bitte versuche es erneut."
     }
   },
   "nowPlaying": "Spielt jetzt",
@@ -279,7 +280,8 @@
       "roomPrivateTitle": "privater Raum",
       "roomPrivateDescription": "Ein privater Raum ist durch einen Zugangscode geschützt. Beim Einloggen müssen die Benutzer diesen Code eingeben."
     },
-    "language": "Wähle die Standardsprache für alle Benutzer aus."
+    "language": "Wähle die Standardsprache für alle Benutzer aus.",
+    "source": "Wähle die Quellen aus, von denen Benutzer Song-Links einfügen können. (Mindestens eine)"
   },
   "languages": {
     "en": "Englisch",

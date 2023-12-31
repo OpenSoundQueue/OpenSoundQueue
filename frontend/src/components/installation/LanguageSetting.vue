@@ -81,6 +81,4 @@ const emit = defineEmits<{
     height: var(--font-size-medium);
   }
 }
-
-
 </style>

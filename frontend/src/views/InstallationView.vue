@@ -100,6 +100,9 @@ async function next() {
       case "language":
         await store.saveLanguage()
         break;
+      case "sources":
+        await store.saveSources()
+        break;
     }
   } catch {
     return;

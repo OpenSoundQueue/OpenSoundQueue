@@ -154,7 +154,8 @@
     "installation": {
       "fetchError": "Settings could not be loaded. Please reload the page.",
       "saveLanguageError": "Unable to save Language. Please try again.",
-      "savePrivacyError": "Unable to save Privacy Settings. Please try again."
+      "savePrivacyError": "Unable to save Privacy Settings. Please try again.",
+      "saveSourcesError": "Unable to save Source Selection. Please try again."
     }
   },
   "nowPlaying": "Now Playing",
@@ -279,7 +280,8 @@
       "roomPrivateTitle": "Room Private",
       "roomPrivateDescription": "A private room is protected with an entry code. When logging in, users have to enter this code."
     },
-    "language": "Specify the default language for all users."
+    "language": "Specify the default language for all users.",
+    "source": "Select the Sources from which users can retrieve song links. (At least one)"
   },
   "languages": {
     "en": "English",

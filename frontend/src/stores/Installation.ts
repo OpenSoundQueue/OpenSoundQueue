@@ -54,8 +54,12 @@ export const useInstallationStore = defineStore('installation', () => {
             entryCode.value = newEntryCode;
         }
 
-        function setSources(sourceSelection: string[]) {
-            sources.value = sourceSelection;
+        function toggleSource(source: string) {
+            if (sources.value.includes(source)){
+                sources.value.splice(sources.value.indexOf(source),1)
+            }else {
+                sources.value.push(source)
+            }
         }
 
         async function saveLanguage() {
@@ -70,21 +74,32 @@ export const useInstallationStore = defineStore('installation', () => {
                 })
         }
 
-        async function savePrivacy() {
-            await httpService.setPrivacy({
-                "isPrivate": isPrivate.value,
-                "entryCode": entryCode.value
+    async function savePrivacy() {
+        await httpService.setPrivacy({
+            "isPrivate": isPrivate.value,
+            "entryCode": entryCode.value
+        })
+            .then(data => {
+                isPrivate.value = data.isPrivate;
+                entryCode.value = data.entryCode;
+                return Promise.resolve();
             })
-                .then(data => {
-                    isPrivate.value = data.isPrivate;
-                    entryCode.value = data.entryCode;
-                    return Promise.resolve();
-                })
-                .catch(() => {
-                    ToastService.sendNotification(translate(('notifications.installation.savePrivacyError')), "error", 3000);
-                    return Promise.reject();
-                })
-        }
+            .catch(() => {
+                ToastService.sendNotification(translate(('notifications.installation.savePrivacyError')), "error", 3000);
+                return Promise.reject();
+            })
+    }
+    async function saveSources() {
+        await httpService.setSources(sources.value)
+            .then(data => {
+                sources.value = data;
+                return Promise.resolve();
+            })
+            .catch(() => {
+                ToastService.sendNotification(translate(('notifications.installation.saveSourcesError')), "error", 3000);
+                return Promise.reject();
+            })
+    }
 
         return {
             language,
@@ -96,9 +111,10 @@ export const useInstallationStore = defineStore('installation', () => {
             toggleEmailAuth,
             toggleIsPrivate,
             setEntryCode,
-            setSources,
+            toggleSource,
             saveLanguage,
-            savePrivacy
+            savePrivacy,
+            saveSources
         }
 
     }
