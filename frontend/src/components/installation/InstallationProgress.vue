@@ -6,7 +6,7 @@
          @click="goToStep(step)">
       <div class="circle">
         <div class="number">{{ index + 1 }}</div>
-        <img class="check" src="@/assets/icons/check.svg" :alt="translate('')"/>
+        <img class="check" src="@/assets/icons/check.svg" :alt="translate('altTexts.check')"/>
       </div>
       <div class="name">{{ translate(`installation.progressBar.${step.toString()}`) }}</div>
     </div>

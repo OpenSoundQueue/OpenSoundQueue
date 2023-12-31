@@ -2,7 +2,7 @@
   <nav>
     <InstallationProgress :installation-order="installationSteps"/>
   </nav>
-  <main>
+  <main class="scrollbar">
     <header>
       <div class="step-name">{{ translate(currentRouteName.valueOf()) }}</div>
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="translate('altTexts.logo')">
@@ -92,9 +92,17 @@ async function next() {
   if (routeName == undefined || !readyForNextStep.value)
     return;
 
-  switch (routeName){
-    case "privacy":
-      await store.savePrivacy();
+  try {
+    switch (routeName) {
+      case "privacy":
+        await store.savePrivacy()
+        break;
+      case "language":
+        await store.saveLanguage()
+        break;
+    }
+  } catch {
+    return;
   }
 
   if (installationSteps.indexOf(routeName) == installationSteps.length - 1) {
@@ -124,6 +132,10 @@ main {
 }
 
 header {
+  position: sticky;
+  top: 0;
+  background-color: var(--grayish-blue);
+
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

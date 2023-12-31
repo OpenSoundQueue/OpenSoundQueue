@@ -152,7 +152,9 @@
     "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
     "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden.",
     "installation": {
-      "fetchError": "Die Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu."
+      "fetchError": "Die Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.",
+      "saveLanguageError": "Sprache konnte nicht gespeichert werden. Bitte versuche es erneut.",
+      "savePrivacyError": "Zugangseinstellungen konnten nicht gespeichert werden. Bitte versuche es erneut."
     }
   },
   "nowPlaying": "Spielt jetzt",
@@ -276,6 +278,11 @@
       "emailAuthDescription": "Bei der Einrichtung eines Kontos müssen die Nutzer ihre E-Mail-Adresse eingeben und verifizieren.",
       "roomPrivateTitle": "privater Raum",
       "roomPrivateDescription": "Ein privater Raum ist durch einen Zugangscode geschützt. Beim Einloggen müssen die Benutzer diesen Code eingeben."
-    }
+    },
+    "language": "Wähle die Standardsprache für alle Benutzer aus."
+  },
+  "languages": {
+    "en": "Englisch",
+    "de": "Deutsch"
   }
 }

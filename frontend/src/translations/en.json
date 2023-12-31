@@ -152,7 +152,9 @@
     "voteSkipRequestError": "Could not request vote.",
     "voteSkipWithdrawError": "Could not withdraw vote.",
     "installation": {
-      "fetchError": "Settings could not be loaded. Please reload the page."
+      "fetchError": "Settings could not be loaded. Please reload the page.",
+      "saveLanguageError": "Unable to save Language. Please try again.",
+      "savePrivacyError": "Unable to save Privacy Settings. Please try again."
     }
   },
   "nowPlaying": "Now Playing",
@@ -276,6 +278,11 @@
       "emailAuthDescription": "People have to enter and verify their email address when creating an account.",
       "roomPrivateTitle": "Room Private",
       "roomPrivateDescription": "A private room is protected with an entry code. When logging in, users have to enter this code."
-    }
+    },
+    "language": "Specify the default language for all users."
+  },
+  "languages": {
+    "en": "English",
+    "de": "German"
   }
 }
