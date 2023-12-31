@@ -125,11 +125,10 @@ async function next() {
         break;
       case "privacy":
         await store.savePrivacy()
-        installationProgress.value = 'registration';
+        installationProgress.value = 'sources';
         break;
       case "sources":
         await store.saveSources()
-        installationProgress.value = 'sources';
         break;
     }
   } catch {
@@ -147,18 +146,17 @@ async function next() {
 
 <style scoped>
 nav {
-  background-color: var(--grayish-blue);
   margin: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 14px 10px 10px 10px;
 }
 
 main {
   background-color: var(--grayish-blue);
-  width: 100svw;
-  min-height: calc(100vh - 92px - 45px);
-  margin: 0;
+  border-radius: var(--border-radius-medium);
+  width: calc(100svw - 20px);
+  height: calc(100vh - 100px - 75px);
   padding: 0;
+  margin:10px;
   overflow-y: auto;
 }
 
@@ -188,9 +186,9 @@ header {
 
 .button-container {
   display: grid;
-  margin-top: 20px;
+  margin: 20px 10px 10px 10px;
   grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
-  width: 100%;
+  width: calc(100% - 20px);
 }
 
 .button {
@@ -245,7 +243,6 @@ header {
 
 @media screen and (min-width: 600px) {
   nav {
-    background-color: transparent;
     width: 600px;
     margin: 50px auto 10px auto;
   }

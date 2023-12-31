@@ -97,7 +97,7 @@ function goToStep(pathName: RouteRecordName) {
 .active {
   font-weight: bold;
   color: var(--text-color);
-  margin-top: -3px;
+  margin-top: -4px;
 
   .circle {
     border: 3px solid var(--grayish-blue);
@@ -125,7 +125,17 @@ function goToStep(pathName: RouteRecordName) {
 
 @media screen and (max-width: 600px) {
   .circle {
-    box-shadow: 0 0 0 4px var(--grayish-blue);
+    box-shadow: 0 0 0 4px var(--background-color);
+    height:30px;
+  }
+
+  .progress{
+    top: 14px;
+    height: 1px;
+  }
+
+  .active>.circle{
+    border-color: var(--background-color);
   }
 }
 </style>

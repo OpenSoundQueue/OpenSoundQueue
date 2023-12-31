@@ -1,5 +1,5 @@
 <template>
-  <div class="privacy-container">
+  <div class="privacy-container scrollbar">
     <div class="setting-container" @click="store.toggleEmailAuth()">
       <div class="setting-title">{{ translate('installation.privacy.emailAuthTitle') }}</div>
       <ToggleSwitch :checked="store.requireEmailAuth"/>
