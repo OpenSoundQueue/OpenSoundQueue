@@ -73,6 +73,9 @@ watch(router.currentRoute, () => {
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
+  if (routeName == undefined)
+    return;
+
   if (routeName !== installationProgress.value){
     if (installationSteps.indexOf(routeName) > installationSteps.indexOf(installationProgress.value))
       router.push({name: installationProgress.value});
