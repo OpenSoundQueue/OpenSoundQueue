@@ -2,20 +2,20 @@
   <div class="volume-changer-wrapper">
     <div class="icon-wrapper">
       <div class="icon-container">
-        <img v-show="volume === 0" src="@/assets/icons/volume_off.svg"/>
-        <img v-show="volume > 0" src="@/assets/icons/volume_full.svg"/>
+        <img v-show="volume === 0" src="@/assets/icons/volume_off.svg" :alt="$translate('altTexts.volumeOff')"/>
+        <img v-show="volume > 0" src="@/assets/icons/volume_full.svg" :alt="$translate('altTexts.volumeFull')"/>
       </div>
       <div class="icon-container">
-        <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
+        <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
         <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg"
-             @click="volumeDown"/>
-        <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
+             @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
+        <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
       </div>
       <div class="icon-container">
-        <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
+        <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
         <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg"
-             @click="volumeUp"/>
-        <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
+             @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
+        <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
       </div>
     </div>
     <div class="volume-changer-container">

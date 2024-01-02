@@ -57,7 +57,6 @@ import {HttpService} from "@/services/HttpService";
 import {useNowPlaying} from "@/composables/nowPlaying";
 import {PermissionService} from "@/services/PermissionService";
 import {translate} from "@/plugins/TranslationPlugin";
-import {Permission} from "@/models/Permission";
 
 type ControlPanelPermissions = {
   voteSkip:boolean,

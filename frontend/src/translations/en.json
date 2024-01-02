@@ -65,7 +65,11 @@
     "user": "User symbol",
     "selectAll": "An grid of big rectangles of equal height and width, indicating all of them are selected",
     "selectNone": "An grid of small rectangles of equal height and width, indicating none of them are selected",
-    "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted"
+    "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted",
+    "volumeUp": "Plus symbol indicating an increase of the volume",
+    "volumeDown": "Minus symbol indicating an decrease of the volume",
+    "volumeFull": "Speaker that shows full volume",
+    "volumeOff": "A muted speaker"
   },
   "createAccount": "Create Account",
   "currentSongEmpty": "There is currently no song playing",
