@@ -7,12 +7,14 @@
       </div>
       <div class="icon-container">
         <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
-        <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg" @click="volumeDown"/>
+        <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg"
+             @click="volumeDown"/>
         <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
       </div>
       <div class="icon-container">
         <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
-        <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg" @click="volumeUp"/>
+        <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg"
+             @click="volumeUp"/>
         <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
       </div>
     </div>
@@ -27,6 +29,8 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
+import {ToastService} from "@/services/ToastService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
@@ -47,7 +51,7 @@ onUnmounted(() => {
 
 function getVolume() {
   httpService.getVolume()
-      .then((data: {volume: number}) => {
+      .then((data: { volume: number }) => {
         volume.value = data.volume;
       })
 }
@@ -64,7 +68,10 @@ async function volumeUp() {
   loading.value = true;
 
   await httpService.postVolume(volume.value + stepSize)
-      .then((data: {volume: number}) => volume.value = data.volume);
+      .then((data: { volume: number }) => volume.value = data.volume)
+      .catch(() => {
+        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+      });
 
   loading.value = false;
 }
@@ -81,7 +88,10 @@ async function volumeDown() {
   loading.value = true;
 
   await httpService.postVolume(volume.value - stepSize)
-      .then((data: {volume: number}) => volume.value = data.volume);
+      .then((data: { volume: number }) => volume.value = data.volume)
+      .catch(() => {
+        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+      });
 
   loading.value = false;
 }

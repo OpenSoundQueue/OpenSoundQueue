@@ -246,5 +246,8 @@
       "selectNone": "keinen auswählen",
       "invert": "Auswahl invertieren"
     }
+  },
+  "volume": {
+    "error": "Die Lautstärke konnte nicht geändert werden."
   }
 }
