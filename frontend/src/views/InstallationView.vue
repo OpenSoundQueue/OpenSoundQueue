@@ -5,7 +5,7 @@
   <main class="scrollbar">
     <header>
       <div class="step-name">
-        <div class="darken">{{ translate('installation.installation')}}&nbsp;|&nbsp;</div>
+        <div class="darken">{{ translate('installation.installation') }}&nbsp;|&nbsp;</div>
         <div>{{ translate(currentRouteName.valueOf()) }}</div>
       </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="translate('altTexts.logo')">
@@ -13,7 +13,10 @@
     <div class="install-container">
       <component :is="component"
                  @ready="readyForNextStep = true"
-                 @not-ready="readyForNextStep = false"/>
+                 @not-ready="readyForNextStep = false"
+                 @continue="registration.state = 'validation'"
+                 @change="registration.state = 'input'"
+                 :mode="'installation'"/>
     </div>
   </main>
   <div class="button-container">
@@ -37,12 +40,14 @@ import LanguageSetting from "@/components/installation/LanguageSetting.vue";
 import PrivacySetting from "@/components/installation/PrivacySetting.vue";
 import SourceSetting from "@/components/installation/SourceSetting.vue";
 import InstallationProgress from "@/components/installation/InstallationProgress.vue";
+import RegistrationForm from "@/components/registration/RegistrationForm.vue";
+import RegistrationVerification from "@/components/registration/RegistrationVerification.vue";
 import router from "@/router";
 import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 import type {RouteRecordName} from "vue-router";
 import {useInstallationStore} from "@/stores/Installation";
 import {translate} from "@/plugins/TranslationPlugin";
-import {installation} from "@/store/store";
+import {installation, registration} from "@/store/store";
 
 const store = useInstallationStore();
 const installationProgress = ref(installation.currentStep);
@@ -73,6 +78,9 @@ onMounted(() => {
 watch(router.currentRoute, () => {
   chooseComponent();
 })
+watch(() => registration.state, () => {
+  chooseComponent();
+});
 
 function chooseComponent() {
   const routeName = router.currentRoute.value.name;
@@ -90,7 +98,7 @@ function chooseComponent() {
     component.value = LanguageSetting
   }
   if (routeName === 'registration') {
-    component.value = LanguageSetting
+    component.value = registration.state == "input" ? RegistrationForm : RegistrationVerification;
   }
   if (routeName === 'privacy') {
     component.value = PrivacySetting

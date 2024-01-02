@@ -1,7 +1,7 @@
 <template>
   <div class="registration-form-wrapper">
-    <h2>{{ $translate('registration.heading') }}</h2>
-    <form @submit.prevent>
+    <h2 v-if="mode!=='installation'">{{ $translate('registration.heading') }}</h2>
+    <form :class="[mode=='installation'?'installation':'']" @submit.prevent>
       <!-- Username -->
       <InputField
           v-model="username.input"
@@ -58,7 +58,7 @@
                        @click="createAccount"/>
       </div>
     </form>
-    <div class="link-container">
+    <div v-if="mode!=='installation'" class="link-container">
       <router-link class="link" to="/login">{{ $translate("alreadyHaveAnAccount") }}</router-link>
     </div>
   </div>
@@ -71,7 +71,11 @@ import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
-import * as localStorageService from "@/services/localStorageService"
+import {registration} from "@/store/store";
+
+defineProps<{
+  mode: "installation"
+}>();
 
 type Form = {
   username: string,
@@ -89,19 +93,19 @@ const emits = defineEmits<{
 const waitingForResponse = ref(false);
 
 const username = ref({
-  input: "",
+  input: registration.username,
   errorStatus: false,
   message: ""
 });
 
 const email = ref({
-  input: "",
+  input: registration.email,
   errorStatus: false,
   message: ""
 });
 
 const password = ref({
-  input: "",
+  input: registration.password,
   errorStatus: false,
   message: ""
 });
@@ -124,11 +128,10 @@ const formStatus = computed(() => {
 })
 
 onMounted(() => {
-  const form: Form = localStorageService.getForm();
-  username.value.input = form.username;
-  email.value.input = form.email;
-  password.value.input = form.password;
-  passwordRepeat.value.input = form.password;
+  username.value.input = registration.username;
+  email.value.input = registration.email;
+  password.value.input = registration.password;
+  passwordRepeat.value.input = registration.password;
 })
 
 function validatePasswordRepeat(value: string) {
@@ -146,7 +149,11 @@ async function createAccount() {
 
   await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
       .then(() => {
-        localStorageService.saveForm(username.value.input, email.value.input, password.value.input);
+        registration.username = username.value.input;
+        registration.email = email.value.input;
+        registration.password = password.value.input;
+        registration.timestamp = Date.now();
+        registration.state = "validation";
         emits("continue");
       })
       .catch((error) => {
@@ -198,5 +205,9 @@ form {
 
 .link:hover {
   text-decoration: underline;
+}
+
+.installation{
+  margin-top: 0;
 }
 </style>
