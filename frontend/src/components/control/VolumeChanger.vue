@@ -6,12 +6,14 @@
         <img v-show="volume > 0" src="@/assets/icons/volume_full.svg"/>
       </div>
       <div class="icon-container">
-        <img v-show="volume > 0 && volume !== 0" src="@/assets/icons/volume_down_active.svg" @click="volumeDown"/>
-        <img v-show="volume === 0" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
+        <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
+        <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg" @click="volumeDown"/>
+        <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown"/>
       </div>
       <div class="icon-container">
-        <img v-show="volume < 100 && volume !== 100" src="@/assets/icons/volume_up_active.svg" @click="volumeUp"/>
-        <img v-show="volume === 100" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
+        <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
+        <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg" @click="volumeUp"/>
+        <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp"/>
       </div>
     </div>
     <div class="volume-changer-container">
@@ -23,24 +25,65 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
+import {HttpService} from "@/services/HttpService";
 
-const volume = ref(20);
+const httpService = new HttpService();
 
-function volumeUp() {
+const volume = ref(0);
+const stepSize = 10;
+const loading = ref(false);
+
+let updateIntervalTimer: ReturnType<typeof setInterval> | undefined;
+
+onMounted(() => {
+  getVolume();
+  updateIntervalTimer = setInterval(getVolume, 4000);
+})
+
+onUnmounted(() => {
+  clearInterval(updateIntervalTimer);
+})
+
+function getVolume() {
+  httpService.getVolume()
+      .then((data: {volume: number}) => {
+        volume.value = data.volume;
+      })
+}
+
+async function volumeUp() {
   if (volume.value === 100) {
     return;
   }
 
-  volume.value += 20;
+  if (loading.value) {
+    return;
+  }
+
+  loading.value = true;
+
+  await httpService.postVolume(volume.value + stepSize)
+      .then((data: {volume: number}) => volume.value = data.volume);
+
+  loading.value = false;
 }
 
-function volumeDown() {
+async function volumeDown() {
   if (volume.value === 0) {
     return;
   }
 
-  volume.value -= 20;
+  if (loading.value) {
+    return;
+  }
+
+  loading.value = true;
+
+  await httpService.postVolume(volume.value - stepSize)
+      .then((data: {volume: number}) => volume.value = data.volume);
+
+  loading.value = false;
 }
 
 </script>
