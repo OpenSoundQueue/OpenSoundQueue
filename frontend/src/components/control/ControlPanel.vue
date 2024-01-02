@@ -13,8 +13,8 @@
       <VoteSkip :update-interval="4000"/>
       <InfoButton>{{ $translate('help.voteSkip') }}</InfoButton>
     </div>
-    <div>
-      <VolumeChanger/>
+    <div v-if="changeVolume">
+      <VolumeChanger :update-interval="4000" :step-size="10"/>
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@ defineProps<{
   startStop: boolean,
   skip: boolean,
   replay: boolean,
+  changeVolume: boolean,
   isPlaying: boolean
 }>();
 

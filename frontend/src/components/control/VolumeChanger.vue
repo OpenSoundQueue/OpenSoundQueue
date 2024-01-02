@@ -34,15 +34,19 @@ import {translate} from "@/plugins/TranslationPlugin";
 
 const httpService = new HttpService();
 
+const props = defineProps<{
+  stepSize: number,
+  updateInterval: number
+}>()
+
 const volume = ref(0);
-const stepSize = 10;
 const loading = ref(false);
 
 let updateIntervalTimer: ReturnType<typeof setInterval> | undefined;
 
 onMounted(() => {
   getVolume();
-  updateIntervalTimer = setInterval(getVolume, 4000);
+  updateIntervalTimer = setInterval(getVolume, props.updateInterval);
 })
 
 onUnmounted(() => {
@@ -67,7 +71,7 @@ async function volumeUp() {
 
   loading.value = true;
 
-  await httpService.postVolume(volume.value + stepSize)
+  await httpService.postVolume(volume.value + props.stepSize)
       .then((data: { volume: number }) => volume.value = data.volume)
       .catch(() => {
         ToastService.sendNotification(translate("volume.error"), "error", 3000);
@@ -87,7 +91,7 @@ async function volumeDown() {
 
   loading.value = true;
 
-  await httpService.postVolume(volume.value - stepSize)
+  await httpService.postVolume(volume.value - props.stepSize)
       .then((data: { volume: number }) => volume.value = data.volume)
       .catch(() => {
         ToastService.sendNotification(translate("volume.error"), "error", 3000);
