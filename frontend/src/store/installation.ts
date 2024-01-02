@@ -16,14 +16,14 @@ export function getInstallation(): Installation {
         if (isInstallation(parsedInstallation)) {
             return parsedInstallation;
         } else {
-            throw new Error("Invalid settings found in localStorage.")
+            throw new Error("Invalid installation found in localStorage.")
         }
     } else {
-        throw new Error("Invalid settings found in localStorage.");
+        throw new Error("Invalid installation found in localStorage.");
     }
 }
 
-// Type guard function to check if an object is of type Settings
+// Type guard function to check if an object is of type Installation
 function isInstallation(obj: any): obj is Installation {
     const requiredKeys = Object.keys(installation);
 
