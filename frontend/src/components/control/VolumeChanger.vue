@@ -2,19 +2,17 @@
   <div class="volume-changer-wrapper">
     <div class="icon-wrapper">
       <div class="icon-container">
-        <img v-show="volume === 0" src="@/assets/icons/volume_off.svg" :alt="$translate('altTexts.volumeOff')"/>
-        <img v-show="volume > 0" src="@/assets/icons/volume_full.svg" :alt="$translate('altTexts.volumeFull')"/>
+        <img v-if="isMuted" @click="unmute" src="@/assets/icons/volume_mute.svg" :alt="$translate('altTexts.volumeOff')"/>
+        <img v-else @click="mute" src="@/assets/icons/volume_full.svg" :alt="$translate('altTexts.volumeFull')"/>
       </div>
-      <div class="icon-container">
-        <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
-        <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg"
-             @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
+      <div class="icon-container" @click="volumeDown" >
+        <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" :alt="$translate('altTexts.volumeDown')"/>
+        <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg" :alt="$translate('altTexts.volumeDown')"/>
         <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
       </div>
-      <div class="icon-container">
-        <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
-        <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg"
-             @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
+      <div class="icon-container" @click="volumeUp">
+        <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" :alt="$translate('altTexts.volumeUp')"/>
+        <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg" :alt="$translate('altTexts.volumeUp')"/>
         <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
       </div>
     </div>
@@ -40,6 +38,7 @@ const props = defineProps<{
 }>()
 
 const volume = ref(0);
+const isMuted = ref(false);
 const loading = ref(false);
 
 let updateIntervalTimer: ReturnType<typeof setInterval> | undefined;
@@ -55,8 +54,9 @@ onUnmounted(() => {
 
 function getVolume() {
   httpService.getVolume()
-      .then((data: { volume: number }) => {
+      .then((data: { volume: number, isMuted: boolean }) => {
         volume.value = data.volume;
+        isMuted.value = data.isMuted;
       })
 }
 
@@ -72,7 +72,10 @@ async function volumeUp() {
   loading.value = true;
 
   await httpService.postVolume(volume.value + props.stepSize)
-      .then((data: { volume: number }) => volume.value = data.volume)
+      .then((data: { volume: number, isMuted: boolean }) => {
+        volume.value = data.volume;
+        isMuted.value = data.isMuted;
+      })
       .catch(() => {
         ToastService.sendNotification(translate("volume.error"), "error", 3000);
       });
@@ -92,7 +95,48 @@ async function volumeDown() {
   loading.value = true;
 
   await httpService.postVolume(volume.value - props.stepSize)
-      .then((data: { volume: number }) => volume.value = data.volume)
+      .then((data: { volume: number, isMuted: boolean }) => {
+        volume.value = data.volume;
+        isMuted.value = data.isMuted;
+      })
+      .catch(() => {
+        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+      });
+
+  loading.value = false;
+}
+
+async function mute() {
+  if (loading.value) {
+    return;
+  }
+
+  loading.value = true;
+
+  await httpService.postMute()
+      .then((data: { volume: number, isMuted: boolean }) => {
+        volume.value = data.volume;
+        isMuted.value = data.isMuted;
+      })
+      .catch(() => {
+        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+      });
+
+  loading.value = false;
+}
+
+async function unmute() {
+  if (loading.value) {
+    return;
+  }
+
+  loading.value = true;
+
+  await httpService.postUnmute()
+      .then((data: { volume: number, isMuted: boolean }) => {
+        volume.value = data.volume;
+        isMuted.value = data.isMuted;
+      })
       .catch(() => {
         ToastService.sendNotification(translate("volume.error"), "error", 3000);
       });
@@ -130,6 +174,10 @@ async function volumeDown() {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.icon-container img:hover {
+  cursor: pointer;
 }
 
 .volume-changer-container {

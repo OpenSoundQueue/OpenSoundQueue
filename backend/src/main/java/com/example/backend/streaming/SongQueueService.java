@@ -4,6 +4,7 @@ import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.Repository.SongInfoRepository;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.CurrentlyPlayingDto;
+import com.example.backend.ResponseDtos.VolumeDto;
 import com.example.backend.ResponseDtos.VoteSkipStatusDto;
 import com.example.backend.user_management.UserService;
 import org.slf4j.Logger;
@@ -42,6 +43,8 @@ public class SongQueueService {
     private final Set<Long> voteSkipUserList = new HashSet<>();
 
     private int volume = 50;
+
+    private boolean isMuted = false;
 
     public Song addSong(String link) {
         Song song = songService.validateSong(link);
@@ -183,12 +186,31 @@ public class SongQueueService {
         songService.replay(currentSong);
     }
 
-    public void changeVolume(int volume) {
+    public VolumeDto changeVolume(int volume) {
         this.volume = volume;
-        songService.changeVolume(currentSong, volume);
+
+        if (!this.isMuted) {
+            songService.changeVolume(currentSong, volume);
+        }
+
+        return new VolumeDto(this.volume, this.isMuted);
     }
 
-    public int getVolume() {
-        return this.volume;
+    public VolumeDto getVolume() {
+        return new VolumeDto(this.volume, this.isMuted);
+    }
+
+    public VolumeDto mute() {
+        this.isMuted = true;
+        songService.changeVolume(currentSong, 0);
+
+        return new VolumeDto(this.volume, this.isMuted);
+    }
+
+    public VolumeDto unmute() {
+        this.isMuted = false;
+        songService.changeVolume(currentSong, this.volume);
+
+        return new VolumeDto(this.volume, this.isMuted);
     }
 }

@@ -98,7 +98,7 @@ public class YoutubeSongService implements SongServiceInterface {
         } catch (LineUnavailableException | IOException e) {
             throw new RuntimeException(e);
         }
-        changeVolume(song, songQueueService.getVolume());
+        changeVolume(song, songQueueService.getVolume().getVolume());
         song.getClip().start();
         try {
             audioInput.close();

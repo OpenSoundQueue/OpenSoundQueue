@@ -441,4 +441,30 @@ export class HttpService {
                 return data;
             });
     }
+
+    async postMute() {
+        return httpClient.post(`/queue/mute`, undefined, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async postUnmute() {
+        return httpClient.post(`/queue/unmute`, undefined, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
 }
