@@ -8,14 +8,12 @@
           <img v-else @click="mute" src="@/assets/icons/volume_full.svg" :alt="$translate('altTexts.volumeFull')"/>
         </div>
         <div class="icon-container" @click="volumeDown" >
-          <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" :alt="$translate('altTexts.volumeDown')"/>
-          <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg" :alt="$translate('altTexts.volumeDown')"/>
-          <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
+          <img v-if="loading || volume === 0" src="@/assets/icons/volume_down_inactive.svg" :alt="$translate('altTexts.volumeDown')"/>
+          <img v-else src="@/assets/icons/volume_down_active.svg" :alt="$translate('altTexts.volumeDown')"/>
         </div>
         <div class="icon-container" @click="volumeUp">
-          <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" :alt="$translate('altTexts.volumeUp')"/>
-          <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg" :alt="$translate('altTexts.volumeUp')"/>
-          <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
+          <img v-if="loading || volume === 100" src="@/assets/icons/volume_up_inactive.svg" :alt="$translate('altTexts.volumeUp')"/>
+          <img v-else src="@/assets/icons/volume_up_active.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
         </div>
       </div>
       <div class="volume-changer-background">
