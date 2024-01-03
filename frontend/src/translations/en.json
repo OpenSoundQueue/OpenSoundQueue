@@ -252,6 +252,8 @@
     }
   },
   "volume": {
-    "error": "Could not change volume."
+    "changeError": "Could not change volume.",
+    "muteError": "Could not mute queue.",
+    "unmuteError": "Could not unmute queue."
   }
 }

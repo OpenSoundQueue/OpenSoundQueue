@@ -252,6 +252,8 @@
     }
   },
   "volume": {
-    "error": "Die Lautstärke konnte nicht geändert werden."
+    "changeError": "Die Lautstärke konnte nicht geändert werden.",
+    "muteError": "Die Warteschlange konnte nicht stumm geschaltet werden.",
+    "unmuteError": "Die Stummschaltung konnte nicht aufgehoben werden."
   }
 }

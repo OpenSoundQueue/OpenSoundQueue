@@ -79,7 +79,7 @@ async function volumeUp() {
         isMuted.value = data.isMuted;
       })
       .catch(() => {
-        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+        ToastService.sendNotification(translate("volume.changeError"), "error", 3000);
       });
 
   loading.value = false;
@@ -102,7 +102,7 @@ async function volumeDown() {
         isMuted.value = data.isMuted;
       })
       .catch(() => {
-        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+        ToastService.sendNotification(translate("volume.changeError"), "error", 3000);
       });
 
   loading.value = false;
@@ -121,7 +121,7 @@ async function mute() {
         isMuted.value = data.isMuted;
       })
       .catch(() => {
-        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+        ToastService.sendNotification(translate("volume.muteError"), "error", 3000);
       });
 
   loading.value = false;
@@ -140,7 +140,7 @@ async function unmute() {
         isMuted.value = data.isMuted;
       })
       .catch(() => {
-        ToastService.sendNotification(translate("volume.error"), "error", 3000);
+        ToastService.sendNotification(translate("volume.unmuteError"), "error", 3000);
       });
 
   loading.value = false;
