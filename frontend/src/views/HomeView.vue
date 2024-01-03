@@ -83,8 +83,7 @@ onMounted(async () => {
   controlPanelPermissions.value.voteSkip = PermissionService.checkPermission("VOTESKIP");
   controlPanelPermissions.value.startStop = PermissionService.checkPermission("PAUSE_PLAY");
   controlPanelPermissions.value.skip = PermissionService.checkPermission("SKIP");
-  //TODO: change that to replay (currently missing in backend)
-  controlPanelPermissions.value.replay = PermissionService.checkPermission("VOTESKIP");
+  controlPanelPermissions.value.replay = PermissionService.checkPermission("REPLAY");
   controlPanelPermissions.value.changeVolume = PermissionService.checkPermission("CHANGE_VOLUME");
 
   hasAdvancedPermissions.value = PermissionService.hasAnyPermission(["SKIP","PAUSE_PLAY","CHANGE_VOLUME","CHANGE_ORDER","DELETE_SONGS"]);

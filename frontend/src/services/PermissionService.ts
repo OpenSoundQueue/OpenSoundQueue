@@ -8,6 +8,7 @@ export type PermissionType =
     "VOTESKIP" |
     "SKIP" |
     "ADD_SONG" |
+    "REPLAY" |
     "HISTORY_SEARCH" |
     "PAUSE_PLAY" |
     "CHANGE_VOLUME" |
