@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SystemService {
-    @Value("${room.entry-code}")
+    @Value("${system.entry-code}")
     private String entryCode;
 
     public boolean checkEntryCode(String code) {
