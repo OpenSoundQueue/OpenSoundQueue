@@ -47,10 +47,7 @@ public class SystemRest {
 
         Map<String, String> dto = new HashMap<>();
         dto.put("isPrivate", isPrivate+"");
-
-        if (isPrivate) {
-            dto.put("entryCode", propertyService.getProperty("system.entry-code"));
-        }
+        dto.put("entryCode", propertyService.getProperty("system.entry-code"));
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -64,10 +61,7 @@ public class SystemRest {
 
         Map<String, String> dto = new HashMap<>();
         dto.put("isPrivate", privacySettings.isPrivate()+"");
-
-        if (privacySettings.isPrivate()) {
-            dto.put("entryCode", propertyService.getProperty("system.entry-code"));
-        }
+        dto.put("entryCode", propertyService.getProperty("system.entry-code"));
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
