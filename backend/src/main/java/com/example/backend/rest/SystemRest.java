@@ -102,6 +102,13 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PatchMapping("/system/installation-state/complete")
+    public ResponseEntity<Object> setInstallationComplete() throws IOException {
+        propertyService.setProperty("system.installed", "true");
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/system/supported-sources")
     public ResponseEntity<Object> getSupportedSources() throws IOException {
         String[] sources = propertyService.getPropertyAsList("system.sources.supported");
