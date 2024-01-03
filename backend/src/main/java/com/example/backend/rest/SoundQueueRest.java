@@ -129,19 +129,55 @@ public class SoundQueueRest {
         int oldPos = positions.get("oldPos");
         int newPos = positions.get("newPos");
 
-        if (oldPos >= songQueueService.getQueue().size() || oldPos < 0 || newPos < 0) return new ResponseEntity<>(new ErrorDto("Position of song does not exist"), HttpStatus.BAD_REQUEST);
+        if (oldPos >= songQueueService.getQueue().size() || oldPos < 0 || newPos < 0)
+            return new ResponseEntity<>(new ErrorDto("Position of song does not exist"), HttpStatus.BAD_REQUEST);
 
         songQueueService.changeOrder(oldPos, newPos);
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(new SongQueueDto(songQueueService.getQueue()), HttpStatus.ACCEPTED);
     }
 
-    @AuthRequest(requiredPermission = Permissions.SKIP)
+    @AuthRequest(requiredPermission = Permissions.REPLAY)
     @PostMapping("/queue/replay")
     public ResponseEntity<Object> replaySong(@RequestHeader(value = "X-API-KEY") String token) {
-        if (songQueueService.getCurrentPlayingSong() == null) return new ResponseEntity<>(new ErrorDto("No song currently playing!"), HttpStatus.BAD_REQUEST);
+        if (songQueueService.getCurrentPlayingSong() == null)
+            return new ResponseEntity<>(new ErrorDto("No song currently playing!"), HttpStatus.BAD_REQUEST);
         songQueueService.replaySong();
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
+    @PostMapping("/queue/volume/{volume}")
+    public ResponseEntity<Object> changeVolume(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "volume") int volume) {
+        if (volume < 0 || volume > 100) {
+            return new ResponseEntity<>(new ErrorDto("invalid value for 'volume'"), HttpStatus.BAD_REQUEST);
+        }
+
+        VolumeDto volumeDto = songQueueService.changeVolume(volume);
+
+        return new ResponseEntity<>(volumeDto, HttpStatus.OK);
+    }
+
+    @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
+    @GetMapping("/queue/current-volume")
+    public ResponseEntity<Object> getVolume(@RequestHeader(value = "X-API-KEY") String token) {
+        VolumeDto volumeDto = songQueueService.getVolume();
+
+        return new ResponseEntity<>(volumeDto, HttpStatus.OK);
+    }
+
+    @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
+    @PostMapping("/queue/mute")
+    public ResponseEntity<Object> mute(@RequestHeader(value = "X-API-KEY") String token) {
+        VolumeDto volumeDto = songQueueService.mute();
+        return new ResponseEntity<>(volumeDto, HttpStatus.OK);
+    }
+
+    @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
+    @PostMapping("/queue/unmute")
+    public ResponseEntity<Object> unmute(@RequestHeader(value = "X-API-KEY") String token) {
+        VolumeDto volumeDto = songQueueService.unmute();
+        return new ResponseEntity<>(volumeDto, HttpStatus.OK);
     }
 }

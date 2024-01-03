@@ -1,5 +1,5 @@
 <template>
-  <div class="add-song-wrapper drop-shadow">
+  <div class="add-song-wrapper">
     <div class="add-song-container">
       <div class="add-song-label">
         <span>{{ $translate('addSong.title') }}</span>

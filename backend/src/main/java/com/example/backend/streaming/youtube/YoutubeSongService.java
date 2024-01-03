@@ -98,6 +98,12 @@ public class YoutubeSongService implements SongServiceInterface {
         } catch (LineUnavailableException | IOException e) {
             throw new RuntimeException(e);
         }
+        if (songQueueService.getVolume().getIsMuted()) {
+            changeVolume(song, 0);
+        } else {
+            changeVolume(song, songQueueService.getVolume().getVolume());
+        }
+
         song.getClip().start();
         try {
             audioInput.close();
@@ -185,4 +191,22 @@ public class YoutubeSongService implements SongServiceInterface {
         SongImplYoutube song = (SongImplYoutube) input;
         song.getClip().setMicrosecondPosition(0);
     }
+
+    @Override
+    public void changeVolume(Song input, int volume) {
+        SongImplYoutube song = (SongImplYoutube) input;
+        Clip clip = song.getClip();
+        if (volume < 0 || volume > 100)
+            throw new IllegalArgumentException("Volume not valid: " + volume);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(20f * (float) Math.log10((float) volume / 100.0));
+    }
+    @Override
+    public int getVolume(Song input) {
+        SongImplYoutube song = (SongImplYoutube) input;
+        Clip clip = song.getClip();
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        return (int) (Math.pow(10f, gainControl.getValue() / 20f)*100);
+    }
+
 }

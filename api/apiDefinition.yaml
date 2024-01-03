@@ -829,18 +829,20 @@ paths:
               schema:
                 example:
                   error: Could not replay the song
-  /queue/volume:
+  /queue/volume/{volume}:
     post:
       tags:
         - auth
         - queue
       description: Change the volume (value between 0 and 100)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              example:
-                volume: 75
+      parameters:
+        - in: path
+          name: volume
+          schema:
+            type: integer
+            example: 75
+          required: true
+          description: the new volume of the queue
       responses:
         200:
           description: Volume has been changed
@@ -1287,6 +1289,14 @@ paths:
               schema:
                 example:
                   finished: true
+  /system/installation-state/complete:
+    patch:
+      tags:
+        - system
+      description: set installation status to complete
+      responses:
+        200:
+          description: installation status set to complete
 components:
   securitySchemes:
     ApiKeyAuth:
