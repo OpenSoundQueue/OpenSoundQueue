@@ -97,7 +97,13 @@ public class SoundcloudSongService implements SongServiceInterface {
         } catch (LineUnavailableException | IOException e) {
             throw new RuntimeException(e);
         }
-        changeVolume(song, songQueueService.getVolume().getVolume());
+
+        if (songQueueService.getVolume().getIsMuted()) {
+            changeVolume(song, 0);
+        } else {
+            changeVolume(song, songQueueService.getVolume().getVolume());
+        }
+
         song.getClip().start();
         try {
             audioInput.close();

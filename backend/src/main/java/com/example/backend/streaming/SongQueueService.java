@@ -197,7 +197,11 @@ public class SongQueueService {
     }
 
     public VolumeDto getVolume() {
-        return new VolumeDto(this.volume, this.isMuted);
+        if (this.isMuted) {
+            return new VolumeDto(this.volume, true);
+        }
+
+        return new VolumeDto(this.volume, false);
     }
 
     public VolumeDto mute() {

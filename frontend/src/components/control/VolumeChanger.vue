@@ -1,25 +1,29 @@
 <template>
   <div class="volume-changer-wrapper">
-    <div class="icon-wrapper">
-      <div class="icon-container">
-        <img v-if="isMuted" @click="unmute" src="@/assets/icons/volume_mute.svg" :alt="$translate('altTexts.volumeOff')"/>
-        <img v-else @click="mute" src="@/assets/icons/volume_full.svg" :alt="$translate('altTexts.volumeFull')"/>
-      </div>
-      <div class="icon-container" @click="volumeDown" >
-        <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" :alt="$translate('altTexts.volumeDown')"/>
-        <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg" :alt="$translate('altTexts.volumeDown')"/>
-        <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
-      </div>
-      <div class="icon-container" @click="volumeUp">
-        <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" :alt="$translate('altTexts.volumeUp')"/>
-        <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg" :alt="$translate('altTexts.volumeUp')"/>
-        <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
-      </div>
-    </div>
+
     <div class="volume-changer-container">
+      <div class="icon-wrapper">
+        <div class="icon-container">
+          <img v-if="isMuted" @click="unmute" src="@/assets/icons/volume_mute.svg" :alt="$translate('altTexts.volumeOff')"/>
+          <img v-else @click="mute" src="@/assets/icons/volume_full.svg" :alt="$translate('altTexts.volumeFull')"/>
+        </div>
+        <div class="icon-container" @click="volumeDown" >
+          <img v-show="loading" src="@/assets/icons/volume_down_inactive.svg" :alt="$translate('altTexts.volumeDown')"/>
+          <img v-show="volume > 0 && volume !== 0 && !loading" src="@/assets/icons/volume_down_active.svg" :alt="$translate('altTexts.volumeDown')"/>
+          <img v-show="volume === 0 && !loading" src="@/assets/icons/volume_down_inactive.svg" @click="volumeDown" :alt="$translate('altTexts.volumeDown')"/>
+        </div>
+        <div class="icon-container" @click="volumeUp">
+          <img v-show="loading" src="@/assets/icons/volume_up_inactive.svg" :alt="$translate('altTexts.volumeUp')"/>
+          <img v-show="volume < 100 && volume !== 100 && !loading" src="@/assets/icons/volume_up_active.svg" :alt="$translate('altTexts.volumeUp')"/>
+          <img v-show="volume === 100 && !loading" src="@/assets/icons/volume_up_inactive.svg" @click="volumeUp" :alt="$translate('altTexts.volumeUp')"/>
+        </div>
+      </div>
       <div class="volume-changer-background">
         <div class="volume-status-bar" :style="{transform: `translateX(${volume - 100}%)`}"></div>
       </div>
+    </div>
+    <div class="volume-value-wrapper">
+      {{ volume }}%
     </div>
   </div>
 </template>
@@ -148,12 +152,11 @@ async function unmute() {
 
 <style scoped>
 .volume-changer-wrapper {
-  width: 110px;
+  width: 160px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 }
 
 .icon-wrapper {
@@ -181,7 +184,8 @@ async function unmute() {
 }
 
 .volume-changer-container {
-  width: 100%;
+  position: relative;
+  width: calc(100% - 50px);
   height: 100%;
   display: flex;
   align-items: center;
@@ -202,5 +206,12 @@ async function unmute() {
   height: 100%;
   top: 0;
   transition: transform 0.1s linear;
+}
+
+.volume-value-wrapper {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
