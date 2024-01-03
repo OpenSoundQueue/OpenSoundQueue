@@ -65,7 +65,11 @@
     "user": "Benutzersymbol",
     "selectAll": "Ein Gitter aus großen Rechtecken gleicher Höhe und Breite, das anzeigt, dass alle Rechtecke ausgewählt sind",
     "selectNone": "Ein Gitter aus kleinen Rechtecken gleicher Höhe und Breite, das anzeigt, dass keines der Rechtecke ausgewählt ist",
-    "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann"
+    "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann",
+    "volumeUp": "Plus-Symbol, das für eine Erhöhung der Lautstärke steht",
+    "volumeDown": "Minus-Symbol, das für eine Verringerung der Lautstärke steht",
+    "volumeFull": "Ein Lautsprecher der volle Lautstärke anzeigt",
+    "volumeOff": "Ein stumm geschalteter Lautsprecher"
   },
   "createAccount": "Ein Konto erstellen",
   "currentSongEmpty": "Aktuell wird kein Song abgespielt",
@@ -246,5 +250,10 @@
       "selectNone": "keinen auswählen",
       "invert": "Auswahl invertieren"
     }
+  },
+  "volume": {
+    "changeError": "Die Lautstärke konnte nicht geändert werden.",
+    "muteError": "Die Warteschlange konnte nicht stumm geschaltet werden.",
+    "unmuteError": "Die Stummschaltung konnte nicht aufgehoben werden."
   }
 }

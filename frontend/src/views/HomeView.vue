@@ -33,6 +33,7 @@
                         :start-stop="controlPanelPermissions.startStop && displayAdvanced"
                         :skip="controlPanelPermissions.skip && displayAdvanced"
                         :replay="controlPanelPermissions.replay && displayAdvanced"
+                        :change-volume="controlPanelPermissions.changeVolume && displayAdvanced"
                         :is-playing="isPlaying"
                         @update="update"
           />
@@ -62,6 +63,7 @@ type ControlPanelPermissions = {
   startStop:boolean,
   skip:boolean,
   replay:boolean,
+  changeVolume: boolean
 }
 
 const httpService = new HttpService();
@@ -71,7 +73,7 @@ const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100)
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = ref(false);
-const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false});
+const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false,changeVolume:false});
 const addSongPermission = ref(false);
 
 onMounted(async () => {
@@ -81,8 +83,8 @@ onMounted(async () => {
   controlPanelPermissions.value.voteSkip = PermissionService.checkPermission("VOTESKIP");
   controlPanelPermissions.value.startStop = PermissionService.checkPermission("PAUSE_PLAY");
   controlPanelPermissions.value.skip = PermissionService.checkPermission("SKIP");
-  //TODO: change that to replay (currently missing in backend)
-  controlPanelPermissions.value.replay = PermissionService.checkPermission("VOTESKIP");
+  controlPanelPermissions.value.replay = PermissionService.checkPermission("REPLAY");
+  controlPanelPermissions.value.changeVolume = PermissionService.checkPermission("CHANGE_VOLUME");
 
   hasAdvancedPermissions.value = PermissionService.hasAnyPermission(["SKIP","PAUSE_PLAY","CHANGE_VOLUME","CHANGE_ORDER","DELETE_SONGS"]);
   addSongPermission.value = PermissionService.checkPermission("ADD_SONG");

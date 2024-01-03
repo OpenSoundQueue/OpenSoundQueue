@@ -330,7 +330,7 @@ export class HttpService {
     }
 
     async getRoles() {
-        return httpClient.get(`/roles`,cookieService.getApiKey())
+        return httpClient.get(`/roles`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -343,7 +343,7 @@ export class HttpService {
     }
 
     async getPermissions() {
-        return httpClient.get(`/permissions`,cookieService.getApiKey())
+        return httpClient.get(`/permissions`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -354,8 +354,9 @@ export class HttpService {
                 return data;
             });
     }
+
     async getOwnPermissions() {
-        return httpClient.get(`/user/permissions`,cookieService.getApiKey())
+        return httpClient.get(`/user/permissions`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -368,7 +369,7 @@ export class HttpService {
     }
 
     async getRole(id: number) {
-        return httpClient.get(`/role/get/${id}`,cookieService.getApiKey())
+        return httpClient.get(`/role/get/${id}`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -381,7 +382,7 @@ export class HttpService {
     }
 
     async deleteRole(id: number) {
-        return httpClient.delete(`/role/${id}`,cookieService.getApiKey())
+        return httpClient.delete(`/role/${id}`, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -392,24 +393,77 @@ export class HttpService {
     }
 
     async updateRole(role: object) {
-        return httpClient.patch(`/role/edit`, role,cookieService.getApiKey())
+        return httpClient.patch(`/role/edit`, role, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
-            }).then((data:Role) => {
+            }).then((data: Role) => {
                 return data;
             });
     }
+
     async createRole(role: object) {
-        return httpClient.post(`/role/create`, role,cookieService.getApiKey())
+        return httpClient.post(`/role/create`, role, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
                 return response.json();
-            }).then((data:Role) => {
+            }).then((data: Role) => {
+                return data;
+            });
+    }
+
+    async postVolume(volume: number) {
+        return httpClient.post(`/queue/volume/${volume}`, undefined, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getVolume() {
+        return httpClient.get(`/queue/current-volume`, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async postMute() {
+        return httpClient.post(`/queue/mute`, undefined, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async postUnmute() {
+        return httpClient.post(`/queue/unmute`, undefined, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data) => {
                 return data;
             });
     }
