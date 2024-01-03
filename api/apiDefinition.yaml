@@ -1289,6 +1289,14 @@ paths:
               schema:
                 example:
                   finished: true
+  /system/installation-state/complete:
+    patch:
+      tags:
+        - system
+      description: set installation status to complete
+      responses:
+        200:
+          description: installation status set to complete
 components:
   securitySchemes:
     ApiKeyAuth:

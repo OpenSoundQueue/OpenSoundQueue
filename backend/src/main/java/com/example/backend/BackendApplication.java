@@ -1,7 +1,5 @@
 package com.example.backend;
 
-import com.example.backend.settings_management.PropertyService;
-import com.example.backend.settings_management.SettingsService;
 import com.example.backend.streaming.SongQueueService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -14,8 +12,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 
-import java.io.IOException;
-
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @PropertySource("classpath:system.properties")
 public class BackendApplication {
@@ -23,12 +19,6 @@ public class BackendApplication {
 
     @Autowired
     private SongQueueService songQueueService;
-
-    @Autowired
-    private SettingsService settingsService;
-
-    @Autowired
-    private PropertyService propertyService;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -57,13 +47,5 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=lxRwEPvL-mQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
         }
-    }
-
-    @Profile("!prod")
-    @Order(2)
-    @PostConstruct
-    private void feedTestUsers() throws IOException {
-        settingsService.printSettings();
-        // propertyService.setProperty("room.public", "true"); // TODO: restart of application is required to apply changes
     }
 }

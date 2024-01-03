@@ -1,4 +1,4 @@
-package com.example.backend.settings_management;
+package com.example.backend.system_management;
 
 import com.example.backend.util.PropertyLoader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +16,15 @@ public class PropertyService {
         Properties systemProperties = propertyLoader.loadProperties();
         systemProperties.setProperty(property, value);
         propertyLoader.saveProperties(systemProperties);
+    }
+
+    public String getProperty(String property) throws IOException {
+        Properties systemProperties = propertyLoader.loadProperties();
+        return systemProperties.getProperty(property);
+    }
+
+    public String[] getPropertyAsList(String property) throws IOException {
+        Properties systemProperties = propertyLoader.loadProperties();
+        return systemProperties.getProperty(property).split("\\{")[1].split("}")[0].split(",");
     }
 }
