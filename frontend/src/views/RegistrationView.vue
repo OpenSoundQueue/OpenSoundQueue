@@ -2,7 +2,8 @@
   <main>
     <header>
       <div class="link-back" @click="router.back()">
-        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowBack')">
+        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg"
+             :alt="$translate('altTexts.arrowBack')">
       </div>
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
@@ -14,7 +15,12 @@
                @change="() => {
                  component = RegistrationForm
                  localStorageService.setRegisterPosition(0)
-               }"/>
+               }"
+               @validated="()=>{
+                removeRegistration()
+                router.push('/home')
+              }"
+    />
   </main>
 
 </template>
@@ -26,6 +32,7 @@ import {onMounted, shallowRef} from "vue";
 import type {ShallowRef, Component} from "vue";
 import router from "@/router";
 import * as localStorageService from "@/services/localStorageService"
+import {removeRegistration} from "@/store/registration";
 
 const component: ShallowRef<Component> = shallowRef(RegistrationForm);
 

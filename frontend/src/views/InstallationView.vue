@@ -16,6 +16,7 @@
                  @not-ready="readyForNextStep = false"
                  @continue="registration.state = 'validation'"
                  @change="registration.state = 'input'"
+                 @validated="registration.state = 'finished'"
                  :mode="'installation'"/>
     </div>
   </main>
@@ -48,7 +49,12 @@ import type {RouteRecordName} from "vue-router";
 import {useInstallationStore} from "@/stores/Installation";
 import {translate} from "@/plugins/TranslationPlugin";
 import {installation, registration} from "@/store/store";
+import {removeRegistration} from "@/store/registration";
+import RegistrationFinished from "@/components/registration/RegistrationFinished.vue";
+import {HttpService} from "@/services/HttpService";
+import {ToastService} from "@/services/ToastService";
 
+const httpService = new HttpService();
 const store = useInstallationStore();
 const installationProgress = ref(installation.currentStep);
 
@@ -98,7 +104,18 @@ function chooseComponent() {
     component.value = LanguageSetting
   }
   if (routeName === 'registration') {
-    component.value = registration.state == "input" ? RegistrationForm : RegistrationVerification;
+    readyForNextStep.value = registration.state == "finished";
+    switch (registration.state) {
+      case "input":
+        component.value = RegistrationForm;
+        break;
+      case "validation":
+        component.value = RegistrationVerification;
+        break;
+      case "finished":
+        component.value = RegistrationFinished;
+        break;
+    }
   }
   if (routeName === 'privacy') {
     component.value = PrivacySetting
@@ -139,7 +156,14 @@ async function next() {
         installationProgress.value = 'sources';
         break;
       case "sources":
-        await store.saveSources()
+        await store.saveSources();
+        await httpService.setInstallationStateComplete()
+            .then(()=>{
+              ToastService.sendNotification("Save Success","success",3000);
+            })
+            .catch(()=>{
+              ToastService.sendNotification("Save Error","error",3000);
+            });
         break;
     }
   } catch {
@@ -147,11 +171,13 @@ async function next() {
   }
 
   if (installationSteps.indexOf(routeName) == installationSteps.length - 1) {
-    router.push("/home")
+    removeRegistration();
+    await router.push("/home")
     return;
   }
 
-  router.push({name: installationSteps[installationSteps.indexOf(routeName) + 1]});
+  await router.push({name: installationSteps[installationSteps.indexOf(routeName) + 1]});
+
 }
 </script>
 

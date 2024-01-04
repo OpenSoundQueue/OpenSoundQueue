@@ -5,7 +5,7 @@ export type Registration = {
     email: string,
     password: string,
     timestamp: number,
-    state: "input" | "validation"
+    state: "input" | "validation" | "finished"
 }
 
 export function getRegistration(): Registration {

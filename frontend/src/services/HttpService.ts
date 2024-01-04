@@ -538,6 +538,17 @@ export class HttpService {
             });
     }
 
+    async setInstallationStateComplete() {
+        return httpClient.patch(`/system/installation-state/complete`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+            }).then((data) => {
+                return data;
+            });
+    }
+
 
     async postVolume(volume: number) {
         return httpClient.post(`/queue/volume/${volume}`, undefined, cookieService.getApiKey())

@@ -43,7 +43,6 @@ import * as cookieService from "@/services/cookieService"
 import {ToastService} from "@/services/ToastService";
 import router from "@/router";
 import {registration} from "@/store/store";
-import {removeRegistration} from "@/store/registration";
 
 defineProps<{
   mode: "installation"
@@ -59,7 +58,8 @@ type Form = {
 const httpService = new HttpService();
 
 const emit = defineEmits<{
-  change: []
+  change: [],
+  validated:[]
 }>()
 
 const waitingForResponseValidation = ref(false);
@@ -102,10 +102,9 @@ async function sendVerification() {
 
   await httpService.postRegisterVerify(verificationCode.value.input, user.value.email)
       .then((apiKey: string) => {
-        removeRegistration()
         cookieService.setApiKey(apiKey);
         ToastService.sendNotification(translate('registration.success'), 'success', 3000)
-        router.push("/home")
+        emit("validated");
       })
       .catch(() => {
         verificationCode.value.errorStatus = true;
