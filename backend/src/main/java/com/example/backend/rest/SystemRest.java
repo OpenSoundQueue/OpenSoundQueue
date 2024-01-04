@@ -71,7 +71,7 @@ public class SystemRest {
         String emailAuth = propertyService.getProperty("system.email-auth");
 
         Map<String, String> dto = new HashMap<>();
-        dto.put("email-auth", emailAuth);
+        dto.put("emailAuth", emailAuth);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -81,7 +81,7 @@ public class SystemRest {
         propertyService.setProperty("system.email-auth", emailAuth);
 
         Map<String, String> dto = new HashMap<>();
-        dto.put("email-auth", emailAuth);
+        dto.put("emailAuth", emailAuth);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

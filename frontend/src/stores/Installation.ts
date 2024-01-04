@@ -26,8 +26,8 @@ export const useInstallationStore = defineStore('installation', () => {
                     ]);
 
                     language.value = languageData.language;
-                    requireEmailAuth.value = authData.emailAuth;
-                    isPrivate.value = privacyData.isPrivate;
+                    requireEmailAuth.value = authData.emailAuth == "true";
+                    isPrivate.value = privacyData.isPrivate == "true";
                     entryCode.value = privacyData.entryCode;
                     sources.value = sourcesData;
 
@@ -82,6 +82,15 @@ export const useInstallationStore = defineStore('installation', () => {
             .then(data => {
                 isPrivate.value = data.isPrivate;
                 entryCode.value = data.entryCode;
+                return Promise.resolve();
+            })
+            .catch(() => {
+                ToastService.sendNotification(translate(('notifications.installation.savePrivacyError')), "error", 3000);
+                return Promise.reject();
+            })
+        await httpService.setAuthentication(requireEmailAuth.value)
+            .then(data => {
+                requireEmailAuth.value = data.emailAuth == "true";
                 return Promise.resolve();
             })
             .catch(() => {

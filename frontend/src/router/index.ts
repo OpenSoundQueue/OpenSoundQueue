@@ -188,9 +188,10 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     await httpService.getInstallationState()
         .then(data => {
-            console.log(data.finished)
+            const finished:boolean = data.finished == "true";
             const isInstallationPath = to.matched.some(record => record.path.includes("installation"));
-            if (!data.finished) {
+
+            if (!finished) {
                 if (isInstallationPath) {
                     next();
                     return;
