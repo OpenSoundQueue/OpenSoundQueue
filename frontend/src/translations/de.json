@@ -63,6 +63,7 @@
     "time": "Uhrensymbol",
     "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängi machen zu lassen",
     "user": "Benutzersymbol",
+    "userVerified": "Ein Benutzersymbol und eine Hacken, der anzeigt, dass dieser Benutzer verifiziert ist",
     "selectAll": "Ein Gitter aus großen Rechtecken gleicher Höhe und Breite, das anzeigt, dass alle Rechtecke ausgewählt sind",
     "selectNone": "Ein Gitter aus kleinen Rechtecken gleicher Höhe und Breite, das anzeigt, dass keines der Rechtecke ausgewählt ist",
     "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann",
@@ -226,7 +227,9 @@
       "success": "Wir haben dir einen neuen Code gesendet.",
       "text": "Ich habe keinen Code erhalten"
     },
-    "success": "Registrierung erfolgreich"
+    "success": "Registrierung erfolgreich",
+    "verified": "Verifiziert",
+    "verifiedCTO": "Das Konto wurde erstellt. Fahre mit den nächsten Schritten fort."
   },
   "roleEdit": {
     "newRole": "Neue Rolle",

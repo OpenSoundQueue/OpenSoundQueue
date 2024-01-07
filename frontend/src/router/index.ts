@@ -266,6 +266,11 @@ router.beforeEach(async (to, from, next) => {
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {
+    if (Object.keys(to.meta).length==0){
+        next();
+        return;
+    }
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         next();
         return;

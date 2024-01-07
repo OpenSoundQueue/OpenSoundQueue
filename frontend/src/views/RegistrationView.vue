@@ -10,11 +10,11 @@
     <component :is="component"
                @continue="() => {
                  component = RegistrationVerification
-                 localStorageService.setRegisterPosition(1)
+                 registration.state = 'validation'
                }"
                @change="() => {
                  component = RegistrationForm
-                 localStorageService.setRegisterPosition(0)
+                 registration.state = 'input'
                }"
                @validated="()=>{
                 removeRegistration()
@@ -31,13 +31,13 @@ import RegistrationVerification from "@/components/registration/RegistrationVeri
 import {onMounted, shallowRef} from "vue";
 import type {ShallowRef, Component} from "vue";
 import router from "@/router";
-import * as localStorageService from "@/services/localStorageService"
+import {registration} from "@/store/store";
 import {removeRegistration} from "@/store/registration";
 
 const component: ShallowRef<Component> = shallowRef(RegistrationForm);
 
 onMounted(() => {
-  if (localStorageService.getRegisterPosition() > 0) {
+  if (registration.state == "validation") {
     component.value = RegistrationVerification;
   }
 })
@@ -46,7 +46,7 @@ function linkBack() {
   if (component.value == RegistrationForm) {
     router.back()
   } else {
-    localStorageService.setRegisterPosition(0)
+    registration.state = "input";
     component.value = RegistrationForm
   }
 }

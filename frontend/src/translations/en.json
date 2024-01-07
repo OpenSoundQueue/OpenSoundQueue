@@ -63,6 +63,7 @@
     "time": "Clock symbol",
     "undo": "An arrow pointing back to undo the changes",
     "user": "User symbol",
+    "userVerified": "A User symbol and an additional check, indicating this user is verified",
     "selectAll": "An grid of big rectangles of equal height and width, indicating all of them are selected",
     "selectNone": "An grid of small rectangles of equal height and width, indicating none of them are selected",
     "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted",
@@ -226,7 +227,9 @@
       "success": "We have sent you a new code.",
       "text": "I have not received a code"
     },
-    "success": "Registration successful"
+    "success": "Registration successful",
+    "verified": "Verified",
+    "verifiedCTO": "Account was created. Continue with next steps."
   },
   "roleEdit": {
     "newRole": "New Role",
