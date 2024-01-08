@@ -92,7 +92,7 @@
   },
   "forgotPassword": "Forgot Password?",
   "help": {
-    "addSong": "Soundcloud and YouTube links are supported.",
+    "addSong": "The following Sources are supported:",
     "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users)."
   },
   "historySearch": {
