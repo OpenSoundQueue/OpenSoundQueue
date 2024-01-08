@@ -3,7 +3,7 @@
     <div class="add-song-container">
       <div class="add-song-label">
         <span>{{ $translate('addSong.title') }}</span>
-        <InfoButton>{{ $translate('help.addSong') + sources }}</InfoButton>
+        <InfoButton>{{ $translate('help.addSong') }}<br>{{ sources }}</InfoButton>
       </div>
       <InputField @click="openOverlay"
                   v-closable="{excluded: ['add-song-overlay'], handler: closeOverlay}"
@@ -64,7 +64,7 @@ const showSearch = computed(() => {
 });
 
 onMounted(async ()=>{
-  await httpService.getSupportedSources()
+  await httpService.getSources()
       .then(data => {
         sources.value = data.join(', ');
       })
