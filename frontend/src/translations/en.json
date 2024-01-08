@@ -63,6 +63,7 @@
     "time": "Clock symbol",
     "undo": "An arrow pointing back to undo the changes",
     "user": "User symbol",
+    "userVerified": "A User symbol and an additional check, indicating this user is verified",
     "selectAll": "An grid of big rectangles of equal height and width, indicating all of them are selected",
     "selectNone": "An grid of small rectangles of equal height and width, indicating none of them are selected",
     "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted",
@@ -154,7 +155,13 @@
       "user": "User"
     },
     "voteSkipRequestError": "Could not request vote.",
-    "voteSkipWithdrawError": "Could not withdraw vote."
+    "voteSkipWithdrawError": "Could not withdraw vote.",
+    "installation": {
+      "fetchError": "Settings could not be loaded. Please reload the page.",
+      "saveLanguageError": "Unable to save Language. Please try again.",
+      "savePrivacyError": "Unable to save Privacy Settings. Please try again.",
+      "saveSourcesError": "Unable to save Source Selection. Please try again."
+    }
   },
   "nowPlaying": "Now Playing",
   "password": {
@@ -220,7 +227,9 @@
       "success": "We have sent you a new code.",
       "text": "I have not received a code"
     },
-    "success": "Registration successful"
+    "success": "Registration successful",
+    "verified": "Verified",
+    "verifiedCTO": "Account was created. Continue with next steps."
   },
   "roleEdit": {
     "newRole": "New Role",
@@ -232,7 +241,7 @@
     "save": "Save",
     "rollback": "Discard changes",
     "delete": "Delete Role",
-    "display":{
+    "display": {
       "roleName": "Role Name",
       "placeholder": "Enter Role Name..."
     },
@@ -250,6 +259,41 @@
       "selectNone": "Select None",
       "invert": "Invert Selection"
     }
+  },
+  "installation": {
+    "installation": "Installation",
+    "progressBar": {
+      "language": "Language",
+      "registration": "Registration",
+      "privacy": "Privacy",
+      "sources": "Sources"
+    },
+    "navigation": {
+      "next": {
+        "language": "Continue to Registration",
+        "registration": "Continue to Privacy Settings",
+        "privacy": "Continue to Source Selection",
+        "sources": "Complete Installation"
+      },
+      "back": {
+        "language": "There is no going back",
+        "registration": "Back to Language Selection",
+        "privacy": "Back to Registration",
+        "sources": "Back to Access Control"
+      }
+    },
+    "privacy": {
+      "emailAuthTitle": "Email Authentication",
+      "emailAuthDescription": "People have to enter and verify their email address when creating an account.",
+      "roomPrivateTitle": "Room Private",
+      "roomPrivateDescription": "A private room is protected with an entry code. When logging in, users have to enter this code."
+    },
+    "language": "Specify the default language for all users.",
+    "source": "Select the Sources from which users can retrieve song links. (At least one)"
+  },
+  "languages": {
+    "en": "English",
+    "de": "German"
   },
   "volume": {
     "changeError": "Could not change volume.",

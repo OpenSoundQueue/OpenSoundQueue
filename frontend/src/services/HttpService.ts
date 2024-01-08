@@ -3,6 +3,7 @@ import {Song} from "@/models/Song";
 import {User} from "@/models/User";
 import * as cookieService from "@/services/cookieService";
 import type {Role} from "@/models/Role";
+import {setLanguage} from "@/plugins/TranslationPlugin";
 
 const httpClient = new HttpClient();
 
@@ -415,6 +416,139 @@ export class HttpService {
                 return data;
             });
     }
+
+    async getLanguage() {
+        return httpClient.get(`/system/language`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setLanguage(language: string) {
+        return httpClient.patch(`/system/language/set/${language}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                setLanguage(language);
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getPrivacy() {
+        return httpClient.get(`/system/privacy`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setPrivacy(privacySettings: object) {
+        return httpClient.patch(`/system/privacy/set`, privacySettings)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getAuthentication() {
+        return httpClient.get(`/system/email-auth`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setAuthentication(requireEMailAuthentication: boolean) {
+        return httpClient.patch(`/system/email-auth/set/${requireEMailAuthentication}`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getSupportedSources() {
+        return httpClient.get(`/system/supported-sources`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getSources() {
+        return httpClient.get(`/system/sources`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setSources(sources: string[]) {
+        return httpClient.patch(`/system/sources/set`, {sources: sources})
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async getInstallationState() {
+        return httpClient.get(`/system/installation-state`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
+    async setInstallationStateComplete() {
+        return httpClient.patch(`/system/installation-state/complete`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+            }).then((data) => {
+                return data;
+            });
+    }
+
 
     async postVolume(volume: number) {
         return httpClient.post(`/queue/volume/${volume}`, undefined, cookieService.getApiKey())

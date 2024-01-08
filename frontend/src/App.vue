@@ -6,11 +6,18 @@ import {ToastService} from "@/services/ToastService";
 import {PopUpService} from "@/services/PopUpService";
 import {useRoute} from "vue-router";
 import FullScreenPopUp from "@/components/PopUp/FullScreenPopUp.vue";
+import router from "@/router";
 
-const route = useRoute();
-const routesWithoutNavBar = ["login", "register"];
-const routeName = computed(() => route.name == undefined ? "" : route.name.toString())
-const displayNavBar = computed(() => !routesWithoutNavBar.includes(routeName.value) && routeName.value !== "")
+const routesWithoutNavBar = ["login", "register", "installation"];
+const displayNavBar = computed(() => {
+  const pathSegments = router.currentRoute.value.matched;
+
+  for (const pathSegment of pathSegments) {
+    if (routesWithoutNavBar.includes(<string>pathSegment.name)) return false;
+  }
+
+  return true;
+})
 </script>
 
 <template>
