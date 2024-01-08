@@ -13,6 +13,7 @@ import RegistrationView from "@/views/RegistrationView.vue";
 import RoleManagementView from "@/views/RoleManagementView.vue";
 import {PermissionService} from "@/services/PermissionService";
 import type {PermissionType} from "@/services/PermissionService";
+import InstallationView from "@/views/InstallationView.vue";
 
 const httpService = new HttpService();
 
@@ -90,6 +91,33 @@ const router = createRouter({
             }
         },
         {
+            path: "/installation",
+            name: "installation",
+            redirect: "/installation/language",
+            children: [
+                {
+                    path: "language",
+                    name: "language",
+                    component: InstallationView,
+                },
+                {
+                    path: "register",
+                    name: "registration",
+                    component: InstallationView,
+                },
+                {
+                    path: "privacy",
+                    name: "privacy",
+                    component: InstallationView,
+                },
+                {
+                    path: "sources",
+                    name: "sources",
+                    component: InstallationView,
+                }
+            ]
+        },
+        {
             path: '/admin',
             name: 'admin',
             children: [
@@ -99,7 +127,7 @@ const router = createRouter({
                     component: RoleManagementView,
                     meta: {
                         requiresAuth: true,
-                        requiresPermission: ["MANAGE_ROLES","MANAGE_USER"]
+                        requiresPermission: ["MANAGE_ROLES", "MANAGE_USER"]
                     }
                 },
                 {
@@ -156,6 +184,44 @@ const router = createRouter({
     ]
 })
 
+// checks if installation is finished and redirects to installation if needed
+router.beforeEach(async (to, from, next) => {
+    await httpService.getInstallationState()
+        .then(data => {
+            const finished:boolean = data.finished == "true";
+            const isInstallationPath = to.matched.some(record => record.path.includes("installation"));
+
+            if (!finished) {
+                if (isInstallationPath) {
+                    next();
+                    return;
+                } else {
+                    next({
+                        path: '/installation'
+                    })
+                    return;
+                }
+            } else {
+                if (isInstallationPath) {
+                    next({
+                        path: '/home'
+                    })
+                    return;
+                } else {
+                    next();
+                    return;
+                }
+            }
+
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
+            next({
+                path: '/installation'
+            })
+        });
+})
+
 // runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
 // checks if the stored sessionKey is valid
 // if so the request is permitted, else the user gets redirected to the '/login' path
@@ -200,6 +266,11 @@ router.beforeEach(async (to, from, next) => {
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {
+    if (Object.keys(to.meta).length==0){
+        next();
+        return;
+    }
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         next();
         return;

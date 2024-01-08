@@ -1,6 +1,6 @@
 <template>
   <div class="registration-form-wrapper">
-    <h2>{{ $translate('registration.heading') }}</h2>
+    <h2 v-if="mode!=='installation'">{{ $translate('registration.heading') }}</h2>
     <div class="entry-container">
       <div>{{ user.username }}</div>
       <div @click="emit('change')" class="link change">{{ $translate('registration.change') }}</div>
@@ -40,9 +40,13 @@ import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import * as cookieService from "@/services/cookieService"
-import * as localStorageService from "@/services/localStorageService";
 import {ToastService} from "@/services/ToastService";
 import router from "@/router";
+import {registration} from "@/store/store";
+
+defineProps<{
+  mode: "installation"
+}>();
 
 type Form = {
   username: string,
@@ -54,7 +58,8 @@ type Form = {
 const httpService = new HttpService();
 
 const emit = defineEmits<{
-  change: []
+  change: [],
+  validated:[]
 }>()
 
 const waitingForResponseValidation = ref(false);
@@ -77,16 +82,18 @@ const formStatus = computed(() => {
 })
 
 onMounted(() => {
-  const form: Form = localStorageService.getForm();
-  if (form.email == "" || form.username == "" || form.password == "") {
-    localStorageService.deleteForm()
-    localStorageService.setRegisterPosition(0)
+  if (registration.email == "" || registration.username == "" || registration.password == "") {
+    registration.username = "";
+    registration.email = "";
+    registration.password = "";
+    registration.timestamp = 0;
+    registration.state = "input";
     router.go(0)
   }
   user.value = {
-    username: form.username,
-    email: form.email,
-    password: form.email
+    username: registration.username,
+    email: registration.email,
+    password: registration.email
   }
 })
 
@@ -95,11 +102,9 @@ async function sendVerification() {
 
   await httpService.postRegisterVerify(verificationCode.value.input, user.value.email)
       .then((apiKey: string) => {
-        localStorageService.deleteForm()
-        localStorageService.deleteRegisterPosition()
         cookieService.setApiKey(apiKey);
         ToastService.sendNotification(translate('registration.success'), 'success', 3000)
-        router.push("/home")
+        emit("validated");
       })
       .catch(() => {
         verificationCode.value.errorStatus = true;
