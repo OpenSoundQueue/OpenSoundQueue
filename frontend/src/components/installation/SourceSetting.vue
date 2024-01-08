@@ -1,6 +1,6 @@
 <template>
   <div class="source-container scrollbar">
-    <div class="description">{{ translate('installation.source') }}</div>
+    <div class="description">{{ $translate('installation.source') }}</div>
     <div v-for="(source,index) of supportedSources"
          :key="index"
          @click="store.toggleSource(source)"
@@ -15,7 +15,6 @@
 import {useInstallationStore} from "@/stores/Installation";
 import {onMounted, ref, watchEffect} from "vue";
 import type {Ref} from "vue";
-import {translate} from "@/plugins/TranslationPlugin";
 import {HttpService} from "@/services/HttpService";
 import Checkbox from "@/components/buttons/Checkbox.vue";
 

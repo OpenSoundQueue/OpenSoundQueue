@@ -1,22 +1,22 @@
 <template>
   <div class="privacy-container scrollbar">
     <div class="setting-container" @click="store.toggleEmailAuth()">
-      <div class="setting-title">{{ translate('installation.privacy.emailAuthTitle') }}</div>
+      <div class="setting-title">{{ $translate('installation.privacy.emailAuthTitle') }}</div>
       <ToggleSwitch :checked="store.requireEmailAuth"/>
     </div>
-    <div class="description">{{ translate('installation.privacy.emailAuthDescription') }}</div>
+    <div class="description">{{ $translate('installation.privacy.emailAuthDescription') }}</div>
     <div class="hr"/>
     <div class="setting-container" @click="store.toggleIsPrivate()">
-      <div class="setting-title">{{ translate('installation.privacy.roomPrivateTitle') }}</div>
+      <div class="setting-title">{{ $translate('installation.privacy.roomPrivateTitle') }}</div>
       <ToggleSwitch :checked="store.isPrivate"/>
     </div>
-    <div class="description">{{ translate('installation.privacy.roomPrivateDescription') }}</div>
+    <div class="description">{{ $translate('installation.privacy.roomPrivateDescription') }}</div>
     <div class="entry-code-container">
-      <div class="setting-title">{{ translate('entryCode.title') }}</div>
+      <div class="setting-title">{{ $translate('entryCode.title') }}</div>
       <InputField
           :required="false"
-          :placeholder="translate('entryCode.placeholder')"
-          @userInput="(entryCode)=>store.setEntryCode(entryCode)"
+          :placeholder="$translate('entryCode.placeholder')"
+          @user-input="(entryCode)=>store.setEntryCode(entryCode)"
           :manual-value="store.entryCode"
       />
     </div>
@@ -27,7 +27,6 @@
 import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
 import {onMounted, watchEffect} from "vue";
 import InputField from "@/components/inputs/InputField.vue";
-import {translate} from "@/plugins/TranslationPlugin";
 import {validateEntryCode} from "@/plugins/ValidationPlugin";
 import {useInstallationStore} from "@/stores/Installation";
 

@@ -1,20 +1,20 @@
 <template>
   <div class="container">
     <div class="field-wrapper">
-      <div class="field-title">{{ translate('username.title') }}</div>
+      <div class="field-title">{{ $translate('username.title') }}</div>
       <div>{{ user.username }}</div>
     </div>
     <div class="field-wrapper">
-      <div class="field-title">{{ translate('email.title') }}</div>
+      <div class="field-title">{{ $translate('email.title') }}</div>
       <div>{{ user.email }}</div>
     </div>
     <div class="field-wrapper">
-      <div class="field-title">{{ translate('registration.verified') }}</div>
-      <div>{{ translate('registration.verified') }}</div>
+      <div class="field-title">{{ $translate('registration.verified') }}</div>
+      <div>{{ $translate('registration.verified') }}</div>
     </div>
     <div class="verification">
-      <img src="@/assets/icons/user_verified.svg" :alt="translate('altTexts.userVerified')">
-      <div>{{ translate('registration.verifiedCTO') }}</div>
+      <img src="@/assets/icons/user_verified.svg" :alt="$translate('altTexts.userVerified')">
+      <div>{{ $translate('registration.verifiedCTO') }}</div>
     </div>
   </div>
 </template>
@@ -23,7 +23,6 @@
 import {registration} from "@/store/store";
 import {onMounted, ref} from "vue";
 import router from "@/router";
-import {translate} from "@/plugins/TranslationPlugin";
 
 const user = ref({
   username: "",
@@ -32,7 +31,7 @@ const user = ref({
 })
 
 onMounted(() => {
-  if (registration.email == "" || registration.username == "" || registration.password == "") {
+  if (registration.email === "" || registration.username === "" || registration.password === "") {
     registration.username = "";
     registration.email = "";
     registration.password = "";

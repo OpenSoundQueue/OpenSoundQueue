@@ -6,15 +6,14 @@
          @click="goToStep(step)">
       <div class="circle">
         <div class="number">{{ index + 1 }}</div>
-        <img class="check" src="@/assets/icons/check.svg" :alt="translate('altTexts.check')"/>
+        <img class="check" src="@/assets/icons/check.svg" :alt="$translate('altTexts.check')"/>
       </div>
-      <div class="name">{{ translate(`installation.progressBar.${step.toString()}`) }}</div>
+      <div class="name">{{ $translate(`installation.progressBar.${step.toString()}`) }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {translate} from "@/plugins/TranslationPlugin";
 import router from "@/router";
 import type {RouteRecordName} from "vue-router";
 

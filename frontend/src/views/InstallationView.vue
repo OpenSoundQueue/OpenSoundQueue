@@ -5,10 +5,10 @@
   <main class="scrollbar">
     <header>
       <div class="step-name">
-        <div class="darken">{{ translate('installation.installation') }}&nbsp;|&nbsp;</div>
-        <div>{{ translate(currentRouteName.valueOf()) }}</div>
+        <div class="darken">{{ $translate('installation.installation') }}&nbsp;|&nbsp;</div>
+        <div>{{ $translate(currentRouteName.valueOf()) }}</div>
       </div>
-      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="translate('altTexts.logo')">
+      <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
     <div class="install-container">
       <component :is="component"
@@ -22,14 +22,14 @@
   </main>
   <div class="button-container">
     <div v-if="router.currentRoute.value.name!='language'" class="button back" @click="back()">
-      <div>{{ translate(lastStep.valueOf()) }}</div>
-      <img src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="translate('altTexts.arrowLeft')">
+      <div>{{ $translate(lastStep.valueOf()) }}</div>
+      <img src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowLeft')">
     </div>
     <div class="button next"
          :class="[router.currentRoute.value.name=='language'? 'full-width':'',readyForNextStep?'ready':'']"
          @click="next()">
-      <div>{{ translate(nextStep.valueOf()) }}</div>
-      <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="translate('altTexts.arrowRight')">
+      <div>{{ $translate(nextStep.valueOf()) }}</div>
+      <img src="@/assets/icons/arrows/keyboard_arrow_right.svg" :alt="$translate('altTexts.arrowRight')">
     </div>
   </div>
 </template>
@@ -47,7 +47,6 @@ import router from "@/router";
 import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 import type {RouteRecordName} from "vue-router";
 import {useInstallationStore} from "@/stores/Installation";
-import {translate} from "@/plugins/TranslationPlugin";
 import {installation, registration} from "@/store/store";
 import {removeRegistration} from "@/store/registration";
 import RegistrationFinished from "@/components/registration/RegistrationFinished.vue";

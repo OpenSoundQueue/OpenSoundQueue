@@ -1,13 +1,13 @@
 <template>
   <div class="language-container scrollbar">
-    <div class="description">{{ translate('installation.language') }}</div>
+    <div class="description">{{ $translate('installation.language') }}</div>
     <div v-for="(language,index) of Object.keys(translations)"
          :key="index"
          @click="store.setLanguage(language)"
          class="language-wrapper"
          :class="[store.language==language?'selected':'']">
-      <div>{{ translate(`languages.${language}`) }}</div>
-      <svg v-show="store.language==language" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" :alt="translate('altTexts.check')">
+      <div>{{ $translate(`languages.${language}`) }}</div>
+      <svg v-show="store.language==language" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
         <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
       </svg>
     </div>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import {useInstallationStore} from "@/stores/Installation";
 import {onMounted, watchEffect} from "vue";
-import {translate, translations} from "@/plugins/TranslationPlugin";
+import {translations} from "@/plugins/TranslationPlugin";
 
 const store = useInstallationStore();
 
