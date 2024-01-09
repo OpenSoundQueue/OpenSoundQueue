@@ -93,7 +93,7 @@
   },
   "forgotPassword": "Forgot Password?",
   "help": {
-    "addSong": "The following Sources are supported:",
+    "addSong": "The following sources are supported:",
     "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users)."
   },
   "historySearch": {
