@@ -3,7 +3,7 @@
     <div class="add-song-container">
       <div class="add-song-label">
         <span>{{ $translate('addSong.title') }}</span>
-        <InfoButton>{{ $translate('help.addSong') }}</InfoButton>
+        <InfoButton>{{ $translate('help.addSong') }}<br>{{ sources }}</InfoButton>
       </div>
       <InputField @click="openOverlay"
                   v-closable="{excluded: ['add-song-overlay'], handler: closeOverlay}"
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import SearchResults from "@/components/search/SearchResults.vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import * as cookieService from "@/services/cookieService";
@@ -51,6 +51,7 @@ const showOverlay = ref(false);
 const waitingForResponse = ref(false);
 const httpService = new HttpService();
 const inputField = ref<InstanceType<typeof InputField>>();
+const sources = ref("");
 
 const linkRegex = /^(https?|ftp):\/\/[^\s/$.?#].\S*$/;
 
@@ -61,6 +62,13 @@ const showSearch = computed(() => {
 
   return !linkRegex.test(inputString.value);
 });
+
+onMounted(async ()=>{
+  await httpService.getSources()
+      .then(data => {
+        sources.value = data.join(', ');
+      })
+})
 
 watch(inputString, (newValue) => {
   if (!newValue) {
