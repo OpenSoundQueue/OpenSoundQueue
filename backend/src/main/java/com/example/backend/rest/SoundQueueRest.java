@@ -7,6 +7,7 @@ import com.example.backend.annotations.AuthRequest;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class SoundQueueRest {
-    @Autowired
     private SongQueueService songQueueService;
-
-    @Autowired
     private UserService userService;
+
+    public SoundQueueRest(SongQueueService songQueueService, UserService userService) {
+        this.songQueueService = songQueueService;
+        this.userService = userService;
+    }
 
     @GetMapping("/queue/all")
     public ResponseEntity<Object> getSongQueue() {
@@ -103,6 +106,7 @@ public class SoundQueueRest {
 
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
     public ResponseEntity<Object> searchSongHistory(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
+        if (maxResults < 0) return new ResponseEntity<>(new ErrorDto("invalid value for 'max-results'"), HttpStatus.BAD_REQUEST);
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(songQueueService.searchSongHistory(searchTerm, maxResults), HttpStatus.OK);
     }
