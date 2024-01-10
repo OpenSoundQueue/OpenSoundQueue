@@ -64,7 +64,7 @@ public class UserRest {
     }
 
     @PostMapping("/login/private")
-    public ResponseEntity<Object> loginPrivate(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Object> loginPrivate(@RequestBody Map<String, String> requestBody) throws IOException {
         String username = requestBody.get("username");
         String entryCode = requestBody.get("entryCode");
 
@@ -88,7 +88,7 @@ public class UserRest {
     }
 
     @PostMapping("/login/private/auth")
-    public ResponseEntity<Object> loginPrivateAuth(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Object> loginPrivateAuth(@RequestBody Map<String, String> requestBody) throws IOException {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
         String entryCode = requestBody.get("entryCode");
@@ -160,7 +160,7 @@ public class UserRest {
     }
 
     @GetMapping("/verify/entry-code")
-    public ResponseEntity<Object> verifyEntryCode(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Object> verifyEntryCode(@RequestBody Map<String, String> requestBody) throws IOException {
         String entryCode = requestBody.get("entry-code");
 
         if (systemService.checkEntryCode(entryCode)) {
