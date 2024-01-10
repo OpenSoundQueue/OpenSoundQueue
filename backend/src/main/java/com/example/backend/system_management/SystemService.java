@@ -1,14 +1,18 @@
 package com.example.backend.system_management;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 public class SystemService {
-    @Value("${system.entry-code}")
-    private String entryCode;
+    PropertyService propertyService;
 
-    public boolean checkEntryCode(String code) {
-        return entryCode.equals(code);
+    public SystemService(PropertyService propertyService) {
+        this.propertyService = propertyService;
+    }
+
+    public boolean checkEntryCode(String code) throws IOException {
+        return propertyService.getProperty("system.entry-code").equals(code);
     }
 }
