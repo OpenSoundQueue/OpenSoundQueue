@@ -1,11 +1,6 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
-    <nav v-show="hasAllManagementPermissions">
-      <div class="mode-switcher" >
-        <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
-        <router-link to="/admin/users" class="link">{{ translate('adminPage.nav.users') }}</router-link>
-      </div>
-    </nav>
+    <AdminNavigation v-show="hasAllManagementPermissions"/>
     <div class="role-container">
       <div class="table-header">
         <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')"
@@ -41,6 +36,7 @@ import UserDetail from "@/components/UserDetail.vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import {PermissionService} from "@/services/PermissionService";
 import {translate} from "@/plugins/TranslationPlugin";
+import AdminNavigation from "@/components/AdminNavigation.vue";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
@@ -149,40 +145,6 @@ main {
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 20px;
-}
-
-nav {
-  height: 60px;
-}
-
-.mode-switcher {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  height: 35px;
-}
-
-.link {
-  height: 35px;
-  box-sizing: border-box;
-  width: 100%;
-  background: var(--background-color);
-  border: 3px solid var(--secondary-color);
-  color: var(--text-color);
-  font-size: var(--font-size-medium);
-  border-radius: var(--border-radius-medium);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-}
-
-.link.router-link-active {
-  color: var(--background-color);
-  border-color: var(--tertiary-color);
-  background: var(--tertiary-color);
-  font-weight: bold;
 }
 
 .dot {

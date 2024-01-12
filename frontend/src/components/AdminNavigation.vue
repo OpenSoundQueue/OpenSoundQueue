@@ -14,6 +14,9 @@
 </script>
 
 <style scoped>
+nav {
+  height: 60px;
+}
 
 .mode-switcher {
   display: flex;
@@ -45,4 +48,9 @@
   font-weight: bold;
 }
 
+@media screen and (min-width: 420px) {
+  nav {
+    width: 270px;
+  }
+}
 </style>

@@ -156,10 +156,6 @@ main {
   padding-top: 20px;
 }
 
-nav {
-  height: 60px;
-}
-
 .role-container {
   overflow-y: hidden;
   display: flex;
@@ -187,12 +183,6 @@ nav {
 .undo {
   height: 30px;
   margin: auto 0 auto 0;
-}
-
-@media screen and (min-width: 420px) {
-  nav {
-    width: 270px;
-  }
 }
 
 @media screen and (min-width: 800px) {
