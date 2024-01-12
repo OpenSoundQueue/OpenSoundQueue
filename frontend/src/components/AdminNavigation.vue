@@ -4,6 +4,7 @@
       <div class="mode-switcher">
         <router-link to="/admin/roles" class="link">{{ $translate('adminPage.nav.roles') }}</router-link>
         <router-link to="/admin/users" class="link">{{ $translate('adminPage.nav.users') }}</router-link>
+        <router-link to="/admin/application-settings" class="link">Application Settings</router-link>
       </div>
     </nav>
   </div>
@@ -23,11 +24,11 @@ nav {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 15px;
-  height: 35px;
+  height: 40px;
 }
 
 .link {
-  height: 35px;
+  height: 40px;
   width: 100%;
   background: var(--background-color);
   border: 3px solid var(--secondary-color);
@@ -39,6 +40,7 @@ nav {
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  text-align: center;
 }
 
 .link.router-link-active {
@@ -48,9 +50,9 @@ nav {
   font-weight: bold;
 }
 
-@media screen and (min-width: 420px) {
+@media screen and (min-width: 650px) {
   nav {
-    width: 270px;
+    width: 650px;
   }
 }
 </style>

@@ -49,7 +49,7 @@ const users: Ref<Array<User>> = ref([]);
 const selfID = ref(0);
 const selectedID = ref(0);
 const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"});
-const hasAllManagementPermissions = ref(false);
+const hasAllManagementPermissions = ref(true);
 
 onMounted(async ()=>{
   await PermissionService.getPermissions();
