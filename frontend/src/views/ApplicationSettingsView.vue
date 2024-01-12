@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-
 import AdminNavigation from "@/components/AdminNavigation.vue";
 import {PermissionService} from "@/services/PermissionService";
 import GridBackground from "@/components/background/GridBackground.vue";
@@ -58,21 +57,13 @@ main {
 @media screen and (min-width: 1250px) {
   main {
     width: 1250px;
-    display: grid;
-    justify-content: space-between;
-    grid-template-rows: calc(100% - 30px);
   }
 
   main.show-mode-switcher {
-    grid-template-rows: 60px calc(100% - 90px);
-
-    .settings-container {
-      grid-row: 2;
-    }
+    height: calc(100vh - 60px - 30px);
   }
 
   .settings-container {
-    grid-column: 1;
     padding: 20px;
     box-sizing: border-box;
     grid-row: 1;
