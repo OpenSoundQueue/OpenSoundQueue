@@ -79,8 +79,8 @@ export const useInstallationStore = defineStore('installation', () => {
             "isPrivate": isPrivate.value,
             "entryCode": entryCode.value
         })
-            .then(data => {
-                isPrivate.value = data.isPrivate;
+            .then((data) => {
+                isPrivate.value = data.isPrivate === "true";
                 entryCode.value = data.entryCode;
                 return Promise.resolve();
             })

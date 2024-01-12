@@ -3,7 +3,7 @@
     <AdminNavigation v-show="hasAllManagementPermissions"/>
     <div class="settings-container">
       <h2>Privacy</h2>
-      <ToggleSwitch :checked="checked" @click="checked = !checked"/>
+      <ToggleSwitch :checked="settings.isPrivate.value" @click="changePrivacy"/>
       <h2>Sources</h2>
       <h2>Default Language</h2>
     </div>
@@ -17,16 +17,38 @@ import AdminNavigation from "@/components/AdminNavigation.vue";
 import {PermissionService} from "@/services/PermissionService";
 import GridBackground from "@/components/background/GridBackground.vue";
 import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
+import {useInstallationStore} from "@/stores/Installation";
+import {storeToRefs} from "pinia";
+import {PopUpService} from "@/services/PopUpService";
 
-const checked = ref(false);
+const store = useInstallationStore();
+
+const settings = storeToRefs(store);
 
 const hasAllManagementPermissions = ref(true);
 
 onMounted(async ()=>{
+  console.log(settings);
+
   await PermissionService.getPermissions();
 
   hasAllManagementPermissions.value = PermissionService.hasAllPermissions(["MANAGE_ROLES","MANAGE_USER"])
 })
+
+async function changePrivacy() {
+  store.toggleIsPrivate();
+
+  await store.savePrivacy();
+
+  PopUpService.openPopUp("want ot save chagnes", "Save");
+  const userAction = await PopUpService.waitForUserAction();
+
+  if (userAction === "accepted") {
+    await store.savePrivacy();
+  } else {
+    store.toggleIsPrivate();
+  }
+}
 </script>
 
 <style scoped>
