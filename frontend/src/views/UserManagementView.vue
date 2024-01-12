@@ -35,7 +35,6 @@ import SortingButton from "@/components/buttons/SortingButton.vue";
 import UserDetail from "@/components/UserDetail.vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import {PermissionService} from "@/services/PermissionService";
-import {translate} from "@/plugins/TranslationPlugin";
 import AdminNavigation from "@/components/AdminNavigation.vue";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
@@ -49,7 +48,7 @@ const users: Ref<Array<User>> = ref([]);
 const selfID = ref(0);
 const selectedID = ref(0);
 const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"});
-const hasAllManagementPermissions = ref(false);
+const hasAllManagementPermissions = ref(true);
 
 onMounted(async ()=>{
   await PermissionService.getPermissions();

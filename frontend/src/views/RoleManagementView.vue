@@ -73,7 +73,7 @@ const props = defineProps<{
 const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
-const hasAllManagementPermissions = ref(false);
+const hasAllManagementPermissions = ref(true);
 const saveButtonState = ref("active")
 
 onMounted(async () => {

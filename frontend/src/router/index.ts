@@ -14,6 +14,7 @@ import RoleManagementView from "@/views/RoleManagementView.vue";
 import {PermissionService} from "@/services/PermissionService";
 import type {PermissionType} from "@/services/PermissionService";
 import InstallationView from "@/views/InstallationView.vue";
+import ApplicationSettingsView from "@/views/ApplicationSettingsView.vue";
 
 const httpService = new HttpService();
 
@@ -177,8 +178,15 @@ const router = createRouter({
                         requiresAuth: true,
                         requiresPermission: ["MANAGE_USER"]
                     }
+                },
+                {
+                    path: 'application-settings',
+                    name: 'application-settings',
+                    component: ApplicationSettingsView,
+                    meta: {
+                        requiresAuth: true
+                    }
                 }
-
             ]
         },
     ]
