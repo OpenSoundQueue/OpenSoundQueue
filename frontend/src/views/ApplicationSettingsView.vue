@@ -3,6 +3,7 @@
     <AdminNavigation v-show="hasAllManagementPermissions"/>
     <div class="settings-container">
       <h2>Privacy</h2>
+      <ToggleSwitch :checked="checked" @click="checked = !checked"/>
       <h2>Sources</h2>
       <h2>Default Language</h2>
     </div>
@@ -16,6 +17,9 @@ import {onMounted, ref} from "vue";
 import AdminNavigation from "@/components/AdminNavigation.vue";
 import {PermissionService} from "@/services/PermissionService";
 import GridBackground from "@/components/background/GridBackground.vue";
+import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
+
+const checked = ref(false);
 
 const hasAllManagementPermissions = ref(true);
 

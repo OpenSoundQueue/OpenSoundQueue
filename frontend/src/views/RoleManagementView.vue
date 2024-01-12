@@ -1,6 +1,6 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
-    <AdminNavigation v-show="hasAllManagementPermissions"/>
+    <AdminNavigation v-show="hasAllManagementPermissions && roleId == undefined"/>
     <div class="role-container">
       <component :is="component"
                  :role-id="selectedRoleId"

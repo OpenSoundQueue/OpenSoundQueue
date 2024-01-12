@@ -242,11 +242,7 @@ async function getUsers() {
 }
 
 .user:hover {
-  background-color: var(--primary-color);
-}
-
-.user:hover > .checkbox {
-  border-color: white !important;
+  background-color: var(--hover-color);
 }
 
 .skeleton{
