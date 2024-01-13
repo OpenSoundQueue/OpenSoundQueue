@@ -62,6 +62,18 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
         editedApplicationSettings.value.requireEmailAuth = value;
     }
 
+    function toggleSource(source: string) {
+        if (!editedApplicationSettings.value) {
+            return
+        }
+
+        if (editedApplicationSettings.value.sources.includes(source)){
+            editedApplicationSettings.value.sources.splice(editedApplicationSettings.value.sources.indexOf(source),1)
+        } else {
+            editedApplicationSettings.value.sources.push(source)
+        }
+    }
+
     return {
         fetchApplicationSettings,
         persistedApplicationSettings,
@@ -69,5 +81,6 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
         areApplicationSettingsEdited,
         setIsPrivate,
         setRequireEmailAuth,
+        toggleSource,
     }
 })

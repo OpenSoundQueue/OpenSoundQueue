@@ -1,9 +1,9 @@
 export class ApplicationSettings {
-    private _language: string; // = ref("en");
-    private _requireEmailAuth: boolean; // = ref(true);
-    private _isPrivate: boolean; // = ref(true);
-    private _entryCode: string; // = ref("");
-    private _sources: string[]; //Ref<string[]> = ref([]);
+    private _language: string;
+    private _requireEmailAuth: boolean;
+    private _isPrivate: boolean;
+    private _entryCode: string;
+    private _sources: string[];
     private _supportedSources: string[];
 
     constructor(language: string, requireEmailAuth: boolean, isPrivate: boolean, entryCode: string, sources: string[], supportedSources: string[]) {
@@ -36,20 +36,20 @@ export class ApplicationSettings {
             return false;
         }
 
-        if (!applicationSettings1.sources.every((element: string, index: number) => {
-            return element === applicationSettings2.sources[index];
-        })) {
-            return false;
+        for (let source of applicationSettings1.sources) {
+            if (!applicationSettings2.sources.includes(source)) {
+                return false;
+            }
         }
 
         if (applicationSettings1.supportedSources.length !== applicationSettings2.supportedSources.length) {
             return false;
         }
 
-        if (!applicationSettings1.supportedSources.every((element: string, index: number) => {
-            return element === applicationSettings2.supportedSources[index];
-        })) {
-            return false;
+        for (let supportedSource of applicationSettings1.supportedSources) {
+            if (!applicationSettings2.supportedSources.includes(supportedSource)) {
+                return false;
+            }
         }
 
         return true;

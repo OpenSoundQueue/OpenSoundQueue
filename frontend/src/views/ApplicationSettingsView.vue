@@ -10,13 +10,18 @@
                   v-model="store.editedApplicationSettings.entryCode"
                   :manual-value="store.editedApplicationSettings.entryCode"/>
       <h2>Sources</h2>
-      <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources" :key="index">
+      <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
+           :key="index"
+           @click="() => toggleSource(supportedSource)">
         {{ supportedSource }}
         <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
       </div>
       <h2>Default Language</h2>
       <div v-for="(language, index) of Object.keys(translations)" :key="index">
-        <div><span v-if="language === store.editedApplicationSettings.language">> </span>{{ $translate(`languages.${language}`) }}</div>
+        <div><span v-if="language === store.editedApplicationSettings.language">> </span>{{
+            $translate(`languages.${language}`)
+          }}
+        </div>
       </div>
     </div>
     <GridBackground/>
@@ -61,6 +66,15 @@ function toggleIsPrivate() {
 
   store.setIsPrivate(!store.editedApplicationSettings.isPrivate);
 }
+
+function toggleSource(source: string) {
+  if (!store.editedApplicationSettings) {
+    return;
+  }
+
+  store.toggleSource(source);
+}
+
 </script>
 
 <style scoped>
