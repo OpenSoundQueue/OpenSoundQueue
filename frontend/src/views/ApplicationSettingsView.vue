@@ -1,9 +1,15 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
     <AdminNavigation v-show="hasAllManagementPermissions"/>
-    <div v-if="store.areApplicationSettingsEdited">
-      <button @click="store.rollback">rollback</button>
-      <button @click="store.save">save</button>
+    <div v-show="store.areApplicationSettingsEdited" class="nav-element save-button">
+      <img class="undo" src="@/assets/icons/undo.svg"
+           :alt="translate('altTexts.undo')"
+           :title="translate('roleEdit.rollback')"
+           @click="store.rollback"/>
+      <DynamicButton b-style="save" :status="saveButtonState" @click="save">{{
+          translate('roleEdit.save')
+        }}
+      </DynamicButton>
     </div>
     <div class="settings-container" v-if="store.editedApplicationSettings">
       <!-- Privacy -->
@@ -27,7 +33,7 @@
            :key="index"
            @click="() => setLanguage(language)"
            class="language-wrapper"
-           :class="[store.editedApplicationSettings.language === language ? 'selected' : '']">
+           :class="[store.editedApplicationSettings.language.toLowerCase() === language ? 'selected' : '']">
         <div>{{ $translate(`languages.${language}`) }}</div>
         <svg v-show="store.editedApplicationSettings.language === language" xmlns="http://www.w3.org/2000/svg"
              viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
@@ -48,11 +54,13 @@ import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
 import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
 import InputField from "@/components/inputs/InputField.vue";
 import Checkbox from "@/components/buttons/Checkbox.vue";
-import {translations} from "@/plugins/TranslationPlugin";
+import {translate, translations} from "@/plugins/TranslationPlugin";
+import DynamicButton from "@/components/buttons/DynamicButton.vue";
 
 const store = useApplicationSettingsStore();
 
 const hasAllManagementPermissions = ref(true);
+const saveButtonState = ref("active")
 
 onMounted(async () => {
   await PermissionService.getPermissions();
@@ -94,6 +102,16 @@ function setLanguage(language: string) {
   store.setLanguage(language);
 }
 
+async function save() {
+    if (saveButtonState.value !== "active") {
+      return
+    }
+
+    saveButtonState.value = "waiting"
+    await store.save()
+    saveButtonState.value = "active"
+}
+
 </script>
 
 <style scoped>
@@ -106,6 +124,24 @@ main {
   justify-content: flex-start;
   box-sizing: border-box;
   padding-top: 20px;
+}
+
+.save-button {
+  margin-top: 0 !important;
+  margin-left: auto;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.save-button > button {
+  min-width: 100px;
+}
+
+.undo {
+  height: 30px;
+  margin: auto 0 auto 0;
 }
 
 .settings-container {
