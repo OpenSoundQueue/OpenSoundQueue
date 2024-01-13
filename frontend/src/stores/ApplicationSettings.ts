@@ -74,6 +74,14 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
         }
     }
 
+    function setLanguage(language: string) {
+        if (!editedApplicationSettings.value) {
+            return
+        }
+
+        editedApplicationSettings.value.language = language;
+    }
+
     return {
         fetchApplicationSettings,
         persistedApplicationSettings,
@@ -82,5 +90,6 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
         setIsPrivate,
         setRequireEmailAuth,
         toggleSource,
+        setLanguage,
     }
 })

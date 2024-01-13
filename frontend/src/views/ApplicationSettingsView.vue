@@ -3,12 +3,14 @@
     <AdminNavigation v-show="hasAllManagementPermissions"/>
     <div v-if="store.areApplicationSettingsEdited">edited</div>
     <div class="settings-container" v-if="store.editedApplicationSettings">
+      <!-- Privacy -->
       <h2>Privacy</h2>
       <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth" @click="toggleRequireEmailAuth"/>
       <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate" @click="toggleIsPrivate"/>
       <InputField v-if="store.editedApplicationSettings.isPrivate"
                   v-model="store.editedApplicationSettings.entryCode"
                   :manual-value="store.editedApplicationSettings.entryCode"/>
+      <!-- Sources -->
       <h2>Sources</h2>
       <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
            :key="index"
@@ -16,12 +18,18 @@
         {{ supportedSource }}
         <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
       </div>
+      <!-- Default Language -->
       <h2>Default Language</h2>
-      <div v-for="(language, index) of Object.keys(translations)" :key="index">
-        <div><span v-if="language === store.editedApplicationSettings.language">> </span>{{
-            $translate(`languages.${language}`)
-          }}
-        </div>
+      <div v-for="(language, index) of Object.keys(translations)"
+           :key="index"
+           @click="() => setLanguage(language)"
+           class="language-wrapper"
+           :class="[store.editedApplicationSettings.language === language ? 'selected' : '']">
+        <div>{{ $translate(`languages.${language}`) }}</div>
+        <svg v-show="store.editedApplicationSettings.language === language" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
+          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+        </svg>
       </div>
     </div>
     <GridBackground/>
@@ -75,6 +83,14 @@ function toggleSource(source: string) {
   store.toggleSource(source);
 }
 
+function setLanguage(language: string) {
+  if (!store.editedApplicationSettings) {
+    return;
+  }
+
+  store.setLanguage(language);
+}
+
 </script>
 
 <style scoped>
@@ -94,6 +110,34 @@ main {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.language-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  padding: calc(var(--font-size-medium) / 2);
+
+  border: solid 2px var(--cool-gray);
+  border-radius: var(--border-radius-medium);
+  box-sizing: border-box;
+
+
+  &&.selected {
+    background-color: var(--cool-gray-transparent);
+    border-color: var(--cool-gray);
+    color: var(--dark-blue);
+    font-weight: bold;
+  }
+
+  svg {
+    height: var(--font-size-medium);
+    fill: var(--dark-blue);
+    aspect-ratio: 1;
+  }
 }
 
 @media screen and (min-width: 800px) {
