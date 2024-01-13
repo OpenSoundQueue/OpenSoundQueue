@@ -10,7 +10,6 @@ import com.example.backend.annotations.AuthRequest;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,17 +24,17 @@ import java.util.Map;
 @RequestMapping("/api")
 public class UserRest {
 
-    @Autowired
     private SystemService systemService;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private TokenUtils tokenUtils;
+
+    public UserRest(SystemService systemService, UserService userService, PasswordEncoder passwordEncoder, TokenUtils tokenUtils) {
+        this.systemService = systemService;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenUtils = tokenUtils;
+    }
 
     @PostMapping("/login/public/auth")
     public ResponseEntity<Object> loginPublicAuth(@RequestBody Map<String, String> requestBody) {
@@ -181,24 +180,25 @@ public class UserRest {
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @GetMapping("/user/get/{id}")
     public ResponseEntity<Object> getUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
-        if (userService.getUserById(id) == null) {
+        UserInfoEntity user = userService.getUserById(id);
+        if (user == null) {
             return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
         }
 
         userService.updateLastOnline(userService.getUserByToken(token));
 
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
-        if (userService.getUserByToken(token).equals(userService.getUserById(id))) {
-            return new ResponseEntity<>(new ErrorDto("You can not delete your own user"), HttpStatus.BAD_REQUEST);
-        }
-
         if (userService.getUserById(id) == null) {
             return new ResponseEntity<>(new ErrorDto("User with id " + id + " does not exist"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (userService.getUserByToken(token).equals(userService.getUserById(id))) {
+            return new ResponseEntity<>(new ErrorDto("You can not delete your own user"), HttpStatus.BAD_REQUEST);
         }
 
         userService.updateLastOnline(userService.getUserByToken(token));

@@ -18,19 +18,18 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SystemRestTest {
+
+    public PropertyService propertyService = Mockito.mock(PropertyService.class);
+
+    public SystemRest systemRest = new SystemRest(propertyService);
+
     // GET request to /system/language returns language property value
     @Test
     public void test_getLanguage_returnsPropertyValue() throws IOException {
-        // Mock PropertyService
-        PropertyService propertyService = Mockito.mock(PropertyService.class);
-    
         // Set up the expected language property value
         String expectedLanguage = "English";
         Mockito.when(propertyService.getProperty("system.language")).thenReturn(expectedLanguage);
-    
-        // Create an instance of SystemRest with the mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyService);
-    
+
         // Send a GET request to /system/language
         ResponseEntity<Object> response = systemRest.getLanguage();
     
@@ -46,25 +45,19 @@ public class SystemRestTest {
     // PATCH request to /system/language/set/{language} sets language property value
     @Test
     public void test_patch_request_sets_language_property_value() throws IOException {
-        // Mock PropertyService
-        PropertyService propertyServiceMock = Mockito.mock(PropertyService.class);
-    
-        // Create SystemRest instance with mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyServiceMock);
-    
         // Set up test data
         String language = "en";
         Map<String, String> dto = new HashMap<>();
         dto.put("language", language);
     
         // Mock the behavior of PropertyService.setProperty() method
-        Mockito.doNothing().when(propertyServiceMock).setProperty("system.language", language);
+        Mockito.doNothing().when(propertyService).setProperty("system.language", language);
     
         // Call the setLanguage() method of SystemRest
         ResponseEntity<Object> response = systemRest.setLanguage(language);
     
         // Verify that PropertyService.setProperty() method was called with the correct arguments
-        Mockito.verify(propertyServiceMock).setProperty("system.language", language);
+        Mockito.verify(propertyService).setProperty("system.language", language);
     
         // Verify the response status code and body
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -74,18 +67,12 @@ public class SystemRestTest {
     // GET request to /system/privacy returns privacy settings
     @Test
     public void test_getPrivacySettings_returnsPrivacySettings() throws IOException {
-        // Mock the PropertyService
-        PropertyService propertyService = Mockito.mock(PropertyService.class);
-    
         // Set up the expected privacy settings
         boolean isPrivate = true;
         String entryCode = "123456";
         Mockito.when(propertyService.getProperty("system.is-private")).thenReturn(String.valueOf(isPrivate));
         Mockito.when(propertyService.getProperty("system.entry-code")).thenReturn(entryCode);
-    
-        // Create the SystemRest instance with the mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyService);
-    
+
         // Send a GET request to /system/privacy
         ResponseEntity<Object> response = systemRest.getPrivacySettings();
     
@@ -102,16 +89,10 @@ public class SystemRestTest {
     // GET request to /system/email-auth returns email authentication property value
     @Test
     public void test_getEmailAuth_returnsPropertyValue() throws IOException {
-        // Mock the PropertyService
-        PropertyService propertyServiceMock = Mockito.mock(PropertyService.class);
-    
         // Set up the expected property value
         String expectedPropertyValue = "true";
-        Mockito.when(propertyServiceMock.getProperty("system.email-auth")).thenReturn(expectedPropertyValue);
-    
-        // Create an instance of SystemRest with the mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyServiceMock);
-    
+        Mockito.when(propertyService.getProperty("system.email-auth")).thenReturn(expectedPropertyValue);
+
         // Make the GET request to /system/email-auth
         ResponseEntity<Object> response = systemRest.getEmailAuth();
     
@@ -127,9 +108,6 @@ public class SystemRestTest {
     // PATCH request to /system/privacy/set sets privacy settings
     @Test
     public void test_patchRequestSetsPrivacySettings() throws IOException {
-        // Mock PropertyService
-        PropertyService propertyServiceMock = Mockito.mock(PropertyService.class);
-    
         // Create a PrivacySettingsDto object
         PrivacySettingsDto privacySettings = new PrivacySettingsDto(true, "1234");
     
@@ -139,17 +117,14 @@ public class SystemRestTest {
         expectedResponse.put("entryCode", "1234");
     
         // Mock the behavior of getProperty method in PropertyService
-        Mockito.when(propertyServiceMock.getProperty(Mockito.anyString())).thenReturn("1234");
-    
-        // Create an instance of SystemRest with the mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyServiceMock);
-    
+        Mockito.when(propertyService.getProperty(Mockito.anyString())).thenReturn("1234");
+
         // Call the setPrivacySettings method with the privacySettings object
         ResponseEntity<Object> response = systemRest.setPrivacySettings(privacySettings);
     
         // Verify that the setProperty method in PropertyService is called with the correct arguments
-        Mockito.verify(propertyServiceMock).setProperty("system.is-private", "true");
-        Mockito.verify(propertyServiceMock).setProperty("system.entry-code", "1234");
+        Mockito.verify(propertyService).setProperty("system.is-private", "true");
+        Mockito.verify(propertyService).setProperty("system.entry-code", "1234");
     
         // Verify that the response contains the expected values
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -159,12 +134,6 @@ public class SystemRestTest {
     // PATCH request to /system/email-auth/set/{email-auth} sets email authentication property value
     @Test
     public void test_patchRequestSetsEmailAuthPropertyValue() throws IOException {
-        // Mock PropertyService
-        PropertyService propertyService = Mockito.mock(PropertyService.class);
-    
-        // Create SystemRest instance with mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyService);
-    
         // Set up test data
         String emailAuth = "true";
     
@@ -191,16 +160,10 @@ public class SystemRestTest {
     // GET request to /system/installation-state returns installation state
     @Test
     public void test_getInstallationState_returnsInstallationState() throws IOException {
-        // Mock PropertyService
-        PropertyService propertyService = Mockito.mock(PropertyService.class);
-    
         // Set up expected installation state
         String expectedState = "true";
         Mockito.when(propertyService.getProperty("system.installed")).thenReturn(expectedState);
-    
-        // Create SystemRest instance with mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyService);
-    
+
         // Send GET request to /system/installation-state
         ResponseEntity<Object> response = systemRest.getInstallationState();
     
@@ -216,23 +179,18 @@ public class SystemRestTest {
     // PATCH request to /system/installation-state/complete sets installation state to true
     @Test
     public void test_patchRequest_setsInstallationStateToTrue() throws IOException {
-        // Mock PropertyService
-        PropertyService propertyServiceMock = Mockito.mock(PropertyService.class);
-    
-        // Create SystemRest instance with the mock
-        SystemRest systemRest = new SystemRest(propertyServiceMock);
-    
+
         // Set up the expected property value
         String expectedPropertyValue = "true";
     
         // Set up the mock behavior
-        Mockito.doNothing().when(propertyServiceMock).setProperty("system.installed", expectedPropertyValue);
+        Mockito.doNothing().when(propertyService).setProperty("system.installed", expectedPropertyValue);
     
         // Make the PATCH request
         ResponseEntity<Object> response = systemRest.setInstallationComplete();
     
         // Verify that the property was set correctly
-        Mockito.verify(propertyServiceMock).setProperty("system.installed", expectedPropertyValue);
+        Mockito.verify(propertyService).setProperty("system.installed", expectedPropertyValue);
     
         // Verify that the response has a 200 OK status
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -241,16 +199,10 @@ public class SystemRestTest {
     // GET request to /system/supported-sources returns supported sources
     @Test
     public void test_getSupportedSources_returnsSupportedSources() throws IOException {
-        // Mock the PropertyService
-        PropertyService propertyService = Mockito.mock(PropertyService.class);
-    
         // Set up the expected supported sources
         String[] expectedSources = {"source1", "source2", "source3"};
         Mockito.when(propertyService.getPropertyAsList("system.sources.supported")).thenReturn(expectedSources);
-    
-        // Create an instance of SystemRest with the mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyService);
-    
+
         // Send a GET request to /system/supported-sources
         ResponseEntity<Object> response = systemRest.getSupportedSources();
     
@@ -264,16 +216,10 @@ public class SystemRestTest {
     // GET request to /system/sources returns enabled sources
     @Test
     public void test_getEnabledSources() throws IOException {
-        // Mock the PropertyService
-        PropertyService propertyService = Mockito.mock(PropertyService.class);
-    
         // Set up the expected result
         String[] sources = {"source1", "source2"};
         Mockito.when(propertyService.getPropertyAsList("system.sources.enabled")).thenReturn(sources);
-    
-        // Create an instance of SystemRest with the mocked PropertyService
-        SystemRest systemRest = new SystemRest(propertyService);
-    
+
         // Make the GET request to /system/sources
         ResponseEntity<Object> response = systemRest.getEnabledSources();
     
@@ -287,12 +233,6 @@ public class SystemRestTest {
     // PATCH request to /system/sources/set sets enabled sources
     @Test
     public void test_patchRequest_setsEnabledSources() throws IOException {
-        // Create mock PropertyService
-        PropertyService propertyServiceMock = Mockito.mock(PropertyService.class);
-    
-        // Create SystemRest instance with the mock PropertyService
-        SystemRest systemRest = new SystemRest(propertyServiceMock);
-    
         // Create input map for the request body
         Map<String, List<String>> input = new HashMap<>();
         List<String> sources = new ArrayList<>();
@@ -305,25 +245,25 @@ public class SystemRestTest {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(expectedSources, HttpStatus.OK);
     
         // Mock the getPropertyAsList method of PropertyService to return supported sources
-        Mockito.when(propertyServiceMock.getPropertyAsList("system.sources.supported")).thenReturn(new String[]{"source1", "source2", "source3"});
+        Mockito.when(propertyService.getPropertyAsList("system.sources.supported")).thenReturn(new String[]{"source1", "source2", "source3"});
     
         // Mock the setProperty method of PropertyService to verify it is called with the correct arguments
-        Mockito.doNothing().when(propertyServiceMock).setProperty(Mockito.anyString(), Mockito.anyString());
+        Mockito.doNothing().when(propertyService).setProperty(Mockito.anyString(), Mockito.anyString());
     
         // Mock the getPropertyAsList method of PropertyService to return enabled sources
-        Mockito.when(propertyServiceMock.getPropertyAsList("system.sources.enabled")).thenReturn(expectedSources);
+        Mockito.when(propertyService.getPropertyAsList("system.sources.enabled")).thenReturn(expectedSources);
     
         // Call the setSources method of SystemRest with the mock input
         ResponseEntity<Object> actualResponse = systemRest.setSources(input);
     
         // Verify that the getPropertyAsList method of PropertyService is called with the correct argument
-        Mockito.verify(propertyServiceMock).getPropertyAsList("system.sources.supported");
+        Mockito.verify(propertyService).getPropertyAsList("system.sources.supported");
     
         // Verify that the setProperty method of PropertyService is called with the correct arguments
-        Mockito.verify(propertyServiceMock).setProperty("system.sources.enabled", "{source1,source2}");
+        Mockito.verify(propertyService).setProperty("system.sources.enabled", "{source1,source2}");
     
         // Verify that the getPropertyAsList method of PropertyService is called with the correct argument
-        Mockito.verify(propertyServiceMock).getPropertyAsList("system.sources.enabled");
+        Mockito.verify(propertyService).getPropertyAsList("system.sources.enabled");
     
         // Assert that the actual response matches the expected response
         assertEquals(expectedResponse, actualResponse);

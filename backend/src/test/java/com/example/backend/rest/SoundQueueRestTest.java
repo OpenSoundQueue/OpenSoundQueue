@@ -3,12 +3,10 @@ package com.example.backend.rest;
 
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.*;
-
 import com.example.backend.streaming.SongInfo;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -23,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class SoundQueueRestTest {
     // GET request to /queue/all returns a list of songs in the queue
     @Test
