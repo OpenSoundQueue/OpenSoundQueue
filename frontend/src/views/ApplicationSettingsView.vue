@@ -1,7 +1,10 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
     <AdminNavigation v-show="hasAllManagementPermissions"/>
-    <div v-if="store.areApplicationSettingsEdited">edited</div>
+    <div v-if="store.areApplicationSettingsEdited">
+      <button @click="store.rollback">rollback</button>
+      <button @click="store.save">save</button>
+    </div>
     <div class="settings-container" v-if="store.editedApplicationSettings">
       <!-- Privacy -->
       <h2>Privacy</h2>

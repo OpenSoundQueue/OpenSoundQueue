@@ -9,7 +9,7 @@ import {computed} from "vue";
 
 const httpService = new HttpService();
 
-export const useApplicationSettingsStore= defineStore('applicationSettings', () => {
+export const useApplicationSettingsStore = defineStore('applicationSettings', () => {
     const persistedApplicationSettings: Ref<ApplicationSettings | undefined> = ref();
     const editedApplicationSettings: Ref<ApplicationSettings | undefined> = ref();
 
@@ -46,6 +46,38 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
         }
     }
 
+    function rollback() {
+        if (persistedApplicationSettings.value === undefined) {
+            editedApplicationSettings.value = undefined;
+        } else {
+            editedApplicationSettings.value = ApplicationSettings.clone(persistedApplicationSettings.value);
+        }
+    }
+
+    async function save() {
+        if (editedApplicationSettings.value === undefined) {
+            // TODO: write error message
+            ToastService.sendNotification("", "error", 3000);
+            return;
+        }
+
+        try {
+            await Promise.all([httpService.setPrivacy({
+                    isPrivate: editedApplicationSettings.value.isPrivate,
+                    entryCode: editedApplicationSettings.value.entryCode
+                }),
+                httpService.setAuthentication(editedApplicationSettings.value.requireEmailAuth),
+                httpService.setSources(editedApplicationSettings.value.sources),
+                httpService.setLanguage(editedApplicationSettings.value.language),
+            ]);
+        } catch (error) {
+            // TODO: write error message
+            ToastService.sendNotification("", "error", 3000);
+        }
+
+        await fetchApplicationSettings();
+    }
+
     function setIsPrivate(value: boolean) {
         if (!editedApplicationSettings.value) {
             return
@@ -67,8 +99,8 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
             return
         }
 
-        if (editedApplicationSettings.value.sources.includes(source)){
-            editedApplicationSettings.value.sources.splice(editedApplicationSettings.value.sources.indexOf(source),1)
+        if (editedApplicationSettings.value.sources.includes(source)) {
+            editedApplicationSettings.value.sources.splice(editedApplicationSettings.value.sources.indexOf(source), 1)
         } else {
             editedApplicationSettings.value.sources.push(source)
         }
@@ -84,6 +116,8 @@ export const useApplicationSettingsStore= defineStore('applicationSettings', () 
 
     return {
         fetchApplicationSettings,
+        rollback,
+        save,
         persistedApplicationSettings,
         editedApplicationSettings,
         areApplicationSettingsEdited,
