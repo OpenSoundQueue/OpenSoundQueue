@@ -35,7 +35,7 @@
     --tertiary-color-transparent: var(--cool-gray-transparent);
     --success-color-transparent: var(--green-tranparent);
     --error-color-transparent: var(--red-tranparent);
-    --hover-color: var(--coolor-gray-very-transparent);
+    --hover-color: var(--cool-gray-very-transparent);
     --border-radius-small: 3px;
     --border-radius-medium: 5px;
     --border-radius-big: 10px;
@@ -54,6 +54,6 @@
     --green-tranparent: rgba(132, 184, 162, 0.95);
     --red-tranparent: rgba(184, 132, 132, 0.95);
     --dark-blue-transparent: rgba(25, 30, 45, 0.9);
-    --coolor-gray-very-transparent: rgba(132, 145, 184, 0.2);
+    --cool-gray-very-transparent: rgba(132, 145, 184, 0.2);
     --red: #FF7373;
 }
