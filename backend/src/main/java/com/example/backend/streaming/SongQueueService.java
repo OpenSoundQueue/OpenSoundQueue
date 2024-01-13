@@ -35,9 +35,7 @@ public class SongQueueService {
     Song currentSong = null;
     private boolean isPlaying = false;
 
-    @Value("${queue.voteskip.required}")
-    private int voteSkipRequired;
-
+    private int voteSkipRequired = 1;
     private int voteSkipCurrent = 0;
 
     private final Set<Long> voteSkipUserList = new HashSet<>();
@@ -149,14 +147,14 @@ public class SongQueueService {
 
     public VoteSkipStatusDto getVoteSkipStatus(Long userId) {
         boolean hasVoted = voteSkipUserList.contains(userId);
-        return new VoteSkipStatusDto(hasVoted, voteSkipCurrent, voteSkipRequired);
+        return new VoteSkipStatusDto(hasVoted, voteSkipCurrent, getVoteSkipRequired());
     }
 
     public VoteSkipStatusDto setVoteSkip(String userToken) {
         UserInfoEntity user = userService.getUserByToken(userToken);
         if (voteSkipUserList.contains(user.getId())) return getVoteSkipStatus(user.getId());
         voteSkipUserList.add(user.getId());
-        if (voteSkipCurrent+1 >= voteSkipRequired) {
+        if (voteSkipCurrent+1 >= getVoteSkipRequired()) {
             this.skip();
             voteSkipCurrent = 0;
         } else {
@@ -216,5 +214,10 @@ public class SongQueueService {
         songService.changeVolume(currentSong, this.volume);
 
         return new VolumeDto(this.volume, this.isMuted);
+    }
+
+    public int getVoteSkipRequired() {
+        voteSkipRequired = (int) Math.ceil(userService.getAllOnlineUsers().size() / 2.0);
+        return voteSkipRequired;
     }
 }
