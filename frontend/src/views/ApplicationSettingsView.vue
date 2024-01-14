@@ -1,44 +1,74 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
     <AdminNavigation v-show="hasAllManagementPermissions"/>
-    <div v-show="store.areApplicationSettingsEdited" class="nav-element save-button">
-      <img class="undo" src="@/assets/icons/undo.svg"
-           :alt="translate('altTexts.undo')"
-           :title="translate('roleEdit.rollback')"
-           @click="store.rollback"/>
-      <DynamicButton b-style="save" :status="saveButtonState" @click="save">{{
-          translate('roleEdit.save')
-        }}
-      </DynamicButton>
-    </div>
-    <div class="settings-container" v-if="store.editedApplicationSettings">
-      <!-- Privacy -->
-      <h2>Privacy</h2>
-      <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth" @click="toggleRequireEmailAuth"/>
-      <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate" @click="toggleIsPrivate"/>
-      <InputField v-if="store.editedApplicationSettings.isPrivate"
-                  v-model="store.editedApplicationSettings.entryCode"
-                  :manual-value="store.editedApplicationSettings.entryCode"/>
-      <!-- Sources -->
-      <h2>Sources</h2>
-      <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
-           :key="index"
-           @click="() => toggleSource(supportedSource)">
-        {{ supportedSource }}
-        <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
+    <div class="settings-wrapper" v-if="store.editedApplicationSettings">
+      <div v-show="store.areApplicationSettingsEdited" class="save-button">
+        <img class="undo" src="@/assets/icons/undo.svg"
+             :alt="translate('altTexts.undo')"
+             :title="translate('roleEdit.rollback')"
+             @click="store.rollback"/>
+        <DynamicButton b-style="save" :status="saveButtonState" @click="save">{{
+            translate('roleEdit.save')
+          }}
+        </DynamicButton>
       </div>
-      <!-- Default Language -->
-      <h2>Default Language</h2>
-      <div v-for="(language, index) of Object.keys(translations)"
-           :key="index"
-           @click="() => setLanguage(language)"
-           class="language-wrapper"
-           :class="[store.editedApplicationSettings.language.toLowerCase() === language ? 'selected' : '']">
-        <div>{{ $translate(`languages.${language}`) }}</div>
-        <svg v-show="store.editedApplicationSettings.language === language" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
-          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
-        </svg>
+      <div class="settings-container">
+        <!-- Privacy -->
+        <div class="settings-heading">Privacy</div>
+        <div class="toggle-switch-wrapper">
+          <div class="description-container">
+            <div class="label">Email Authentication</div>
+            <p>People have to enter and verify their email address when creating an account.</p>
+          </div>
+          <div class="interactive-container">
+            <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth" @click="toggleRequireEmailAuth"/>
+          </div>
+        </div>
+        <div class="toggle-switch-wrapper">
+          <div class="description-container">
+            <div class="label">Private Room</div>
+            <p>A private room is protected with an entry code.</p>
+          </div>
+          <div class="interactive-container">
+            <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate" @click="toggleIsPrivate"/>
+          </div>
+        </div>
+        <div class="input-field-container">
+          <div class="interactive-container">
+            <InputField v-if="store.editedApplicationSettings.isPrivate"
+                        label="Entry Code"
+                        v-model="store.editedApplicationSettings.entryCode"
+                        :manual-value="store.editedApplicationSettings.entryCode"
+            />
+          </div>
+        </div>
+        <!-- Sources -->
+        <div class="settings-heading">Sources</div>
+        <p class="settings-description">Sources from which users can retrieve song links.</p>
+        <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
+             class="checkbox-container"
+             :key="index"
+             @click="() => toggleSource(supportedSource)">
+          <div class="description-container">{{ supportedSource }}</div>
+          <div class="interactive-container">
+            <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
+          </div>
+        </div>
+        <!-- Default Language -->
+        <div class="settings-heading">Default Language</div>
+        <p class="settings-description">Wähle die Standardsprache für alle Benutzer aus.</p>
+        <div class="language-wrapper"></div>
+        <div v-for="(language, index) of Object.keys(translations)"
+             :key="index"
+             @click="() => setLanguage(language)"
+             class="language-container"
+             :class="[store.editedApplicationSettings.language.toLowerCase() === language ? 'selected' : '']">
+          <div>{{ $translate(`languages.${language}`) }}</div>
+          <svg v-show="store.editedApplicationSettings.language === language" xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
+            <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+          </svg>
+        </div>
       </div>
     </div>
     <GridBackground/>
@@ -56,6 +86,7 @@ import InputField from "@/components/inputs/InputField.vue";
 import Checkbox from "@/components/buttons/Checkbox.vue";
 import {translate, translations} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import HomeView from "@/views/HomeView.vue";
 
 const store = useApplicationSettingsStore();
 
@@ -103,13 +134,13 @@ function setLanguage(language: string) {
 }
 
 async function save() {
-    if (saveButtonState.value !== "active") {
-      return
-    }
+  if (saveButtonState.value !== "active") {
+    return
+  }
 
-    saveButtonState.value = "waiting"
-    await store.save()
-    saveButtonState.value = "active"
+  saveButtonState.value = "waiting"
+  await store.save()
+  saveButtonState.value = "active"
 }
 
 </script>
@@ -126,10 +157,19 @@ main {
   padding-top: 20px;
 }
 
-.save-button {
-  margin-top: 0 !important;
-  margin-left: auto;
+.settings-wrapper {
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
 
+.save-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  margin-left: auto;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -144,14 +184,67 @@ main {
   margin: auto 0 auto 0;
 }
 
-.settings-container {
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.settings-heading {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 30px;
 }
 
-.language-wrapper {
+.settings-heading:first-child {
+  margin-top: 0;
+}
+
+.settings-description {
+  font-size: var(--font-size-small);
+}
+
+.toggle-switch-wrapper, .checkbox-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.toggle-switch-wrapper .description-container {
+  width: 100%;
+}
+
+.toggle-switch-wrapper .interactive-container {
+  width: 75px;
+  display: flex;
+  justify-content: center;
+}
+
+.toggle-switch-wrapper .label {
+  font-size: var(--font-size-medium);
+  font-weight: bold;
+}
+
+.toggle-switch-wrapper p {
+  font-size: var(--font-size-small);
+}
+
+.input-field-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.input-field-container .interactive-container {
+  width: calc(100% - 75px);
+}
+
+.checkbox-container .description-container {
+  width: 100%;
+}
+
+.checkbox-container .interactive-container {
+  width: 75px;
+  display: flex;
+  justify-content: center;
+}
+
+.language-container {
+  margin-top: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -194,12 +287,12 @@ main {
     height: calc(100vh - 60px - 30px);
   }
 
-  .settings-container {
+  .settings-wrapper {
     padding: 20px;
     box-sizing: border-box;
     grid-row: 1;
     height: 100%;
-    width: 100%;
+    width: 66%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
     background: var(--secondary-color);
