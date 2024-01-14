@@ -14,11 +14,11 @@
       </div>
       <div class="settings-container">
         <!-- Privacy -->
-        <div class="settings-heading">Privacy</div>
+        <div class="settings-heading">{{ $translate('applicationSettings.privacy.title') }}</div>
         <div class="toggle-switch-wrapper">
           <div class="description-container">
-            <div class="label">Email Authentication</div>
-            <p>People have to enter and verify their email address when creating an account.</p>
+            <div class="label">{{ $translate('applicationSettings.privacy.emailAuth.title') }}</div>
+            <p>{{ $translate('applicationSettings.privacy.emailAuth.description') }}</p>
           </div>
           <div class="interactive-container">
             <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth" @click="toggleRequireEmailAuth"/>
@@ -26,8 +26,8 @@
         </div>
         <div class="toggle-switch-wrapper">
           <div class="description-container">
-            <div class="label">Private Room</div>
-            <p>A private room is protected with an entry code.</p>
+            <div class="label">{{ $translate('applicationSettings.privacy.privateRoom.title') }}</div>
+            <p>{{ $translate('applicationSettings.privacy.privateRoom.description') }}</p>
           </div>
           <div class="interactive-container">
             <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate" @click="toggleIsPrivate"/>
@@ -36,15 +36,15 @@
         <div class="input-field-container">
           <div class="interactive-container">
             <InputField v-if="store.editedApplicationSettings.isPrivate"
-                        label="Entry Code"
+                        :label="$translate('applicationSettings.privacy.entryCode.title')"
                         v-model="store.editedApplicationSettings.entryCode"
                         :manual-value="store.editedApplicationSettings.entryCode"
             />
           </div>
         </div>
         <!-- Sources -->
-        <div class="settings-heading">Sources</div>
-        <p class="settings-description">Sources from which users can retrieve song links.</p>
+        <div class="settings-heading">{{ $translate('applicationSettings.sources.title') }}</div>
+        <p class="settings-description">{{ $translate('applicationSettings.sources.description') }}</p>
         <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
              class="checkbox-container"
              :key="index"
@@ -55,8 +55,8 @@
           </div>
         </div>
         <!-- Default Language -->
-        <div class="settings-heading">Default Language</div>
-        <p class="settings-description">Wähle die Standardsprache für alle Benutzer aus.</p>
+        <div class="settings-heading">{{ $translate('applicationSettings.defaultLanguage.title') }}</div>
+        <p class="settings-description">{{ $translate('applicationSettings.defaultLanguage.description') }}</p>
         <div class="language-wrapper"></div>
         <div v-for="(language, index) of Object.keys(translations)"
              :key="index"
@@ -157,6 +157,7 @@ main {
 }
 
 .settings-wrapper {
+  padding-top: 20px;
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
@@ -181,6 +182,10 @@ main {
 .undo {
   height: 30px;
   margin: auto 0 auto 0;
+}
+
+.undo:hover {
+  cursor: pointer;
 }
 
 .settings-heading {

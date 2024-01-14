@@ -42,7 +42,7 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
 
             editedApplicationSettings.value = ApplicationSettings.clone(persistedApplicationSettings.value);
         } catch (error) {
-            ToastService.sendNotification(translate(('notifications.installation.fetchError')), "error", 3000);
+            ToastService.sendNotification(translate("applicationSettings.fetchError"), "error", 3000);
         }
     }
 
@@ -56,8 +56,7 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
 
     async function save() {
         if (editedApplicationSettings.value === undefined) {
-            // TODO: write error message
-            ToastService.sendNotification("", "error", 3000);
+            ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
             return;
         }
 
@@ -71,8 +70,7 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
                 httpService.setLanguage(editedApplicationSettings.value.language),
             ]);
         } catch (error) {
-            // TODO: write error message
-            ToastService.sendNotification("", "error", 3000);
+            ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
         }
 
         await fetchApplicationSettings();

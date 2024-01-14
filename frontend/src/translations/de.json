@@ -299,5 +299,32 @@
     "changeError": "Die Lautstärke konnte nicht geändert werden.",
     "muteError": "Die Warteschlange konnte nicht stumm geschaltet werden.",
     "unmuteError": "Die Stummschaltung konnte nicht aufgehoben werden."
+  },
+  "applicationSettings": {
+    "saveError": "Einstellungen konnten nicht gespeichert werden",
+    "fetchError": "Einstellungen konnten nicht abgerufen werden",
+    "privacy": {
+      "title": "Zugang",
+      "emailAuth": {
+        "title": "E-Mail-Authentifizierung",
+        "description": "Benutzer müssen ihre E-Mail-Adresse eingeben und verifizieren, wenn sie ein Konto erstellen"
+      },
+      "privateRoom": {
+        "title": "Privater Raum",
+        "description": "Ein privater Raum ist mit einem Zugangscode geschützt."
+      },
+      "entryCode": {
+        "title": "Zugangscode"
+      }
+    },
+    "sources": {
+      "title": "Quellen",
+      "description": "Wähle die Quellen aus, von denen Benutzer Song-Links einfügen können. (Mindestens eine)"
+    },
+    "defaultLanguage": {
+      "title": "Standardsprache",
+      "description": "Legen Sie die Standardsprache für alle Benutzer fest"
+    }
   }
+
 }

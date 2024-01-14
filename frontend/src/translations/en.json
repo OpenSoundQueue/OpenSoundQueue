@@ -299,5 +299,31 @@
     "changeError": "Could not change volume.",
     "muteError": "Could not mute queue.",
     "unmuteError": "Could not unmute queue."
+  },
+  "applicationSettings": {
+    "saveError": "Unable to save application settings",
+    "fetchError": "Could not retrieve application settings",
+    "privacy": {
+      "title": "Privacy",
+      "emailAuth": {
+        "title": "Email Authentication",
+        "description": "People have to enter and verify their email address when creating an account"
+      },
+      "privateRoom": {
+        "title": "Private Room",
+        "description": "A private room is protected with an entry code."
+      },
+      "entryCode": {
+        "title": "Entry Code"
+      }
+    },
+    "sources": {
+      "title": "Sources",
+      "description": "Select the Sources from which users can retrieve song links. (At least one)"
+    },
+    "defaultLanguage": {
+      "title": "Default Language",
+      "description": "Specify the default language for all users"
+    }
   }
 }
