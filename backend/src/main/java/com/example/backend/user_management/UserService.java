@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -200,5 +202,16 @@ public class UserService {
             r.setMembers(userInfoRepository.findAllByRolesContains(r));
             roleRepository.save(r);
         }
+    }
+
+    public List<UserDto> getAllOnlineUsers() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        return getAll().stream().filter(x -> x.getLastOnline() != null).filter(x -> {
+            try {
+                return formatter.parse(x.getLastOnline()).getTime() > new Date(System.currentTimeMillis() - 1000 * 60 * 5).getTime(); // last online time has to be within the last 5 minutes
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
     }
 }

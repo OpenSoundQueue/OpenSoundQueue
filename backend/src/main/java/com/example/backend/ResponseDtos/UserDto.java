@@ -30,4 +30,13 @@ public class UserDto {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         return simpleDateFormat.format(lastOnline);
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", lastOnline=" + lastOnline +
+                '}';
+    }
 }
