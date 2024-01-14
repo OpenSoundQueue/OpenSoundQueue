@@ -86,7 +86,6 @@ import InputField from "@/components/inputs/InputField.vue";
 import Checkbox from "@/components/buttons/Checkbox.vue";
 import {translate, translations} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
-import HomeView from "@/views/HomeView.vue";
 
 const store = useApplicationSettingsStore();
 
