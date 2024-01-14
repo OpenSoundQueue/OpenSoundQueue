@@ -15,22 +15,22 @@
       <div class="settings-container">
         <!-- Privacy -->
         <div class="settings-heading">{{ $translate('applicationSettings.privacy.title') }}</div>
-        <div class="toggle-switch-wrapper">
+        <div class="toggle-switch-wrapper" @click="toggleRequireEmailAuth">
           <div class="description-container">
             <div class="label">{{ $translate('applicationSettings.privacy.emailAuth.title') }}</div>
             <p>{{ $translate('applicationSettings.privacy.emailAuth.description') }}</p>
           </div>
           <div class="interactive-container">
-            <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth" @click="toggleRequireEmailAuth"/>
+            <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth"/>
           </div>
         </div>
-        <div class="toggle-switch-wrapper">
+        <div class="toggle-switch-wrapper" @click="toggleIsPrivate">
           <div class="description-container">
             <div class="label">{{ $translate('applicationSettings.privacy.privateRoom.title') }}</div>
             <p>{{ $translate('applicationSettings.privacy.privateRoom.description') }}</p>
           </div>
           <div class="interactive-container">
-            <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate" @click="toggleIsPrivate"/>
+            <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate"/>
           </div>
         </div>
         <div class="input-field-container">
@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import AdminNavigation from "@/components/AdminNavigation.vue";
 import {PermissionService} from "@/services/PermissionService";
 import GridBackground from "@/components/background/GridBackground.vue";
@@ -90,7 +90,7 @@ import DynamicButton from "@/components/buttons/DynamicButton.vue";
 const store = useApplicationSettingsStore();
 
 const hasAllManagementPermissions = ref(true);
-const saveButtonState = ref("active")
+const saveButtonState = ref("active");
 
 onMounted(async () => {
   await PermissionService.getPermissions();
@@ -207,6 +207,20 @@ main {
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.checkbox-container:hover {
+  cursor: pointer;
+  background-color: var(--hover-color);
+  border-radius: var(--border-radius-medium);
+}
+
+.toggle-switch-wrapper:hover {
+  cursor: pointer;
+  background-color: var(--hover-color);
+  border-radius: var(--border-radius-medium);
 }
 
 .toggle-switch-wrapper .description-container {
@@ -231,6 +245,7 @@ main {
 .input-field-container {
   display: flex;
   justify-content: flex-start;
+  padding-left: 10px;
 }
 
 .input-field-container .interactive-container {
@@ -273,6 +288,10 @@ main {
     height: var(--font-size-medium);
     fill: var(--dark-blue);
     aspect-ratio: 1;
+  }
+
+  &&:hover {
+    cursor: pointer;
   }
 }
 
