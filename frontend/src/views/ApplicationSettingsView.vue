@@ -46,13 +46,13 @@
         </div>
         <!-- Sources -->
         <div class="settings-heading">{{ $translate('applicationSettings.sources.title') }}</div>
-        <p class="settings-description">{{ $translate('applicationSettings.sources.description') }}</p>
         <div class="sources-container" :class="{error: sourcesError}">
+          <p class="settings-description">{{ $translate('applicationSettings.sources.description') }}</p>
           <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
                class="checkbox-container"
                :key="index"
                @click="() => toggleSource(supportedSource)">
-            <div class="description-container">{{ supportedSource }}</div>
+            <div>{{ supportedSource }}</div>
             <div class="interactive-container">
               <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
             </div>
@@ -61,18 +61,19 @@
         </div>
         <!-- Default Language -->
         <div class="settings-heading">{{ $translate('applicationSettings.defaultLanguage.title') }}</div>
-        <p class="settings-description">{{ $translate('applicationSettings.defaultLanguage.description') }}</p>
-        <div class="language-wrapper"></div>
-        <div v-for="(language, index) of Object.keys(translations)"
-             :key="index"
-             @click="() => setLanguage(language)"
-             class="language-container"
-             :class="[store.editedApplicationSettings.language.toLowerCase() === language ? 'selected' : '']">
-          <div>{{ $translate(`languages.${language}`) }}</div>
-          <svg v-show="store.editedApplicationSettings.language === language" xmlns="http://www.w3.org/2000/svg"
-               viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
-            <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
-          </svg>
+        <div class="language-wrapper">
+          <p class="settings-description">{{ $translate('applicationSettings.defaultLanguage.description') }}</p>
+          <div v-for="(language, index) of Object.keys(translations)"
+               :key="index"
+               @click="() => setLanguage(language)"
+               class="language-container"
+               :class="[store.editedApplicationSettings.language.toLowerCase() === language ? 'selected' : '']">
+            <div>{{ $translate(`languages.${language}`) }}</div>
+            <svg v-show="store.editedApplicationSettings.language === language" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
+              <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
@@ -96,7 +97,6 @@ import {validateEntryCode} from "@/plugins/ValidationPlugin";
 const store = useApplicationSettingsStore();
 
 const hasAllManagementPermissions = ref(true);
-const saveButtonState = ref("active");
 const isWaiting = ref(false);
 
 const buttonState = computed(() => {
@@ -172,15 +172,13 @@ function setLanguage(language: string) {
 }
 
 async function save() {
-  if (saveButtonState.value !== "active") {
+  if (buttonState.value !== "active") {
     return
   }
 
   isWaiting.value = true;
-  saveButtonState.value = "waiting"
   await store.save()
   isWaiting.value = false;
-  saveButtonState.value = "active"
 }
 
 </script>
@@ -308,6 +306,10 @@ main {
   justify-content: center;
 }
 
+.sources-container {
+  padding-left: 10px;
+}
+
 .sources-container.error {
   border: 2px solid var(--red);
   border-radius: var(--border-radius-medium);
@@ -315,8 +317,11 @@ main {
 }
 
 .sources-container .error-message {
-  padding-left: 10px;
   color: var(--red);
+}
+
+.language-wrapper {
+  padding-left: 10px;
 }
 
 .language-container {
@@ -325,7 +330,6 @@ main {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   width: 100%;
   padding: calc(var(--font-size-medium) / 2);
 
