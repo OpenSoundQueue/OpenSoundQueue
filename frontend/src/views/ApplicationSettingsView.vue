@@ -147,7 +147,7 @@ async function save() {
 <style scoped>
 main {
   width: calc(100% - 30px);
-  height: calc(100vh - 60px);
+  height: calc(100svh - 60px);
   margin: 0 auto 0 auto;
   display: flex;
   flex-direction: column;
@@ -158,11 +158,16 @@ main {
 
 .settings-wrapper {
   padding-top: 20px;
-  overflow-y: hidden;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   height: 100%;
   position: relative;
+}
+
+.settings-container {
+  margin-bottom: 25px;
+  padding-right: 15px;
 }
 
 .save-button {
