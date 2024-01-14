@@ -319,7 +319,8 @@
     },
     "sources": {
       "title": "Sources",
-      "description": "Select the Sources from which users can retrieve song links. (At least one)"
+      "description": "Select the Sources from which users can retrieve song links. (At least one)",
+      "error": "You have to at least select one source"
     },
     "defaultLanguage": {
       "title": "Default Language",

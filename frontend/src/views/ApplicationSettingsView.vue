@@ -7,7 +7,7 @@
              :alt="translate('altTexts.undo')"
              :title="translate('roleEdit.rollback')"
              @click="store.rollback"/>
-        <DynamicButton b-style="save" :status="saveButtonState" @click="save">{{
+        <DynamicButton b-style="save" :status="buttonState" @click="save">{{
             translate('roleEdit.save')
           }}
         </DynamicButton>
@@ -39,20 +39,25 @@
                         :label="$translate('applicationSettings.privacy.entryCode.title')"
                         v-model="store.editedApplicationSettings.entryCode"
                         :manual-value="store.editedApplicationSettings.entryCode"
+                        :validation-function="$validateEntryCode"
+                        :validation-message="$translate('entryCode.validation')"
             />
           </div>
         </div>
         <!-- Sources -->
         <div class="settings-heading">{{ $translate('applicationSettings.sources.title') }}</div>
         <p class="settings-description">{{ $translate('applicationSettings.sources.description') }}</p>
-        <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
-             class="checkbox-container"
-             :key="index"
-             @click="() => toggleSource(supportedSource)">
-          <div class="description-container">{{ supportedSource }}</div>
-          <div class="interactive-container">
-            <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
+        <div class="sources-container" :class="{error: sourcesError}">
+          <div v-for="(supportedSource, index) in store.editedApplicationSettings.supportedSources"
+               class="checkbox-container"
+               :key="index"
+               @click="() => toggleSource(supportedSource)">
+            <div class="description-container">{{ supportedSource }}</div>
+            <div class="interactive-container">
+              <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
+            </div>
           </div>
+          <p class="error-message" v-if="sourcesError">{{ $translate('applicationSettings.sources.error') }}</p>
         </div>
         <!-- Default Language -->
         <div class="settings-heading">{{ $translate('applicationSettings.defaultLanguage.title') }}</div>
@@ -76,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import AdminNavigation from "@/components/AdminNavigation.vue";
 import {PermissionService} from "@/services/PermissionService";
 import GridBackground from "@/components/background/GridBackground.vue";
@@ -86,11 +91,45 @@ import InputField from "@/components/inputs/InputField.vue";
 import Checkbox from "@/components/buttons/Checkbox.vue";
 import {translate, translations} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
+import {validateEntryCode} from "@/plugins/ValidationPlugin";
 
 const store = useApplicationSettingsStore();
 
 const hasAllManagementPermissions = ref(true);
 const saveButtonState = ref("active");
+const isWaiting = ref(false);
+
+const buttonState = computed(() => {
+  if (isWaiting.value) {
+    return "waiting";
+  }
+
+  if (!store.editedApplicationSettings) {
+    return "inactive";
+  }
+
+  if (!store.editedApplicationSettings.entryCode) {
+    return "inactive";
+  }
+
+  if (!validateEntryCode(store.editedApplicationSettings.entryCode)()) {
+    return "inactive";
+  }
+
+  if (sourcesError.value) {
+    return "inactive";
+  }
+
+  return "active";
+});
+
+const sourcesError = computed(() => {
+  if (store.editedApplicationSettings === undefined) {
+    return true;
+  }
+
+  return store.editedApplicationSettings.sources.length === 0;
+})
 
 onMounted(async () => {
   await PermissionService.getPermissions();
@@ -137,8 +176,10 @@ async function save() {
     return
   }
 
+  isWaiting.value = true;
   saveButtonState.value = "waiting"
   await store.save()
+  isWaiting.value = false;
   saveButtonState.value = "active"
 }
 
@@ -265,6 +306,17 @@ main {
   width: 75px;
   display: flex;
   justify-content: center;
+}
+
+.sources-container.error {
+  border: 2px solid var(--red);
+  border-radius: var(--border-radius-medium);
+  box-sizing: border-box;
+}
+
+.sources-container .error-message {
+  padding-left: 10px;
+  color: var(--red);
 }
 
 .language-container {

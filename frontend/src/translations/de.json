@@ -319,7 +319,8 @@
     },
     "sources": {
       "title": "Quellen",
-      "description": "Wähle die Quellen aus, von denen Benutzer Song-Links einfügen können. (Mindestens eine)"
+      "description": "Wähle die Quellen aus, von denen Benutzer Song-Links einfügen können. (Mindestens eine)",
+      "error": "Wähle mindestens eine Quelle aus"
     },
     "defaultLanguage": {
       "title": "Standardsprache",
