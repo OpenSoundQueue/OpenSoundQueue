@@ -1,5 +1,6 @@
 package com.example.backend.Serializer;
 
+import com.example.backend.Repository.Role;
 import com.example.backend.Repository.SongInfoHistoryEntity;
 import com.example.backend.ResponseDtos.QueuePageDto;
 import com.example.backend.ResponseDtos.SongQueueDto;
@@ -19,6 +20,7 @@ public class JacksonConfig {
         module.addSerializer(SongInfo.class, new SongInfoSerializer());
         module.addSerializer(SongInfoHistoryEntity.class, new SongHistoryInfoSerializer());
         module.addSerializer(SongQueueDto.class, new SongQueueDtoSerializer());
+        module.addSerializer(Role.class, new RoleSerializer());
         return module;
     }
 }

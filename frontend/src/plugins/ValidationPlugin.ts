@@ -16,42 +16,61 @@ Username rule: The username must be between 4 and 20 characters long and meet th
     - May contain a period (.) or underscore (_)
  */
 
-function validate(type: string, value: string): boolean {
-    if (value.length === 0) return true;
-    switch (type) {
-        case "password":
-            const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
-            return passwordRegex.test(value);
-        case "entryCode":
-            const entryCodeRegex = /^[a-zA-Z0-9]{6}$/;
-            return entryCodeRegex.test(value);
-        case "username":
-            const usernameRegex = /^([A-Za-z0-9]?)([._]?).{4,20}$/;
-            return usernameRegex.test(value);
-        case "songlink":
-            const youtubeLinkRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(-nocookie)?\.com|youtu.be)(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
-            const soundcloudLinkRegex = /^https?:\/\/(www\.|m\.)?soundcloud\.com\/[a-z0-9](?!.*?[-_]{2})[\w-]{1,23}[a-z0-9](?:\/.+)?$/;
+export function validateUsername(value: string): Function {
+    return () => {
+        if (value.length === 0) {
+            return true;
+        }
 
-            return youtubeLinkRegex.test(value) || soundcloudLinkRegex.test(value);
-        default:
-            return false
+        const usernameRegex = /^([A-Za-z0-9]?)([._]?).{4,20}$/;
+        return usernameRegex.test(value);
     }
 }
 
-export function validateUsername(value: string): Function {
-    return () => validate("username", value)
-}
-
 export function validatePassword(value: string): Function {
-    return () => validate("password", value)
+    return () => {
+        if (value.length === 0) {
+            return true;
+        }
+
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
+        return passwordRegex.test(value);
+    }
 }
 
 export function validateEntryCode(value: string): Function {
-    return () => validate("entryCode", value)
+    return () => {
+        if (value.length === 0) {
+            return true;
+        }
+
+        const entryCodeRegex = /^[a-zA-Z0-9]{6}$/;
+        return entryCodeRegex.test(value);
+    }
 }
 
 export function validateSonglink(value: string): Function {
-    return () => validate("songlink", value);
+    return () => {
+        if (value.length === 0) {
+            return true;
+        }
+
+        const youtubeLinkRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(-nocookie)?\.com|youtu.be)(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
+        const soundcloudLinkRegex = /^https?:\/\/(www\.|m\.)?soundcloud\.com\/[a-z0-9](?!.*?[-_]{2})[\w-]{1,23}[a-z0-9](?:\/.+)?$/;
+
+        return youtubeLinkRegex.test(value) || soundcloudLinkRegex.test(value);
+    }
+}
+
+export function validateEmail(value: string) {
+    return () => {
+        if (value.length === 0) {
+            return true;
+        }
+
+        const emailRegex = /^[^.\s][\w\-]+(\.[\w\-]+)*@([\w-]+\.)+[\w-]{2,}$/;
+        return emailRegex.test(value);
+    }
 }
 
 export const ValidationPlugin: Plugin = {
@@ -59,6 +78,7 @@ export const ValidationPlugin: Plugin = {
         app.config.globalProperties.$validateUsername = validateUsername;
         app.config.globalProperties.$validatePassword = validatePassword;
         app.config.globalProperties.$validateEntryCode = validateEntryCode;
+        app.config.globalProperties.$validateEmail = validateEmail;
         app.provide('validationPlugin', {});
     },
 };

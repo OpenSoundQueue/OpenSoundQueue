@@ -1,11 +1,11 @@
 export class User {
     private readonly _id: number;
     private readonly _username: string;
-    private readonly _lastOnline: Date;
-    private readonly _email: string;
-    private readonly _role: string;
+    private readonly _lastOnline: Date | undefined;
+    private readonly _email: string | undefined;
+    private readonly _role: string | undefined;
 
-    constructor(id: number, username: string, lastOnline: Date, email: string, role: string) {
+    constructor(id: number, username: string, lastOnline?: Date, email?: string, role?: string) {
         this._id = id;
         this._username = username;
         this._lastOnline = lastOnline;
@@ -16,19 +16,20 @@ export class User {
     get id(): number {
         return this._id;
     }
+
     get username(): string {
         return this._username;
     }
 
-    get lastOnline(): Date {
+    get lastOnline(): Date | undefined {
         return this._lastOnline;
     }
 
-    get email(): string {
+    get email(): string | undefined {
         return this._email;
     }
 
-    get role(): string {
+    get role(): string | undefined {
         return this._role;
     }
 }

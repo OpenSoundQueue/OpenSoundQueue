@@ -34,7 +34,7 @@ public class SongImplYoutube implements Song {
     public int getCurrentTime() {
         if (this.clip == null) {
             LOG.warn("Song has not been started yet and therefore cannot return the current time!");
-            return -1;
+            return 0;
         } else {
             return (int)this.clip.getMicrosecondPosition()/1_000;
         }

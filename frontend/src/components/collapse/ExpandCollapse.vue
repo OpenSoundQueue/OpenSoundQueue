@@ -3,7 +3,7 @@
    <div class="open-close-container drop-shadow" @click="toggleCollapse">
      <div class="label">{{ label }}</div>
      <div class="icon">
-       <img alt="arrow down" :style="{transform: `rotate(${isCollapsed ? 180 : 0}deg)`}" src="@/assets/icons/arrows/keyboard_arrow_down.svg">
+       <img :alt="$translate('altTexts.arrowDown')" :style="{transform: `rotate(${isCollapsed ? -90 : 0}deg)`}" src="@/assets/icons/arrows/keyboard_arrow_down.svg">
      </div>
    </div>
    <div class="collapse-container" v-show="!isCollapsed">

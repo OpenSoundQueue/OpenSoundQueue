@@ -1,6 +1,12 @@
 <template>
-  <main>
-    <div class="user-container">
+  <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
+    <nav v-show="hasAllManagementPermissions">
+      <div class="mode-switcher" >
+        <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
+        <router-link to="/admin/users" class="link">{{ translate('adminPage.nav.users') }}</router-link>
+      </div>
+    </nav>
+    <div class="role-container">
       <div class="table-header">
         <SortingButton class="username" :label="$translate('adminPage.tableHeader.username')"
                        @update:sortingStatus="updateSorting('username',$event)"></SortingButton>
@@ -21,6 +27,7 @@
     </div>
     <UserDetail class="detail-container" :user="selectedUser" :selfID="selfID"
                 @update:Users="updateUsers($event)"></UserDetail>
+    <GridBackground/>
   </main>
 </template>
 
@@ -31,6 +38,9 @@ import {computed, onMounted, ref} from "vue";
 import {User} from "@/models/User";
 import SortingButton from "@/components/buttons/SortingButton.vue";
 import UserDetail from "@/components/UserDetail.vue";
+import GridBackground from "@/components/background/GridBackground.vue";
+import {PermissionService} from "@/services/PermissionService";
+import {translate} from "@/plugins/TranslationPlugin";
 
 type SortingDirection = 'asc' | 'desc' | 'none';
 type SortingMetric = {
@@ -42,7 +52,14 @@ const httpService = new HttpService();
 const users: Ref<Array<User>> = ref([]);
 const selfID = ref(0);
 const selectedID = ref(0);
-const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"})
+const sortingMetric: Ref<SortingMetric> = ref({attributeName: "username", direction: "none"});
+const hasAllManagementPermissions = ref(false);
+
+onMounted(async ()=>{
+  await PermissionService.getPermissions();
+
+  hasAllManagementPermissions.value = PermissionService.hasAllPermissions(["MANAGE_ROLES","MANAGE_USER"])
+})
 
 const selectedUser = computed(() => {
   return users.value.find((user) => user.id === selectedID.value);
@@ -104,6 +121,7 @@ function sortUsers(usersArray: User[], attributeName: string, direction: 'asc' |
     const bValue = b[attributeName as keyof User];
 
     if (direction === 'none') return 0;
+    if (aValue == undefined || bValue === undefined) return 0;
 
     if (direction === 'asc') {
       if (aValue < bValue) return -1;
@@ -133,6 +151,40 @@ main {
   padding-top: 20px;
 }
 
+nav {
+  height: 60px;
+}
+
+.mode-switcher {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  height: 35px;
+}
+
+.link {
+  height: 35px;
+  box-sizing: border-box;
+  width: 100%;
+  background: var(--background-color);
+  border: 3px solid var(--secondary-color);
+  color: var(--text-color);
+  font-size: var(--font-size-medium);
+  border-radius: var(--border-radius-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.link.router-link-active {
+  color: var(--background-color);
+  border-color: var(--tertiary-color);
+  background: var(--tertiary-color);
+  font-weight: bold;
+}
+
 .dot {
   height: 5px;
   aspect-ratio: 1/1;
@@ -142,7 +194,7 @@ main {
   margin-right: 5px;
 }
 
-.user-container {
+.role-container {
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
@@ -231,6 +283,12 @@ main {
   text-overflow: ellipsis;
 }
 
+@media screen and (min-width: 420px) {
+  nav {
+    width: 270px;
+  }
+}
+
 @media screen and (min-width: 800px) {
   main {
     width: 750px;
@@ -242,8 +300,20 @@ main {
     width: 1250px;
     display: grid;
     grid-template-columns: 66% 33%;
-    grid-template-rows: 60px calc(100% - 90px);
+    grid-template-rows: calc(100% - 30px);
   }
+
+  main.show-mode-switcher {
+     grid-template-rows: 60px calc(100% - 90px);
+
+     .role-container {
+       grid-row: 2;
+     }
+
+     .detail-container {
+       grid-row: 2;
+     }
+   }
 
   .email {
     display: flex;
@@ -251,12 +321,12 @@ main {
 
   .detail-container {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1;
   }
 
-  .user-container {
+  .role-container {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);

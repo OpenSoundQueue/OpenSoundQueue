@@ -2,10 +2,10 @@
   <main>
     <div class="settings-wrapper">
       <div class="settings-nav">
-        <img @click="goToHome" class="back" src="@/assets/icons/arrows/arrow_back.svg">
+        <img @click="goToHome" class="back" src="@/assets/icons/arrows/arrow_back.svg" :alt="$translate('altTexts.arrowBack')">
       </div>
       <div class="settings-header">
-        <img src="@/assets/icons/settings.svg">
+        <img src="@/assets/icons/settings.svg" :alt="$translate('altTexts.settings')">
         <h1>{{ $translate('settings')}}</h1>
       </div>
       <Select :label="$translate('language')"

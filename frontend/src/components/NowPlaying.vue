@@ -2,12 +2,14 @@
   <div class="now-playing-wrapper">
     <div class="title-artist-wrapper">
       <div class="title-container">
-        <div v-if="currentSong" class="title">{{ currentSong?.title }}</div>
-        <div v-else class="skeleton"></div>
+        <div v-if="!currentSong && !isPlaying">{{ $translate('currentSongEmpty') }}</div>
+        <div v-else-if="!currentSong" class="skeleton"></div>
+        <div v-else class="title">{{ currentSong?.title }}</div>
       </div>
       <div class="artist-container">
-        <div v-if="currentSong" class="artist">{{ currentSong?.artist }}</div>
-        <div v-else class="skeleton"></div>
+        <div v-if="!currentSong && !isPlaying" class="artist"/>
+        <div v-else-if="!currentSong" class="skeleton"></div>
+        <div v-else class="artist">{{ currentSong?.artist }}</div>
       </div>
     </div>
     <ProgressBar :label-left="getCurrentTime"
@@ -21,45 +23,27 @@
 
 <script setup lang="ts">
 import ProgressBar from "@/components/ProgressBar.vue";
-import {HttpService} from "@/services/HttpService";
-import {computed, onMounted, ref} from "vue";
+import {computed} from "vue";
 import {Song} from "@/models/Song";
 
-import type {Ref} from "vue";
-
 const props = defineProps<{
-  updateInterval: number
+  currentSong?: Song
+  currentTime: number,
+  progress: number,
+  isPlaying: boolean
 }>();
 
-const progress = ref(0);
-const currentTime = ref(0);
-const currentSong: Ref<Song | undefined> = ref();
-const httpService = new HttpService();
-
-onMounted(() => {
-  setInterval(getTime, props.updateInterval);
-});
-
 const getCurrentTime = computed(() => {
-  return secondsToTimeString(currentTime.value);
+  return secondsToTimeString(props.currentTime);
 });
 
 const getDuration = computed(() => {
-  if (currentSong.value) {
-    return secondsToTimeString(currentSong.value?.duration);
+  if (props.currentSong) {
+    return secondsToTimeString(props.currentSong.duration);
   } else {
     return "0:00";
   }
 });
-
-function getTime() {
-  httpService.getNowPlaying().then(data => {
-    currentSong.value = data.song;
-
-    currentTime.value = (data.time + Date.now() - data.stamp) / 1000;
-    progress.value = (data.time + Date.now() - data.stamp) / 10 / data.song.duration;
-  })
-}
 
 function secondsToTimeString(time: number): string {
   const minutes = Math.floor(time / 60);

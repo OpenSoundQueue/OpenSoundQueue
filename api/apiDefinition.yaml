@@ -10,6 +10,7 @@ paths:
     post:
       tags:
         - public
+        - login
       description: User logs in (private & requireAuth)
       security:
         - { }
@@ -46,6 +47,7 @@ paths:
     post:
       tags:
         - public
+        - login
       description: User logs in (private & no auth)
       security:
         - { }
@@ -81,6 +83,7 @@ paths:
     post:
       tags:
         - public
+        - login
       description: User logs in (public & requireAuth)
       security:
         - { }
@@ -110,6 +113,7 @@ paths:
     post:
       tags:
         - public
+        - login
       description: User logs in (public & no auth)
       security:
         - { }
@@ -134,10 +138,112 @@ paths:
             application/json:
               example:
                 error: Username already taken
+  /logout:
+    post:
+      tags:
+        - auth
+        - login
+        - user
+      description: Logs a user out
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        201:
+          description: user logged out
+        401:
+          description: Invalid API key
+          content:
+            application/json:
+              example:
+                error: Invalid API key
+  /register/create-account:
+    post:
+      tags:
+        - public
+        - register
+        - user
+      description: Endpoint for the registration form
+      requestBody:
+        required: true
+        description: Registration form
+        content:
+          application/json:
+            schema:
+              example:
+                username: WizMarki
+                email: wizmarki@gmail.com
+                password: 1!MarkiWiz
+      responses:
+        201:
+          description: user id of the created user
+          content:
+            application/json:
+              example:
+                id: 51
+        400:
+          description: email is already taken
+          content:
+            application/json:
+              example:
+                error: Email address is already taken
+  /register/verify:
+    post:
+      tags:
+        - public
+        - register
+        - user
+      description: Verifies if the email is owned by the user by checking the verification code
+      requestBody:
+        required: true
+        description: email and user id
+        content:
+          application/json:
+            schema:
+              example:
+                code: asdfAFDasdfaw324324
+                email: wizamrk@gmail.com
+      responses:
+        201:
+          description: account verified
+          content:
+            application/json:
+              example:
+                apiKey: Lu9Tc1Pdola+SOnfPUxEkoKYuQLdjmsMK89uxT+RrrVegf1xQOI6Mpv5IXrYX6CVsukFLhwGzNH/zLMsuoBSbQ==
+        400:
+          description: verification code is wrong
+          content:
+            application/json:
+              example:
+                error: verification code is wrong
+  /register/resend-email:
+    post:
+      tags:
+        - public
+        - register
+        - user
+      description: Sends another email verification
+      requestBody:
+        required: true
+        description: email of user
+        content:
+          application/json:
+            schema:
+              example:
+                email: wizamrk@gmail.com
+      responses:
+        200:
+          description: email sent
+        400:
+          description: email does not exist
+          content:
+            application/json:
+              example:
+                error: email does not exist
   /verify/api-key:
     get:
       tags:
         - auth
+        - verify
       description: Checks if the user's set API key is valid.
       security:
         - ApiKeyAuth: [ ]
@@ -154,6 +260,7 @@ paths:
     get:
       tags:
         - public
+        - verify
       description: Checks validation of entry key
       requestBody:
         required: true
@@ -176,6 +283,7 @@ paths:
     get:
       tags:
         - public
+        - queue
       description: receive a page of the queue with default page size
       parameters:
         - in: path
@@ -220,6 +328,7 @@ paths:
     get:
       tags:
         - public
+        - queue
       description: receive a page of the queue with custom page size
       parameters:
         - in: path
@@ -271,6 +380,7 @@ paths:
     get:
       tags:
         - public
+        - queue
       description: returns all songs that are in the queue
       responses:
         200:
@@ -296,11 +406,11 @@ paths:
                       title: Industry Baby
         400:
           description: something did not work
-
   /queue/add:
     post:
       tags:
         - auth
+        - queue
       description: use a song link to add a song to the queue
       requestBody:
         content:
@@ -329,6 +439,7 @@ paths:
     get:
       tags:
         - public
+        - queue
       description: receive the song that is currently playing and metadata of it
       responses:
         200:
@@ -355,6 +466,7 @@ paths:
     get:
       tags:
         - auth
+        - skip
       description: receives the status of the vote skip for the playing song
       responses:
         200:
@@ -377,6 +489,7 @@ paths:
     get:
       tags:
         - auth
+        - skip
       description: requests vote for the current vote skip
       responses:
         200:
@@ -399,6 +512,7 @@ paths:
     get:
       tags:
         - auth
+        - skip
       description: withdraws the vote for the current vote skip
       responses:
         200:
@@ -421,6 +535,7 @@ paths:
     get:
       tags:
         - auth
+        - queue
       description: fuzzy search history
       parameters:
         - in: path
@@ -474,6 +589,7 @@ paths:
     get:
       tags:
         - auth
+        - user
       description: returns all users that are in the queue
       responses:
         200:
@@ -484,6 +600,11 @@ paths:
                 - id: 1
                   username: Quantompixel
                   lastOnline: 2011-10-05T14:48:00.000Z
+                  roles:
+                    - id: 2
+                      name: FancyRole
+                    - id: 3
+                      name: Admin
                 - id: 2
                   username: Daniel
                   lastOnline: 2013-07-08T14:48:00.000Z
@@ -501,6 +622,7 @@ paths:
     delete:
       tags:
         - auth
+        - user
       description: delete a user
       parameters:
         - in: path
@@ -533,10 +655,79 @@ paths:
               schema:
                 example:
                   error: user with <id> not found
+  /user/{id}/roles:
+    patch:
+      tags:
+        - auth
+        - user
+      description: edit roles of a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                - id: 1
+                  name: basic
+                - id: 2
+                  name: admin
+                - id: 3
+                  name: muted
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 2
+          required: true
+          description: Id of user
+      responses:
+        201:
+          description: roles of user have been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  - id: 1
+                    name: basic
+                  - id: 2
+                    name: admin
+                  - id: 3
+                    name: muted
+        400:
+          description: user does not exist
+          content:
+            application/json:
+              schema:
+                example:
+                  error: user does not exist
+  /user/permissions:
+    get:
+      tags:
+        - auth
+        - user
+      description: get the permissions of user
+      responses:
+        200:
+          description: returns permissions of user
+          content:
+            application/json:
+              schema:
+                example:
+                  - skip: true
+                  - play: false
+                  - viewAdminPanel: false
+        400:
+          description: user with token not found
+          content:
+            application/json:
+              schema:
+                example:
+                  error: user with <token> not found
   /queue/change-order:
     patch:
       tags:
         - auth
+        - queue
       description: Change order of songs
       requestBody:
         content:
@@ -578,6 +769,7 @@ paths:
       post:
         tags:
           - auth
+          - queue
         description: Start the queue
         responses:
           202:
@@ -593,6 +785,7 @@ paths:
     post:
       tags:
         - auth
+        - queue
       description: Stop the queue
       responses:
         202:
@@ -604,17 +797,52 @@ paths:
               schema:
                 example:
                   error: could not stop the queue
-  /queue/volume:
+  /queue/skip:
     post:
       tags:
         - auth
+        - queue
+      description: Skip the current song
+      responses:
+        202:
+          description: Song has been skipped
+        400:
+          description: Could not skip the song
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Could not skip the song
+  /queue/replay:
+    post:
+      tags:
+        - auth
+        - queue
+      description: Restart the current song
+      responses:
+        202:
+          description: Song has been replayed
+        400:
+          description: Could not replay the song
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Could not replay the song
+  /queue/volume/{volume}:
+    post:
+      tags:
+        - auth
+        - queue
       description: Change the volume (value between 0 and 100)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              example:
-                volume: 75
+      parameters:
+        - in: path
+          name: volume
+          schema:
+            type: integer
+            example: 75
+          required: true
+          description: the new volume of the queue
       responses:
         200:
           description: Volume has been changed
@@ -634,6 +862,7 @@ paths:
     get:
       tags:
         - auth
+        - queue
       description: Get the current volume
       responses:
         200:
@@ -654,6 +883,7 @@ paths:
     get:
       tags:
         - auth
+        - user
       description: get the data of the own user
       responses:
         200:
@@ -672,36 +902,401 @@ paths:
               schema:
                 example:
                   error: did not find user
-  /skip:
+  /role/create:
     post:
       tags:
         - auth
-      description: skip to the next song
+        - role/permission
+      description: create a new role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                name: FancyRole
+                permissions:
+                  - skip: true
+                  - play: false
+                  - viewAdminPanel: false
       responses:
-        200:
-          description: song has been skipped
-        400:
-          description: skip failed
+        201:
+          description: new role has been created
           content:
             application/json:
               schema:
                 example:
-                  error: skip failed
-  /replay:
-    post:
-      tags:
-        - auth
-      description: replay current song
-      responses:
-        200:
-          description: song is being replayed
+                  id: 2
+                  name: FancyRole
+                  permissions:
+                    - skip: true
+                    - play: false
+                    - viewAdminPanel: false
+                  member:
+                    - name: Luki
+                      id: 1
+                    - name: Dani
+                      id: 2
         400:
-          description: replay failed
+          description: a role with this name already exists
           content:
             application/json:
               schema:
                 example:
-                  error: replay failed
+                  error: a role with this name already exists
+  /permissions:
+    get:
+      tags:
+        - auth
+        - role/permission
+      description: get all existing permissions
+      responses:
+        200:
+          description: all existing permissions
+          content:
+            application/json:
+              schema:
+                example:
+                  - "skip"
+                  - "play"
+                  - "viewAdminPanel"
+        401:
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  error: unauthorized
+  /roles:
+    get:
+      tags:
+        - auth
+        - role/permission
+      description: get all existing roles
+      responses:
+        200:
+          description: all existing roles
+          content:
+            application/json:
+              schema:
+                example:
+                  - id: 1
+                    name: Quantompixel
+                    permissions:
+                      - skip: true
+                      - play: false
+                      - viewAdminPanel: false
+                  - id: 2
+                    name: Daniel
+                    permissions:
+                      - skip: true
+                      - play: false
+                      - viewAdminPanel: false
+                  - id: 3
+                    name: Markus
+                    permissions:
+                      - skip: true
+                      - play: false
+                      - viewAdminPanel: false
+        401:
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  error: unauthorized
+  /role/get/{id}:
+    get:
+      tags:
+        - auth
+        - role/permission
+      description: get a role
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 2
+          required: true
+          description: Id of role
+      responses:
+        200:
+          description: returns a roles
+          content:
+            application/json:
+              schema:
+                example:
+                  - id: 1
+                    name: admin
+                    permissions:
+                      - skip: true
+                      - play: false
+                      - viewAdminPanel: false
+                    member:
+                      - name: Luki
+                        id: 1
+                      - name: Dani
+                        id: 2
+        400:
+          description: role with id not found
+          content:
+            application/json:
+              schema:
+                example:
+                  error: role with <id> not found
+  /role/{id}:
+    delete:
+      tags:
+        - auth
+        - role/permission
+      description: delete a role
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 2
+          required: true
+          description: Id of role
+      responses:
+        200:
+          description: returns updated version of all roles
+          content:
+            application/json:
+              schema:
+                example:
+                  - id: 1
+                    name: Quantompixel
+                  - id: 2
+                    name: Daniel
+                  - id: 3
+                    name: Markus
+        400:
+          description: role with id not found
+          content:
+            application/json:
+              schema:
+                example:
+                  error: role with <id> not found
+  /role/edit:
+    patch:
+      tags:
+        - auth
+        - role/permission
+      description: edit a role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                id: 2
+                name: FancyRole
+                permissions:
+                  - skip: true
+                  - play: false
+                  - viewAdminPanel: false
+                members:
+                  - id: 1
+                    name: Markus
+                  - id: 2
+                    name: Lukas
+      responses:
+        201:
+          description: role has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 2
+                  name: FancyRoleUpdated
+                  permissions:
+                    - skip: true
+                    - play: false
+                    - viewAdminPanel: false
+                  member:
+                    - name: Luki
+                      id: 1
+                    - name: Dani
+                      id: 2
+        400:
+          description: role does not exist
+          content:
+            application/json:
+              schema:
+                example:
+                  error: role does not exist
+  /system/language/set/{language}:
+    patch:
+      tags:
+        - system
+      description: change default language
+      parameters:
+        - in: path
+          name: language
+          schema:
+            type: string
+            example: DE
+          required: true
+          description: abbreviation of language
+      responses:
+        201:
+          description: default language has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+  /system/language:
+    get:
+      tags:
+        - system
+      description: get default language
+      responses:
+        200:
+          description: default language
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+  /system/privacy/set:
+    patch:
+      tags:
+        - system
+      description: change privacy setting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                is-private: true
+                entry-code: Schodl
+      responses:
+        201:
+          description: default language has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  is-private: true
+                  entry-code: Schodl
+  /system/privacy:
+    get:
+      tags:
+        - system
+      description: get privacy setting
+      responses:
+        200:
+          description: privacy setting
+          content:
+            application/json:
+              schema:
+                example:
+                  is-private: true
+                  entry-code: Schodl
+  /system/email-auth/set/{email-auth}:
+    patch:
+      tags:
+        - system
+      description: change email auth setting
+      parameters:
+        - in: path
+          name: email-auth
+          schema:
+            type: boolean
+            example: true
+          required: true
+          description: is email auth
+      responses:
+        201:
+          description: email auth has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  email-auth: true
+  /system/email-auth:
+    get:
+      tags:
+        - system
+      description: get email auth
+      responses:
+        200:
+          description: email auth
+          content:
+            application/json:
+              schema:
+                example:
+                  email-auth: true
+  /system/sources/set:
+    patch:
+      tags:
+        - system
+      description: change sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                sources: ["youtube", "soundcloud"]
+      responses:
+        201:
+          description: sources has been updated
+          content:
+            application/json:
+              schema:
+                example:
+                  - "youtube"
+                  - "soundcloud"
+  /system/sources:
+    get:
+      tags:
+        - system
+      description: get sources
+      responses:
+        200:
+          description: supported sources
+          content:
+            application/json:
+              schema:
+                example:
+                  - "youtube"
+                  - "soundcloud"
+  /system/supported-sources:
+    get:
+      tags:
+        - system
+      description: get all supported sources
+      responses:
+        200:
+          description: supported sources
+          content:
+            application/json:
+              schema:
+                example:
+                  - "youtube"
+                  - "soundcloud"
+                  - "apple music"
+  /system/installation-state:
+    get:
+      tags:
+        - system
+      description: get installation status
+      responses:
+        200:
+          description: installation status
+          content:
+            application/json:
+              schema:
+                example:
+                  finished: true
+  /system/installation-state/complete:
+    patch:
+      tags:
+        - system
+      description: set installation status to complete
+      responses:
+        200:
+          description: installation status set to complete
 components:
   securitySchemes:
     ApiKeyAuth:

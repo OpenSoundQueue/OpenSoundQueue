@@ -7,4 +7,7 @@ public interface SongServiceInterface {
     void close(Song song);
     void downloadDependencies(Song song);
     SongInfo getInfos(Song song);
+    void replay(Song song);
+    void changeVolume(Song song, int volume);
+    int getVolume(Song song);
 }

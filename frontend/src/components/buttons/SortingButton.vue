@@ -3,15 +3,15 @@
     <p>{{ props.label }}</p>
     <div class="arrow-container">
       <img v-show="sortingOptions[sortingStatus] !== 'desc'" class="arrow"
-           src="@/assets/icons/arrows/keyboard_arrow_up.svg"/>
+           src="@/assets/icons/arrows/keyboard_arrow_up.svg" :alt="$translate('altTexts.sortingArrowUp')"/>
       <img v-show="sortingOptions[sortingStatus] !== 'asc'" class="arrow"
-           src="@/assets/icons/arrows/keyboard_arrow_down.svg"/>
+           src="@/assets/icons/arrows/keyboard_arrow_down.svg" :alt="$translate('altTexts.sortingArrowDown')"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {ref} from "vue";
 
 const sortingOptions = ["none", "desc", "asc"];
 const sortingStatus = ref(0);

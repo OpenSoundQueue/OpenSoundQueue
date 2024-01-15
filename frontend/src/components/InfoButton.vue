@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" v-closable="{excluded: [], handler: collapse}">
-    <img src="@/assets/icons/help.svg" ref="help" @click="toggleCollapse">
+    <img src="@/assets/icons/help.svg" ref="help" @click="toggleCollapse" :alt="$translate('altTexts.help')">
     <div v-show="!isCollapsed" class="info-container" ref="info">
       <p>
         <slot></slot>
@@ -97,12 +97,13 @@ function updateValues() {
 
 <style scoped>
 .wrapper {
+  user-select: none;
   position: relative;
   height: 24px;
   width: 24px;
 }
 
-.wrapper:hover {
+.img:hover {
   cursor: pointer;
 }
 
@@ -117,8 +118,8 @@ img {
   padding: var(--font-size-small);
   background-color: var(--secondary-color);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  z-index: 9999;
   box-sizing: border-box;
+  z-index: 4;
 }
 
 .info-container > * {

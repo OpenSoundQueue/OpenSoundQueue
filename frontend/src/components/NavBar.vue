@@ -1,25 +1,26 @@
 <template>
   <div class="navbar-wrapper">
     <nav class="navbar">
-      <div @click="toggleMenu" class="open-button mobile">
+      <div @click="navIsOpen = true" class="open-button mobile">
         <div>
-          <img src="@/assets/menu/menu.svg"/>
+          <img src="@/assets/menu/menu.svg" :alt="$translate('altTexts.menu')"/>
         </div>
       </div>
       <div class="logo-container">
         <router-link to="/">
-          <img class="logo" src="@/assets/menu/logo.svg">
+          <img class="logo" src="@/assets/menu/logo.svg" :alt="$translate('altTexts.logo')">
         </router-link>
       </div>
-      <div class="menu" :class="{opened: menuIsOpen, closed: !menuIsOpen}" v-closable="{excluded: [], handler: collapse}">
-        <div @click="toggleMenu" class="close-button mobile">
-          <img src="@/assets/menu/close.svg"/>
+      <div class="menu" :class="{opened: navIsOpen, closed: !navIsOpen}" v-closable="{excluded: [], handler: () => navIsOpen = false}">
+        <div @click="navIsOpen = false" class="close-button mobile">
+          <img src="@/assets/menu/close.svg" :alt="$translate('altTexts.close')"/>
         </div>
         <div class="links">
           <div class="quick-nav-links">
             <Link path="/" :label="$translate('navBar.public')" :is-outer-area="!userIsInPublicArea"/>
             <Link path="/home" :label="$translate('navBar.home')" :is-outer-area="userIsInPublicArea"/>
             <Link path="/settings" :label="$translate('navBar.settings')" :is-outer-area="userIsInPublicArea"/>
+            <Link v-show="hasAdminPermissions" path="/admin" :label="$translate('navBar.admin')" :is-outer-area="userIsInPublicArea"/>
           </div>
           <div class="other-nav-links">
             <Link path="https://opensoundqueue.org/" :label="$translate('navBar.project')" :is-external="true"/>
@@ -27,10 +28,13 @@
           </div>
         </div>
       </div>
-      <div class="user-button">
-        <img src="@/assets/icons/user.svg"/>
+      <div class="user-button" @click="userMenuIsOpen = true">
+        <img src="@/assets/icons/user.svg" :alt="$translate('altTexts.user')"/>
       </div>
     </nav>
+    <div v-show="userMenuIsOpen" v-closable="{exclude: [], handler: () => userMenuIsOpen = false}">
+      <UserMenu @close="() => userMenuIsOpen = false"/>
+    </div>
   </div>
 </template>
 
@@ -38,30 +42,28 @@
 import Link from "@/components/Link.vue";
 import {onMounted, ref, watch} from "vue";
 import router from "@/router";
+import UserMenu from "@/components/UserMenu.vue";
+import {PermissionService} from "@/services/PermissionService";
 
-const menuIsOpen = ref(false);
+const navIsOpen = ref(false);
+const userMenuIsOpen = ref(false);
 const userIsInPublicArea = ref(true);
+const hasAdminPermissions = ref(false);
 
 watch(router.currentRoute, () => {
   determineArea();
 
-  collapse();
+  navIsOpen.value = false;
 })
 
-onMounted(() => {
+onMounted(async () => {
   determineArea();
+  await PermissionService.getPermissions();
+  hasAdminPermissions.value = PermissionService.hasAnyPermission(["MANAGE_ROLES","MANAGE_USER"]);
 })
 
 function determineArea() {
   userIsInPublicArea.value = router.currentRoute.value.name === "public";
-}
-
-function toggleMenu() {
-  menuIsOpen.value = !menuIsOpen.value;
-}
-
-function collapse() {
-  menuIsOpen.value = false;
 }
 </script>
 
@@ -72,7 +74,7 @@ function collapse() {
   height: 60px;
   width: 100%;
   border-bottom: 2px var(--dark-gray) solid;
-  z-index: 2;
+  z-index: 3;
   background: var(--background-color);
   display: flex;
 }

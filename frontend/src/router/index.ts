@@ -6,6 +6,14 @@ import SettingsView from "@/views/SettingsView.vue";
 import {HttpService} from "@/services/HttpService";
 import UserManagementView from "@/views/UserManagementView.vue";
 import * as cookieService from "@/services/cookieService";
+import {PopUpService} from "@/services/PopUpService";
+import {translate} from "@/plugins/TranslationPlugin";
+import {ToastService} from "@/services/ToastService";
+import RegistrationView from "@/views/RegistrationView.vue";
+import RoleManagementView from "@/views/RoleManagementView.vue";
+import {PermissionService} from "@/services/PermissionService";
+import type {PermissionType} from "@/services/PermissionService";
+import InstallationView from "@/views/InstallationView.vue";
 
 const httpService = new HttpService();
 
@@ -17,15 +25,47 @@ const router = createRouter({
             name: 'public',
             component: PublicView,
             meta: {
-                requiresNoCookie: true
+                requiresAuth: false
             }
         },
         {
             path: '/home',
             name: 'home',
-            component: HomeView,
+            children: [
+                {
+                    path: '',
+                    name: 'default',
+                    component: HomeView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'basic',
+                    name: 'basic',
+                    component: HomeView,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'advanced',
+                    name: 'advanced',
+                    component: HomeView,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["PAUSE_PLAY", "CHANGE_VOLUME", "CHANGE_ORDER", "DELETE_SONGS", "SKIP"]
+                    }
+                }
+            ],
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginView,
+            props: false,
             meta: {
-                requiresAuth: true
+                requiresAuth: false
             }
         },
         {
@@ -35,11 +75,11 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/login',
-            name: 'login',
-            component: LoginView,
+            path: '/register',
+            name: 'register',
+            component: RegistrationView,
             meta: {
-                requiresNoCookie: true
+                requiresAuth: false
             }
         },
         {
@@ -51,14 +91,135 @@ const router = createRouter({
             }
         },
         {
-            path: "/admin/user-management",
-            name: "user-management",
-            component: UserManagementView,
-            meta: {
-                requiresAuth: true
-            }
-        }
+            path: "/installation",
+            name: "installation",
+            redirect: "/installation/language",
+            children: [
+                {
+                    path: "language",
+                    name: "language",
+                    component: InstallationView,
+                },
+                {
+                    path: "register",
+                    name: "registration",
+                    component: InstallationView,
+                },
+                {
+                    path: "privacy",
+                    name: "privacy",
+                    component: InstallationView,
+                },
+                {
+                    path: "sources",
+                    name: "sources",
+                    component: InstallationView,
+                }
+            ]
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            children: [
+                {
+                    path: '',
+                    name: 'redirect',
+                    component: RoleManagementView,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES", "MANAGE_USER"]
+                    }
+                },
+                {
+                    path: 'roles',
+                    name: 'roles',
+                    component: RoleManagementView,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
+                    }
+                },
+                {
+                    path: 'roles/display/:roleId',
+                    name: 'roles-display',
+                    component: RoleManagementView,
+                    props: true,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
+                    }
+                },
+                {
+                    path: 'roles/members/:roleId',
+                    name: 'roles-members',
+                    component: RoleManagementView,
+                    props: true,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
+                    }
+                },
+                {
+                    path: 'roles/permissions/:roleId',
+                    name: 'roles-permissions',
+                    component: RoleManagementView,
+                    props: true,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_ROLES"]
+                    }
+                },
+                {
+                    path: 'users',
+                    name: 'users',
+                    component: UserManagementView,
+                    meta: {
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_USER"]
+                    }
+                }
+
+            ]
+        },
     ]
+})
+
+// checks if installation is finished and redirects to installation if needed
+router.beforeEach(async (to, from, next) => {
+    await httpService.getInstallationState()
+        .then(data => {
+            const finished:boolean = data.finished == "true";
+            const isInstallationPath = to.matched.some(record => record.path.includes("installation"));
+
+            if (!finished) {
+                if (isInstallationPath) {
+                    next();
+                    return;
+                } else {
+                    next({
+                        path: '/installation'
+                    })
+                    return;
+                }
+            } else {
+                if (isInstallationPath) {
+                    next({
+                        path: '/home'
+                    })
+                    return;
+                } else {
+                    next();
+                    return;
+                }
+            }
+
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
+            next({
+                path: '/installation'
+            })
+        });
 })
 
 // runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
@@ -66,45 +227,93 @@ const router = createRouter({
 // if so the request is permitted, else the user gets redirected to the '/login' path
 
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        await httpService.getVerifyApiKey(cookieService.getApiKey())
-            .then(() => {
-                next()
-            })
-            .catch(() => {
-                cookieService.clearApiKey();
-                next({
-                    path: '/login'
-                })
-            })
-    } else {
-        next()
+    if (!to.matched.some(record => record.meta.requiresAuth)) {
+        next();
+        return;
     }
+
+    await httpService.getVerifyApiKey(cookieService.getApiKey())
+        .then(async () => {
+            for (const record of to.matched) {
+
+                if (record.meta.requiresPermission) {
+
+                    await PermissionService.getPermissions();
+                    const permissions = <PermissionType[]>record.meta.requiresPermission;
+
+                    if (PermissionService.hasAnyPermission(permissions)) {
+                        next();
+                    } else {
+                        next({
+                            path: '/home'
+                        })
+                    }
+                    return;
+                }
+            }
+            next();
+            return;
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
+            next({
+                path: '/login'
+            })
+        });
 })
 
-// runs on all path requests which have the meta-tag 'requiresNoCookie' set to 'true'
+// runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
 // checks if there is not sessionKey or the stored sessionKey is invalid
 // if so the request is permitted, else the user gets redirected to the '/map' path
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresNoCookie)) {
-        if (document.cookie.indexOf('sessionKey=') > -1) {
-            await httpService.getVerifyApiKey(cookieService.getApiKey())
-                .then(() => {
-                    next({
-                        path: '/home'
-                    })
-                })
-                .catch(() => {
-                    cookieService.clearApiKey();
-                    next()
-                })
-        } else {
-            next()
-        }
-    } else {
-        next()
+    if (Object.keys(to.meta).length==0){
+        next();
+        return;
     }
-})
 
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        next();
+        return;
+    }
+
+    if (!cookieService.getApiKey()) {
+        next();
+        return;
+    }
+
+    await httpService.getVerifyApiKey(cookieService.getApiKey())
+        .then(async () => {
+            PopUpService.openPopUp(translate("logout.callToAction"), translate("logout.buttonLabel"));
+
+            const userAction = await PopUpService.waitForUserAction();
+
+            if (userAction === "accepted") {
+                await httpService.postLogout(cookieService.getApiKey())
+                    .then(() => {
+                        ToastService.sendNotification(translate('logout.success'), "success", 3000);
+
+                        next();
+                    })
+                    .catch(() => {
+                        ToastService.sendNotification(translate('logout.error'), "error", 3000);
+                        if (from.name) {
+                            next(false);
+                        } else {
+                            next({path: "/home"});
+                        }
+                    });
+            } else {
+                if (from.name) {
+                    next(false);
+                } else {
+                    next({path: "/home"});
+                }
+            }
+        })
+        .catch(() => {
+            cookieService.clearApiKey();
+            next()
+        });
+})
 
 export default router

@@ -1,13 +1,13 @@
 <template>
   <div class="footer-wrapper">
     <div class="footer-container">
-      <img class="logo" src="@/assets/logo/logo_and_text.svg">
+      <img class="logo" src="@/assets/logo/logo_and_text.svg" :alt="$translate('altTexts.logoAndText')">
       <div class="body-container">
         <div class="link-container">
           <router-link to="/imprint">GitHub</router-link>
           <router-link to="/imprint">{{ $translate("documentation") }}</router-link>
           <router-link to="/imprint">{{ $translate("team") }}</router-link>
-          <router-link to="/imprint">{{ $translate("imprint") }}</router-link>
+          <a href="https://opensoundqueue.org/imprint" target="_blank">{{ $translate("imprint") }}</a>
           <router-link to="/imprint">{{ $translate("about") }}</router-link>
         </div>
       </div>

@@ -1,45 +1,34 @@
 <template>
-  <div class="history-search-wrapper">
-    <div class="input-container">
-      <InputField input-type="text"
-                  v-model="searchTerm"
-                  @user-input="data => processChange(data)"
-                  :placeholder="$translate('historySearch.searchInHistory')"
-                  :custom-icon="true"
-      >
-        <template #icon>
-          <img src="@/assets/icons/input/search.svg">
-        </template>
-      </InputField>
+  <div class="result-wrapper scrollbar">
+    <div v-if="isLoading" class="loading-container">
+      <LoadingAnimation :duration="1000" :dot-count="4" size="medium"/>
     </div>
-    <div class="result-container scrollbar">
-      <div v-if="isLoading" class="loading-container">
-        <LoadingAnimation :duration="1000" :dot-count="4" size="medium"/>
-      </div>
-      <div v-else-if="Object.keys(searchResults).length > 0">
-        <div v-for="(result, index) in searchResults" :key="index" class="search-result">
-          <img src="@/assets/icons/input/search.svg"/>
-          <div class="song-data">
-            <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>
-          </div>
-          <div class="add-to-queue-button">
-            <DefaultButton @click="addSong(result.link)" :is-disabled="queueAddIsDisabled" text="">
-              <img src="@/assets/icons/music/playlist_add.svg">
-            </DefaultButton>
-          </div>
+    <div v-else-if="Object.keys(searchResults).length > 0" class="result-container">
+      <div v-for="(result, index) in searchResults" :key="index" class="search-result">
+        <img src="@/assets/icons/input/search.svg" :alt="$translate('altTexts.search')"/>
+        <div class="song-data">
+          <Entry :title="result.title" :artist="result.artist" :duration="result.duration"></Entry>
+        </div>
+        <div class="add-to-queue-button">
+          <DefaultButton @click="addSong(result.link)" :is-disabled="queueAddIsDisabled" text="">
+            <img src="@/assets/icons/music/playlist_add.svg" :alt="$translate('altTexts.playlistAdd')">
+          </DefaultButton>
         </div>
       </div>
-      <div v-else class="error-container">
-        <p>{{ searchTerm ? `${translate("historySearch.noSongFound")} "${searchTerm}"` : translate("historySearch.enterSearchTerm")}}</p>
-      </div>
+    </div>
+    <div v-else class="error-container">
+      <p>
+        {{
+          searchTerm ? `${translate("historySearch.noSongFound")} "${searchTerm}"` : translate("historySearch.enterSearchTerm")
+        }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import InputField from "@/components/inputs/InputField.vue";
 import type {Ref} from "vue";
-import {ref, watch} from "vue";
+import { ref, watch} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
 import Entry from "@/components/queue/Entry.vue";
@@ -48,11 +37,20 @@ import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 import LoadingAnimation from "@/components/LoadingAnimation.vue";
 import * as cookieService from "@/services/cookieService";
+import {PermissionService} from "@/services/PermissionService";
+
+const props = defineProps<{
+  searchTerm: string,
+  blockSearch: boolean
+}>();
+
+const emit = defineEmits<{
+  addSong: []
+}>();
 
 const maxSearchResults = 20;
 
 const httpService = new HttpService();
-const searchTerm = ref("");
 
 const searchResults: Ref<Song[]> = ref([]);
 
@@ -60,7 +58,9 @@ const queueAddIsDisabled = ref(false);
 
 const isLoading = ref(false);
 
-watch(searchTerm, (newValue) => {
+watch(() => props.searchTerm, (newValue) => {
+  processChange();
+
   if (newValue) {
     isLoading.value = true;
     return;
@@ -70,16 +70,24 @@ watch(searchTerm, (newValue) => {
 });
 
 const processChange = debounce(() => {
-  if (!searchTerm.value) {
+  if (!props.searchTerm) {
     searchResults.value = [];
 
     return;
   }
 
-  searchHistory(searchTerm.value);
+  searchHistory(props.searchTerm);
 });
 
 function searchHistory(searchTerm: string) {
+  if (props.blockSearch) {
+    return;
+  }
+  if (!PermissionService.checkPermission('HISTORY_SEARCH')){
+    isLoading.value = false;
+    return;
+  }
+
   httpService.getSearchHistory(searchTerm, maxSearchResults, cookieService.getApiKey())
       .then((data: Song[]) => {
         searchResults.value = data
@@ -99,13 +107,14 @@ function addSong(link?: string) {
   queueAddIsDisabled.value = true;
 
   httpService.postQueueAdd(link, cookieService.getApiKey())
-      .then((data) => {
+      .then((data: Song) => {
         queueAddIsDisabled.value = false;
         ToastService.sendNotification(
             `"${data.title}" ${translate("notifications.queueAddSuccess")}`,
             "success",
             3000
         );
+        emit("addSong");
       })
       .catch(() => {
         queueAddIsDisabled.value = false
@@ -130,31 +139,30 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
     }, timeout);
   };
 }
-
 </script>
 
 <style scoped>
-.history-search-wrapper {
+.result-wrapper {
+  overflow-y: scroll;
   height: 100%;
+  padding-left: 5px;
   display: flex;
   flex-direction: column;
 }
 
 .result-container {
-  overflow-y: scroll;
-  height: 100%;
-  padding-left: 5px;
+  width: 100%;
 }
 
 .loading-container {
   margin: auto;
   width: 100px;
-  height: 95%;
+  height: 50px;
 }
 
 .error-container {
   width: 100%;
-  height: 80%;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +171,7 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
 .error-container p {
   text-align: center;
   font-size: var(--font-size-medium);
-  color: var(--tertiary-color);
+  color: var(--text-color);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -174,6 +182,7 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
   align-items: center;
   gap: 10px;
   height: 50px;
+  width: 100%;
 }
 
 .search-result img {
@@ -191,9 +200,9 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
   overflow: hidden;
 }
 
-@media screen and (min-width: 420px) {
-  .error-container p {
-    font-size: var(--font-size-big);
+@media screen and (min-width: 1250px) {
+  .error-container, .loading-container {
+    height: 100px;
   }
 }
 </style>

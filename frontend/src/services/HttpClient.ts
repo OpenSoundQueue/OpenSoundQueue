@@ -2,7 +2,7 @@ type httpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 export default class HttpClient {
     request(url: string, data: unknown, method: httpMethod, headers: Record<string, string>) {
-        let jsonData = JSON.stringify(data);
+        const jsonData = JSON.stringify(data);
 
         return fetch(url, {
             method: method,
@@ -12,7 +12,7 @@ export default class HttpClient {
     }
 
     rest(path: string, data: unknown, method: httpMethod, apiKey?: string,) {
-        let headers: Record<string, string> = {"Content-Type": "application/json", "mode": "cors"};
+        const headers: Record<string, string> = {"Content-Type": "application/json", "mode": "cors"};
 
         if (apiKey) {
             headers["X-API-KEY"] = apiKey;
@@ -37,5 +37,9 @@ export default class HttpClient {
 
     post(path: string, data: unknown, apiKey?: string) {
         return this.rest(path, data, "POST", apiKey);
+    }
+
+    patch(path: string, data?: unknown, apiKey?: string) {
+        return this.rest(path, data, "PATCH", apiKey);
     }
 }

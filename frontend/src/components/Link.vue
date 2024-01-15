@@ -2,7 +2,7 @@
   <div class="link-wrapper">
     <div v-if="isExternal" class="external-container">
       <a :href="path" target="_blank" class="link">{{ label}}</a>
-      <img class="icon-external" src="@/assets/icons/arrows/arrow_outward.svg"/>
+      <img class="icon-external" src="@/assets/icons/arrows/arrow_outward.svg" :alt="$translate('altTexts.arrowOutward')"/>
     </div>
     <div v-else>
       <router-link :to="path" class="link" :class="{'outer-area': isOuterArea}">

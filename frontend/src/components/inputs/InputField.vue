@@ -4,11 +4,11 @@
     <div class="input-element-wrapper">
       <div v-show="inputType === 'password'" @click="toggleVisibility" class="password-icon-wrapper">
         <img v-show="showPassword" src="@/assets/icons/input/hide.svg" title="Hide" class="password-icon"
-             alt="Show Password">
-        <img v-show="!showPassword" src="@/assets/icons/input/show.svg" title="Show" class="password-icon" alt="Hide Password">
+             :alt="$translate('altTexts.hide')">
+        <img v-show="!showPassword" src="@/assets/icons/input/show.svg" title="Show" class="password-icon" :alt="$translate('altTexts.show')">
       </div>
       <div v-show="inputType !== 'password'" class="default-icon-wrapper">
-        <img v-show="inputValue" @click="clearInput" src="@/assets/icons/input/delete.svg" class="close-icon" alt="clear input">
+        <img v-show="inputValue" @click="clearInput" src="@/assets/icons/input/delete.svg" class="close-icon" :alt="$translate('altTexts.delete')">
         <div class="input-icon">
           <slot name="icon"></slot>
         </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {generateUUID} from "@/services/uuidService";
 
 interface Props {
@@ -105,6 +105,12 @@ function clearInput(): void {
   emit("userInput", inputValue.value);
 }
 
+onMounted(()=>{
+  if (typeof props.manualValue !== "undefined") {
+    inputValue.value = props.manualValue;
+  }
+})
+
 watch(manualValue, (newValue) => {
   if (typeof newValue !== "undefined") {
     inputValue.value = newValue;
@@ -142,7 +148,7 @@ watch(manualValue, (newValue) => {
 .input-field {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 40px 0 5px;
+  padding: 0 40px 0 10px;
   height: 40px;
   font-size: var(--font-size-medium);
   background: none;

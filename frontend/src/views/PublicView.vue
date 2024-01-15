@@ -1,7 +1,7 @@
 <template>
   <main>
     <ExpandCollapse :label="$translate('nowPlaying')" :is-collapsed="false">
-      <NowPlaying :update-interval="1000"/>
+      <NowPlaying :current-song="currentSong" :current-time="currentTime" :progress="progress" :is-playing="isPlaying"/>
     </ExpandCollapse>
     <ExpandCollapse :label="$translate('inQueue')" :is-collapsed="false">
       <Queue :page-update-interval="4000"/>
@@ -21,6 +21,10 @@ import NowPlaying from "@/components/NowPlaying.vue";
 import Footer from "@/components/Footer.vue";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import router from "@/router";
+import {useNowPlaying} from "@/composables/nowPlaying";
+
+const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(7000, 100);
+
 </script>
 
 <style scoped>

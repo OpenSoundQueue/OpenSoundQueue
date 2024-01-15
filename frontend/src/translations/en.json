@@ -1,93 +1,122 @@
 {
-  "nowPlaying": "Now Playing",
-  "inQueue": "In Queue",
-  "byLink": {
-    "title": "By Link",
-    "label": "Song Link",
-    "action": "Add to queue",
-    "placeholder": "Enter link...",
-    "incorrectInput": "Invalid link"
-  },
-  "bySearch": "By Search",
-  "forgotPassword": "Forgot Password?",
-  "createAccount": "Create Account",
-  "login": "Login",
-  "loginCTA": "Want to add your own songs?",
-  "username": {
-    "title": "Username",
-    "error": "Username or Password wrong",
-    "taken": "Username is already taken",
-    "validation": "The Username must be at least 4 characters long and can contain letters (upper and lower case), numbers, dot (.) and underscore (_)",
-    "placeholder": "Enter Username"
-  },
-  "password": {
-    "title": "Password",
-    "error": "Username or Password wrong",
-    "validation": "The Password must be at least 8 characters long and contain a combination of upper case letters, lower case letters, numbers and special characters",
-    "placeholder": "Enter Password"
-  },
-  "entryCode": {
-    "title": "Entry-Code",
-    "error": "Entry-Code wrong",
-    "validation": "The entry code is exactly 6 characters long",
-    "placeholder": "Enter Entry-Code"
-  },
-  "loginTitle": "Login to start contributing",
-  "settings": "Settings",
-  "documentation": "Docs",
-  "team": "Team",
-  "imprint": "Imprint",
   "about": "About",
-  "language": "Language",
-  "select": "Select",
-  "addSong": "Add Song",
-  "notifications": {
-    "queueAddSuccess": "was added to queue.",
-    "queueAddError": "Song could not be added to the queue.",
-    "voteSkipRequestError": "Could not request vote.",
-    "voteSkipWithdrawError": "Could not withdraw vote.",
-    "userDelete": {
-      "user": "User",
-      "messageSuccess": "has been deleted.",
-      "messageError": "could not be deleted."
-    }
-  },
-  "historySearch": {
-    "noSongFound": "No song found for ",
-    "enterSearchTerm": "Enter a search term...",
-    "searchInHistory": "Search in history"
-  },
-  "queueDescription": {
-    "title": "Title",
-    "duration": "Duration"
-  },
-  "navBar": {
-    "public": "Public",
-    "home": "Home",
-    "settings": "Settings",
-    "project": "Project",
-    "team": "Team"
-  },
-  "help": {
-    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users).",
-    "addSong": "Soundcloud and YouTube links are supported."
+  "addSong": {
+    "title": "Add Song",
+    "placeholder": "Search in history or use song link",
+    "action": "Add to queue",
+    "insufficientPermissions": "Sorry, you are not allowed to add songs :("
   },
   "adminPage": {
-    "tableHeader": {
-      "username": "Username",
-      "email": "Email",
-      "role": "Role",
-      "lastOnline": "last time online"
+    "nav": {
+      "users": "Users",
+      "roles": "Roles"
     },
     "detail": {
+      "delete": "Delete User",
       "placeholder": {
-        "name": "No User selected",
+        "body": "Please select a User",
         "email": "No Email verified",
         "lastOnline": "Has never been online",
-        "body": "Please select a User"
-      },
-      "delete": "Delete User"
+        "name": "No User selected"
+      }
+    },
+    "tableHeader": {
+      "email": "Email",
+      "lastOnline": "last time online",
+      "role": "Role",
+      "username": "Username"
     }
+  },
+  "alreadyHaveAnAccount": "Already have an account?",
+  "altTexts": {
+    "arrowBack": "Arrow to go back one step",
+    "arrowDown": "Arrow pointing downward",
+    "arrowLeft": "Arrow pointing to the left",
+    "arrowOutward": "Diagonal arrow pointing up and to the right, indicating external content",
+    "arrowRight": "Arrow pointing to the right",
+    "arrowUp": "Arrow pointing upward",
+    "check": "Checkmark symbol",
+    "close": "Close symbol (X)",
+    "delete": "Delete symbol (X)",
+    "dragHandle": "Symbol for a handle, allowing list item rearrangement by dragging",
+    "error": "Exclamation mark inside a jagged circle",
+    "help": "Question mark surrounded by a circle to display additional information",
+    "hide": "Hide input",
+    "info": "Circle with an 'i' inside, representing information",
+    "login": "Login symbol",
+    "logo": "OpenSoundQueue logo with the letters 'osq' and a white line underneath interrupted by a circle",
+    "logoAndText": "OpenSoundQueue logo with the letters 'osq' and the spelled-out name 'OpenSoundQueue' beside it",
+    "logout": "Logout symbol",
+    "mail": "Envelope symbol",
+    "menu": "Burger menu icon",
+    "pause": "Pause playback",
+    "play": "Resume playback",
+    "playlistAdd": "Queue symbol with a plus sign, indicating the ability to add new songs to the queue",
+    "replay": "Replay symbol",
+    "role": "Role symbol",
+    "search": "Magnifying glass indicating search function",
+    "settings": "Settings symbol",
+    "show": "Show input",
+    "skip": "Skip symbol",
+    "sortingArrowDown": "Arrow pointing down, indicating sorting direction",
+    "sortingArrowUp": "Arrow pointing up, indicating sorting direction",
+    "time": "Clock symbol",
+    "undo": "An arrow pointing back to undo the changes",
+    "user": "User symbol",
+    "userVerified": "A User symbol and an additional check, indicating this user is verified",
+    "selectAll": "An grid of big rectangles of equal height and width, indicating all of them are selected",
+    "selectNone": "An grid of small rectangles of equal height and width, indicating none of them are selected",
+    "invertSelection": "An grid of rectangles where half of the rectangles are bigger than the rest, indicating the selection can be inverted",
+    "volumeUp": "Plus symbol indicating an increase of the volume",
+    "volumeDown": "Minus symbol indicating an decrease of the volume",
+    "volumeFull": "Speaker that shows full volume",
+    "volumeOff": "A muted speaker"
+  },
+  "createAccount": "Create Account",
+  "currentSongEmpty": "There is currently no song playing",
+  "documentation": "Docs",
+  "email": {
+    "placeholder": "Enter Email Address",
+    "title": "Email",
+    "validation": "Not a valid email address",
+    "taken": "Email already taken"
+  },
+  "emailVerification": {
+    "placeholder": "Enter Code",
+    "error": "Verification Code wrong"
+  },
+  "entryCode": {
+    "error": "Entry-Code wrong",
+    "placeholder": "Enter Entry-Code",
+    "title": "Entry-Code",
+    "validation": "The entry code is exactly 6 characters long"
+  },
+  "forgotPassword": "Forgot Password?",
+  "help": {
+    "addSong": "The following sources are supported:",
+    "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users)."
+  },
+  "historySearch": {
+    "enterSearchTerm": "Enter a search term...",
+    "noSongFound": "No song found for ",
+    "searchInHistory": "Search in history"
+  },
+  "imprint": "Imprint",
+  "inQueue": "In Queue",
+  "language": "Language",
+  "login": "Login",
+  "loginCTA": "Want to add your own songs?",
+  "loginTitle": "Login to start contributing",
+  "logout": {
+    "buttonLabel": "Logout",
+    "callToAction": "In order to access this page, you need to be logged out.",
+    "error": "Could not log out.",
+    "info": "You are not logged in",
+    "success": "You were logged out."
+  },
+  "modeSwitcher": {
+    "advanced": "Advanced",
+    "basic": "Basic"
   },
   "months": {
     "1": "January",
@@ -103,11 +132,172 @@
     "11": "November",
     "12": "December"
   },
+  "navBar": {
+    "home": "Home",
+    "project": "Project",
+    "public": "Public",
+    "settings": "Settings",
+    "team": "Team",
+    "admin": "Administration"
+  },
+  "notifications": {
+    "queueAddError": "Song could not be added to the queue.",
+    "queueAddSuccess": "was added to queue.",
+    "queueChangeOrderError": "Song could not be moved.",
+    "replaySongError": "Song could not be restarted",
+    "skipSongError": "Song could not be skipped",
+    "skipSongSuccess": "Song has been skipped",
+    "startError": "Queue could not be started",
+    "stopError": "Queue could not be paused",
+    "userDelete": {
+      "messageError": "could not be deleted.",
+      "messageSuccess": "has been deleted.",
+      "user": "User"
+    },
+    "voteSkipRequestError": "Could not request vote.",
+    "voteSkipWithdrawError": "Could not withdraw vote.",
+    "installation": {
+      "fetchError": "Settings could not be loaded. Please reload the page.",
+      "saveLanguageError": "Unable to save Language. Please try again.",
+      "savePrivacyError": "Unable to save Privacy Settings. Please try again.",
+      "saveSourcesError": "Unable to save Source Selection. Please try again."
+    }
+  },
+  "nowPlaying": "Now Playing",
+  "password": {
+    "error": "Username or Password wrong",
+    "placeholder": "Enter Password",
+    "title": "Password",
+    "validation": "Minimum of 8 characters long, upper case letter, lower case letter, number and special character"
+  },
+  "passwordRepeat": {
+    "placeholder": "Repeat Password",
+    "title": "Repeat Password",
+    "validation": "Passwords do not match"
+  },
   "popUp": {
     "deleteUser": {
+      "button": "Delete User",
       "part1": "Are you sure you want to delete User",
-      "part2": "?",
-      "button": "Delete User"
+      "part2": "?"
+    },
+    "editRole": {
+      "unsavedChanges": "There are unsaved changes. Do you want to save them?",
+      "save": "Save changes",
+      "saveError": "Changes could not be saved",
+      "saveSuccess": "Changes successfully saved",
+      "deleteError": "An error occurred when deleting the role",
+      "deleteSuccess": "Role successfully deleted",
+      "createError": "A Role with this name already exists",
+      "createSuccess": "Role successfully created",
+      "newRoleRedirectError": "The role must first be given a name before further settings are possible"
     }
+  },
+  "queueDescription": {
+    "duration": "Duration",
+    "title": "Title"
+  },
+  "queueEmpty": "There are no songs in queue",
+  "select": "Select",
+  "settings": "Settings",
+  "team": "Team",
+  "username": {
+    "error": "Username or Password wrong",
+    "logout": {
+      "buttonLabel": "Logout",
+      "callToAction": "In order to access this page, you need to be logged out.",
+      "error": "Could not log out.",
+      "info": "You are not logged in",
+      "success": "You were logged out."
+    },
+    "placeholder": "Enter Username",
+    "taken": "Username is already taken",
+    "title": "Username",
+    "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)"
+  },
+  "registration": {
+    "change": "Change",
+    "continue": "Continue",
+    "createAccount": "Create account",
+    "explanation": "We have sent a code to your email address, please check your inbox.",
+    "heading": "Create an account",
+    "noCode": {
+      "button": "Resend Code",
+      "error": "Something didn't work. Please try again.",
+      "success": "We have sent you a new code.",
+      "text": "I have not received a code"
+    },
+    "success": "Registration successful",
+    "verified": "Verified",
+    "verifiedCTO": "Account was created. Continue with next steps."
+  },
+  "roleEdit": {
+    "newRole": "New Role",
+    "navigation": {
+      "display": "Display",
+      "members": "Members",
+      "permissions": "Permissions"
+    },
+    "save": "Save",
+    "rollback": "Discard changes",
+    "delete": "Delete Role",
+    "display": {
+      "roleName": "Role Name",
+      "placeholder": "Enter Role Name..."
+    },
+    "member": {
+      "search": "Search for Users...",
+      "noResults": "No results for ",
+      "selectAll": "Select All",
+      "selectNone": "Select None",
+      "invert": "Invert Selection"
+    },
+    "permissions": {
+      "search": "Search for Permissions...",
+      "noResults": "No results for ",
+      "selectAll": "Select All",
+      "selectNone": "Select None",
+      "invert": "Invert Selection"
+    }
+  },
+  "installation": {
+    "installation": "Installation",
+    "progressBar": {
+      "language": "Language",
+      "registration": "Registration",
+      "privacy": "Privacy",
+      "sources": "Sources"
+    },
+    "navigation": {
+      "next": {
+        "language": "Continue to Registration",
+        "registration": "Continue to Privacy Settings",
+        "privacy": "Continue to Source Selection",
+        "sources": "Complete Installation"
+      },
+      "back": {
+        "language": "There is no going back",
+        "registration": "Back to Language Selection",
+        "privacy": "Back to Registration",
+        "sources": "Back to Access Control"
+      }
+    },
+    "privacy": {
+      "emailAuthTitle": "Email Authentication",
+      "emailAuthDescription": "People have to enter and verify their email address when creating an account.",
+      "roomPrivateTitle": "Room Private",
+      "roomPrivateDescription": "A private room is protected with an entry code. When logging in, users have to enter this code."
+    },
+    "language": "Specify the default language for all users.",
+    "source": "Select the Sources from which users can retrieve song links. (At least one)"
+  },
+  "languages": {
+    "en": "English",
+    "de": "German"
+  },
+  "volume": {
+    "changeError": "Could not change volume.",
+    "muteError": "Could not mute queue.",
+    "unmuteError": "Could not unmute queue."
   }
 }

@@ -1,46 +1,62 @@
 package com.example.backend.user_management;
 
-import com.example.backend.Repository.UserInfoEntity;
-import com.example.backend.Repository.UserInfoRepository;
+import com.example.backend.Repository.*;
 import com.example.backend.ResponseDtos.UserDto;
+import com.example.backend.email.EmailComponent;
+import com.example.backend.email.EmailUtils;
 import com.example.backend.util.TokenUtils;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Service
 public class UserService {
-    @Autowired
-    UserInfoRepository userInfoRepository;
-
-    @Autowired
+    private UserInfoRepository userInfoRepository;
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private TokenUtils tokenUtils;
+    private EmailUtils emailUtils;
+    private EmailComponent emailComponent;
+
+    RoleRepository roleRepository;
+
+    private Map<String, String> emailVerificationCodes = new HashMap<>();
+
+    public UserService(
+            UserInfoRepository userInfoRepository,
+            PasswordEncoder passwordEncoder,
+            TokenUtils tokenUtils,
+            EmailUtils emailUtils,
+            EmailComponent emailComponent,
+            RoleRepository roleRepository
+    ) {
+        this.userInfoRepository = userInfoRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenUtils = tokenUtils;
+        this.emailUtils = emailUtils;
+        this.emailComponent = emailComponent;
+        this.roleRepository = roleRepository;
+    }
 
     public UserInfoEntity getUserByUsername(String username) {
-       UserInfoEntity user = userInfoRepository.findByUsername(username);
-
-       return user;
+        return userInfoRepository.findByUsername(username);
     }
 
     public UserInfoEntity getUserByToken(String token) {
-        UserInfoEntity user = userInfoRepository.findByToken(tokenUtils.hashWithSHA512(token));
-
-        return user;
+        return userInfoRepository.findByToken(tokenUtils.hashWithSHA512(token));
     }
 
     public UserInfoEntity getUserById(Long id) {
-        UserInfoEntity user = userInfoRepository.findById(id).orElse(null);
+        return userInfoRepository.findById(id).orElse(null);
+    }
 
-        return user;
+    public UserInfoEntity getUserByEmail(String email) {
+        return userInfoRepository.findByEmail(email);
     }
 
     public boolean verifyApiKey(String token) {
@@ -59,11 +75,17 @@ public class UserService {
         String clearTextPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(clearTextPassword));
 
-        return userInfoRepository.save(user);
+        user = userInfoRepository.save(user);
+
+        changeRolesOfUser(user.getId(), List.of(roleRepository.findById(1).get()));
+
+        return user;
     }
 
     public UserInfoEntity registerNewUser(UserInfoEntity user) {
-        return userInfoRepository.save(user);
+        user = userInfoRepository.save(user);
+        changeRolesOfUser(user.getId(), List.of(roleRepository.findById(1).get()));
+        return user;
     }
 
     public void updateToken(Long id, String token) {
@@ -75,6 +97,11 @@ public class UserService {
 
         user.setToken(tokenUtils.hashWithSHA512(token));
 
+        userInfoRepository.save(user);
+    }
+
+    public void removeToken(UserInfoEntity user) {
+        user.setToken(null);
         userInfoRepository.save(user);
     }
 
@@ -91,5 +118,100 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userInfoRepository.deleteById(id);
+    }
+
+    public void sendEmailVerification(UserInfoEntity user) throws MessagingException, IOException {
+        String emailCode = emailUtils.generateEmailCode();
+        emailVerificationCodes.put(user.getEmail(), emailCode);
+        emailComponent.sendMail(user.getEmail(), emailCode, user.getUsername());
+    }
+
+    public boolean verifyEmail(String email, String code) {
+        if (!emailVerificationCodes.containsKey(email)) return false;
+        boolean verified = emailVerificationCodes.get(email).equals(code);
+
+        if (verified) {
+            emailVerificationCodes.remove(email);
+            UserInfoEntity user = userInfoRepository.findByEmail(email);
+            user.setVerified(true);
+            userInfoRepository.save(user);
+        }
+
+        return verified;
+    }
+
+    public void changeRolesOfUser(long id, List<Role> roles) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+        List<Role> savedRoles = new ArrayList<>();
+
+        System.out.println(roles);
+
+        for (Role r :roles) {
+            if (roleRepository.findById(r.getId()).orElse(null) == null) continue;
+            savedRoles.add(roleRepository.findById(r.getId()).get());
+        }
+
+        user.setRoles(savedRoles);
+
+        userInfoRepository.save(user);
+
+        for (Role r :roleRepository.findAll()) {
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
+        }
+    }
+
+    public List<Permissions> getPermissionsOfUser(long id) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+        Set<Permissions> permissions = new HashSet<>();
+
+        for (Role r :user.getRoles()) {
+            permissions.addAll(r.getPermissions());
+        }
+
+        return permissions.stream().toList();
+    }
+
+    public void removeRole(int id) {
+        for (UserInfoEntity u : userInfoRepository.findAll()) {
+            if (!u.getRoles().stream().filter(x -> x.getId() == id).toList().isEmpty()) {
+                changeRolesOfUser(u.getId(), u.getRoles().stream().filter(x -> x.getId() != id).toList());
+            }
+        }
+    }
+
+    public void updateName(long id, String name) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+
+        user.setUsername(name);
+        userInfoRepository.save(user);
+
+        for (Role r : roleRepository.findAll()) {
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
+        }
+    }
+
+    public void updateEmail(long id, String email) {
+        UserInfoEntity user = userInfoRepository.findById(id).get();
+
+        user.setEmail(email);
+        userInfoRepository.save(user);
+
+        for (Role r : roleRepository.findAll()) {
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
+        }
+    }
+
+    public List<UserDto> getAllOnlineUsers() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        return getAll().stream().filter(x -> x.getLastOnline() != null).filter(x -> {
+            try {
+                return formatter.parse(x.getLastOnline()).getTime() > new Date(System.currentTimeMillis() - 1000 * 60 * 5).getTime(); // last online time has to be within the last 5 minutes
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
     }
 }

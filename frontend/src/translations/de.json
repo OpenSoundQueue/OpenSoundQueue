@@ -1,93 +1,122 @@
 {
-  "nowPlaying": "Spielt jetzt",
-  "inQueue": "In der Warteschlange",
-  "byLink": {
-    "title": "Mit Link",
-    "label": "Songlink",
-    "action": "Zur Warteschlange hinzufügen",
-    "placeholder": "Link einfügen...",
-    "incorrectInput": "Ungültiger Link"
-  },
-  "bySearch": "Mit Suche",
-  "forgotPassword": "Passwort vergessen?",
-  "createAccount": "Ein Konto erstellen",
-  "login": "Einloggen",
-  "loginCTA": "Willst du selbst Songs hinzufügen?",
-  "username": {
-    "title": "Benutzername",
-    "error": "Benutzername oder Passwort falsch",
-    "taken": "Benutzername bereits vergeben",
-    "validation": "Der Benutzername muss mindestens 4 Zeichen lang sein und kann Buchstaben (Groß- und Kleinbuchstaben), Zahlen, Punkt (.) und Unterstrich (_) enthalten",
-    "placeholder": "Benutzername eingeben"
-  },
-  "password": {
-    "title": "Passwort",
-    "error": "Benutzername oder Passwort falsch",
-    "validation": "Das Passwort muss mindestens 8 Zeichen lang sein und eine Kombination aus Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen enthalten",
-    "placeholder": "Passwort eingeben"
-  },
-  "entryCode": {
-    "title": "Eintritts-Code",
-    "error": "Eintritts-Code falsch",
-    "validation": "Der Eintritts-Code ist genau 6 Zeichen lang",
-    "placeholder": "Eintritts-Code eingeben"
-  },
-  "loginTitle": "Einloggen, zum mitgestalten",
-  "settings": "Einstellungen",
-  "documentation": "Dokumentation",
-  "team": "Team",
-  "imprint": "Impressum",
   "about": "Über uns",
-  "language": "Sprache",
-  "select": "Wähle eine Option",
-  "addSong": "Song hinzufügen",
-  "notifications": {
-    "queueAddSuccess": "wurde zur Warteschlange hinzugefügt.",
-    "queueAddError": "Song konnte nicht zur Warteschlange hinzugefügt werden.",
-    "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
-    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden.",
-    "userDelete": {
-      "user": "Benutzer",
-      "messageSuccess": "wurde gelöscht.",
-      "messageError": "konnte nicht geöscht werden."
-    }
-  },
-  "historySearch": {
-    "noSongFound": "Kein Treffer für ",
-    "enterSearchTerm": "Gib einen Suchbegriff ein...",
-    "searchInHistory": "Im Verlauf suchen"
-  },
-  "queueDescription": {
-    "title": "Titel",
-    "duration": "Dauer"
-  },
-  "navBar": {
-    "public": "Öffentlich",
-    "home": "Home",
-    "settings": "Einstellungen",
-    "project": "Projekt",
-    "team": "Team"
-  },
-  "help": {
-    "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig).",
-    "addSong": "Es werden Links von Soundcloud und YouTube unterstützt."
+  "addSong": {
+    "title": "Song hinzufügen",
+    "placeholder": "Suchen im Verlauf oder Songlink",
+    "action": "Zur Warteschlange hinzufügen",
+    "insufficientPermissions": "Du darfst leider keine Songs hinzufügen :("
   },
   "adminPage": {
-    "tableHeader": {
-      "username": "Benutzername",
-      "email": "E-Mail",
-      "role": "Rolle",
-      "lastOnline": "zuletzt online"
+    "nav": {
+      "users": "Benutzer",
+      "roles": "Rollen"
     },
     "detail": {
+      "delete": "Benutzer löschen",
       "placeholder": {
-        "name": "Kein Benutzer ausgewählt",
+        "body": "Bitte wähle einen User aus",
         "email": "Keine E-Mail verifiziert",
         "lastOnline": "War noch nie online",
-        "body": "Bitte wähle einen User aus"
-      },
-      "delete": "Benutzer löschen"
+        "name": "Kein Benutzer ausgewählt"
+      }
+    },
+    "tableHeader": {
+      "email": "E-Mail",
+      "lastOnline": "zuletzt online",
+      "role": "Rolle",
+      "username": "Benutzername"
     }
+  },
+  "alreadyHaveAnAccount": "Du hast bereits einen Account?",
+  "altTexts": {
+    "arrowBack": "Pfeil zum Zurückgehen",
+    "arrowDown": "Pfeil nach unten gerichtet",
+    "arrowLeft": "Pfeil nach links gerichtet",
+    "arrowOutward": "Diagonaler Pfeil nach rechts oben, der auf externe Inhalte verweist",
+    "arrowRight": "Pfeil nach rechts gerichtet",
+    "arrowUp": "Pfeil nach oben gerichtet",
+    "check": "Häkchen-Symbol",
+    "close": "Schließen-Symbol (X)",
+    "delete": "Löschen-Symbol (X)",
+    "dragHandle": "Symbol für die Anfassfunktion zum Ändern der Reihenfolge.",
+    "error": "Ausrufezeichen in einem gezackten Kreis",
+    "help": "Fragezeichen in einem Kreis zur Anzeige zusätzlicher Informationen",
+    "hide": "Eingabe ausblenden",
+    "info": "Kreis mit einem 'i', das für Information steht",
+    "login": "Anmeldesymbol",
+    "logo": "OpenSoundQueue-Logo mit den Buchstaben 'osq' und einem weißen Strich darunter, der von einem Kreis unterbrochen wird",
+    "logoAndText": "OpenSoundQueue-Logo mit den Buchstaben 'osq' und dem ausgeschriebenen Namen 'OpenSoundQueue' daneben",
+    "logout": "Abmeldesymbol",
+    "mail": "Kuvert-Symbol",
+    "menu": "Symbol für ein Burger-Menü",
+    "pause": "Wiedergabe pausieren",
+    "play": "Wiedergabe fortsetzen",
+    "playlistAdd": "Symbol für Warteschlange mit Plus-Symbol, um neue Songs hinzuzufügen",
+    "replay": "Wiederholungs-Symbol",
+    "role": "Rollensymbol",
+    "search": "Lupe als Symbol für die Suchfunktion",
+    "settings": "Einstellungssymbol",
+    "show": "Eingabe anzeigen",
+    "skip": "Überspringen-Symbol",
+    "sortingArrowDown": "Pfeil nach unten für absteigende Sortierreihenfolge",
+    "sortingArrowUp": "Pfeil nach oben für aufsteigende Sortierreihenfolge",
+    "time": "Uhrensymbol",
+    "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängi machen zu lassen",
+    "user": "Benutzersymbol",
+    "userVerified": "Ein Benutzersymbol und eine Hacken, der anzeigt, dass dieser Benutzer verifiziert ist",
+    "selectAll": "Ein Gitter aus großen Rechtecken gleicher Höhe und Breite, das anzeigt, dass alle Rechtecke ausgewählt sind",
+    "selectNone": "Ein Gitter aus kleinen Rechtecken gleicher Höhe und Breite, das anzeigt, dass keines der Rechtecke ausgewählt ist",
+    "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann",
+    "volumeUp": "Plus-Symbol, das für eine Erhöhung der Lautstärke steht",
+    "volumeDown": "Minus-Symbol, das für eine Verringerung der Lautstärke steht",
+    "volumeFull": "Ein Lautsprecher der volle Lautstärke anzeigt",
+    "volumeOff": "Ein stumm geschalteter Lautsprecher"
+  },
+  "createAccount": "Ein Konto erstellen",
+  "currentSongEmpty": "Aktuell wird kein Song abgespielt",
+  "documentation": "Dokumentation",
+  "email": {
+    "placeholder": "E-Mail eingeben",
+    "title": "E-Mail",
+    "validation": "Keine gültige E-Mail",
+    "taken": "E-Mail-Adresse bereits vergeben"
+  },
+  "emailVerification": {
+    "placeholder": "Code eingeben",
+    "error": "Verifizierungs-Code falsch"
+  },
+  "entryCode": {
+    "error": "Zugangscode falsch",
+    "placeholder": "Zugangscode eingeben",
+    "title": "Zugangscode",
+    "validation": "Der Zugangscode ist genau 6 Zeichen lang"
+  },
+  "forgotPassword": "Passwort vergessen?",
+  "help": {
+    "addSong": "Folgende Quellen werden unterstützt:",
+    "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig)."
+  },
+  "historySearch": {
+    "enterSearchTerm": "Gib einen Suchbegriff ein...",
+    "noSongFound": "Kein Treffer für ",
+    "searchInHistory": "Im Verlauf suchen"
+  },
+  "imprint": "Impressum",
+  "inQueue": "In der Warteschlange",
+  "language": "Sprache",
+  "login": "Einloggen",
+  "loginCTA": "Willst du selbst Songs hinzufügen?",
+  "loginTitle": "Einloggen, zum mitgestalten",
+  "logout": {
+    "buttonLabel": "Abmelden",
+    "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
+    "error": "Abmelden fehlgeschlagen",
+    "info": "Du bist nicht angemeldet",
+    "success": "Du wurdest abgemeldet."
+  },
+  "modeSwitcher": {
+    "advanced": "Erweitert",
+    "basic": "Einfach"
   },
   "months": {
     "1": "Januar",
@@ -103,11 +132,172 @@
     "11": "November",
     "12": "Dezember"
   },
+  "navBar": {
+    "home": "Home",
+    "project": "Projekt",
+    "public": "Öffentlich",
+    "settings": "Einstellungen",
+    "team": "Team",
+    "admin": "Administration"
+  },
+  "notifications": {
+    "queueAddError": "Song konnte nicht zur Warteschlange hinzugefügt werden.",
+    "queueAddSuccess": "wurde zur Warteschlange hinzugefügt.",
+    "queueChangeOrderError": "Song konnte nicht verschoben werden.",
+    "replaySongError": "Song konnte nicht neu gestartet werden",
+    "skipSongError": "Song konnte nicht übersprungen werden",
+    "skipSongSuccess": "Song wurde übersprungen",
+    "startError": "Warteschlange konnte nicht gestartet werden",
+    "stopError": "Warteschlange konnte nicht pausiert werden",
+    "userDelete": {
+      "messageError": "konnte nicht geöscht werden.",
+      "messageSuccess": "wurde gelöscht.",
+      "user": "Benutzer"
+    },
+    "voteSkipRequestError": "Es konnte nicht abgestimmt werden.",
+    "voteSkipWithdrawError": "Abstimmung konnte nicht zurückgezogen werden.",
+    "installation": {
+      "fetchError": "Die Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.",
+      "saveLanguageError": "Sprache konnte nicht gespeichert werden. Bitte versuche es erneut.",
+      "savePrivacyError": "Zugangseinstellungen konnten nicht gespeichert werden. Bitte versuche es erneut.",
+      "saveSourcesError": "Die Quellenauswahl konnte nicht gespeichert werden. Bitte versuche es erneut."
+    }
+  },
+  "nowPlaying": "Spielt jetzt",
+  "password": {
+    "error": "Benutzername oder Passwort falsch",
+    "placeholder": "Passwort eingeben",
+    "title": "Passwort",
+    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen"
+  },
+  "passwordRepeat": {
+    "placeholder": "Passwort wiederholen",
+    "title": "Passwort wiederholen",
+    "validation": "Passwörter sind nicht gleich"
+  },
   "popUp": {
     "deleteUser": {
+      "button": "Benutzer löschen",
       "part1": "Sicher, dass du den Benutzer",
-      "part2": "löschen möchtest?",
-      "button": "Benutzer löschen"
+      "part2": "löschen möchtest?"
+    },
+    "editRole": {
+      "unsavedChanges": "Du hast Änderungen gemacht, die nicht gespeichert worden sind. Möchtest du sie speichern?",
+      "save": "Änderungen speichern",
+      "saveError": "Änderungen konnten nicht gespeichert werden",
+      "saveSuccess": "Änderungen wurden gespeichert",
+      "deleteError": "Beim Löschen der Rolle ist ein Fehler aufgetreten",
+      "deleteSuccess": "Rolle wurde gelöscht",
+      "createError": "Eine Rolle mit diesem Namen exisitert bereits",
+      "createSuccess": "Rolle wurde erstellt",
+      "newRoleRedirectError": "Der Rolle muss erste ein Name gegeben werden, bevor weitere Einstellungen möglich sind"
     }
+  },
+  "queueDescription": {
+    "duration": "Dauer",
+    "title": "Titel"
+  },
+  "queueEmpty": "Es befinden sich keine Songs in der Warteschlange",
+  "select": "Wähle eine Option",
+  "settings": "Einstellungen",
+  "team": "Team",
+  "username": {
+    "error": "Benutzername oder Passwort falsch",
+    "logout": {
+      "buttonLabel": "Abmelden",
+      "callToAction": "Du musst dich abmelden, um diese Seite zu öffnen.",
+      "error": "Abmelden fehlgeschlagen",
+      "info": "Du bist nicht angemeldet",
+      "success": "Du wurdest abgemeldet."
+    },
+    "placeholder": "Benutzername eingeben",
+    "taken": "Benutzername bereits vergeben",
+    "title": "Benutzername",
+    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten"
+  },
+  "registration": {
+    "change": "Ändern",
+    "continue": "Weiter",
+    "createAccount": "Account erstellen",
+    "explanation": "Wir haben einen Code an deine E-Mail-Adresse gesendet, bitte überprüfe deinen Posteingang.",
+    "heading": "Account erstellen",
+    "noCode": {
+      "button": "Code erneut senden",
+      "error": "Es kam zu einem Fehler. Bitte versuche es erneut.",
+      "success": "Wir haben dir einen neuen Code gesendet.",
+      "text": "Ich habe keinen Code erhalten"
+    },
+    "success": "Registrierung erfolgreich",
+    "verified": "Verifiziert",
+    "verifiedCTO": "Das Konto wurde erstellt. Fahre mit den nächsten Schritten fort."
+  },
+  "roleEdit": {
+    "newRole": "Neue Rolle",
+    "navigation": {
+      "display": "Anzeige",
+      "members": "Mitglieder",
+      "permissions": "Berechtigungen"
+    },
+    "save": "Speichern",
+    "rollback": "Änderungen verwerfen",
+    "delete": "Rolle löschen",
+    "display": {
+      "roleName": "Rollen-Name",
+      "placeholder": "Rollen-Name eingeben..."
+    },
+    "member": {
+      "search": "Nach Benutzern suchen...",
+      "noResults": "Keine Treffer für ",
+      "selectAll": "Alle auswählen",
+      "selectNone": "keinen auswählen",
+      "invert": "Auswahl invertieren"
+    },
+    "permissions": {
+      "search": "Nach Berechtigungen suchen...",
+      "noResults": "Keine Treffer für ",
+      "selectAll": "Alle auswählen",
+      "selectNone": "keinen auswählen",
+      "invert": "Auswahl invertieren"
+    }
+  },
+  "installation": {
+    "installation": "Installation",
+    "progressBar": {
+      "language": "Sprache",
+      "registration": "Registrieren",
+      "privacy": "Zugang",
+      "sources": "Quellen"
+    },
+    "navigation": {
+      "next": {
+        "language": "Weiter zur Registrierung",
+        "registration": "Weiter zur Zugangskontrolle",
+        "privacy": "Weiter zur Quellen-Auswahl",
+        "sources": "Installation abschließen"
+      },
+      "back": {
+        "language": "Es gibt keinen Weg zurück",
+        "registration": "Zurück zur Sprachauswahl",
+        "privacy": "Zurück zur Registrierung",
+        "sources": "Zurück zur Zugangskontrolle"
+      }
+    },
+    "privacy": {
+      "emailAuthTitle": "E-Mail-Authentifizierung",
+      "emailAuthDescription": "Bei der Einrichtung eines Kontos müssen die Nutzer ihre E-Mail-Adresse eingeben und verifizieren.",
+      "roomPrivateTitle": "privater Raum",
+      "roomPrivateDescription": "Ein privater Raum ist durch einen Zugangscode geschützt. Beim Einloggen müssen die Benutzer diesen Code eingeben."
+    },
+    "language": "Wähle die Standardsprache für alle Benutzer aus.",
+    "source": "Wähle die Quellen aus, von denen Benutzer Song-Links einfügen können. (Mindestens eine)"
+  },
+  "languages": {
+    "en": "Englisch",
+    "de": "Deutsch"
+  },
+  "volume": {
+    "changeError": "Die Lautstärke konnte nicht geändert werden.",
+    "muteError": "Die Warteschlange konnte nicht stumm geschaltet werden.",
+    "unmuteError": "Die Stummschaltung konnte nicht aufgehoben werden."
   }
 }
