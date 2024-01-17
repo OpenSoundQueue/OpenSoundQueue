@@ -24,6 +24,12 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @Order(1)
+    @PostConstruct
+    private void loadTestData() {
+        //songQueueService.loadPreSetSongs("testSongs");
+    }
+
     @Profile("!prod")
     @Order(1)
     @PostConstruct
