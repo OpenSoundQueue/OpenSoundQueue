@@ -19,9 +19,9 @@ import org.springframework.core.annotation.Order;
 public class BackendApplication {
     private static final Logger LOG = LoggerFactory.getLogger(BackendApplication.class);
 
-    private SongQueueService songQueueService;
-    private RoleRepository roleRepository;
-    private UserInfoRepository userInfoRepository;
+    private final SongQueueService songQueueService;
+    private final RoleRepository roleRepository;
+    private final UserInfoRepository userInfoRepository;
 
     public BackendApplication(SongQueueService songQueueService, RoleRepository roleRepository, UserInfoRepository userInfoRepository) {
         this.songQueueService = songQueueService;
