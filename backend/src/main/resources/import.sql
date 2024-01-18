@@ -12,6 +12,7 @@ INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'DELETE_SONGS');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'MANAGE_ROLES');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'MANAGE_USER');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'SKIP');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'REPLAY');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'VOTESKIP');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'ADD_SONG');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'HISTORY_SEARCH');

@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 @Service
@@ -219,5 +223,23 @@ public class SongQueueService {
     public int getVoteSkipRequired() {
         voteSkipRequired = (int) Math.ceil(userService.getAllOnlineUsers().size() / 2.0);
         return voteSkipRequired;
+    }
+
+    public void loadPreSetSongs(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String resourcePath = "data/" + fileName;
+        List<String> links = new LinkedList<>();
+        try (InputStream inputStream = classLoader.getResourceAsStream(resourcePath)) {
+            assert inputStream != null;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                links = reader.lines().toList();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String s:links) {
+            new Thread(() -> songService.validateSong(s)).start();
+        }
     }
 }
