@@ -238,7 +238,6 @@ public class SongQueueService {
             e.printStackTrace();
         }
 
-        System.out.println(links);
         for (String s:links) {
             new Thread(() -> songService.validateSong(s)).start();
         }
