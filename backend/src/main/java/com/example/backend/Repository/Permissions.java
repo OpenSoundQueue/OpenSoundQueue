@@ -1,6 +1,7 @@
 package com.example.backend.Repository;
 
 public enum Permissions {
+    MANAGE_SYSTEM_SETTINGS,
     VOTESKIP,
     SKIP,
     ADD_SONG,

@@ -16,6 +16,7 @@ INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'REPLAY');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'VOTESKIP');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'ADD_SONG');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'HISTORY_SEARCH');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'MANAGE_SYSTEM_SETTINGS');
 
 /* Password is 'Passwort{id}!' */
 INSERT INTO User_Info (username, password, email, verified) VALUES ('Markus', '$2a$10$YFqbWQmdKvSNBih6B9.Mbu7ckdxUuSaqRtiFTtFQaOE9Qt57sEwmy', 'user1@email.com', true);
