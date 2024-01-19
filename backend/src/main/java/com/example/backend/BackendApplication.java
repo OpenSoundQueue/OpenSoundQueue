@@ -1,10 +1,13 @@
 package com.example.backend;
 
+import com.example.backend.Repository.Role;
+import com.example.backend.Repository.RoleRepository;
+import com.example.backend.Repository.UserInfoRepository;
 import com.example.backend.streaming.SongQueueService;
+import com.example.backend.util.PropertyLoader;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -12,21 +15,50 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @PropertySource("classpath:system.properties")
 public class BackendApplication {
     private static final Logger LOG = LoggerFactory.getLogger(BackendApplication.class);
 
-    @Autowired
-    private SongQueueService songQueueService;
+    private final SongQueueService songQueueService;
+    private final RoleRepository roleRepository;
+    private final UserInfoRepository userInfoRepository;
+    private final PropertyLoader propertyLoader;
+
+    public BackendApplication(SongQueueService songQueueService, RoleRepository roleRepository, UserInfoRepository userInfoRepository, PropertyLoader propertyLoader) {
+        this.songQueueService = songQueueService;
+        this.roleRepository = roleRepository;
+        this.userInfoRepository = userInfoRepository;
+        this.propertyLoader = propertyLoader;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @Profile("!prod")
     @Order(1)
     @PostConstruct
+    private void checkPreRequirements() throws IOException {
+        File file = new File("./system.properties");
+        if (!file.exists()) {
+            Files.copy(propertyLoader.getPropertyStream(), Path.of("./system.properties"));
+        }
+    }
+
+    @Order(2)
+    @PostConstruct
+    private void loadTestData() {
+        //songQueueService.loadPreSetSongs("testSongs");
+    }
+
+    @Profile("!prod")
+    @Order(2)
+    //@PostConstruct
     private void feedTestData() {
         for (int i = 0; i < 3; i++) {
             LOG.warn("Feeding song queue with test data... (might take a while)");
@@ -46,6 +78,14 @@ public class BackendApplication {
             songQueueService.addSong("https://www.youtube.com/watch?v=pgN-vvVVxMA");
             songQueueService.addSong("https://www.youtube.com/watch?v=lxRwEPvL-mQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=hTWKbfoikeg");
+        }
+    }
+
+    @PostConstruct
+    public void fixUserRoles() {
+        for (Role r : roleRepository.findAll()) {
+            r.setMembers(userInfoRepository.findAllByRolesContains(r));
+            roleRepository.save(r);
         }
     }
 }

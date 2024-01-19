@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 @Service
@@ -60,6 +64,7 @@ public class SongQueueService {
     }
 
     public void skip() {
+        if (currentSong == null) return;
         songService.close(currentSong);
         voteSkipUserList.clear();
         if (songQueue.isEmpty()) {
@@ -107,7 +112,6 @@ public class SongQueueService {
 
     public void play() {
         if (songQueue.isEmpty() && currentSong == null) {
-            LOG.info("Song queue is empty!");
             return;
         }
         songService.play(currentSong);
@@ -151,14 +155,19 @@ public class SongQueueService {
     }
 
     public VoteSkipStatusDto setVoteSkip(String userToken) {
+        if (currentSong == null) {
+            voteSkipUserList.clear();
+            voteSkipCurrent = 0;
+            return new VoteSkipStatusDto(false, 0, getVoteSkipRequired());
+        }
         UserInfoEntity user = userService.getUserByToken(userToken);
         if (voteSkipUserList.contains(user.getId())) return getVoteSkipStatus(user.getId());
-        voteSkipUserList.add(user.getId());
         if (voteSkipCurrent+1 >= getVoteSkipRequired()) {
             this.skip();
             voteSkipCurrent = 0;
         } else {
             voteSkipCurrent++;
+            voteSkipUserList.add(user.getId());
         }
 
         return getVoteSkipStatus(user.getId());
@@ -181,13 +190,15 @@ public class SongQueueService {
     }
 
     public void replaySong() {
-        songService.replay(currentSong);
+        if (currentSong != null) {
+            songService.replay(currentSong);
+        }
     }
 
     public VolumeDto changeVolume(int volume) {
         this.volume = volume;
 
-        if (!this.isMuted) {
+        if (!this.isMuted && currentSong != null) {
             songService.changeVolume(currentSong, volume);
         }
 
@@ -204,14 +215,20 @@ public class SongQueueService {
 
     public VolumeDto mute() {
         this.isMuted = true;
-        songService.changeVolume(currentSong, 0);
+
+        if (currentSong != null) {
+            songService.changeVolume(currentSong, 0);
+        }
 
         return new VolumeDto(this.volume, this.isMuted);
     }
 
     public VolumeDto unmute() {
         this.isMuted = false;
-        songService.changeVolume(currentSong, this.volume);
+
+        if (currentSong != null) {
+            songService.changeVolume(currentSong, this.volume);
+        }
 
         return new VolumeDto(this.volume, this.isMuted);
     }
@@ -219,5 +236,23 @@ public class SongQueueService {
     public int getVoteSkipRequired() {
         voteSkipRequired = (int) Math.ceil(userService.getAllOnlineUsers().size() / 2.0);
         return voteSkipRequired;
+    }
+
+    public void loadPreSetSongs(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String resourcePath = "data/" + fileName;
+        List<String> links = new LinkedList<>();
+        try (InputStream inputStream = classLoader.getResourceAsStream(resourcePath)) {
+            assert inputStream != null;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                links = reader.lines().toList();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String s:links) {
+            new Thread(() -> songService.validateSong(s)).start();
+        }
     }
 }
