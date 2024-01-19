@@ -184,7 +184,8 @@ const router = createRouter({
                     name: 'application-settings',
                     component: ApplicationSettingsView,
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        requiresPermission: ["MANAGE_SYSTEM_SETTINGS"]
                     }
                 }
             ]
