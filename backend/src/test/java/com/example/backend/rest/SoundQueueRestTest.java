@@ -157,10 +157,7 @@ public class SoundQueueRestTest {
         ResponseEntity<Object> response = soundQueueRest.replaySong("token");
     
         // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        ErrorDto errorDto = (ErrorDto) response.getBody();
-        assertNotNull(errorDto);
-        assertEquals("No song currently playing!", errorDto.getError());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     // POST request to /queue/add with invalid link returns an error message

@@ -7,8 +7,6 @@ import com.example.backend.annotations.AuthRequest;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -145,7 +143,7 @@ public class SoundQueueRest {
     @PostMapping("/queue/replay")
     public ResponseEntity<Object> replaySong(@RequestHeader(value = "X-API-KEY") String token) {
         if (songQueueService.getCurrentPlayingSong() == null)
-            return new ResponseEntity<>(new ErrorDto("No song currently playing!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
         songQueueService.replaySong();
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(HttpStatus.OK);
