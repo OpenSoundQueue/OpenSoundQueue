@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-navigation-wrapper">
+  <div>
     <nav>
       <div class="mode-switcher">
         <router-link to="/admin/roles" class="link">{{ $translate('adminPage.nav.roles') }}</router-link>
