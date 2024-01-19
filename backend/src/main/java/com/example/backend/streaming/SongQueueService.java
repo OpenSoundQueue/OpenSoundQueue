@@ -64,6 +64,7 @@ public class SongQueueService {
     }
 
     public void skip() {
+        if (currentSong == null) return;
         songService.close(currentSong);
         voteSkipUserList.clear();
         if (songQueue.isEmpty()) {
@@ -111,7 +112,6 @@ public class SongQueueService {
 
     public void play() {
         if (songQueue.isEmpty() && currentSong == null) {
-            LOG.info("Song queue is empty!");
             return;
         }
         songService.play(currentSong);
@@ -155,14 +155,19 @@ public class SongQueueService {
     }
 
     public VoteSkipStatusDto setVoteSkip(String userToken) {
+        if (currentSong == null) {
+            voteSkipUserList.clear();
+            voteSkipCurrent = 0;
+            return new VoteSkipStatusDto(false, 0, getVoteSkipRequired());
+        }
         UserInfoEntity user = userService.getUserByToken(userToken);
         if (voteSkipUserList.contains(user.getId())) return getVoteSkipStatus(user.getId());
-        voteSkipUserList.add(user.getId());
         if (voteSkipCurrent+1 >= getVoteSkipRequired()) {
             this.skip();
             voteSkipCurrent = 0;
         } else {
             voteSkipCurrent++;
+            voteSkipUserList.add(user.getId());
         }
 
         return getVoteSkipStatus(user.getId());
@@ -185,13 +190,15 @@ public class SongQueueService {
     }
 
     public void replaySong() {
-        songService.replay(currentSong);
+        if (currentSong != null) {
+            songService.replay(currentSong);
+        }
     }
 
     public VolumeDto changeVolume(int volume) {
         this.volume = volume;
 
-        if (!this.isMuted) {
+        if (!this.isMuted && currentSong != null) {
             songService.changeVolume(currentSong, volume);
         }
 
@@ -208,14 +215,20 @@ public class SongQueueService {
 
     public VolumeDto mute() {
         this.isMuted = true;
-        songService.changeVolume(currentSong, 0);
+
+        if (currentSong != null) {
+            songService.changeVolume(currentSong, 0);
+        }
 
         return new VolumeDto(this.volume, this.isMuted);
     }
 
     public VolumeDto unmute() {
         this.isMuted = false;
-        songService.changeVolume(currentSong, this.volume);
+
+        if (currentSong != null) {
+            songService.changeVolume(currentSong, this.volume);
+        }
 
         return new VolumeDto(this.volume, this.isMuted);
     }
