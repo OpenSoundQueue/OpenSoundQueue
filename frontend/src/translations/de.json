@@ -301,6 +301,7 @@
     "unmuteError": "Die Stummschaltung konnte nicht aufgehoben werden."
   },
   "applicationSettings": {
+    "title": "Systemeinstellungen",
     "saveError": "Einstellungen konnten nicht gespeichert werden",
     "fetchError": "Einstellungen konnten nicht abgerufen werden",
     "privacy": {

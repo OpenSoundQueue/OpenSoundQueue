@@ -301,6 +301,7 @@
     "unmuteError": "Could not unmute queue."
   },
   "applicationSettings": {
+    "title": "Application Settings",
     "saveError": "Unable to save application settings",
     "fetchError": "Could not retrieve application settings",
     "privacy": {

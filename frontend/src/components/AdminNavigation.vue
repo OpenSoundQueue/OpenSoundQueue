@@ -4,15 +4,11 @@
       <div class="mode-switcher">
         <router-link to="/admin/roles" class="link">{{ $translate('adminPage.nav.roles') }}</router-link>
         <router-link to="/admin/users" class="link">{{ $translate('adminPage.nav.users') }}</router-link>
-        <router-link to="/admin/application-settings" class="link">Application Settings</router-link>
+        <router-link to="/admin/application-settings" class="link">{{ $translate('applicationSettings.title') }}</router-link>
       </div>
     </nav>
   </div>
 </template>
-
-<script setup lang="ts">
-
-</script>
 
 <style scoped>
 nav {
