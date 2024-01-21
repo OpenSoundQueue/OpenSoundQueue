@@ -23,11 +23,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class UserRest {
-
-    private SystemService systemService;
-    private UserService userService;
-    private PasswordEncoder passwordEncoder;
-    private TokenUtils tokenUtils;
+    private final SystemService systemService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenUtils tokenUtils;
 
     public UserRest(SystemService systemService, UserService userService, PasswordEncoder passwordEncoder, TokenUtils tokenUtils) {
         this.systemService = systemService;
@@ -125,7 +124,11 @@ public class UserRest {
         UserInfoEntity userInfoEntity = userService.getUserByUsername(username);
 
         if (userInfoEntity != null) {
-            return new ResponseEntity<>(new ErrorDto("Username already in use"), HttpStatus.BAD_REQUEST);
+            if (userService.getAllOnlineUsers().stream().map(UserDto::getUsername).toList().contains(userInfoEntity.getUsername())) {
+                return new ResponseEntity<>(new ErrorDto("Username already in use"), HttpStatus.BAD_REQUEST);
+            } else {
+                userService.deleteUser(userInfoEntity.getId());
+            }
         }
 
         userInfoEntity = userService.registerNewUser(new UserInfoEntity(username));
