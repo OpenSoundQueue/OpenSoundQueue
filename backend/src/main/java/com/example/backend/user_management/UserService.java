@@ -117,6 +117,7 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        changeRolesOfUser(id, new LinkedList<>());
         userInfoRepository.deleteById(id);
     }
 
