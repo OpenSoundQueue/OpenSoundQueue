@@ -18,7 +18,8 @@ public class SongService implements SongServiceInterface {
     );
 
     List<String> VALID_SOUNDCLOUD_LINKS = Arrays.asList(
-            ".*://(www\\.)?soundcloud.com/.*"
+            ".*://(www\\.)?soundcloud.com/.*",
+            ".*://on\\.)?soundcloud.com/.*"
     );
 
     Map<String, List<String>> LINK_VALIDATIONS = new HashMap<>() {{
@@ -94,9 +95,9 @@ public class SongService implements SongServiceInterface {
 
     // Validation which type of source is being used
     private SongServiceInterface getSongSource(String link) {
-        if (LINK_VALIDATIONS.get("youtube").stream().filter(link::matches).toList().size() > 0) {
+        if (!LINK_VALIDATIONS.get("youtube").stream().filter(link::matches).toList().isEmpty()) {
             return youtubeSongService;
-        } else if (LINK_VALIDATIONS.get("soundcloud").stream().filter(link::matches).toList().size() > 0) {
+        } else if (!LINK_VALIDATIONS.get("soundcloud").stream().filter(link::matches).toList().isEmpty()) {
             return soundcloudSongService;
         }
 
