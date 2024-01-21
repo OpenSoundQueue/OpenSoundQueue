@@ -1,11 +1,6 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
-    <nav v-show="hasAllManagementPermissions">
-      <div v-show="roleId == undefined" class="mode-switcher">
-        <router-link to="/admin/roles" class="link">{{ translate('adminPage.nav.roles') }}</router-link>
-        <router-link to="/admin/users" class="link">{{ translate('adminPage.nav.users') }}</router-link>
-      </div>
-    </nav>
+    <AdminNavigation v-show="hasAllManagementPermissions && roleId == undefined"/>
     <div class="role-container">
       <component :is="component"
                  :role-id="selectedRoleId"
@@ -66,6 +61,7 @@ import {translate} from "@/plugins/TranslationPlugin";
 import DynamicButton from "@/components/buttons/DynamicButton.vue";
 import {ToastService} from "@/services/ToastService";
 import {PermissionService} from "@/services/PermissionService";
+import AdminNavigation from "@/components/AdminNavigation.vue";
 
 const store = useRoleStore();
 
@@ -77,7 +73,7 @@ const props = defineProps<{
 const component: ShallowRef<Component | undefined> = shallowRef(RoleList);
 const detailComponent: ShallowRef<Component> = shallowRef(RoleDisplay);
 const selectedRoleId: Ref<number | undefined> = ref(parseInt(typeof props.roleId === 'undefined' ? "" : props.roleId) ?? undefined);
-const hasAllManagementPermissions = ref(false);
+const hasAllManagementPermissions = ref(true);
 const saveButtonState = ref("active")
 
 onMounted(async () => {
@@ -160,40 +156,6 @@ main {
   padding-top: 20px;
 }
 
-nav {
-  height: 60px;
-}
-
-.mode-switcher {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  height: 35px;
-}
-
-.link {
-  height: 35px;
-  width: 100%;
-  background: var(--background-color);
-  border: 3px solid var(--secondary-color);
-  box-sizing: border-box;
-  color: var(--text-color);
-  font-size: var(--font-size-medium);
-  border-radius: var(--border-radius-medium);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-}
-
-.link.router-link-active {
-  color: var(--background-color);
-  border-color: var(--tertiary-color);
-  background: var(--tertiary-color);
-  font-weight: bold;
-}
-
 .role-container {
   overflow-y: hidden;
   display: flex;
@@ -221,12 +183,6 @@ nav {
 .undo {
   height: 30px;
   margin: auto 0 auto 0;
-}
-
-@media screen and (min-width: 420px) {
-  nav {
-    width: 270px;
-  }
 }
 
 @media screen and (min-width: 800px) {

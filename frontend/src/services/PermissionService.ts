@@ -15,7 +15,8 @@ export type PermissionType =
     "CHANGE_ORDER" |
     "DELETE_SONGS" |
     "MANAGE_ROLES" |
-    "MANAGE_USER";
+    "MANAGE_USER" |
+    "MANAGE_SYSTEM_SETTINGS";
 export class PermissionService{
     static permissions:Ref<PermissionType[]> = ref([]);
 
