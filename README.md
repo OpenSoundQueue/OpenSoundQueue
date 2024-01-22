@@ -27,16 +27,26 @@ This project also features a modular structure and is therefore easily extendabl
 
 ## Visuals
 
-### TODO
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+<img src='readme_assets/Sketch.png' width='400'/>
+<img src='readme_assets/Public.png' width='400'/>
+<img src='readme_assets/Basic.png' width='400'/>
+<img src='readme_assets/Roles.png' width='400'/>
 
 ## Installation
 
 ### Download latest release
+
+The latest release can be found as github release or via our project website:
+
+    https://www.opensoundqueue.org
+
 1. Download and extract the respective zip folder for your operating system from the latest release
 2. Execute the installation script
 3. Follow the instructions given by the web-installer
 4. Your application should be ready to go
+
+Keep in mind that you can change everything from the web installer at a later date as well, **<span style="color:red">except the owner user!</span>**
+You will **NOT** be able to change the owner anymore once the installer is complete!
 
 ## Usage
 This software is intended for listening music together with a group of people and managing the sound queue together.
@@ -67,10 +77,8 @@ You are good to go and start developing your feature.
 Once you are done with the feature, and you are certain that you removed all the bugs, you can go ahead and create a pull request. Our Devs will have a look at your change, run some tests to verify the integrity and finally either approve the request or get back to you with suggestions or comments for you to improve your code.
 
 ## Authors and acknowledgment
-Project owners: 
-- Lukas Schodl
-- Daniel Pillwein
-- Markus Wizany
+
+![Authors](readme_assets/Authors.png)
 
 ## License
 Copyright 2023 Lukas Schodl
