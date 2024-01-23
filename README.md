@@ -1,4 +1,6 @@
+
 # OpenSoundQueue
+<img src='readme_assets/Logo.png' width='500'/>
 
 ## Description
 OpenSoundQueue is an open-source application that is meant for sharing a song queue to listen together in groups. It offers a variety of streaming sources and a user management system to manage permissions. 
