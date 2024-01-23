@@ -19,7 +19,7 @@ public class SongService implements SongServiceInterface {
 
     List<String> VALID_SOUNDCLOUD_LINKS = Arrays.asList(
             ".*://(www\\.)?soundcloud.com/.*",
-            ".*://on\\.)?soundcloud.com/.*"
+            ".*://(on\\.)?soundcloud.com/.*"
     );
 
     Map<String, List<String>> LINK_VALIDATIONS = new HashMap<>() {{
