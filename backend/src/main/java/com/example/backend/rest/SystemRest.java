@@ -128,4 +128,30 @@ public class SystemRest {
 
         return new ResponseEntity<>(sources, HttpStatus.OK);
     }
+
+    @GetMapping("/system/settings")
+    public ResponseEntity<Object> getSystemSettings() throws IOException {
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("language", propertyService.getProperty("system.language"));
+        response.put("is-private", propertyService.getProperty("system.is-private"));
+        response.put("entry-code", propertyService.getProperty("system.entry-code"));
+        response.put("email-auth", propertyService.getProperty("system.email-auth"));
+        response.put("supported-sources", propertyService.getPropertyAsList("system.sources.supported"));
+        response.put("enabled-sources", propertyService.getPropertyAsList("system.sources.enabled"));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PatchMapping("/system/settings/set")
+    public ResponseEntity<Object> setSystemSettings(@RequestBody Map<String, Object> input) throws IOException {
+        propertyService.setProperty("system.language", input.get("language")+"");
+        propertyService.setProperty("system.is-private", input.get("is-private")+"");
+        propertyService.setProperty("system.entry-code", input.get("entry-code")+"");
+        propertyService.setProperty("system.email-auth", input.get("email-auth")+"");
+        propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supported-sources")) + "}");
+        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabled-sources")) + "}");
+
+        return getSystemSettings();
+    }
 }
