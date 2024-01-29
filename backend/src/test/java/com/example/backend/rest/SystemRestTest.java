@@ -31,7 +31,7 @@ public class SystemRestTest {
         Mockito.when(propertyService.getProperty("system.language")).thenReturn(expectedLanguage);
 
         // Send a GET request to /system/language
-        ResponseEntity<Object> response = systemRest.getLanguage();
+        ResponseEntity<Object> response = systemRest.getLanguage("token");
     
         // Verify that the response status is OK
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -54,7 +54,7 @@ public class SystemRestTest {
         Mockito.doNothing().when(propertyService).setProperty("system.language", language);
     
         // Call the setLanguage() method of SystemRest
-        ResponseEntity<Object> response = systemRest.setLanguage(language);
+        ResponseEntity<Object> response = systemRest.setLanguage("token", language);
     
         // Verify that PropertyService.setProperty() method was called with the correct arguments
         Mockito.verify(propertyService).setProperty("system.language", language);
@@ -74,7 +74,7 @@ public class SystemRestTest {
         Mockito.when(propertyService.getProperty("system.entry-code")).thenReturn(entryCode);
 
         // Send a GET request to /system/privacy
-        ResponseEntity<Object> response = systemRest.getPrivacySettings();
+        ResponseEntity<Object> response = systemRest.getPrivacySettings("token");
     
         // Verify the response status code is HttpStatus.OK
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -94,7 +94,7 @@ public class SystemRestTest {
         Mockito.when(propertyService.getProperty("system.email-auth")).thenReturn(expectedPropertyValue);
 
         // Make the GET request to /system/email-auth
-        ResponseEntity<Object> response = systemRest.getEmailAuth();
+        ResponseEntity<Object> response = systemRest.getEmailAuth("token");
     
         // Verify that the response status is HttpStatus.OK
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -120,7 +120,7 @@ public class SystemRestTest {
         Mockito.when(propertyService.getProperty(Mockito.anyString())).thenReturn("1234");
 
         // Call the setPrivacySettings method with the privacySettings object
-        ResponseEntity<Object> response = systemRest.setPrivacySettings(privacySettings);
+        ResponseEntity<Object> response = systemRest.setPrivacySettings("token", privacySettings);
     
         // Verify that the setProperty method in PropertyService is called with the correct arguments
         Mockito.verify(propertyService).setProperty("system.is-private", "true");
@@ -145,7 +145,7 @@ public class SystemRestTest {
         Mockito.doNothing().when(propertyService).setProperty("system.email-auth", emailAuth);
     
         // Call the method under test
-        ResponseEntity<Object> response = systemRest.setEmailAuth(emailAuth);
+        ResponseEntity<Object> response = systemRest.setEmailAuth("token", emailAuth);
     
         // Verify that propertyService.setProperty() was called with the correct arguments
         Mockito.verify(propertyService).setProperty("system.email-auth", emailAuth);
@@ -187,7 +187,7 @@ public class SystemRestTest {
         Mockito.doNothing().when(propertyService).setProperty("system.installed", expectedPropertyValue);
     
         // Make the PATCH request
-        ResponseEntity<Object> response = systemRest.setInstallationComplete();
+        ResponseEntity<Object> response = systemRest.setInstallationComplete("token");
     
         // Verify that the property was set correctly
         Mockito.verify(propertyService).setProperty("system.installed", expectedPropertyValue);
@@ -204,7 +204,7 @@ public class SystemRestTest {
         Mockito.when(propertyService.getPropertyAsList("system.sources.supported")).thenReturn(expectedSources);
 
         // Send a GET request to /system/supported-sources
-        ResponseEntity<Object> response = systemRest.getSupportedSources();
+        ResponseEntity<Object> response = systemRest.getSupportedSources("token");
     
         // Verify that the response status is OK
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -254,7 +254,7 @@ public class SystemRestTest {
         Mockito.when(propertyService.getPropertyAsList("system.sources.enabled")).thenReturn(expectedSources);
     
         // Call the setSources method of SystemRest with the mock input
-        ResponseEntity<Object> actualResponse = systemRest.setSources(input);
+        ResponseEntity<Object> actualResponse = systemRest.setSources("token", input);
     
         // Verify that the getPropertyAsList method of PropertyService is called with the correct argument
         Mockito.verify(propertyService).getPropertyAsList("system.sources.supported");
