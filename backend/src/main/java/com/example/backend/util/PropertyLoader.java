@@ -16,6 +16,7 @@ public class PropertyLoader {
         InputStream targetStream = new FileInputStream(initialFile);
         Properties properties = new Properties();
         properties.load(targetStream);
+        targetStream.close();
         return properties;
     }
 
@@ -23,6 +24,7 @@ public class PropertyLoader {
         File initialFile = new File("./" + PROPERTY_FILE_NAME);
         OutputStream targetStream = new FileOutputStream(initialFile);
         properties.store(targetStream, null);
+        targetStream.close();
     }
 
     public InputStream getPropertyStream() {

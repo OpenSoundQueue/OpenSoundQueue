@@ -1297,6 +1297,65 @@ paths:
       responses:
         200:
           description: installation status set to complete
+  /system/settings:
+    get:
+      tags:
+        - system
+      description: get system settings
+      responses:
+        200:
+          description: all system settings
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+                  is-private: true
+                  entry-code: Schodl
+                  email-auth: true
+                  supported-sources:
+                    - youtube
+                    - soundcloud
+                  enabled-sources:
+                    - youtube
+                    - soundcloud
+  /system/settings/set:
+    patch:
+      tags:
+        - system
+      description: set system settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                language: DE
+                is-private: true
+                entry-code: Schodl
+                email-auth: true
+                supported-sources:
+                  - youtube
+                  - soundcloud
+                enabled-sources:
+                  - youtube
+                  - soundcloud
+      responses:
+        200:
+          description: all system settings
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+                  is-private: true
+                  entry-code: Schodl
+                  email-auth: true
+                  supported-sources:
+                    - youtube
+                    - soundcloud
+                  enabled-sources:
+                    - youtube
+                    - soundcloud
 components:
   securitySchemes:
     ApiKeyAuth:

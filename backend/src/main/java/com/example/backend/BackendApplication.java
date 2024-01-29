@@ -12,7 +12,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 
 import java.io.File;
@@ -21,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@PropertySource("classpath:system.properties")
 public class BackendApplication {
     private static final Logger LOG = LoggerFactory.getLogger(BackendApplication.class);
 

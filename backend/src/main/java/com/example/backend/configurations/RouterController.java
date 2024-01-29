@@ -57,4 +57,8 @@ public class RouterController {
     public ModelAndView redirectUsers() {
         return new ModelAndView("forward:/");
     }
+    @RequestMapping("/admin/application-settings")
+    public ModelAndView redirectApplicationSettings() {
+        return new ModelAndView("forward:/");
+    }
 }
