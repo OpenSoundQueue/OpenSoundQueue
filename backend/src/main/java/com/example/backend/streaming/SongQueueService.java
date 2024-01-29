@@ -255,4 +255,14 @@ public class SongQueueService {
             new Thread(() -> songService.validateSong(s)).start();
         }
     }
+
+    public boolean removeSong(int pos, String title) {
+        if (pos > songQueue.size()) return false;
+        if (songQueue.get(pos).getTitle().trim().equals(title.trim())) {
+            songQueue.remove(pos);
+        } else {
+            return false;
+        }
+        return true;
+    }
 }
