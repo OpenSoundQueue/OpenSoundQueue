@@ -462,6 +462,31 @@ paths:
               schema:
                 example:
                   status: No song currently playing
+  /queue/delete:
+    delete:
+      tags:
+        - auth
+        - queue
+      description: remove songs from the queue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                - numberInQueue: 1
+                  title: Hope
+                - numberInQueue: 2
+                  title: J.F.K
+      responses:
+        200:
+          description: songs have been removed
+        400:
+          description: songs could not be removed
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Song could not be removed
   /vote-skip/status:
     get:
       tags:
