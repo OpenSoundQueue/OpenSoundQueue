@@ -187,7 +187,6 @@ public class SoundQueueRest {
     @DeleteMapping("/queue/delete")
     public ResponseEntity<Object> removeSongFromQueue(@RequestHeader(value = "X-API-KEY") String token, @RequestBody List<Map<String,String>> input) {
         input.sort((o1, o2) -> Integer.parseInt(o2.get("numberInQueue")) - Integer.parseInt(o1.get("numberInQueue")));
-        System.out.println(input);
         for (Map<String, String> stringStringMap : input) {
             boolean erg = songQueueService.removeSong(Integer.parseInt(stringStringMap.get("numberInQueue")), stringStringMap.get("title"));
             if (!erg) return new ResponseEntity<>(new ErrorDto("Could not remove songs"), HttpStatus.BAD_REQUEST);
