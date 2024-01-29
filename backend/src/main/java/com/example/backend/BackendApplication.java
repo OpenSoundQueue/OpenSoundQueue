@@ -58,8 +58,8 @@ public class BackendApplication {
     @Order(2)
     //@PostConstruct
     private void feedTestData() {
+        LOG.warn("Feeding song queue with test data... (might take a while)");
         for (int i = 0; i < 3; i++) {
-            LOG.warn("Feeding song queue with test data... (might take a while)");
             songQueueService.addSong("https://soundcloud.com/nfrealmusic/hope");
             songQueueService.addSong("https://www.youtube.com/watch?v=_t431MAUQlQ");
             songQueueService.addSong("https://www.youtube.com/watch?v=dvgZkm1xWPE");
