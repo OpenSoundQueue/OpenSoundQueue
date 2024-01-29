@@ -3,6 +3,7 @@ package com.example.backend.annotations;
 import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.exceptions.UnauthorizedException;
+import com.example.backend.system_management.PropertyService;
 import com.example.backend.user_management.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,12 +15,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthAspect {
     UserService userService;
-    public AuthAspect(UserService userService) {
+    PropertyService propertyService;
+    public AuthAspect(UserService userService, PropertyService propertyService) {
         this.userService = userService;
+        this.propertyService = propertyService;
     }
 
     @Around("@annotation(AuthRequest)")
     public Object checkAuth(ProceedingJoinPoint joinPoint) throws Throwable {
+        Permissions requiredPermission = ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(AuthRequest.class).requiredPermission();
+        if (requiredPermission.equals(Permissions.MANAGE_SYSTEM_SETTINGS)) {
+            if (!Boolean.parseBoolean(propertyService.getProperty("system.installed"))) return joinPoint.proceed();
+        }
         String token = "";
         for (Object o:joinPoint.getArgs()) {
             if (o instanceof String) {
@@ -31,7 +38,6 @@ public class AuthAspect {
             throw new UnauthorizedException("token");
         }
 
-        Permissions requiredPermission = ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(AuthRequest.class).requiredPermission();
         if (requiredPermission.equals(Permissions.NO_VALUE)) return joinPoint.proceed();
 
         UserInfoEntity user = userService.getUserByToken(token);
