@@ -51,6 +51,9 @@
         />
       </div>
     </div>
+    <div v-if="showSelectionOptions" class="selection-options-container">
+      <div>Delete</div>
+    </div>
   </div>
 </template>
 
@@ -84,6 +87,14 @@ const queue: Ref<Array<{
 }>> = ref([]);
 
 const draggedElement = ref(0);
+
+const showSelectionOptions = computed(() => {
+  return queue.value.some((element => {
+    if (element.isSelected) {
+      return true;
+    }
+  }));
+});
 
 const dragOptions = computed(() => {
   return {
@@ -138,6 +149,7 @@ function endDrag() {
   overflow-y: scroll;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .entry-container {
@@ -199,6 +211,13 @@ function endDrag() {
   color: var(--tertiary-color);
   font-weight: bold;
   font-size: var(--font-size-medium);
+}
+
+.selection-options-container {
+  background: red;
+  position: absolute;
+  width: 100%;
+  height: 30px;
 }
 
 @media screen and (min-width: 1250px) {
