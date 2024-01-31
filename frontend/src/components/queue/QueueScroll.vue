@@ -25,6 +25,9 @@
       >
         <template #item="{ element }">
           <li @mousedown="startDrag(element.numberInQueue)" class="queue-reorder-item">
+          <span>
+           <Checkbox @click="element.isSelected = !element.isSelected" :checked="element.isSelected"/>
+          </span>
             <span class="entry">
               <Entry :number-in-queue="element.numberInQueue"
                      :title="element.song.title"
@@ -61,6 +64,7 @@ import draggable from "vuedraggable";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
 import type {Ref} from "vue";
+import Checkbox from "@/components/buttons/Checkbox.vue";
 
 const props = defineProps<{
   updateInterval: number,
@@ -75,7 +79,8 @@ const queueIsLoading = ref(true);
 
 const queue: Ref<Array<{
   numberInQueue: number,
-  song: { title: string, artist: string, duration: number, link?: string }
+  isSelected?: boolean,
+  song: { title: string, artist: string, duration: number, link?: string },
 }>> = ref([]);
 
 const draggedElement = ref(0);
@@ -96,8 +101,16 @@ onMounted(() => {
 
 function requestQueue() {
   httpService.getQueueAll()
-      .then((data: Array<{ numberInQueue: number, song: Song }>) => {
-        queue.value = data;
+      .then((data: Array<{ numberInQueue: number, isSelected?: boolean, song: Song }>) => {
+        queue.value = data.map((element, index) => {
+          if (typeof queue.value[index] === "undefined") {
+            element.isSelected = false;
+          } else {
+            element.isSelected = queue.value[index].isSelected;
+          }
+          return element;
+        });
+
         queueIsLoading.value = false;
       })
 }

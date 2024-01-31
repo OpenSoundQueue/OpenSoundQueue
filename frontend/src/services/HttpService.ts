@@ -30,7 +30,7 @@ export class HttpService {
     }
 
     async getQueueAll() {
-        type Queue = Array<{ numberInQueue: number, song: Song }>;
+        type Queue = Array<{ numberInQueue: number, isSelected?: boolean, song: Song }>;
 
         return httpClient.get(`/queue/all`)
             .then((response) => {
