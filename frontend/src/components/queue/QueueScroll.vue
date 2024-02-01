@@ -159,6 +159,8 @@ async function deleteSelected() {
 }
 
 function resetSelection() {
+  emit("select", false);
+
   queue.value.map((elem) => {
     elem.isSelected = false;
 
