@@ -16,7 +16,14 @@
       </div>
       <div class="hr desktop"></div>
       <div class="queue-scroll-component">
-        <QueueScroll :update-interval="4000" :has-reorder="hasQueueReorderPermission && displayAdvanced"/>
+        <QueueScroll :update-interval="4000"
+                     :has-reorder="hasQueueReorderPermission && displayAdvanced"
+                     @select="args => showSelectionOptions = args"
+                     ref="queueScroll"
+        />
+      </div>
+      <div v-if="showSelectionOptions" class="selection-options-container">
+        <div @click="deleteSelection">Delete</div>
       </div>
     </div>
     <div class="control-panel-wrapper">
@@ -49,7 +56,7 @@ import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, shallowRef} from "vue";
 import type {Ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
@@ -57,6 +64,7 @@ import {HttpService} from "@/services/HttpService";
 import {useNowPlaying} from "@/composables/nowPlaying";
 import {PermissionService} from "@/services/PermissionService";
 import {translate} from "@/plugins/TranslationPlugin";
+import InputField from "@/components/inputs/InputField.vue";
 
 type ControlPanelPermissions = {
   voteSkip:boolean,
@@ -70,11 +78,14 @@ const httpService = new HttpService();
 
 const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
-
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = ref(false);
 const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false,changeVolume:false});
 const addSongPermission = ref(false);
+
+const showSelectionOptions = ref(false);
+
+const queueScroll = ref<InstanceType<typeof QueueScroll>>();
 
 onMounted(async () => {
   await PermissionService.getPermissions();
@@ -97,6 +108,10 @@ onMounted(async () => {
 const displayAdvanced = computed(() => {
   return router.currentRoute.value.name === "advanced";
 })
+
+function deleteSelection() {
+  queueScroll.value?.deleteSelected();
+}
 
 function update() {
   httpService.getNowPlaying().then(data => {
@@ -180,10 +195,19 @@ main.show-mode-switcher {
   height: calc(100% - 100px - 190px);
   padding-top: 10px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .queue-scroll-component {
   height: 100%;
+}
+
+.selection-options-container {
+  background: red;
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  bottom: 0;
 }
 
 .control-panel-wrapper {

@@ -26,7 +26,7 @@
         <template #item="{ element }">
           <li @mousedown="startDrag(element.numberInQueue)" class="queue-reorder-item">
           <span>
-           <Checkbox @click="element.isSelected = !element.isSelected" :checked="element.isSelected"/>
+           <Checkbox @click="select(element)" :checked="element.isSelected"/>
           </span>
             <span class="entry">
               <Entry :number-in-queue="element.numberInQueue"
@@ -51,13 +51,11 @@
         />
       </div>
     </div>
-    <div v-if="showSelectionOptions" class="selection-options-container">
-      <div>Delete</div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type {Ref} from "vue";
 import {computed, onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
@@ -66,13 +64,18 @@ import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 import draggable from "vuedraggable";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
-import type {Ref} from "vue";
 import Checkbox from "@/components/buttons/Checkbox.vue";
 
 const props = defineProps<{
   updateInterval: number,
   hasReorder?: boolean
 }>();
+
+const emit = defineEmits<{
+  select: [boolean]
+}>()
+
+defineExpose({deleteSelected});
 
 const httpService = new HttpService();
 
@@ -110,6 +113,16 @@ onMounted(() => {
   setInterval(requestQueue, props.updateInterval);
 })
 
+function select(element: {
+  numberInQueue: number,
+  isSelected?: boolean,
+  song: { title: string, artist: string, duration: number, link?: string }
+}) {
+  element.isSelected = !element.isSelected;
+
+  emit("select", showSelectionOptions.value);
+}
+
 function requestQueue() {
   httpService.getQueueAll()
       .then((data: Array<{ numberInQueue: number, isSelected?: boolean, song: Song }>) => {
@@ -124,6 +137,10 @@ function requestQueue() {
 
         queueIsLoading.value = false;
       })
+}
+
+function deleteSelected() {
+    console.log(queue.value.filter((element) => element.isSelected));
 }
 
 function startDrag(numberInQueue: number) {
@@ -211,13 +228,6 @@ function endDrag() {
   color: var(--tertiary-color);
   font-weight: bold;
   font-size: var(--font-size-medium);
-}
-
-.selection-options-container {
-  background: red;
-  position: absolute;
-  width: 100%;
-  height: 30px;
 }
 
 @media screen and (min-width: 1250px) {
