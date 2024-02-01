@@ -602,7 +602,7 @@ export class HttpService {
             });
     }
 
-    async deleteSongs(selectedSongs: {}) {
+    async deleteSongs(selectedSongs: { title: string, numberInQueue: number }[]) {
         return httpClient.delete(`/queue/delete`, selectedSongs, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {
