@@ -601,4 +601,14 @@ export class HttpService {
                 return data;
             });
     }
+
+    async deleteSongs(selectedSongs: {}) {
+        console.log(selectedSongs);
+        return httpClient.delete(`/queue/delete`, selectedSongs, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+            });
+    }
 }

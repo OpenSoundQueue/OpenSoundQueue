@@ -72,7 +72,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  select: [boolean]
+  select: [boolean],
 }>()
 
 defineExpose({deleteSelected});
@@ -139,8 +139,31 @@ function requestQueue() {
       })
 }
 
-function deleteSelected() {
-    console.log(queue.value.filter((element) => element.isSelected));
+async function deleteSelected() {
+  const queueFiltered = queue.value.filter((element) => element.isSelected);
+
+  queueIsLoading.value = true;
+
+  await httpService.deleteSongs(queueFiltered.map((elem) => {
+    return {
+      numberInQueue: elem.numberInQueue,
+      title: elem.song.title
+    }
+  })).catch(() => {
+    // TODO: translate
+    ToastService.sendNotification("error", "error", 3000);
+  });
+
+  requestQueue();
+  resetSelection();
+}
+
+function resetSelection() {
+  queue.value.map((elem) => {
+    elem.isSelected = false;
+
+    return elem;
+  })
 }
 
 function startDrag(numberInQueue: number) {
