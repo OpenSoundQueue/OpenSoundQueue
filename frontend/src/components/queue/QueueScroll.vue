@@ -25,7 +25,7 @@
       >
         <template #item="{ element }">
           <li @mousedown="startDrag(element.numberInQueue)" class="queue-reorder-item">
-          <span>
+          <span v-if="hasDeleteSongs" class="select-checkbox-container">
            <Checkbox @click="select(element)" :checked="element.isSelected"/>
           </span>
             <span class="entry">
@@ -68,7 +68,8 @@ import Checkbox from "@/components/buttons/Checkbox.vue";
 
 const props = defineProps<{
   updateInterval: number,
-  hasReorder?: boolean
+  hasReorder?: boolean,
+  hasDeleteSongs?: boolean
 }>();
 
 const emit = defineEmits<{
@@ -253,6 +254,12 @@ function endDrag() {
   color: var(--tertiary-color);
   font-weight: bold;
   font-size: var(--font-size-medium);
+}
+
+.select-checkbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 1250px) {

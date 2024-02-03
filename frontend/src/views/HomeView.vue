@@ -9,7 +9,7 @@
       <div v-else class="no-add-permission">{{ translate("addSong.insufficientPermissions")}}</div>
     </div>
     <div class="queue-scroll-container">
-      <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
+      <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission, 'delete-enabled': hasQueueDeleteSongsPermission}">
         <div class="queue-number">#</div>
         <div class="title">{{ $translate('queueDescription.title') }}</div>
         <div class="duration">{{ $translate('queueDescription.duration') }}</div>
@@ -18,6 +18,7 @@
       <div class="queue-scroll-component">
         <QueueScroll :update-interval="4000"
                      :has-reorder="hasQueueReorderPermission && displayAdvanced"
+                     :has-delete-songs="hasQueueDeleteSongsPermission && displayAdvanced"
                      @select="args => showSelectionOptions = args"
                      ref="queueScroll"
         />
@@ -56,7 +57,7 @@ import QueueScroll from "@/components/queue/QueueScroll.vue";
 import NowPlaying from "@/components/NowPlaying.vue";
 import router from "@/router";
 import ControlPanel from "@/components/control/ControlPanel.vue";
-import {computed, onMounted, ref, shallowRef} from "vue";
+import {computed, onMounted, ref} from "vue";
 import type {Ref} from "vue";
 import GridBackground from "@/components/background/GridBackground.vue";
 import AddSong from "@/components/control/AddSong.vue";
@@ -64,13 +65,12 @@ import {HttpService} from "@/services/HttpService";
 import {useNowPlaying} from "@/composables/nowPlaying";
 import {PermissionService} from "@/services/PermissionService";
 import {translate} from "@/plugins/TranslationPlugin";
-import InputField from "@/components/inputs/InputField.vue";
 
 type ControlPanelPermissions = {
-  voteSkip:boolean,
-  startStop:boolean,
-  skip:boolean,
-  replay:boolean,
+  voteSkip: boolean,
+  startStop: boolean,
+  skip: boolean,
+  replay: boolean,
   changeVolume: boolean
 }
 
@@ -80,7 +80,14 @@ const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100)
 
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = ref(false);
-const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false,changeVolume:false});
+const hasQueueDeleteSongsPermission = ref(false);
+const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({
+  voteSkip: false,
+  startStop: false,
+  skip: false,
+  replay: false,
+  changeVolume: false,
+});
 const addSongPermission = ref(false);
 
 const showSelectionOptions = ref(false);
@@ -90,6 +97,7 @@ const queueScroll = ref<InstanceType<typeof QueueScroll>>();
 onMounted(async () => {
   await PermissionService.getPermissions();
   hasQueueReorderPermission.value = PermissionService.checkPermission("CHANGE_ORDER");
+  hasQueueDeleteSongsPermission.value = PermissionService.checkPermission("DELETE_SONGS");
 
   controlPanelPermissions.value.voteSkip = PermissionService.checkPermission("VOTESKIP");
   controlPanelPermissions.value.startStop = PermissionService.checkPermission("PAUSE_PLAY");
@@ -336,6 +344,10 @@ main.show-mode-switcher {
     .duration {
       margin-right: 70px;
     }
+  }
+
+  .queue-header.delete-enabled {
+    margin-left: 50px;
   }
 
   .queue-scroll-component {
