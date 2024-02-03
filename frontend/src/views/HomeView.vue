@@ -25,7 +25,7 @@
       </div>
       <div v-if="showSelectionOptions && displayAdvanced" class="selection-options-container">
         <div @click="deleteSelection" class="delete-button">
-          <img src="@/assets/icons/delete.svg"/>
+          <img src="@/assets/icons/delete.svg" :alt="$translate('altTexts.delete')"/>
           {{ $translate('deleteSongs.label') }}
         </div>
       </div>
