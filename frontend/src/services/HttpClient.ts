@@ -31,8 +31,8 @@ export default class HttpClient {
         return this.rest(path, undefined, "GET", apiKey);
     }
 
-    delete(path: string, apiKey?: string) {
-        return this.rest(path, undefined, "DELETE", apiKey);
+    delete(path: string, data?: unknown, apiKey?: string) {
+        return this.rest(path, data, "DELETE", apiKey);
     }
 
     post(path: string, data: unknown, apiKey?: string) {
