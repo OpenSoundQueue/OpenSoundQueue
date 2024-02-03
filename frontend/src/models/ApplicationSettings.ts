@@ -109,4 +109,15 @@ export class ApplicationSettings {
     set sources(value: string[]) {
         this._sources = value;
     }
+
+    toDto(): object {
+        return {
+            language: this._language,
+            requireEmailAuth: this.requireEmailAuth,
+            isPrivate: this._isPrivate,
+            entryCode: this._entryCode,
+            sources: this._sources,
+            supportedSources: this.supportedSources
+        };
+    }
 }

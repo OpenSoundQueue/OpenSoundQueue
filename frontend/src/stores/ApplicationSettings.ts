@@ -56,18 +56,17 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return;
         }
 
-        try {
-            await Promise.all([httpService.setPrivacy({
-                    isPrivate: editedApplicationSettings.value.isPrivate,
-                    entryCode: editedApplicationSettings.value.entryCode
-                }),
-                httpService.setAuthentication(editedApplicationSettings.value.requireEmailAuth),
-                httpService.setSources(editedApplicationSettings.value.sources),
-                httpService.setLanguage(editedApplicationSettings.value.language),
-            ]);
-        } catch (error) {
-            ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
-        }
+        await httpService.patchSetApplicationSettings(new ApplicationSettings(
+            editedApplicationSettings.value?.language,
+            editedApplicationSettings.value?.requireEmailAuth,
+            editedApplicationSettings.value?.isPrivate,
+            editedApplicationSettings.value?.entryCode,
+            editedApplicationSettings.value?.sources,
+            editedApplicationSettings.value?.supportedSources
+        ).toDto())
+            .catch(() => {
+                ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
+            });
 
         await fetchApplicationSettings();
     }

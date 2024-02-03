@@ -615,4 +615,18 @@ export class HttpService {
                 return data;
             });
     }
+
+    async patchSetApplicationSettings(applicationSettings: object) {
+        console.log(applicationSettings)
+        return httpClient.patch(`/system/settings/set`, applicationSettings, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: ApplicationSettings) => {
+                return data;
+            });
+    }
 }

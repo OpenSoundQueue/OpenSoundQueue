@@ -159,11 +159,11 @@ public class SystemRest {
     @PatchMapping("/system/settings/set")
     public ResponseEntity<Object> setSystemSettings(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody Map<String, Object> input) throws IOException {
         propertyService.setProperty("system.language", input.get("language")+"");
-        propertyService.setProperty("system.is-private", input.get("is-private")+"");
-        propertyService.setProperty("system.entry-code", input.get("entry-code")+"");
-        propertyService.setProperty("system.email-auth", input.get("email-auth")+"");
-        propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supported-sources")) + "}");
-        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabled-sources")) + "}");
+        propertyService.setProperty("system.is-private", input.get("isPrivate")+"");
+        propertyService.setProperty("system.entry-code", input.get("entryCode")+"");
+        propertyService.setProperty("system.email-auth", input.get("emailAuth")+"");
+        propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supportedSources")) + "}");
+        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("sources")) + "}");
 
         return getSystemSettings(token);
     }
