@@ -151,8 +151,7 @@ async function deleteSelected() {
       title: elem.song.title
     }
   })).catch(() => {
-    // TODO: translate
-    ToastService.sendNotification("error", "error", 3000);
+    ToastService.sendNotification(translate('deleteSongs.error'), "error", 3000);
   });
 
   requestQueue();

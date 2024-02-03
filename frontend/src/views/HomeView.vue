@@ -23,8 +23,11 @@
                      ref="queueScroll"
         />
       </div>
-      <div v-if="showSelectionOptions" class="selection-options-container">
-        <div @click="deleteSelection">Delete</div>
+      <div v-if="showSelectionOptions && displayAdvanced" class="selection-options-container">
+        <div @click="deleteSelection" class="delete-button">
+          <img src="@/assets/icons/delete.svg"/>
+          {{ $translate('deleteSongs.label') }}
+        </div>
       </div>
     </div>
     <div class="control-panel-wrapper">
@@ -211,11 +214,31 @@ main.show-mode-switcher {
 }
 
 .selection-options-container {
-  background: red;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: var(--border-radius-big);
   position: absolute;
   width: 100%;
-  height: 30px;
+  height: 50px;
   bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection-options-container .delete-button {
+  height: 20px;
+  width: fit-content;
+  padding: 5px;
+  border-radius: var(--border-radius-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+.selection-options-container .delete-button:hover {
+  cursor: pointer;
+  background: var(--secondary-color);
 }
 
 .control-panel-wrapper {
