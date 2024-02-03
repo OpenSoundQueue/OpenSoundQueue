@@ -23,24 +23,20 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
 
     async function fetchApplicationSettings() {
         try {
-            const [languageData, authData, privacyData, sourcesData, supportedSourcesData] = await Promise.all([
-                httpService.getLanguage(),
-                httpService.getAuthentication(),
-                httpService.getPrivacy(),
-                httpService.getSources(),
-                httpService.getSupportedSources()
-            ]);
+            httpService.getApplicationSettings()
+                .then((data) => {
+                    console.log(data.language)
+                    persistedApplicationSettings.value = new ApplicationSettings(
+                        data.language,
+                        data.requireEmailAuth,
+                        data.isPrivate,
+                        data.entryCode,
+                        data.sources,
+                        data.supportedSources
+                    );
 
-            persistedApplicationSettings.value = new ApplicationSettings(
-                languageData.language,
-                authData.emailAuth == "true",
-                privacyData.isPrivate == "true",
-                privacyData.entryCode,
-                sourcesData,
-                supportedSourcesData
-            );
-
-            editedApplicationSettings.value = ApplicationSettings.clone(persistedApplicationSettings.value);
+                    editedApplicationSettings.value = ApplicationSettings.clone(persistedApplicationSettings.value);
+                });
         } catch (error) {
             ToastService.sendNotification(translate("applicationSettings.fetchError"), "error", 3000);
         }
