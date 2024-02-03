@@ -319,5 +319,9 @@
       "title": "Default Language",
       "description": "Specify the default language for all users"
     }
+  },
+  "deleteSongs": {
+    "label": "Delete",
+    "error": "The selected songs could not be deleted."
   }
 }
