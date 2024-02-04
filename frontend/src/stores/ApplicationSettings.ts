@@ -25,13 +25,12 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
         try {
             httpService.getApplicationSettings()
                 .then((data) => {
-                    console.log(data.language)
                     persistedApplicationSettings.value = new ApplicationSettings(
                         data.language,
-                        data.requireEmailAuth,
+                        data.emailAuth,
                         data.isPrivate,
                         data.entryCode,
-                        data.sources,
+                        data.enabledSources,
                         data.supportedSources
                     );
 
@@ -56,14 +55,7 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return;
         }
 
-        await httpService.patchSetApplicationSettings(new ApplicationSettings(
-            editedApplicationSettings.value?.language,
-            editedApplicationSettings.value?.requireEmailAuth,
-            editedApplicationSettings.value?.isPrivate,
-            editedApplicationSettings.value?.entryCode,
-            editedApplicationSettings.value?.sources,
-            editedApplicationSettings.value?.supportedSources
-        ).toDto())
+        await httpService.patchSetApplicationSettings(editedApplicationSettings.value.toDto())
             .catch(() => {
                 ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
             });
@@ -84,7 +76,7 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return
         }
 
-        editedApplicationSettings.value.requireEmailAuth = value;
+        editedApplicationSettings.value.emailAuth = value;
     }
 
     function toggleSource(source: string) {
@@ -92,10 +84,10 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return
         }
 
-        if (editedApplicationSettings.value.sources.includes(source)) {
-            editedApplicationSettings.value.sources.splice(editedApplicationSettings.value.sources.indexOf(source), 1)
+        if (editedApplicationSettings.value.enabledSources.includes(source)) {
+            editedApplicationSettings.value.enabledSources.splice(editedApplicationSettings.value.enabledSources.indexOf(source), 1)
         } else {
-            editedApplicationSettings.value.sources.push(source)
+            editedApplicationSettings.value.enabledSources.push(source)
         }
     }
 

@@ -617,7 +617,6 @@ export class HttpService {
     }
 
     async patchSetApplicationSettings(applicationSettings: object) {
-        console.log(applicationSettings)
         return httpClient.patch(`/system/settings/set`, applicationSettings, cookieService.getApiKey())
             .then((response) => {
                 if (!response.ok) {

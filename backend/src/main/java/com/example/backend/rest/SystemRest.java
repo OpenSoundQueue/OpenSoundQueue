@@ -146,11 +146,11 @@ public class SystemRest {
         Map<String, Object> response = new HashMap<>();
 
         response.put("language", propertyService.getProperty("system.language"));
-        response.put("isPrivate", propertyService.getProperty("system.is-private"));
+        response.put("isPrivate", propertyService.getProperty("system.is-private").equals("true"));
         response.put("entryCode", propertyService.getProperty("system.entry-code"));
-        response.put("emailAuth", propertyService.getProperty("system.email-auth"));
+        response.put("emailAuth", propertyService.getProperty("system.email-auth").equals("true"));
         response.put("supportedSources", propertyService.getPropertyAsList("system.sources.supported"));
-        response.put("sources", propertyService.getPropertyAsList("system.sources.enabled"));
+        response.put("enabledSources", propertyService.getPropertyAsList("system.sources.enabled"));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -163,7 +163,7 @@ public class SystemRest {
         propertyService.setProperty("system.entry-code", input.get("entryCode")+"");
         propertyService.setProperty("system.email-auth", input.get("emailAuth")+"");
         propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supportedSources")) + "}");
-        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("sources")) + "}");
+        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabledSources")) + "}");
 
         return getSystemSettings(token);
     }
