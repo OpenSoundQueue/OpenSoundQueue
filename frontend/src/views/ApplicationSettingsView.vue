@@ -21,7 +21,7 @@
             <p>{{ $translate('applicationSettings.privacy.emailAuth.description') }}</p>
           </div>
           <div class="interactive-container">
-            <ToggleSwitch :checked="store.editedApplicationSettings.requireEmailAuth"/>
+            <ToggleSwitch :checked="store.editedApplicationSettings.emailAuth"/>
           </div>
         </div>
         <div class="toggle-switch-wrapper" @click="toggleIsPrivate">
@@ -54,7 +54,7 @@
                @click="() => toggleSource(supportedSource)">
             <div>{{ supportedSource }}</div>
             <div class="interactive-container">
-              <Checkbox :checked="store.editedApplicationSettings.sources.includes(supportedSource)"/>
+              <Checkbox :checked="store.editedApplicationSettings.enabledSources.includes(supportedSource)"/>
             </div>
           </div>
           <p class="error-message" v-if="sourcesError">{{ $translate('applicationSettings.sources.error') }}</p>
@@ -128,7 +128,7 @@ const sourcesError = computed(() => {
     return true;
   }
 
-  return store.editedApplicationSettings.sources.length === 0;
+  return store.editedApplicationSettings.enabledSources.length === 0;
 })
 
 onMounted(async () => {
@@ -144,7 +144,7 @@ function toggleRequireEmailAuth() {
     return;
   }
 
-  store.setRequireEmailAuth(!store.editedApplicationSettings.requireEmailAuth);
+  store.setRequireEmailAuth(!store.editedApplicationSettings.emailAuth);
 }
 
 function toggleIsPrivate() {

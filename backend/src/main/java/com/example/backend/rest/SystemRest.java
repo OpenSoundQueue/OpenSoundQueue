@@ -146,11 +146,12 @@ public class SystemRest {
         Map<String, Object> response = new HashMap<>();
 
         response.put("language", propertyService.getProperty("system.language"));
-        response.put("is-private", propertyService.getProperty("system.is-private"));
-        response.put("entry-code", propertyService.getProperty("system.entry-code"));
-        response.put("email-auth", propertyService.getProperty("system.email-auth"));
-        response.put("supported-sources", propertyService.getPropertyAsList("system.sources.supported"));
-        response.put("enabled-sources", propertyService.getPropertyAsList("system.sources.enabled"));
+        response.put("isPrivate", Boolean.parseBoolean(propertyService.getProperty("system.is-private")));
+        response.put("entryCode", propertyService.getProperty("system.entry-code"));
+        response.put("emailAuth", Boolean.parseBoolean(propertyService.getProperty("system.email-auth")));
+        response.put("supportedSources", propertyService.getPropertyAsList("system.sources.supported"));
+        response.put("enabledSources", propertyService.getPropertyAsList("system.sources.enabled"));
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -159,11 +160,11 @@ public class SystemRest {
     @PatchMapping("/system/settings/set")
     public ResponseEntity<Object> setSystemSettings(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody Map<String, Object> input) throws IOException {
         propertyService.setProperty("system.language", input.get("language")+"");
-        propertyService.setProperty("system.is-private", input.get("is-private")+"");
-        propertyService.setProperty("system.entry-code", input.get("entry-code")+"");
-        propertyService.setProperty("system.email-auth", input.get("email-auth")+"");
-        propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supported-sources")) + "}");
-        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabled-sources")) + "}");
+        propertyService.setProperty("system.is-private", input.get("isPrivate")+"");
+        propertyService.setProperty("system.entry-code", input.get("entryCode")+"");
+        propertyService.setProperty("system.email-auth", input.get("emailAuth")+"");
+        propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supportedSources")) + "}");
+        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabledSources")) + "}");
 
         return getSystemSettings(token);
     }

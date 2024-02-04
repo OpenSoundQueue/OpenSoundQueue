@@ -1,17 +1,17 @@
 export class ApplicationSettings {
     private _language: string;
-    private _requireEmailAuth: boolean;
+    private _emailAuth: boolean;
     private _isPrivate: boolean;
     private _entryCode: string;
-    private _sources: string[];
+    private _enabledSources: string[];
     private _supportedSources: string[];
 
     constructor(language: string, requireEmailAuth: boolean, isPrivate: boolean, entryCode: string, sources: string[], supportedSources: string[]) {
         this._language = language;
-        this._requireEmailAuth = requireEmailAuth;
+        this._emailAuth = requireEmailAuth;
         this._isPrivate = isPrivate;
         this._entryCode = entryCode;
-        this._sources = sources;
+        this._enabledSources = sources;
         this._supportedSources = supportedSources;
     }
 
@@ -20,7 +20,7 @@ export class ApplicationSettings {
             return false;
         }
 
-        if (applicationSettings1.requireEmailAuth !== applicationSettings2.requireEmailAuth) {
+        if (applicationSettings1.emailAuth !== applicationSettings2.emailAuth) {
             return false;
         }
 
@@ -32,12 +32,12 @@ export class ApplicationSettings {
             return false;
         }
 
-        if (applicationSettings1.sources.length !== applicationSettings2.sources.length) {
+        if (applicationSettings1.enabledSources.length !== applicationSettings2.enabledSources.length) {
             return false;
         }
 
-        for (let source of applicationSettings1.sources) {
-            if (!applicationSettings2.sources.includes(source)) {
+        for (let source of applicationSettings1.enabledSources) {
+            if (!applicationSettings2.enabledSources.includes(source)) {
                 return false;
             }
         }
@@ -58,10 +58,10 @@ export class ApplicationSettings {
     static clone(applicationSettings: ApplicationSettings): ApplicationSettings {
         return new ApplicationSettings(
             applicationSettings.language,
-            applicationSettings.requireEmailAuth,
+            applicationSettings.emailAuth,
             applicationSettings.isPrivate,
             applicationSettings.entryCode,
-            [...applicationSettings.sources],
+            [...applicationSettings.enabledSources],
             [...applicationSettings.supportedSources]
         );
     }
@@ -74,12 +74,12 @@ export class ApplicationSettings {
         this._language = value;
     }
 
-    get requireEmailAuth(): boolean {
-        return this._requireEmailAuth;
+    get emailAuth(): boolean {
+        return this._emailAuth;
     }
 
-    set requireEmailAuth(value: boolean) {
-        this._requireEmailAuth = value;
+    set emailAuth(value: boolean) {
+        this._emailAuth = value;
     }
 
     get isPrivate(): boolean {
@@ -102,11 +102,22 @@ export class ApplicationSettings {
         this._entryCode = value;
     }
 
-    get sources(): string[] {
-        return this._sources;
+    get enabledSources(): string[] {
+        return this._enabledSources;
     }
 
-    set sources(value: string[]) {
-        this._sources = value;
+    set enabledSources(value: string[]) {
+        this._enabledSources = value;
+    }
+
+    toDto(): object {
+        return {
+            language: this._language,
+            emailAuth: this._emailAuth,
+            isPrivate: this._isPrivate,
+            entryCode: this._entryCode,
+            enabledSources: this._enabledSources,
+            supportedSources: this._supportedSources
+        };
     }
 }
