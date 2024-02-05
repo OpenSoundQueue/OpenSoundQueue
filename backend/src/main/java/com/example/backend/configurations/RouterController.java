@@ -57,4 +57,24 @@ public class RouterController {
     public ModelAndView redirectUsers() {
         return new ModelAndView("forward:/");
     }
+    @RequestMapping("/admin/application-settings")
+    public ModelAndView redirectApplicationSettings() {
+        return new ModelAndView("forward:/");
+    }
+    @RequestMapping("/installation/language")
+    public ModelAndView redirectInstallerLanguage() {
+        return new ModelAndView("forward:/");
+    }
+    @RequestMapping("/installation/register")
+    public ModelAndView redirectInstallerRegister() {
+        return new ModelAndView("forward:/");
+    }
+    @RequestMapping("/installation/privacy")
+    public ModelAndView redirectInstallerPrivacy() {
+        return new ModelAndView("forward:/");
+    }
+    @RequestMapping("/installation/sources")
+    public ModelAndView redirectInstallerSources() {
+        return new ModelAndView("forward:/");
+    }
 }

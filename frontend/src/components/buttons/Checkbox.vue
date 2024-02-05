@@ -23,9 +23,9 @@ defineEmits<{
   align-items: center;
 
   aspect-ratio: 1/1;
-  height: var(--font-size-medium);
+  height: 20px;
   box-sizing: border-box;
-  border: 1px solid white;
+  border: 2px solid var(--tertiary-color);
   border-radius: 2px;
   background-color: transparent;
 }

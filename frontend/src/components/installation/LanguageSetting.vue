@@ -1,6 +1,6 @@
 <template>
   <div class="language-container scrollbar">
-    <div class="description">{{ $translate('installation.language') }}</div>
+    <div class="description">{{ $translate('applicationSettings.defaultLanguage.description') }}</div>
     <div v-for="(language,index) of Object.keys(translations)"
          :key="index"
          @click="store.setLanguage(language)"

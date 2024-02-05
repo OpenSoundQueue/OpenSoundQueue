@@ -10,9 +10,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 @Component
@@ -22,11 +23,22 @@ public class EmailComponent {
     @Value("${email.password}")
     private String password;
 
-    public void sendMail(String email, String verificationCode, String username) throws MessagingException, IOException {
+    public void sendMail(String email, String verificationCode, String username) throws MessagingException {
         MimeMessage message = createMailTemplate(email);
         message.setSubject("OpenSoundQueue Email Verification");
 
-        String emailTemplate = Files.readString(Path.of("backend/src/main/java/com/example/backend/email/VerificationEmailTemplate.html"));
+        String emailTemplate = "";
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String resourcePath = "data/VerificationEmailTemplate.html";
+        try (InputStream inputStream = classLoader.getResourceAsStream(resourcePath)) {
+            assert inputStream != null;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                emailTemplate = String.join("\n", reader.lines().toList());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         BodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setContent(emailTemplate.replaceAll("###VERIFICATION_CODE###", verificationCode).replaceAll("###USERNAME###", username), "text/html"); //emailVerificationTemplate.generateEmailTemplate()

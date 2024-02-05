@@ -7,8 +7,6 @@ import com.example.backend.annotations.AuthRequest;
 import com.example.backend.streaming.Song;
 import com.example.backend.streaming.SongQueueService;
 import com.example.backend.user_management.UserService;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -145,7 +143,7 @@ public class SoundQueueRest {
     @PostMapping("/queue/replay")
     public ResponseEntity<Object> replaySong(@RequestHeader(value = "X-API-KEY") String token) {
         if (songQueueService.getCurrentPlayingSong() == null)
-            return new ResponseEntity<>(new ErrorDto("No song currently playing!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
         songQueueService.replaySong();
         userService.updateLastOnline(userService.getUserByToken(token));
         return new ResponseEntity<>(HttpStatus.OK);
@@ -183,5 +181,17 @@ public class SoundQueueRest {
     public ResponseEntity<Object> unmute(@RequestHeader(value = "X-API-KEY") String token) {
         VolumeDto volumeDto = songQueueService.unmute();
         return new ResponseEntity<>(volumeDto, HttpStatus.OK);
+    }
+
+    @AuthRequest(requiredPermission = Permissions.DELETE_SONGS)
+    @DeleteMapping("/queue/delete")
+    public ResponseEntity<Object> removeSongFromQueue(@RequestHeader(value = "X-API-KEY") String token, @RequestBody List<Map<String,String>> input) {
+        input.sort((o1, o2) -> Integer.parseInt(o2.get("numberInQueue")) - Integer.parseInt(o1.get("numberInQueue")));
+        for (Map<String, String> stringStringMap : input) {
+            boolean erg = songQueueService.removeSong(Integer.parseInt(stringStringMap.get("numberInQueue")), stringStringMap.get("title"));
+            if (!erg) return new ResponseEntity<>(new ErrorDto("Could not remove songs"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

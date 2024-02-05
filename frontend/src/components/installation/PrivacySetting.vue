@@ -1,16 +1,16 @@
 <template>
   <div class="privacy-container scrollbar">
     <div class="setting-container" @click="store.toggleEmailAuth()">
-      <div class="setting-title">{{ $translate('installation.privacy.emailAuthTitle') }}</div>
+      <div class="setting-title">{{ $translate('applicationSettings.privacy.emailAuth.title') }}</div>
       <ToggleSwitch :checked="store.requireEmailAuth"/>
     </div>
-    <div class="description">{{ $translate('installation.privacy.emailAuthDescription') }}</div>
+    <div class="description">{{ $translate('applicationSettings.privacy.emailAuth.description') }}</div>
     <div class="hr"/>
     <div class="setting-container" @click="store.toggleIsPrivate()">
-      <div class="setting-title">{{ $translate('installation.privacy.roomPrivateTitle') }}</div>
+      <div class="setting-title">{{ $translate('applicationSettings.privacy.privateRoom.title') }}</div>
       <ToggleSwitch :checked="store.isPrivate"/>
     </div>
-    <div class="description">{{ $translate('installation.privacy.roomPrivateDescription') }}</div>
+    <div class="description">{{ $translate('applicationSettings.privacy.privateRoom.description') }}</div>
     <div class="entry-code-container">
       <div class="setting-title">{{ $translate('entryCode.title') }}</div>
       <InputField

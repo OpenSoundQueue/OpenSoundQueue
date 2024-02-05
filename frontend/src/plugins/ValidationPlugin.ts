@@ -55,8 +55,8 @@ export function validateSonglink(value: string): Function {
             return true;
         }
 
-        const youtubeLinkRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(-nocookie)?\.com|youtu.be)(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
-        const soundcloudLinkRegex = /^https?:\/\/(www\.|m\.)?soundcloud\.com\/[a-z0-9](?!.*?[-_]{2})[\w-]{1,23}[a-z0-9](?:\/.+)?$/;
+        const youtubeLinkRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?(?:youtube(-nocookie)?\.com|youtu.be)\/.*$/;
+        const soundcloudLinkRegex = /^https?:\/\/(www\.|m\.|on\.)?soundcloud\.com\/.*$/;
 
         return youtubeLinkRegex.test(value) || soundcloudLinkRegex.test(value);
     }

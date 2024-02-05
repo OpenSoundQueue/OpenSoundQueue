@@ -48,7 +48,7 @@ import RolePagedNavBar from "@/components/roles/RolePagedNavBar.vue";
 import router from "@/router";
 import {Role} from "@/models/Role";
 import {useRoleStore} from "@/stores/Role";
-import {computed, onMounted, ref, watch, watchEffect} from "vue";
+import {computed, onMounted, ref, watchEffect} from "vue";
 import type {Ref} from "vue";
 import {storeToRefs} from "pinia";
 import {HttpService} from "@/services/HttpService";
@@ -242,11 +242,7 @@ async function getUsers() {
 }
 
 .user:hover {
-  background-color: var(--primary-color);
-}
-
-.user:hover > .checkbox {
-  border-color: white !important;
+  background-color: var(--hover-color);
 }
 
 .skeleton{

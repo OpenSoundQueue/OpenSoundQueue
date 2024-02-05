@@ -462,6 +462,31 @@ paths:
               schema:
                 example:
                   status: No song currently playing
+  /queue/delete:
+    delete:
+      tags:
+        - auth
+        - queue
+      description: remove songs from the queue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                - numberInQueue: 1
+                  title: Hope
+                - numberInQueue: 2
+                  title: J.F.K
+      responses:
+        200:
+          description: songs have been removed
+        400:
+          description: songs could not be removed
+          content:
+            application/json:
+              schema:
+                example:
+                  error: Song could not be removed
   /vote-skip/status:
     get:
       tags:
@@ -1297,6 +1322,65 @@ paths:
       responses:
         200:
           description: installation status set to complete
+  /system/settings:
+    get:
+      tags:
+        - system
+      description: get system settings
+      responses:
+        200:
+          description: all system settings
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+                  is-private: true
+                  entry-code: Schodl
+                  email-auth: true
+                  supported-sources:
+                    - youtube
+                    - soundcloud
+                  enabled-sources:
+                    - youtube
+                    - soundcloud
+  /system/settings/set:
+    patch:
+      tags:
+        - system
+      description: set system settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                language: DE
+                is-private: true
+                entry-code: Schodl
+                email-auth: true
+                supported-sources:
+                  - youtube
+                  - soundcloud
+                enabled-sources:
+                  - youtube
+                  - soundcloud
+      responses:
+        200:
+          description: all system settings
+          content:
+            application/json:
+              schema:
+                example:
+                  language: DE
+                  is-private: true
+                  entry-code: Schodl
+                  email-auth: true
+                  supported-sources:
+                    - youtube
+                    - soundcloud
+                  enabled-sources:
+                    - youtube
+                    - soundcloud
 components:
   securitySchemes:
     ApiKeyAuth:

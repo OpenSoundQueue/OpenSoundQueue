@@ -237,11 +237,7 @@ async function getPermissions() {
 }
 
 .permission:hover {
-  background-color: var(--primary-color);
-}
-
-.permission:hover>.checkbox{
-  border-color: white !important;
+  background-color: var(--hover-color);
 }
 
 .skeleton{

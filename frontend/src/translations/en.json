@@ -281,15 +281,7 @@
         "privacy": "Back to Registration",
         "sources": "Back to Access Control"
       }
-    },
-    "privacy": {
-      "emailAuthTitle": "Email Authentication",
-      "emailAuthDescription": "People have to enter and verify their email address when creating an account.",
-      "roomPrivateTitle": "Room Private",
-      "roomPrivateDescription": "A private room is protected with an entry code. When logging in, users have to enter this code."
-    },
-    "language": "Specify the default language for all users.",
-    "source": "Select the Sources from which users can retrieve song links. (At least one)"
+    }
   },
   "languages": {
     "en": "English",
@@ -299,5 +291,33 @@
     "changeError": "Could not change volume.",
     "muteError": "Could not mute queue.",
     "unmuteError": "Could not unmute queue."
+  },
+  "applicationSettings": {
+    "title": "Application Settings",
+    "saveError": "Unable to save application settings",
+    "fetchError": "Could not retrieve application settings",
+    "privacy": {
+      "title": "Privacy",
+      "emailAuth": {
+        "title": "Email Authentication",
+        "description": "People have to enter and verify their email address when creating an account"
+      },
+      "privateRoom": {
+        "title": "Private Room",
+        "description": "A private room is protected with an entry code."
+      },
+      "entryCode": {
+        "title": "Entry Code"
+      }
+    },
+    "sources": {
+      "title": "Sources",
+      "description": "Select the Sources from which users can retrieve song links. (At least one)",
+      "error": "You have to at least select one source"
+    },
+    "defaultLanguage": {
+      "title": "Default Language",
+      "description": "Specify the default language for all users"
+    }
   }
 }

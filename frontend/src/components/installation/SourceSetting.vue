@@ -1,6 +1,6 @@
 <template>
   <div class="source-container scrollbar">
-    <div class="description">{{ $translate('installation.source') }}</div>
+    <div class="description">{{ $translate('applicationSettings.sources.description') }}</div>
     <div v-for="(source,index) of supportedSources"
          :key="index"
          @click="store.toggleSource(source)"
