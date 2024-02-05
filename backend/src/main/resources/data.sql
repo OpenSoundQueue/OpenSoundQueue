@@ -1,5 +1,6 @@
 INSERT INTO Role (name) VALUES ('Basic');
 INSERT INTO Role (name) VALUES ('Advanced');
+INSERT INTO Role (name) VALUES ('Owner');
 
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (1, 'VOTESKIP');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (1, 'ADD_SONG');
@@ -17,6 +18,19 @@ INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'VOTESKIP');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'ADD_SONG');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'HISTORY_SEARCH');
 INSERT INTO Role_Permissions (role_id, permissions) VALUES (2, 'MANAGE_SYSTEM_SETTINGS');
+
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'PAUSE_PLAY');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'CHANGE_VOLUME');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'CHANGE_ORDER');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'DELETE_SONGS');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'MANAGE_ROLES');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'MANAGE_USER');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'SKIP');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'REPLAY');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'VOTESKIP');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'ADD_SONG');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'HISTORY_SEARCH');
+INSERT INTO Role_Permissions (role_id, permissions) VALUES (3, 'MANAGE_SYSTEM_SETTINGS');
 
 /* Password is 'Passwort{id}!' */
 INSERT INTO User_Info (username, password, email, verified) VALUES ('Markus', '$2a$10$YFqbWQmdKvSNBih6B9.Mbu7ckdxUuSaqRtiFTtFQaOE9Qt57sEwmy', 'user1@email.com', true);
