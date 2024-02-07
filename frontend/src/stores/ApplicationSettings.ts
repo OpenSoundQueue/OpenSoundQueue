@@ -23,24 +23,19 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
 
     async function fetchApplicationSettings() {
         try {
-            const [languageData, authData, privacyData, sourcesData, supportedSourcesData] = await Promise.all([
-                httpService.getLanguage(),
-                httpService.getAuthentication(),
-                httpService.getPrivacy(),
-                httpService.getSources(),
-                httpService.getSupportedSources()
-            ]);
+            httpService.getApplicationSettings()
+                .then((data) => {
+                    persistedApplicationSettings.value = new ApplicationSettings(
+                        data.language,
+                        data.emailAuth,
+                        data.isPrivate,
+                        data.entryCode,
+                        data.enabledSources,
+                        data.supportedSources
+                    );
 
-            persistedApplicationSettings.value = new ApplicationSettings(
-                languageData.language,
-                authData.emailAuth == "true",
-                privacyData.isPrivate == "true",
-                privacyData.entryCode,
-                sourcesData,
-                supportedSourcesData
-            );
-
-            editedApplicationSettings.value = ApplicationSettings.clone(persistedApplicationSettings.value);
+                    editedApplicationSettings.value = ApplicationSettings.clone(persistedApplicationSettings.value);
+                });
         } catch (error) {
             ToastService.sendNotification(translate("applicationSettings.fetchError"), "error", 3000);
         }
@@ -60,18 +55,10 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return;
         }
 
-        try {
-            await Promise.all([httpService.setPrivacy({
-                    isPrivate: editedApplicationSettings.value.isPrivate,
-                    entryCode: editedApplicationSettings.value.entryCode
-                }),
-                httpService.setAuthentication(editedApplicationSettings.value.requireEmailAuth),
-                httpService.setSources(editedApplicationSettings.value.sources),
-                httpService.setLanguage(editedApplicationSettings.value.language),
-            ]);
-        } catch (error) {
-            ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
-        }
+        await httpService.patchSetApplicationSettings(editedApplicationSettings.value.toDto())
+            .catch(() => {
+                ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
+            });
 
         await fetchApplicationSettings();
     }
@@ -89,7 +76,7 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return
         }
 
-        editedApplicationSettings.value.requireEmailAuth = value;
+        editedApplicationSettings.value.emailAuth = value;
     }
 
     function toggleSource(source: string) {
@@ -97,10 +84,10 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
             return
         }
 
-        if (editedApplicationSettings.value.sources.includes(source)) {
-            editedApplicationSettings.value.sources.splice(editedApplicationSettings.value.sources.indexOf(source), 1)
+        if (editedApplicationSettings.value.enabledSources.includes(source)) {
+            editedApplicationSettings.value.enabledSources.splice(editedApplicationSettings.value.enabledSources.indexOf(source), 1)
         } else {
-            editedApplicationSettings.value.sources.push(source)
+            editedApplicationSettings.value.enabledSources.push(source)
         }
     }
 

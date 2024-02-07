@@ -2,11 +2,13 @@ package com.example.backend.rest;
 
 import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.Role;
+import com.example.backend.Repository.RoleRepository;
 import com.example.backend.Repository.UserInfoEntity;
 import com.example.backend.ResponseDtos.ApiKeyDto;
 import com.example.backend.ResponseDtos.ErrorDto;
 import com.example.backend.ResponseDtos.UserDto;
 import com.example.backend.annotations.AuthRequest;
+import com.example.backend.system_management.PropertyService;
 import com.example.backend.system_management.SystemService;
 import com.example.backend.user_management.UserService;
 import com.example.backend.util.TokenUtils;
@@ -27,12 +29,16 @@ public class UserRest {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final TokenUtils tokenUtils;
+    private final PropertyService propertyService;
+    private final RoleRepository roleRepository;
 
-    public UserRest(SystemService systemService, UserService userService, PasswordEncoder passwordEncoder, TokenUtils tokenUtils) {
+    public UserRest(SystemService systemService, UserService userService, PasswordEncoder passwordEncoder, TokenUtils tokenUtils, PropertyService propertyService, RoleRepository roleRepository) {
         this.systemService = systemService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.tokenUtils = tokenUtils;
+        this.propertyService = propertyService;
+        this.roleRepository = roleRepository;
     }
 
     @PostMapping("/login/public/auth")
@@ -235,6 +241,9 @@ public class UserRest {
         } else {
             if (userService.getUserByUsername(user.getUsername()) == null) {
                 savedUser = userService.registerNewAuthUser(user);
+                if (!Boolean.parseBoolean(propertyService.getProperty("system.installed"))) {
+                    userService.changeRolesOfUser(savedUser.getId(), List.of(roleRepository.findByName("Owner")));
+                }
             } else {
                 savedUser = userService.getUserByUsername(user.getUsername());
                 userService.updateEmail(savedUser.getId(), user.getEmail());

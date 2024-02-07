@@ -4,6 +4,7 @@ import {User} from "@/models/User";
 import * as cookieService from "@/services/cookieService";
 import type {Role} from "@/models/Role";
 import {setLanguage} from "@/plugins/TranslationPlugin";
+import type {ApplicationSettings} from "@/models/ApplicationSettings";
 
 const httpClient = new HttpClient();
 
@@ -598,6 +599,32 @@ export class HttpService {
 
                 return response.json();
             }).then((data) => {
+                return data;
+            });
+    }
+
+    async getApplicationSettings() {
+        return httpClient.get(`/system/settings`, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: ApplicationSettings) => {
+                return data;
+            });
+    }
+
+    async patchSetApplicationSettings(applicationSettings: object) {
+        return httpClient.patch(`/system/settings/set`, applicationSettings, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: ApplicationSettings) => {
                 return data;
             });
     }
