@@ -30,9 +30,9 @@ button {
 }
 
 .scrollbar {
-    -ms-overflow-style: -ms-autohiding-scrollbar;  /* IE and Edge */
-    scrollbar-width: thin;  /* Firefox */
+    scrollbar-width: thin;
     overflow-y: scroll;
+    scrollbar-color: var(--tertiary-color) var(--background-color);
 }
 
 .scrollbar::-webkit-scrollbar {

@@ -143,7 +143,7 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
 
 <style scoped>
 .result-wrapper {
-  overflow-y: scroll;
+  overflow: hidden;
   height: 100%;
   padding-left: 5px;
   display: flex;
