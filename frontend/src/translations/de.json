@@ -322,6 +322,6 @@
   },
   "deleteSongs": {
     "label": "Löschen",
-    "error": "Die ausgewählten songs konnten nicht gelöscht werden."
+    "error": "Die ausgewählten Songs konnten nicht gelöscht werden."
   }
 }
