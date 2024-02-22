@@ -9,14 +9,25 @@
       <div v-else class="no-add-permission">{{ translate("addSong.insufficientPermissions")}}</div>
     </div>
     <div class="queue-scroll-container">
-      <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission}">
+      <div class="queue-header desktop" :class="{'drag-enabled': hasQueueReorderPermission, 'delete-enabled': hasQueueDeleteSongsPermission}">
         <div class="queue-number">#</div>
         <div class="title">{{ $translate('queueDescription.title') }}</div>
         <div class="duration">{{ $translate('queueDescription.duration') }}</div>
       </div>
       <div class="hr desktop"></div>
       <div class="queue-scroll-component">
-        <QueueScroll :update-interval="4000" :has-reorder="hasQueueReorderPermission && displayAdvanced"/>
+        <QueueScroll :update-interval="4000"
+                     :has-reorder="hasQueueReorderPermission && displayAdvanced"
+                     :has-delete-songs="hasQueueDeleteSongsPermission && displayAdvanced"
+                     @select="args => showSelectionOptions = args"
+                     ref="queueScroll"
+        />
+      </div>
+      <div v-if="showSelectionOptions && displayAdvanced" class="selection-options-container">
+        <div @click="deleteSelection" class="delete-button">
+          <img src="@/assets/icons/delete.svg" :alt="$translate('altTexts.delete')"/>
+          {{ $translate('deleteSongs.label') }}
+        </div>
       </div>
     </div>
     <div class="control-panel-wrapper">
@@ -59,10 +70,10 @@ import {PermissionService} from "@/services/PermissionService";
 import {translate} from "@/plugins/TranslationPlugin";
 
 type ControlPanelPermissions = {
-  voteSkip:boolean,
-  startStop:boolean,
-  skip:boolean,
-  replay:boolean,
+  voteSkip: boolean,
+  startStop: boolean,
+  skip: boolean,
+  replay: boolean,
   changeVolume: boolean
 }
 
@@ -70,15 +81,26 @@ const httpService = new HttpService();
 
 const {currentSong, currentTime, progress, isPlaying} = useNowPlaying(4000, 100);
 
-
 const hasAdvancedPermissions = ref(false);
 const hasQueueReorderPermission = ref(false);
-const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({voteSkip:false,startStop:false,skip:false,replay:false,changeVolume:false});
+const hasQueueDeleteSongsPermission = ref(false);
+const controlPanelPermissions: Ref<ControlPanelPermissions> = ref({
+  voteSkip: false,
+  startStop: false,
+  skip: false,
+  replay: false,
+  changeVolume: false,
+});
 const addSongPermission = ref(false);
+
+const showSelectionOptions = ref(false);
+
+const queueScroll = ref<InstanceType<typeof QueueScroll>>();
 
 onMounted(async () => {
   await PermissionService.getPermissions();
   hasQueueReorderPermission.value = PermissionService.checkPermission("CHANGE_ORDER");
+  hasQueueDeleteSongsPermission.value = PermissionService.checkPermission("DELETE_SONGS");
 
   controlPanelPermissions.value.voteSkip = PermissionService.checkPermission("VOTESKIP");
   controlPanelPermissions.value.startStop = PermissionService.checkPermission("PAUSE_PLAY");
@@ -97,6 +119,10 @@ onMounted(async () => {
 const displayAdvanced = computed(() => {
   return router.currentRoute.value.name === "advanced";
 })
+
+function deleteSelection() {
+  queueScroll.value?.deleteSelected();
+}
 
 function update() {
   httpService.getNowPlaying().then(data => {
@@ -180,10 +206,39 @@ main.show-mode-switcher {
   height: calc(100% - 100px - 190px);
   padding-top: 10px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .queue-scroll-component {
   height: 100%;
+}
+
+.selection-options-container {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: var(--border-radius-big);
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection-options-container .delete-button {
+  height: 20px;
+  width: fit-content;
+  padding: 5px;
+  border-radius: var(--border-radius-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+.selection-options-container .delete-button:hover {
+  cursor: pointer;
+  background: var(--secondary-color);
 }
 
 .control-panel-wrapper {
@@ -312,6 +367,10 @@ main.show-mode-switcher {
     .duration {
       margin-right: 70px;
     }
+  }
+
+  .queue-header.delete-enabled {
+    margin-left: 50px;
   }
 
   .queue-scroll-component {
