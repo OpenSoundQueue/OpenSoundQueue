@@ -1,7 +1,7 @@
 <template>
   <main :class="{'show-mode-switcher': hasAllManagementPermissions}">
     <AdminNavigation v-show="hasAllManagementPermissions"/>
-    <div class="settings-wrapper" v-if="store.editedApplicationSettings">
+    <div class="settings-wrapper scrollbar" v-if="store.editedApplicationSettings">
       <div v-show="store.areApplicationSettingsEdited" class="save-button">
         <img class="undo" src="@/assets/icons/undo.svg"
              :alt="translate('altTexts.undo')"
