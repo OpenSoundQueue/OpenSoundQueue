@@ -4,6 +4,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailUtils {
+
+    /**
+     * this method is used to generate verification codes for emails
+     * @return a verification code as string
+     */
     public String generateEmailCode() {
         String characterPool = "1234567890";
 

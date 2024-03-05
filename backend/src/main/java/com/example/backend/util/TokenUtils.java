@@ -9,6 +9,10 @@ import java.security.NoSuchAlgorithmException;
 @Component
 public class TokenUtils {
 
+    /**
+     * this method is used to generate access tokens
+     * @return the token as a string
+     */
     @Bean
     public String generateToken() {
         String characterPool = "123467890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
@@ -24,6 +28,11 @@ public class TokenUtils {
         return token.toString();
     }
 
+    /**
+     * this method is used to hash passwords to then save them encrypted in the db
+     * @param input
+     * @return encrypted password as string
+     */
     @Bean
     public String hashWithSHA512(String input) {
         try {

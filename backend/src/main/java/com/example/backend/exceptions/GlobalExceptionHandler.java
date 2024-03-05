@@ -1,3 +1,7 @@
+/**
+ * This class handles certain exceptions that might be thrown at runtime
+ */
+
 package com.example.backend.exceptions;
 
 import com.example.backend.ResponseDtos.ErrorDto;
@@ -9,6 +13,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * This exception is being thrown in requests that require authorization
+     * @param ex exception that is to be caught
+     * @return http response to give appropriate error messages
+     */
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Object> handleInvalidParameterException(UnauthorizedException ex) {
         if (ex.getMessage().equals("token")) {

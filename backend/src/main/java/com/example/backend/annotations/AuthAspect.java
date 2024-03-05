@@ -1,3 +1,8 @@
+/**
+ * This is the Aspect for the AuthRequest annotation
+ * It implements the logic behind the annotation
+ */
+
 package com.example.backend.annotations;
 
 import com.example.backend.Repository.Permissions;
@@ -23,10 +28,15 @@ public class AuthAspect {
 
     @Around("@annotation(AuthRequest)")
     public Object checkAuth(ProceedingJoinPoint joinPoint) throws Throwable {
+        // getting parameter of annotation
         Permissions requiredPermission = ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(AuthRequest.class).requiredPermission();
+
+        // the permissions checks are disabled while the installation process is not finished
         if (requiredPermission.equals(Permissions.MANAGE_SYSTEM_SETTINGS)) {
             if (!Boolean.parseBoolean(propertyService.getProperty("system.installed"))) return joinPoint.proceed();
         }
+
+        // getting the users token out of the function
         String token = "";
         for (Object o:joinPoint.getArgs()) {
             if (o instanceof String) {
@@ -34,14 +44,17 @@ public class AuthAspect {
                 break;
             }
         }
+
+        // checking the api key
         if (!userService.verifyApiKey(token)) {
             throw new UnauthorizedException("token");
         }
 
+        // if no permission is specified the user is authorized to continue
         if (requiredPermission.equals(Permissions.NO_VALUE)) return joinPoint.proceed();
 
+        //checking permissions of the user
         UserInfoEntity user = userService.getUserByToken(token);
-
         if (!userService.getPermissionsOfUser(user.getId()).contains(requiredPermission)) {
             throw new UnauthorizedException("permission");
         }

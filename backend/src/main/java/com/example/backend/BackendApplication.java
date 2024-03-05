@@ -39,6 +39,10 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    /**
+     * if the application is started for the first time, the system.properties file is initiated with default values
+     * @throws IOException
+     */
     @Order(1)
     @PostConstruct
     private void checkPreRequirements() throws IOException {
@@ -48,12 +52,19 @@ public class BackendApplication {
         }
     }
 
+    /**
+     * uncomment this function to preload a set of songs into the database
+     */
     @Order(2)
-    @PostConstruct
+    //@PostConstruct
     private void loadTestData() {
-        //songQueueService.loadPreSetSongs("testSongs");
+        songQueueService.loadPreSetSongs("testSongs");
     }
 
+    /**
+     * uncomment this function to load a set of songs into the queue
+     * This is for testing purposes only
+     */
     @Profile("!prod")
     @Order(2)
     //@PostConstruct
@@ -79,6 +90,9 @@ public class BackendApplication {
         }
     }
 
+    /**
+     * Do not question this!
+     */
     @PostConstruct
     public void fixUserRoles() {
         for (Role r : roleRepository.findAll()) {

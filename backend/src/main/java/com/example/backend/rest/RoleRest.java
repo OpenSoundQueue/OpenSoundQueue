@@ -1,3 +1,7 @@
+/**
+ * All Rest endpoints related to roles
+ */
+
 package com.example.backend.rest;
 
 import com.example.backend.Repository.Permissions;
@@ -25,6 +29,12 @@ public class RoleRest {
         this.userService = userService;
     }
 
+    /**
+     * create new role
+     * @param role
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return new role
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
     @PostMapping("/role/create")
     public ResponseEntity<Object> createRole(
@@ -38,12 +48,23 @@ public class RoleRest {
         return new ResponseEntity<>(roleRepository.findByName(role.getName()),HttpStatus.CREATED);
     }
 
+    /**
+     * get all roles
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return all roles
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
     @GetMapping("/roles")
     public ResponseEntity<Object> getAllRoles(@RequestHeader(value = "X-API-KEY") String token) {
         return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * get role with id
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param id
+     * @return role with id
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
     @GetMapping("/role/get/{id}")
     public ResponseEntity<Object> getRole(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") int id) {
@@ -51,6 +72,12 @@ public class RoleRest {
         return new ResponseEntity<>(roleRepository.findById(id), HttpStatus.OK);
     }
 
+    /**
+     * delete role
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param id
+     * @return status code
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
     @DeleteMapping("/role/{id}")
     public ResponseEntity<Object> deleteRole(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") int id) {
@@ -60,6 +87,12 @@ public class RoleRest {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * edit role
+     * @param role
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return edited role
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
     @PatchMapping("/role/edit")
     public ResponseEntity<Object> editRole(
@@ -97,6 +130,11 @@ public class RoleRest {
         return new ResponseEntity<>(savedRole,HttpStatus.CREATED);
     }
 
+    /**
+     * get all permissions
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return all permissions
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
     @GetMapping("/permissions")
     public ResponseEntity<Object> getAllPermissions(@RequestHeader(value = "X-API-KEY") String token) {
