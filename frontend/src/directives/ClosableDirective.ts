@@ -6,6 +6,7 @@ const Closable = (onMount = false): ObjectDirective => ({
             event.stopPropagation();
             const { handler, excluded } = binding.value;
             let clickedOnExcludedEl = false;
+
             // Exclude elements passed as an Array
             if (excluded) {
                 excluded.forEach((refName: any) => {
@@ -15,15 +16,20 @@ const Closable = (onMount = false): ObjectDirective => ({
                     }
                 });
             }
+
+            // If clicked outside the element and not on an excluded element, call the handler
             if (!el.contains(event.target) && !clickedOnExcludedEl) {
                 handler(event);
             }
         }
+
+        // Attach event listener on mount if specified
         if(onMount) {
             document.addEventListener('mouseup', el.handleClickOutside);
         }
     },
     updated(el) {
+        // Update event listener based on element's display style
         if(!onMount) {
             if (el.style.display !== 'none') {
                 document.addEventListener('mouseup', el.handleClickOutside);
@@ -33,6 +39,7 @@ const Closable = (onMount = false): ObjectDirective => ({
         }
     },
     unmounted(el) {
+        // Remove event listener on unmount
         document.removeEventListener('mouseup', el.handleClickOutside);
     }
 });

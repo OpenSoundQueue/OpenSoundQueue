@@ -1,21 +1,6 @@
-import type {App, Plugin} from "vue";
+import type { App, Plugin } from "vue";
 
-/*
-Password rule: The password must be at least 8 characters long and meet the following requirements:
-    - At least one uppercase letter (A-Z)
-    - At least one lowercase letter (a-z)
-    - At least one digit (0-9)
-    - At least one special character from [@#$%^&+=!]
-
-Input code rule: The input code must be exactly 6 characters long and may only consist of letters (upper and lower case) and digits.
-
-Username rule: The username must be between 4 and 20 characters long and meet the following requirements:
-    - May contain an uppercase letter (A-Z)
-    - May contain a lowercase letter (a-z)
-    - May contain a digit (0-9)
-    - May contain a period (.) or underscore (_)
- */
-
+// Function to validate usernames
 export function validateUsername(value: string): Function {
     return () => {
         if (value.length === 0) {
@@ -27,6 +12,7 @@ export function validateUsername(value: string): Function {
     }
 }
 
+// Function to validate passwords
 export function validatePassword(value: string): Function {
     return () => {
         if (value.length === 0) {
@@ -38,6 +24,7 @@ export function validatePassword(value: string): Function {
     }
 }
 
+// Function to validate entry codes
 export function validateEntryCode(value: string): Function {
     return () => {
         if (value.length === 0) {
@@ -49,6 +36,7 @@ export function validateEntryCode(value: string): Function {
     }
 }
 
+// Function to validate song links (supports YouTube and SoundCloud links)
 export function validateSonglink(value: string): Function {
     return () => {
         if (value.length === 0) {
@@ -62,6 +50,7 @@ export function validateSonglink(value: string): Function {
     }
 }
 
+// Function to validate email addresses
 export function validateEmail(value: string) {
     return () => {
         if (value.length === 0) {
@@ -73,12 +62,16 @@ export function validateEmail(value: string) {
     }
 }
 
+// Vue plugin definition
 export const ValidationPlugin: Plugin = {
     install: (app: App) => {
+        // Register validation functions as global properties in Vue app
         app.config.globalProperties.$validateUsername = validateUsername;
         app.config.globalProperties.$validatePassword = validatePassword;
         app.config.globalProperties.$validateEntryCode = validateEntryCode;
         app.config.globalProperties.$validateEmail = validateEmail;
+
+        // Provide an empty object as a placeholder for future use
         app.provide('validationPlugin', {});
     },
 };
