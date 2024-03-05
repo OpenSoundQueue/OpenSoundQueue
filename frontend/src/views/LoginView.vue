@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="scrollbar">
     <header>
       <router-link to="/">
         <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowBack')">
