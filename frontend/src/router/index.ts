@@ -193,66 +193,82 @@ const router = createRouter({
     ]
 })
 
-// checks if installation is finished and redirects to installation if needed
+// This router guard executes before each navigation, ensuring proper installation state handling
 router.beforeEach(async (to, from, next) => {
+    // Fetches the installation state from the server
     await httpService.getInstallationState()
         .then(data => {
-            const finished:boolean = data.finished == "true";
+            // Extracts the 'finished' property from the response data and checks if it's true or false
+            const finished: boolean = data.finished == "true";
+            // Checks if the current route is an installation path
             const isInstallationPath = to.matched.some(record => record.path.includes("installation"));
 
+            // If the installation is not finished
             if (!finished) {
+                // If the current path is the installation path, continue to the next navigation step
                 if (isInstallationPath) {
                     next();
                     return;
                 } else {
+                    // Redirects to the installation path if not already there
                     next({
                         path: '/installation'
                     })
                     return;
                 }
             } else {
+                // If the installation is finished
                 if (isInstallationPath) {
+                    // Redirects to the home path if currently on the installation path
                     next({
                         path: '/home'
                     })
                     return;
                 } else {
+                    // Proceeds with the navigation if not on the installation path
                     next();
                     return;
                 }
             }
 
         })
+        // Handles errors that occur during the installation state fetching process
         .catch(() => {
+            // Clears the API key cookie
             cookieService.clearApiKey();
+            // Redirects to the installation path
             next({
                 path: '/installation'
             })
         });
 })
 
-// runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
-// checks if the stored sessionKey is valid
-// if so the request is permitted, else the user gets redirected to the '/login' path
+// This router guard runs on all path requests that require authentication ('requiresAuth' meta-tag set to 'true').
+// It checks if the stored sessionKey (API key) is valid by calling the 'getVerifyApiKey' method from 'httpService'.
+// If the sessionKey is valid, the request is permitted. Otherwise, the user gets redirected to the '/login' path.
 
 router.beforeEach(async (to, from, next) => {
+    // If the route does not require authentication, proceed with the navigation
     if (!to.matched.some(record => record.meta.requiresAuth)) {
         next();
         return;
     }
 
+    // Verifies the API key stored in the cookie
     await httpService.getVerifyApiKey(cookieService.getApiKey())
         .then(async () => {
+            // Checks if any specific permissions are required for the route
             for (const record of to.matched) {
-
                 if (record.meta.requiresPermission) {
-
+                    // Retrieves and verifies the user's permissions
                     await PermissionService.getPermissions();
                     const permissions = <PermissionType[]>record.meta.requiresPermission;
 
+                    // If the user has any of the required permissions, permit the request
                     if (PermissionService.hasAnyPermission(permissions)) {
                         next();
                     } else {
+                        // Redirects to the home path if the user lacks required permissions
                         next({
                             path: '/home'
                         })
@@ -260,67 +276,84 @@ router.beforeEach(async (to, from, next) => {
                     return;
                 }
             }
+            // Proceeds with the navigation if no permissions are required
             next();
             return;
         })
+        // Handles errors that occur during the API key verification process
         .catch(() => {
+            // Clears the API key cookie
             cookieService.clearApiKey();
+            // Redirects to the login path
             next({
                 path: '/login'
             })
         });
 })
 
-// runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'
-// checks if there is not sessionKey or the stored sessionKey is invalid
-// if so the request is permitted, else the user gets redirected to the '/map' path
+// This router guard runs on all path requests which have the meta-tag 'requiresAuth' set to 'true'.
+// It checks if there is no sessionKey or the stored sessionKey is invalid by calling the 'getVerifyApiKey' method from 'httpService'.
+// If there is no sessionKey or it is invalid, the request is permitted. Otherwise, the user gets redirected to the '/map' path.
+
 router.beforeEach(async (to, from, next) => {
-    if (Object.keys(to.meta).length==0){
+    // If the route meta-tag is empty, proceed with the navigation
+    if (Object.keys(to.meta).length == 0) {
         next();
         return;
     }
 
+    // If the route requires authentication, proceed with the navigation
     if (to.matched.some(record => record.meta.requiresAuth)) {
         next();
         return;
     }
 
+    // If there is no stored sessionKey, proceed with the navigation
     if (!cookieService.getApiKey()) {
         next();
         return;
     }
 
+    // Verifies the API key stored in the cookie
     await httpService.getVerifyApiKey(cookieService.getApiKey())
         .then(async () => {
+            // Opens a pop-up dialog prompting the user to confirm logout
             PopUpService.openPopUp(translate("logout.callToAction"), translate("logout.buttonLabel"));
 
+            // Waits for the user's action on the pop-up dialog
             const userAction = await PopUpService.waitForUserAction();
 
             if (userAction === "accepted") {
+                // Logs out the user by sending a POST request to the logout endpoint
                 await httpService.postLogout(cookieService.getApiKey())
                     .then(() => {
+                        // Sends a notification of successful logout
                         ToastService.sendNotification(translate('logout.success'), "success", 3000);
 
                         next();
                     })
                     .catch(() => {
+                        // Sends a notification of logout error
                         ToastService.sendNotification(translate('logout.error'), "error", 3000);
                         if (from.name) {
                             next(false);
                         } else {
-                            next({path: "/home"});
+                            next({ path: "/home" });
                         }
                     });
             } else {
                 if (from.name) {
                     next(false);
                 } else {
-                    next({path: "/home"});
+                    next({ path: "/home" });
                 }
             }
         })
+        // Handles errors that occur during the API key verification process
         .catch(() => {
+            // Clears the API key cookie
             cookieService.clearApiKey();
+            // Proceeds with the navigation
             next()
         });
 })
