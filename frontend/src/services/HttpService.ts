@@ -226,6 +226,22 @@ export class HttpService {
             });
     }
 
+    async postPrivateLogin(username: string, entryCode: string) {
+        // Sends a POST request to the server to log in with private authentication.
+        return await httpClient.post(`/login/private`, {
+            username: username,
+            entryCode: entryCode
+        })
+            .then(async response => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data: Record<string, string>) => {
+                return data.apiKey;
+            });
+    }
+
     // Performs a public login operation with the provided username.
     async postPublicLogin(username: string) {
         return await httpClient.post(`/login/public`, {
