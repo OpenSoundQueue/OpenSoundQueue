@@ -41,8 +41,8 @@ export default class HttpClient {
     }
 
     // Makes a DELETE request to the specified path with an optional API key.
-    delete(path: string, apiKey?: string) {
-        return this.rest(path, undefined, "DELETE", apiKey);
+    delete(path: string, data?: unknown,apiKey?: string) {
+        return this.rest(path, data, "DELETE", apiKey);
     }
 
     // Makes a POST request to the specified path with the provided data and an optional API key.

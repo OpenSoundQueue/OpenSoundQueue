@@ -25,6 +25,9 @@
       >
         <template #item="{ element }">
           <li @mousedown="startDrag(element.numberInQueue)" class="queue-reorder-item">
+          <span v-if="hasDeleteSongs" class="select-checkbox-container">
+           <Checkbox @click="select(element)" :checked="element.isSelected"/>
+          </span>
             <span class="entry">
               <Entry :number-in-queue="element.numberInQueue"
                      :title="element.song.title"
@@ -52,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import type {Ref} from "vue";
 import {computed, onMounted, ref} from "vue";
 import {HttpService} from "@/services/HttpService";
 import {Song} from "@/models/Song";
@@ -60,12 +64,19 @@ import EntrySkeleton from "@/components/queue/EntrySkeleton.vue";
 import draggable from "vuedraggable";
 import {ToastService} from "@/services/ToastService";
 import {translate} from "@/plugins/TranslationPlugin";
-import type {Ref} from "vue";
+import Checkbox from "@/components/buttons/Checkbox.vue";
 
 const props = defineProps<{
   updateInterval: number,
-  hasReorder?: boolean
+  hasReorder?: boolean,
+  hasDeleteSongs?: boolean
 }>();
+
+const emit = defineEmits<{
+  select: [boolean],
+}>()
+
+defineExpose({deleteSelected});
 
 const httpService = new HttpService();
 
@@ -75,10 +86,19 @@ const queueIsLoading = ref(true);
 
 const queue: Ref<Array<{
   numberInQueue: number,
-  song: { title: string, artist: string, duration: number, link?: string }
+  isSelected?: boolean,
+  song: { title: string, artist: string, duration: number, link?: string },
 }>> = ref([]);
 
 const draggedElement = ref(0);
+
+const showSelectionOptions = computed(() => {
+  return queue.value.some((element => {
+    if (element.isSelected) {
+      return true;
+    }
+  }));
+});
 
 const dragOptions = computed(() => {
   return {
@@ -94,12 +114,58 @@ onMounted(() => {
   setInterval(requestQueue, props.updateInterval);
 })
 
+function select(element: {
+  numberInQueue: number,
+  isSelected?: boolean,
+  song: { title: string, artist: string, duration: number, link?: string }
+}) {
+  element.isSelected = !element.isSelected;
+
+  emit("select", showSelectionOptions.value);
+}
+
 function requestQueue() {
   httpService.getQueueAll()
-      .then((data: Array<{ numberInQueue: number, song: Song }>) => {
-        queue.value = data;
+      .then((data: Array<{ numberInQueue: number, isSelected?: boolean, song: Song }>) => {
+        queue.value = data.map((element, index) => {
+          if (typeof queue.value[index] === "undefined") {
+            element.isSelected = false;
+          } else {
+            element.isSelected = queue.value[index].isSelected;
+          }
+          return element;
+        });
+
         queueIsLoading.value = false;
       })
+}
+
+async function deleteSelected() {
+  const queueFiltered = queue.value.filter((element) => element.isSelected);
+
+  queueIsLoading.value = true;
+
+  await httpService.deleteSongs(queueFiltered.map((elem) => {
+    return {
+      numberInQueue: elem.numberInQueue,
+      title: elem.song.title
+    }
+  })).catch(() => {
+    ToastService.sendNotification(translate('deleteSongs.error'), "error", 3000);
+  });
+
+  requestQueue();
+  resetSelection();
+}
+
+function resetSelection() {
+  emit("select", false);
+
+  queue.value.map((elem) => {
+    elem.isSelected = false;
+
+    return elem;
+  })
 }
 
 function startDrag(numberInQueue: number) {
@@ -125,6 +191,7 @@ function endDrag() {
   overflow-y: scroll;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .entry-container {
@@ -186,6 +253,12 @@ function endDrag() {
   color: var(--tertiary-color);
   font-weight: bold;
   font-size: var(--font-size-medium);
+}
+
+.select-checkbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 1250px) {

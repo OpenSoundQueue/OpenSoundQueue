@@ -38,7 +38,7 @@ export class HttpService {
     // Retrieves all songs in the queue.
     async getQueueAll() {
         // Defines the type of the queue response.
-        type Queue = Array<{ numberInQueue: number, song: Song }>;
+        type Queue = Array<{ numberInQueue: number, isSelected?: boolean,song: Song }>;
 
         // Sends a GET request to the server to fetch all songs in the queue.
         return httpClient.get(`/queue/all`)
@@ -697,4 +697,12 @@ export class HttpService {
             });
     }
 
+    async deleteSongs(selectedSongs: { title: string, numberInQueue: number }[]) {
+        return httpClient.delete(`/queue/delete`, selectedSongs, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+            });
+    }
 }

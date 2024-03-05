@@ -319,6 +319,9 @@
       "title": "Standardsprache",
       "description": "Legen Sie die Standardsprache für alle Benutzer fest"
     }
+  },
+  "deleteSongs": {
+    "label": "Löschen",
+    "error": "Die ausgewählten Songs konnten nicht gelöscht werden."
   }
-
 }
