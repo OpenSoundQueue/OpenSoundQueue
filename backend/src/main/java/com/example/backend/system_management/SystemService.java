@@ -12,6 +12,12 @@ public class SystemService {
         this.propertyService = propertyService;
     }
 
+    /**
+     * checks the validity of an entry code
+     * @param code entry code as string
+     * @return boolean whether the code is valid
+     * @throws IOException
+     */
     public boolean checkEntryCode(String code) throws IOException {
         return propertyService.getProperty("system.entry-code").equals(code);
     }

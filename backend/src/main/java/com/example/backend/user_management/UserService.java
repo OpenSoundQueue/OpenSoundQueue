@@ -1,3 +1,7 @@
+/**
+ * This service is responsible for all logic related to users
+ */
+
 package com.example.backend.user_management;
 
 import com.example.backend.Repository.*;
@@ -43,22 +47,47 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
+    /**
+     * get user by username
+     * @param username
+     * @return
+     */
     public UserInfoEntity getUserByUsername(String username) {
         return userInfoRepository.findByUsername(username);
     }
 
+    /**
+     * get user by token
+     * @param token
+     * @return
+     */
     public UserInfoEntity getUserByToken(String token) {
         return userInfoRepository.findByToken(tokenUtils.hashWithSHA512(token));
     }
 
+    /**
+     * get uesr by id
+     * @param id
+     * @return
+     */
     public UserInfoEntity getUserById(Long id) {
         return userInfoRepository.findById(id).orElse(null);
     }
 
+    /**
+     * get user by email
+     * @param email
+     * @return
+     */
     public UserInfoEntity getUserByEmail(String email) {
         return userInfoRepository.findByEmail(email);
     }
 
+    /**
+     * verify that a given access token is valid
+     * @param token the token that is being checked
+     * @return boolean
+     */
     public boolean verifyApiKey(String token) {
         UserInfoEntity user = getUserByToken(token);
 
@@ -71,6 +100,11 @@ public class UserService {
         return true;
     }
 
+    /**
+     * creating a user with password
+     * @param user
+     * @return
+     */
     public UserInfoEntity registerNewAuthUser(UserInfoEntity user) {
         String clearTextPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(clearTextPassword));
@@ -82,12 +116,22 @@ public class UserService {
         return user;
     }
 
+    /**
+     * creating a user without password
+     * @param user
+     * @return
+     */
     public UserInfoEntity registerNewUser(UserInfoEntity user) {
         user = userInfoRepository.save(user);
         changeRolesOfUser(user.getId(), List.of(roleRepository.findById(1).get()));
         return user;
     }
 
+    /**
+     * change access token of a given user
+     * @param id
+     * @param token
+     */
     public void updateToken(Long id, String token) {
         UserInfoEntity user = userInfoRepository.findById(id).orElse(null);
 
@@ -100,33 +144,61 @@ public class UserService {
         userInfoRepository.save(user);
     }
 
+    /**
+     * make a certain access token invalid
+     * @param user
+     */
     public void removeToken(UserInfoEntity user) {
         user.setToken(null);
         userInfoRepository.save(user);
     }
 
+    /**
+     * set the timestamp for the last action that has been performed by a given user
+     * @param user
+     */
     public void updateLastOnline(UserInfoEntity user) {
         user.setLastOnline(new Date());
         userInfoRepository.save(user);
     }
 
+    /**
+     * returns all users
+     * @return a list of users
+     */
     public List<UserDto> getAll() {
         List<UserDto> allUsers = userInfoRepository.findAll().stream().map(userInfoEntity -> new UserDto(userInfoEntity.getId(), userInfoEntity.getUsername(), userInfoEntity.getLastOnline())).toList();
 
         return allUsers;
     }
 
+    /**
+     * delete a user
+     * @param id
+     */
     public void deleteUser(Long id) {
         changeRolesOfUser(id, new LinkedList<>());
         userInfoRepository.deleteById(id);
     }
 
+    /**
+     * send an email for verifying a user's account
+     * @param user
+     * @throws MessagingException
+     * @throws IOException
+     */
     public void sendEmailVerification(UserInfoEntity user) throws MessagingException, IOException {
         String emailCode = emailUtils.generateEmailCode();
         emailVerificationCodes.put(user.getEmail(), emailCode);
         emailComponent.sendMail(user.getEmail(), emailCode, user.getUsername());
     }
 
+    /**
+     * verifying the code that was sent in a verification email
+     * @param email
+     * @param code
+     * @return
+     */
     public boolean verifyEmail(String email, String code) {
         if (!emailVerificationCodes.containsKey(email)) return false;
         boolean verified = emailVerificationCodes.get(email).equals(code);
@@ -141,6 +213,11 @@ public class UserService {
         return verified;
     }
 
+    /**
+     * change roles of a user
+     * @param id
+     * @param roles
+     */
     public void changeRolesOfUser(long id, List<Role> roles) {
         UserInfoEntity user = userInfoRepository.findById(id).get();
         List<Role> savedRoles = new ArrayList<>();
@@ -162,6 +239,11 @@ public class UserService {
         }
     }
 
+    /**
+     * get a list of all permission of a user
+     * @param id
+     * @return
+     */
     public List<Permissions> getPermissionsOfUser(long id) {
         UserInfoEntity user = userInfoRepository.findById(id).get();
         Set<Permissions> permissions = new HashSet<>();
@@ -173,6 +255,10 @@ public class UserService {
         return permissions.stream().toList();
     }
 
+    /**
+     * remove a certain role
+     * @param id
+     */
     public void removeRole(int id) {
         for (UserInfoEntity u : userInfoRepository.findAll()) {
             if (!u.getRoles().stream().filter(x -> x.getId() == id).toList().isEmpty()) {
@@ -181,6 +267,11 @@ public class UserService {
         }
     }
 
+    /**
+     * change username of user
+     * @param id
+     * @param name
+     */
     public void updateName(long id, String name) {
         UserInfoEntity user = userInfoRepository.findById(id).get();
 
@@ -193,6 +284,11 @@ public class UserService {
         }
     }
 
+    /**
+     * change email address of a user
+     * @param id
+     * @param email
+     */
     public void updateEmail(long id, String email) {
         UserInfoEntity user = userInfoRepository.findById(id).get();
 
@@ -205,6 +301,10 @@ public class UserService {
         }
     }
 
+    /**
+     * get all online users
+     * @return a list of users that are considered online
+     */
     public List<UserDto> getAllOnlineUsers() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         return getAll().stream().filter(x -> x.getLastOnline() != null).filter(x -> {

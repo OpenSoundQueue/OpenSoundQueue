@@ -1,3 +1,7 @@
+/**
+ * this service handles all actions with songs with YouTube as source
+ */
+
 package com.example.backend.streaming.youtube;
 
 import com.example.backend.Repository.SongInfoHistoryEntity;
@@ -16,8 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
-//TODO: make sure to delete song files if not used anymore
 
 @Service
 public class YoutubeSongService implements SongServiceInterface {
@@ -39,6 +41,11 @@ public class YoutubeSongService implements SongServiceInterface {
 
     private int timeoutCounter = 0;
 
+    /**
+     * validates that a song link is correct
+     * @param link of the song
+     * @return song infos if the song is correct otherwise null
+     */
     public Song validateSong(String link) {
         SongImplYoutube newSong = new SongImplYoutube(link);
         try {
@@ -50,6 +57,10 @@ public class YoutubeSongService implements SongServiceInterface {
         return newSong;
     }
 
+    /**
+     * start playback of the song
+     * @param input the song that is to be started
+     */
     @Override
     public void play(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
@@ -123,12 +134,20 @@ public class YoutubeSongService implements SongServiceInterface {
         });
     }
 
+    /**
+     * stop playback of given song
+     * @param input given song
+     */
     @Override
     public void stop(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
         song.getClip().stop();
     }
 
+    /**
+     * closes the audio stream of a given song
+     * @param input given song
+     */
     @Override
     public void close(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
@@ -139,6 +158,10 @@ public class YoutubeSongService implements SongServiceInterface {
         }
     }
 
+    /**
+     * download audio file of the song
+     * @param input song that is to be downloaded
+     */
     @Override
     public void downloadDependencies(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
@@ -151,6 +174,10 @@ public class YoutubeSongService implements SongServiceInterface {
         song.setDownloaded(true);
     }
 
+    /**
+     * renew infos of a given song from yt-dlp
+     * @param song given song
+     */
     public void fetchInfos(Song song) {
         song.setFetchingInfos(true);
         List<SongInfoHistoryEntity> foundSongs = songInfoRepository.findBySongLink(song.getLink());
@@ -176,6 +203,10 @@ public class YoutubeSongService implements SongServiceInterface {
         song.setFetchingInfos(false);
     }
 
+    /**
+     * get infos of a given song
+     * @param input given song
+     */
     @Override
     public SongInfo getInfos(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
@@ -186,12 +217,21 @@ public class YoutubeSongService implements SongServiceInterface {
         return ytDlpService.getInfos(input);
     }
 
+    /**
+     * restart playback of a given song
+     * @param input given song
+     */
     @Override
     public void replay(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;
         song.getClip().setMicrosecondPosition(0);
     }
 
+    /**
+     * change playback volume of a given song
+     * @param input given song
+     * @param volume integer between 0 and 100
+     */
     @Override
     public void changeVolume(Song input, int volume) {
         SongImplYoutube song = (SongImplYoutube) input;
@@ -201,6 +241,12 @@ public class YoutubeSongService implements SongServiceInterface {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(20f * (float) Math.log10((float) volume / 100.0));
     }
+
+    /**
+     * get playback volume of a given song
+     * @param input given song
+     * @return playback volume as integer between 0 and 100
+     */
     @Override
     public int getVolume(Song input) {
         SongImplYoutube song = (SongImplYoutube) input;

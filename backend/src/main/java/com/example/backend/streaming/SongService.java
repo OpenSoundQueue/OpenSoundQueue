@@ -1,3 +1,8 @@
+/**
+ * This service functions as a router between the song queue service and the individual song services
+ * It decides which service to forward to based on the song link of the song provided
+ */
+
 package com.example.backend.streaming;
 
 import com.example.backend.streaming.soundcloud.SoundcloudSongService;
@@ -93,7 +98,9 @@ public class SongService implements SongServiceInterface {
         return songService.getVolume(song);
     }
 
-    // Validation which type of source is being used
+    /**
+     * Validation which type of source is being used
+     */
     private SongServiceInterface getSongSource(String link) {
         if (!LINK_VALIDATIONS.get("youtube").stream().filter(link::matches).toList().isEmpty()) {
             return youtubeSongService;
