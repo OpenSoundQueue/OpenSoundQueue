@@ -1,3 +1,7 @@
+/**
+ * This configuration registers the BCryptPasswordEncoder that is being user for password encryption
+ */
+
 package com.example.backend.configurations;
 
 import org.springframework.context.annotation.Bean;

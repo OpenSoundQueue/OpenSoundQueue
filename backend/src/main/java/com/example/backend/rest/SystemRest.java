@@ -1,3 +1,7 @@
+/**
+ * all Rest endpoints related to system settings
+ */
+
 package com.example.backend.rest;
 
 import com.example.backend.Repository.Permissions;
@@ -23,6 +27,12 @@ public class SystemRest {
         this.propertyService = propertyService;
     }
 
+    /**
+     * get current system language
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @GetMapping("/system/language")
     public ResponseEntity<Object> getLanguage(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
@@ -34,6 +44,13 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * set current system language
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param language
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @PatchMapping("/system/language/set/{language}")
     public ResponseEntity<Object> setLanguage(@RequestHeader(value = "X-API-KEY", required = false) String token, @PathVariable(name = "language") String language) throws IOException {
@@ -45,6 +62,12 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * get current privacy settings
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @GetMapping("/system/privacy")
     public ResponseEntity<Object> getPrivacySettings(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
@@ -57,6 +80,13 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * set current privacy settings
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param privacySettings
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @PatchMapping("/system/privacy/set")
     public ResponseEntity<Object> setPrivacySettings(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody PrivacySettingsDto privacySettings) throws IOException {
@@ -72,6 +102,12 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * get current settings for email authentication
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @GetMapping("/system/email-auth")
     public ResponseEntity<Object> getEmailAuth(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
@@ -83,6 +119,13 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * set settings for email authentication
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param emailAuth
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @PatchMapping("/system/email-auth/set/{email-auth}")
     public ResponseEntity<Object> setEmailAuth(@RequestHeader(value = "X-API-KEY", required = false) String token, @PathVariable(name = "email-auth") String emailAuth) throws IOException {
@@ -94,6 +137,11 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * get current installation state
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/system/installation-state")
     public ResponseEntity<Object> getInstallationState() throws IOException {
         String state = propertyService.getProperty("system.installed");
@@ -104,6 +152,12 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    /**
+     * set installation state
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @PatchMapping("/system/installation-state/complete")
     public ResponseEntity<Object> setInstallationComplete(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
@@ -112,6 +166,12 @@ public class SystemRest {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * get all supported sources
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @GetMapping("/system/supported-sources")
     public ResponseEntity<Object> getSupportedSources(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
@@ -120,6 +180,11 @@ public class SystemRest {
         return new ResponseEntity<>(sources, HttpStatus.OK);
     }
 
+    /**
+     * get all enabled sources
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/system/sources")
     public ResponseEntity<Object> getEnabledSources() throws IOException {
         String[] sources = propertyService.getPropertyAsList("system.sources.enabled");
@@ -127,6 +192,13 @@ public class SystemRest {
         return new ResponseEntity<>(sources, HttpStatus.OK);
     }
 
+    /**
+     * set enabled sources
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param input
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @PatchMapping("/system/sources/set")
     public ResponseEntity<Object> setSources(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody Map<String, List<String>> input) throws IOException {
@@ -140,6 +212,12 @@ public class SystemRest {
         return new ResponseEntity<>(sources, HttpStatus.OK);
     }
 
+    /**
+     * get all system settings
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @GetMapping("/system/settings")
     public ResponseEntity<Object> getSystemSettings(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
@@ -156,6 +234,13 @@ public class SystemRest {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * set all system settings
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param input
+     * @return
+     * @throws IOException
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
     @PatchMapping("/system/settings/set")
     public ResponseEntity<Object> setSystemSettings(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody Map<String, Object> input) throws IOException {
