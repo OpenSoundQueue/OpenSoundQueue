@@ -8,7 +8,7 @@
         {{ translate('roleEdit.newRole') }}
       </div>
     </div>
-    <p>search</p>
+    <p></p>
     <div class="role-list-container scrollbar">
       <div class="select-role-button-wrapper" v-for="role in roles" :class="role.id === roleId ? 'selected' : ''">
         <div class="select-role-button-container" @click="selectRole(role.id)">
