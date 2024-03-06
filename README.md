@@ -45,15 +45,16 @@ for any occasion.
 
 ## Visuals
 
-<div style="display: flex;flex-direction:column;align-items: center;">
+<p align="center">
    <img src='readme_assets/Mockup.png' width="800" alt="OpenSoundQueue Mockup"/>
-   <label>Mockup of OpenSoundQueue</label>
-</div>
+</p>
+<p align="center">Mockup of OpenSoundQueue</p>
 
-<div style="display: flex;flex-direction:column;align-items: center;gap:20px;">
+<p align="center">
    <img src='readme_assets/Usage.png' width="500" alt="OpenSoundQueue Usage"/>
-   <label>Example of Usage</label>
-</div>
+</p>
+<p align="center">Example of Usage</p>
+
 
 ## Installation
 
@@ -109,13 +110,11 @@ the GitHub releases page.
 ## Usage
 
 <div style="display: flex; align-items: center;">
-  <div>
     <p>
       OpenSoundQueue is designed for communal music enjoyment, allowing groups to listen and manage a shared music queue
       collaboratively. It's perfect for private gatherings with friends or enhancing the atmosphere in public venues like
       restaurants, bars, and clubs. Tailor your music experience to fit any occasion with OpenSoundQueue.
     </p>
-  </div>
 <img src='readme_assets/User_Group.png' width='400' style="margin-right: 20px;" alt="OpenSoundQueue Logo"/>
 </div>
 
