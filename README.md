@@ -1,11 +1,10 @@
 # OpenSoundQueue ![Project Status: Finished](https://img.shields.io/badge/Project%20Status-Finished-green)
 
-<div style="display: flex; align-items: center;">
-  <img src='readme_assets/Logo.png' width='80' style="margin-right: 20px;" alt="OpenSoundQueue Logo"/>
-  <div>
-    <p>OpenSoundQueue is a cutting-edge, open-source application that transforms group music listening. Built with a modular architecture, it's robust and adaptable, ready for future updates to meet users' evolving needs.</p>
-  </div>
-</div>
+
+OpenSoundQueue is a cutting-edge, open-source application that transforms group music listening. Built with a modular architecture, it's robust and adaptable, ready for future updates to meet users' evolving needs.
+
+<img src='readme_assets/Logo_With_Text_Dark.png' width='800' alt="OpenSoundQueue Logo"/>
+
 
 ## Empowering Your Shared Music Experience
 
@@ -45,16 +44,13 @@ for any occasion.
 
 ## Visuals
 
-<p align="center">
-   <img src='readme_assets/Mockup.png' width="800" alt="OpenSoundQueue Mockup"/>
-</p>
-<p align="center">Mockup of OpenSoundQueue</p>
+### Mockup of OpenSoundQueue
 
-<p align="center">
-   <img src='readme_assets/Usage.png' width="500" alt="OpenSoundQueue Usage"/>
-</p>
-<p align="center">Example of Usage</p>
+<img src='readme_assets/Mockup.png' width="800" alt="OpenSoundQueue Mockup"/>
 
+### Example of Usage
+
+<img src='readme_assets/Usage.png' width="500" alt="OpenSoundQueue Usage"/>
 
 ## Installation
 
@@ -109,14 +105,11 @@ the GitHub releases page.
 
 ## Usage
 
-<div style="display: flex; align-items: center;">
-    <p>
-      OpenSoundQueue is designed for communal music enjoyment, allowing groups to listen and manage a shared music queue
-      collaboratively. It's perfect for private gatherings with friends or enhancing the atmosphere in public venues like
-      restaurants, bars, and clubs. Tailor your music experience to fit any occasion with OpenSoundQueue.
-    </p>
-<img src='readme_assets/User_Group.png' width='400' style="margin-right: 20px;" alt="OpenSoundQueue Logo"/>
-</div>
+
+OpenSoundQueue is designed for communal music enjoyment, allowing groups to listen and manage a shared music queue collaboratively. It's perfect for private gatherings with friends or enhancing the atmosphere in public venues like restaurants, bars, and clubs. Tailor your music experience to fit any occasion with OpenSoundQueue.
+
+<img src='readme_assets/User_Group.png' width='400' alt="OpenSoundQueue Logo"/>
+
 
 ## Support
 
