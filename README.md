@@ -1,101 +1,188 @@
+# OpenSoundQueue ![Project Status: Finished](https://img.shields.io/badge/Project%20Status-Finished-green)
 
-# OpenSoundQueue
-<img src='readme_assets/Logo.png' width='500'/>
+<div style="display: flex; align-items: center;">
+  <img src='readme_assets/Logo.png' width='80' style="margin-right: 20px;" alt="OpenSoundQueue Logo"/>
+  <div>
+    <p>OpenSoundQueue is a cutting-edge, open-source application that transforms group music listening. Built with a modular architecture, it's robust and adaptable, ready for future updates to meet users' evolving needs.</p>
+  </div>
+</div>
 
-## Description
-OpenSoundQueue is an open-source application that is meant for sharing a song queue to listen together in groups. It offers a variety of streaming sources and a user management system to manage permissions. 
-This project also features a modular structure and is therefore easily extendable
+## Empowering Your Shared Music Experience
+
+Perfect for private gatherings or public settings like restaurants and bars, OpenSoundQueue enhances music sharing with
+unique features:
+
+| Feature                  | Description                                                                                                   |
+|--------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Multiple Sources**     | Integrates tracks from platforms like YouTube and SoundCloud into a unified queue for varied music selection. |
+| **Security & Privacy**   | Offers public and private queues with access control, ensuring session privacy and participant exclusivity.   |
+| **Moderation & Control** | Equipped with moderation tools for balanced music selection and host control over the queue.                  |
+| **Customizability**      | Provides extensive customization and encourages global developer contributions via GitHub.                    |
+| **Multilingual Support** | Supports multiple languages for an inclusive, accessible user experience.                                     |
+
+OpenSoundQueue delivers a memorable shared music experience, offering the flexibility to tailor the music environment
+for any occasion.
 
 ## Badges
 
-### Used for development
-
-![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)
-![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
-![Insomnia](https://img.shields.io/badge/Insomnia-black?style=for-the-badge&logo=insomnia&logoColor=5849BE)
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
-
-### Technologies used
+### Technologies Used
 
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-### Supported sources for streaming
+### Streaming Sources Supported
 
 ![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)
 ![SoundCloud](https://img.shields.io/badge/SoundCloud-FF3300?style=for-the-badge&logo=soundcloud&logoColor=white)
 
+### Community and Quality
+
+![GitHub stars](https://img.shields.io/github/stars/OpenSoundQueue/OpenSoundQueue?style=for-the-badge)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)
+![Code Quality](https://img.shields.io/badge/code_quality-A-brightgreen.svg?style=for-the-badge)
+
 ## Visuals
 
-<img src='readme_assets/Sketch.png' width='400'/>
-<img src='readme_assets/Public.png' width='400'/>
-<img src='readme_assets/Basic.png' width='400'/>
-<img src='readme_assets/Roles.png' width='400'/>
+<div style="display: flex;flex-direction:column;align-items: center;">
+   <img src='readme_assets/Mockup.png' width="800" alt="OpenSoundQueue Mockup"/>
+   <label>Mockup of OpenSoundQueue</label>
+</div>
+
+<div style="display: flex;flex-direction:column;align-items: center;gap:20px;">
+   <img src='readme_assets/Usage.png' width="500" alt="OpenSoundQueue Usage"/>
+   <label>Example of Usage</label>
+</div>
 
 ## Installation
 
-### Download latest release
+To get OpenSoundQueue, download the latest release from the GitHub releases page:
 
-The latest release can be found as github release or via our project website:
+- [GitHub Releases](https://github.com/OpenSoundQueue/OpenSoundQueue/releases)
 
-    https://www.opensoundqueue.org
+Follow the instructions below after downloading the application from our project website or
+the GitHub releases page.
 
-1. Download and extract the respective zip folder for your operating system from the latest release
-2. Execute the installation script
-3. Follow the instructions given by the web-installer
-4. Your application should be ready to go
+1. **Open the Terminal or Command Prompt (CMD):**
 
-Keep in mind that you can change everything from the web installer at a later date as well, **<span style="color:red">except the owner user!</span>**
-You will **NOT** be able to change the owner anymore once the installer is complete!
+    - On **Linux** or **macOS**, open your terminal.
+    - On **Windows**, open your command prompt (CMD).
+
+2. **Navigate to the Project Root:**
+
+   Navigate to the folder where you've downloaded OpenSoundQueue. For example, if you've downloaded and extracted
+   OpenSoundQueue to `Downloads/OpenSoundQueue`, you would enter:
+
+   On **Linux** or **macOS**:
+    ```bash
+    cd ~/Downloads/OpenSoundQueue
+    ```
+
+   On **Windows**:
+    ```batch
+    cd Downloads\OpenSoundQueue
+    ```
+
+3. **Run the Installation Command:**
+
+   Based on your operating system, run the appropriate command from the project root.
+
+   For **Linux Ubuntu** users:
+    ```bash
+    ./installation_scripts/Linux\ Ubuntu/installation.bash
+    ```
+
+   For **Windows** users:
+    ```batch
+    installation_scripts\windows\setup.bat
+    ```
+   Make sure to navigate to the project root directory before running these commands, as they are relative to the root
+   of the project.
+
+4. **Follow the Web Installer Instructions:**
+
+   After executing the installation script, a web installer will launch in your default web browser. Follow the
+   on-screen instructions to complete the setup of OpenSoundQueue. This may include setting up an administrator account,
+   configuring your music sources, and customizing application settings.
 
 ## Usage
-This software is intended for listening music together with a group of people and managing the sound queue together.
-Whether private usage with friends or public usage in restaurants, bars or clubs is up to you!
+
+<div style="display: flex; align-items: center;">
+  <div>
+    <p>
+      OpenSoundQueue is designed for communal music enjoyment, allowing groups to listen and manage a shared music queue
+      collaboratively. It's perfect for private gatherings with friends or enhancing the atmosphere in public venues like
+      restaurants, bars, and clubs. Tailor your music experience to fit any occasion with OpenSoundQueue.
+    </p>
+  </div>
+<img src='readme_assets/User_Group.png' width='400' style="margin-right: 20px;" alt="OpenSoundQueue Logo"/>
+</div>
 
 ## Support
-For any issues that might occur during development or usage of the application, please refer to the GitHub issue tab. 
 
-If the issue includes personal or confidential information, please reach out to our support email
+For any issues that might occur during development or usage of the application, please refer to the GitHub issue tab.
 
-    info@opensoundqueue.org
+If the issue includes personal or confidential information, please reach out to our support email:
 
-## Roadmap
-Planned final release: 30.01.2024
+[info@opensoundqueue.org](mailto:info@opensoundqueue.org)
 
 ## Contributing
 
-As developers, we are open to anyone who is willing to contribute to this project. To get started, pull the repository to your local environment: 
+We warmly welcome contributions from anyone interested in improving OpenSoundQueue. Whether you're fixing a bug, adding
+a new feature, or improving the documentation, your help is appreciated. Here's how you can contribute:
 
-    git clone https://github.com/OpenSoundQueue/OpenSoundQueue.git
+1. **Clone the Repository**
 
-Before you can use the application, you have to execute the installation script for your operating system. These scripts can be found in /installation-scripts/{your-operating-system}/installation.*
+   Start by cloning the repository to your local environment using:
+   ```bash
+   git clone https://github.com/OpenSoundQueue/OpenSoundQueue.git
+   ```
 
-Now, create a new branch with a meaningful name. Please choose meaningful commit messages as well.
+2. **Create a New Branch**
 
-You are good to go and start developing your feature. 
+   Create a new branch with a descriptive name for your changes:
+   ```bash
+   git checkout -b feature/meaningful-name
+   ```
+   Remember to use meaningful commit messages that clearly describe each change.
 
-Once you are done with the feature, and you are certain that you removed all the bugs, you can go ahead and create a pull request. Our Devs will have a look at your change, run some tests to verify the integrity and finally either approve the request or get back to you with suggestions or comments for you to improve your code.
+3. **Consult the Documentation**
+
+   Documentation for both the frontend and backend is available in the `docs` folder. This is a great place to start if
+   you're new to the project or looking for specific implementation details.
+
+4. **Develop Your Feature**
+
+   With the setup complete, you're ready to start developing. Feel free to add new features, fix existing issues, or
+   improve the documentation.
+
+5. **Submit a Pull Request**
+
+   Once you're satisfied with your work and have thoroughly tested your changes, submit a pull request. Ensure all bugs
+   are addressed and your code conforms to the project's standards. Our developers will review your contribution, run
+   additional tests, and provide feedback or approve your changes.
+
+By contributing to OpenSoundQueue, you're helping to create a more enjoyable and collaborative music experience for
+everyone. Thank you for your support and contributions!
 
 ## Authors and acknowledgment
 
 ![Authors](readme_assets/Authors.png)
 
+### Connect with the authors on LinkedIn:
+
+- [![Markus Wizany](https://img.shields.io/badge/-Markus_Wizany-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/markus-wizany/)](https://www.linkedin.com/in/markus-wizany/)
+- [![Daniel Pillwein](https://img.shields.io/badge/-Daniel_Pillwein-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/daniel-pillwein/)](https://www.linkedin.com/in/daniel-pillwein/)
+- [![Lukas Schodl](https://img.shields.io/badge/-Lukas_Schodl-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/lukas-schodl/)](https://www.linkedin.com/in/lukas-schodl/)
+
 ## License
-Copyright 2023 Lukas Schodl
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+This project is licensed under the Apache License, Version 2.0. Copyright © 2023 Lukas Schodl. All rights reserved.
 
-    http://www.apache.org/licenses/LICENSE-2.0
+Usage of the files and contributions to the repository are subject to the following conditions:
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+- The software is provided "AS IS", without warranty of any kind, express or implied.
+- The full text of the license can be found at [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-## Project status
-In development
+By using or contributing to this project, you agree to abide by its terms.
