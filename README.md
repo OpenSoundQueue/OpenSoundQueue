@@ -160,7 +160,7 @@ everyone. Thank you for your support and contributions!
 
 ## Authors and acknowledgment
 
-![Authors](readme_assets/Authors.png)
+<img src='readme_assets/Authors.png' width='800' alt="Dev-Team of OpenSoundQueue"/>
 
 ### Connect with the authors on LinkedIn:
 
