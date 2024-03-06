@@ -141,7 +141,7 @@ a new feature, or improving the documentation, your help is appreciated. Here's 
 
 3. **Consult the Documentation**
 
-   Documentation for both the frontend and backend is available in the `docs` folder. This is a great place to start if
+   Documentation for both the frontend and backend is available in the `docs` folder  ([link to folder](./docs)). This is a great place to start if
    you're new to the project or looking for specific implementation details.
 
 4. **Develop Your Feature**
