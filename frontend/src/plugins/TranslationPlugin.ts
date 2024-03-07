@@ -1,12 +1,12 @@
-import type { App, Plugin } from "vue";
-import { ref } from "vue";
+import type {App, Plugin} from "vue";
+import {ref} from "vue";
 
 // Import translation files
 import enTranslations from "@/translations/en.json";
 import deTranslations from "@/translations/de.json";
 
 // Import settings from the store
-import { settings } from "@/store/store";
+import {settings} from "@/store/store";
 
 // Define a utility type to flatten translation keys
 type FlattenTranslations<T, K extends string | number = ''> = {

@@ -1,0 +1,327 @@
+{
+  "about": "Acerca de",
+  "addSong": {
+    "title": "Agregar canción",
+    "placeholder": "Buscar en el historial o usar el enlace de la canción",
+    "action": "Añadir a la cola",
+    "insufficientPermissions": "Lo siento, no tienes permiso para agregar canciones :("
+  },
+  "adminPage": {
+    "nav": {
+      "users": "Usuarios",
+      "roles": "Roles"
+    },
+    "detail": {
+      "delete": "Eliminar usuario",
+      "placeholder": {
+        "body": "Por favor, selecciona un usuario",
+        "email": "Sin correo verificado",
+        "lastOnline": "Nunca ha estado en línea",
+        "name": "Ningún usuario seleccionado"
+      }
+    },
+    "tableHeader": {
+      "email": "Correo electrónico",
+      "lastOnline": "última vez en línea",
+      "role": "Rol",
+      "username": "Nombre de usuario"
+    }
+  },
+  "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
+  "altTexts": {
+    "arrowBack": "Flecha para volver un paso atrás",
+    "arrowDown": "Flecha apuntando hacia abajo",
+    "arrowLeft": "Flecha apuntando a la izquierda",
+    "arrowOutward": "Flecha diagonal apuntando hacia arriba y a la derecha, indicando contenido externo",
+    "arrowRight": "Flecha apuntando a la derecha",
+    "arrowUp": "Flecha apuntando hacia arriba",
+    "check": "Símbolo de marca de verificación",
+    "close": "Símbolo de cerrar (X)",
+    "delete": "Símbolo de eliminar (X)",
+    "dragHandle": "Símbolo de una manija, permite reorganizar elementos de la lista arrastrando",
+    "error": "Signo de exclamación dentro de un círculo dentado",
+    "help": "Signo de interrogación rodeado por un círculo para mostrar información adicional",
+    "hide": "Ocultar entrada",
+    "info": "Círculo con una 'i' dentro, representando información",
+    "login": "Símbolo de inicio de sesión",
+    "logo": "Logo de OpenSoundQueue con las letras 'osq' y una línea blanca debajo interrumpida por un círculo",
+    "logoAndText": "Logo de OpenSoundQueue con las letras 'osq' y el nombre 'OpenSoundQueue' escrito al lado",
+    "logout": "Símbolo de cerrar sesión",
+    "mail": "Símbolo de sobre",
+    "menu": "Icono de menú de hamburguesa",
+    "pause": "Pausar reproducción",
+    "play": "Reanudar reproducción",
+    "playlistAdd": "Símbolo de cola con un signo de más, indica la habilidad de añadir nuevas canciones a la cola",
+    "replay": "Símbolo de repetir",
+    "role": "Símbolo de rol",
+    "search": "Lupa indicando función de búsqueda",
+    "settings": "Símbolo de configuraciones",
+    "show": "Mostrar entrada",
+    "skip": "Símbolo de saltar",
+    "sortingArrowDown": "Flecha apuntando hacia abajo, indicando dirección de ordenamiento",
+    "sortingArrowUp": "Flecha apuntando hacia arriba, indicando dirección de ordenamiento",
+    "time": "Símbolo de reloj",
+    "undo": "Una flecha apuntando hacia atrás para deshacer los cambios",
+    "user": "Símbolo de usuario",
+    "userVerified": "Un símbolo de usuario y una marca adicional, indicando que este usuario está verificado",
+    "selectAll": "Una cuadrícula de rectángulos grandes de igual altura y anchura, indicando que todos ellos están seleccionados",
+    "selectNone": "Una cuadrícula de rectángulos pequeños de igual altura y anchura, indicando que ninguno de ellos está seleccionado",
+    "invertSelection": "Una cuadrícula de rectángulos donde la mitad de los rectángulos son más grandes que el resto, indicando que la selección puedeser invertida",
+    "volumeUp": "Símbolo de más indicando un aumento del volumen",
+    "volumeDown": "Símbolo de menos indicando una disminución del volumen",
+    "volumeFull": "Altavoz que muestra el volumen completo",
+    "volumeOff": "Un altavoz en modo silencio"
+  },
+  "createAccount": "Crear cuenta",
+  "currentSongEmpty": "Actualmente no se está reproduciendo ninguna canción",
+  "documentation": "Documentación",
+  "email": {
+    "placeholder": "Ingresa dirección de correo electrónico",
+    "title": "Correo electrónico",
+    "validation": "No es una dirección de correo válida",
+    "taken": "El correo ya ha sido tomado"
+  },
+  "emailVerification": {
+    "placeholder": "Ingresa el código",
+    "error": "Código de verificación incorrecto"
+  },
+  "entryCode": {
+    "error": "Código de entrada incorrecto",
+    "placeholder": "Ingresa el código de entrada",
+    "title": "Código de entrada",
+    "validation": "El código de entrada debe tener exactamente 6 caracteres"
+  },
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "help": {
+    "addSong": "Las siguientes fuentes están soportadas:",
+    "voteSkip": "Al hacer clic en el botón de saltar, puedes votar para omitir la canción actual (esto requiere el voto de la mitad de todos los usuarios activos)."
+  },
+  "historySearch": {
+    "enterSearchTerm": "Ingresa un término de búsqueda...",
+    "noSongFound": "No se encontró ninguna canción para ",
+    "searchInHistory": "Buscar en el historial"
+  },
+  "imprint": "Imprimir",
+  "inQueue": "En cola",
+  "language": "Idioma",
+  "login": "Iniciar sesión",
+  "loginCTA": "¿Quieres añadir tus propias canciones?",
+  "loginTitle": "Inicia sesión para empezar a contribuir",
+  "logout": {
+    "buttonLabel": "Cerrar sesión",
+    "callToAction": "Para acceder a esta página, necesitas haber cerrado sesión.",
+    "error": "No se pudo cerrar sesión.",
+    "info": "No has iniciado sesión",
+    "success": "Has cerrado sesión."
+  },
+  "modeSwitcher": {
+    "advanced": "Avanzado",
+    "basic": "Básico"
+  },
+  "months": {
+    "1": "Enero",
+    "2": "Febrero",
+    "3": "Marzo",
+    "4": "Abril",
+    "5": "Mayo",
+    "6": "Junio",
+    "7": "Julio",
+    "8": "Agosto",
+    "9": "Septiembre",
+    "10": "Octubre",
+    "11": "Noviembre",
+    "12": "Diciembre"
+  },
+  "navBar": {
+    "home": "Inicio",
+    "project": "Proyecto",
+    "public": "Público",
+    "settings": "Configuraciones",
+    "team": "Equipo",
+    "admin": "Administración"
+  },
+  "notifications": {
+    "queueAddError": "La canción no pudo ser añadida a la cola.",
+    "queueAddSuccess": "fue añadida a la cola.",
+    "queueChangeOrderError": "La canción no pudo ser movida.",
+    "replaySongError": "La canción no pudo ser reiniciada",
+    "skipSongError": "La canción no pudo ser saltada",
+    "skipSongSuccess": "La canción ha sido saltada",
+    "startError": "La cola no pudo ser iniciada",
+    "stopError": "La cola no pudo ser pausada",
+    "userDelete": {
+      "messageError": "no pudo ser eliminado.",
+      "messageSuccess": "ha sido eliminado.",
+      "user": "Usuario"
+    },
+    "voteSkipRequestError": "No se pudo solicitar el voto.",
+    "voteSkipWithdrawError": "No se pudo retirar el voto.",
+    "installation": {
+      "fetchError": "No se pudieron cargar las configuraciones. Por favor, recarga la página.",
+      "saveLanguageError": "No se pudo guardar el Idioma. Por favor, intenta de nuevo.",
+      "savePrivacyError": "No se pudieron guardar las Configuraciones de Privacidad. Por favor, intenta de nuevo.",
+      "saveSourcesError": "No se pudo guardar la Selecciónde Fuente. Por favor, intenta de nuevo."
+    }
+  },
+  "nowPlaying": "Reproduciendo ahora",
+  "password": {
+    "error": "Nombre de usuario o contraseña incorrectos",
+    "placeholder": "Ingresa contraseña",
+    "title": "Contraseña",
+    "validation": "Mínimo de 8 caracteres de longitud, debe incluir una letra mayúscula, una letra minúscula, un número y un carácter especial"
+  },
+  "passwordRepeat": {
+    "placeholder": "Repite la contraseña",
+    "title": "Repetir Contraseña",
+    "validation": "Las contraseñas no coinciden"
+  },
+  "popUp": {
+    "deleteUser": {
+      "button": "Eliminar Usuario",
+      "part1": "¿Estás seguro que deseas eliminar al usuario",
+      "part2": "?"
+    },
+    "editRole": {
+      "unsavedChanges": "Hay cambios sin guardar. ¿Deseas guardarlos?",
+      "save": "Guardar cambios",
+      "saveError": "Los cambios no pudieron ser guardados",
+      "saveSuccess": "Cambios guardados exitosamente",
+      "deleteError": "Ocurrió un error al eliminar el rol",
+      "deleteSuccess": "Rol eliminado exitosamente",
+      "createError": "Ya existe un Rol con este nombre",
+      "createSuccess": "Rol creado exitosamente",
+      "newRoleRedirectError": "El rol debe ser nombrado antes de poder ajustar configuraciones adicionales"
+    }
+  },
+  "queueDescription": {
+    "duration": "Duración",
+    "title": "Título"
+  },
+  "queueEmpty": "No hay canciones en cola",
+  "select": "Seleccionar",
+  "settings": "Configuraciones",
+  "team": "Equipo",
+  "username": {
+    "error": "Nombre de usuario o contraseña incorrectos",
+    "logout": {
+      "buttonLabel": "Cerrar sesión",
+      "callToAction": "Para acceder a esta página, necesitas haber cerrado sesión.",
+      "error": "No se pudo cerrar sesión.",
+      "info": "No has iniciado sesión",
+      "success": "Has cerrado sesión."
+    },
+    "placeholder": "Ingresa nombre de usuario",
+    "taken": "El nombre de usuario ya ha sido tomado",
+    "title": "Nombre de usuario",
+    "validation": "Mínimo de 4 caracteres, puede contener números, puntos (.) y guiones bajos (_)"
+  },
+  "registration": {
+    "change": "Cambiar",
+    "continue": "Continuar",
+    "createAccount": "Crear cuenta",
+    "explanation": "Hemos enviado un código a tu dirección de correo electrónico, por favor revisa tu bandeja de entrada.",
+    "heading": "Crear una cuenta",
+    "noCode": {
+      "button": "Reenviar Código",
+      "error": "Algo no funcionó. Por favor, intenta de nuevo.",
+      "success": "Te hemos enviado un nuevo código.",
+      "text": "No he recibido un código"
+    },
+    "success": "Registro exitoso",
+    "verified": "Verificado",
+    "verifiedCTO": "La cuenta ha sido creada. Continúa con los siguientes pasos."
+  },
+  "roleEdit": {
+    "newRole": "Nuevo Rol",
+    "navigation": {
+      "display": "Mostrar",
+      "members": "Miembros",
+      "permissions": "Permisos"
+    },
+    "save": "Guardar",
+    "rollback": "Descartar cambios",
+    "delete": "Eliminar Rol",
+    "display": {
+      "roleName": "Nombre del Rol",
+      "placeholder": "Ingresa el nombre del rol..."
+    },
+    "member": {
+      "search": "Buscar usuarios...",
+      "noResults": "No se encontraron resultados para ",
+      "selectAll": "Seleccionar todos",
+      "selectNone": "No seleccionar ninguno",
+      "invert": "Invertir selección"
+    },
+    "permissions": {
+      "search": "Buscar permisos...",
+      "noResults": "No se encontraron resultados para ",
+      "selectAll": "Seleccionar todos",
+      "selectNone": "No seleccionar ninguno",
+      "invert": "Invertir selección"
+    }
+  },
+  "installation": {
+    "installation": "Instalación",
+    "progressBar": {
+      "language": "Idioma",
+      "registration": "Registro",
+      "privacy": "Privacidad",
+      "sources": "Fuentes"
+    },
+    "navigation": {
+      "next": {
+        "language": "Continuar al Registro",
+        "registration": "Continuar a Configuraciones de Privacidad",
+        "privacy": "Continuar a Selección de Fuentes",
+        "sources": "Completar Instalación"
+      },
+      "back": {
+        "language": "No es posible retroceder",
+        "registration": "Regresar a Selección de Idioma",
+        "privacy": "Regresar a Registro",
+        "sources": "Regresar a Control de Acceso"
+      }
+    }
+  },
+  "languages": {
+    "en": "Inglés",
+    "de": "Alemán"
+  },
+  "volume": {
+    "changeError": "No se pudo cambiar el volumen.",
+    "muteError": "No se pudo silenciar la cola.",
+    "unmuteError": "No se pudo activar el sonido de la cola."
+  },
+  "applicationSettings": {
+    "title": "Configuraciones de la Aplicación",
+    "saveError": "No se pudieron guardar las configuraciones de la aplicación",
+    "fetchError": "No se pudieron recuperar las configuraciones de la aplicación",
+    "privacy": {
+      "title": "Privacidad",
+      "emailAuth": {
+        "title": "Autenticación por Correo Electrónico",
+        "description": "Las personas deben ingresar y verificar su dirección de correo electrónico al crear una cuenta"
+      },
+      "privateRoom": {
+        "title": "Sala Privada",
+        "description": "Una sala privada está protegida con un código de entrada."
+      },
+      "entryCode": {
+        "title": "Código de Entrada"
+      }
+    },
+    "sources": {
+      "title": "Fuentes",
+      "description": "Selecciona las Fuentes de las cuales los usuarios pueden recuperar enlaces de canciones. (Al menos una)",
+      "error": "Debes seleccionar al menos una fuente"
+    },
+    "defaultLanguage": {
+      "title": "Idioma Predeterminado",
+      "description": "Especifica el idioma predeterminado para todos los usuarios"
+    }
+  },
+  "deleteSongs": {
+    "label": "Eliminar",
+    "error": "Las canciones seleccionadas no pudieron ser eliminadas."
+  }
+}
