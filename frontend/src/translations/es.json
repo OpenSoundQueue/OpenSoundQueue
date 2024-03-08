@@ -2,7 +2,7 @@
   "about": "Acerca de",
   "addSong": {
     "title": "Agregar canción",
-    "placeholder": "Buscar en el historial o usar el enlace de la canción",
+    "placeholder": "Buscar en la historia o usar el enlace de la canción",
     "action": "Añadir a la cola",
     "insufficientPermissions": "Lo siento, no tienes permiso para agregar canciones :("
   },
@@ -14,8 +14,8 @@
     "detail": {
       "delete": "Eliminar usuario",
       "placeholder": {
-        "body": "Por favor, selecciona un usuario",
-        "email": "Sin correo verificado",
+        "body": "Selecciona un usuario, por favor",
+        "email": "No se ha verificado ninguna dirección de correo electrónico",
         "lastOnline": "Nunca ha estado en línea",
         "name": "Ningún usuario seleccionado"
       }
@@ -24,7 +24,7 @@
       "email": "Correo electrónico",
       "lastOnline": "última vez en línea",
       "role": "Rol",
-      "username": "Nombre de usuario"
+      "username": "usuario"
     }
   },
   "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
@@ -32,7 +32,7 @@
     "arrowBack": "Flecha para volver un paso atrás",
     "arrowDown": "Flecha apuntando hacia abajo",
     "arrowLeft": "Flecha apuntando a la izquierda",
-    "arrowOutward": "Flecha diagonal apuntando hacia arriba y a la derecha, indicando contenido externo",
+    "arrowOutward": "Flecha diagonal apuntando hacia arriba y a la derecha, que se refiere al contenido externo",
     "arrowRight": "Flecha apuntando a la derecha",
     "arrowUp": "Flecha apuntando hacia arriba",
     "check": "Símbolo de marca de verificación",
@@ -51,7 +51,7 @@
     "menu": "Icono de menú de hamburguesa",
     "pause": "Pausar reproducción",
     "play": "Reanudar reproducción",
-    "playlistAdd": "Símbolo de cola con un signo de más, indica la habilidad de añadir nuevas canciones a la cola",
+    "playlistAdd": "Símbolo de cola con un signo de más, para añadir nuevas canciones a la cola",
     "replay": "Símbolo de repetir",
     "role": "Símbolo de rol",
     "search": "Lupa indicando función de búsqueda",
@@ -63,23 +63,23 @@
     "time": "Símbolo de reloj",
     "undo": "Una flecha apuntando hacia atrás para deshacer los cambios",
     "user": "Símbolo de usuario",
-    "userVerified": "Un símbolo de usuario y una marca adicional, indicando que este usuario está verificado",
+    "userVerified": "Un símbolo de usuario y un gancho, indicando que este usuario está verificado",
     "selectAll": "Una cuadrícula de rectángulos grandes de igual altura y anchura, indicando que todos ellos están seleccionados",
     "selectNone": "Una cuadrícula de rectángulos pequeños de igual altura y anchura, indicando que ninguno de ellos está seleccionado",
     "invertSelection": "Una cuadrícula de rectángulos donde la mitad de los rectángulos son más grandes que el resto, indicando que la selección puedeser invertida",
     "volumeUp": "Símbolo de más indicando un aumento del volumen",
-    "volumeDown": "Símbolo de menos indicando una disminución del volumen",
-    "volumeFull": "Altavoz que muestra el volumen completo",
+    "volumeDown": "Símbolo de menos indicando una reducción del volumen",
+    "volumeFull": "Un altavoz que muestra el volumen completo",
     "volumeOff": "Un altavoz en modo silencio"
   },
   "createAccount": "Crear cuenta",
   "currentSongEmpty": "Actualmente no se está reproduciendo ninguna canción",
   "documentation": "Documentación",
   "email": {
-    "placeholder": "Ingresa dirección de correo electrónico",
+    "placeholder": "Ingresa la dirección de correo electrónico",
     "title": "Correo electrónico",
-    "validation": "No es una dirección de correo válida",
-    "taken": "El correo ya ha sido tomado"
+    "validation": "No es una dirección de correo electrónico válida",
+    "taken": "La direccion de correo electronico ya ha sido tomada"
   },
   "emailVerification": {
     "placeholder": "Ingresa el código",
@@ -101,8 +101,8 @@
     "noSongFound": "No se encontró ninguna canción para ",
     "searchInHistory": "Buscar en el historial"
   },
-  "imprint": "Imprimir",
-  "inQueue": "En cola",
+  "imprint": "aviso legal",
+  "inQueue": "En la cola",
   "language": "Idioma",
   "login": "Iniciar sesión",
   "loginCTA": "¿Quieres añadir tus propias canciones?",
@@ -165,7 +165,7 @@
   },
   "nowPlaying": "Reproduciendo ahora",
   "password": {
-    "error": "Nombre de usuario o contraseña incorrectos",
+    "error": "Nombre de usuario o contraseña incorrecto",
     "placeholder": "Ingresa contraseña",
     "title": "Contraseña",
     "validation": "Mínimo de 8 caracteres de longitud, debe incluir una letra mayúscula, una letra minúscula, un número y un carácter especial"
@@ -182,7 +182,7 @@
       "part2": "?"
     },
     "editRole": {
-      "unsavedChanges": "Hay cambios sin guardar. ¿Deseas guardarlos?",
+      "unsavedChanges": "Has hecho cambios que no se han guardado. ¿Quieres guardarlos?",
       "save": "Guardar cambios",
       "saveError": "Los cambios no pudieron ser guardados",
       "saveSuccess": "Cambios guardados exitosamente",
@@ -198,11 +198,11 @@
     "title": "Título"
   },
   "queueEmpty": "No hay canciones en cola",
-  "select": "Seleccionar",
+  "select": "Selecciona una opción",
   "settings": "Configuraciones",
   "team": "Equipo",
   "username": {
-    "error": "Nombre de usuario o contraseña incorrectos",
+    "error": "Nombre de usuario o contraseña incorrecto",
     "logout": {
       "buttonLabel": "Cerrar sesión",
       "callToAction": "Para acceder a esta página, necesitas haber cerrado sesión.",
@@ -232,9 +232,9 @@
     "verifiedCTO": "La cuenta ha sido creada. Continúa con los siguientes pasos."
   },
   "roleEdit": {
-    "newRole": "Nuevo Rol",
+    "newRole": "Nuevo rol",
     "navigation": {
-      "display": "Mostrar",
+      "display": "Pantalla",
       "members": "Miembros",
       "permissions": "Permisos"
     },
@@ -264,22 +264,22 @@
     "installation": "Instalación",
     "progressBar": {
       "language": "Idioma",
-      "registration": "Registro",
+      "registration": "Registr",
       "privacy": "Privacidad",
       "sources": "Fuentes"
     },
     "navigation": {
       "next": {
-        "language": "Continuar al Registro",
-        "registration": "Continuar a Configuraciones de Privacidad",
-        "privacy": "Continuar a Selección de Fuentes",
-        "sources": "Completar Instalación"
+        "language": "Continuar al registro",
+        "registration": "Continuar a configuraciones de privacidad",
+        "privacy": "Continuar a selección de fuentes",
+        "sources": "Completar instalación"
       },
       "back": {
         "language": "No es posible retroceder",
-        "registration": "Regresar a Selección de Idioma",
-        "privacy": "Regresar a Registro",
-        "sources": "Regresar a Control de Acceso"
+        "registration": "Regresar a selección de Idioma",
+        "privacy": "Regresar a registro",
+        "sources": "Regresar a control de acceso"
       }
     }
   },
@@ -312,11 +312,11 @@
     },
     "sources": {
       "title": "Fuentes",
-      "description": "Selecciona las Fuentes de las cuales los usuarios pueden recuperar enlaces de canciones. (Al menos una)",
+      "description": "Selecciona las fuentes de las cuales los usuarios pueden recuperar enlaces de canciones. (Al menos una)",
       "error": "Debes seleccionar al menos una fuente"
     },
     "defaultLanguage": {
-      "title": "Idioma Predeterminado",
+      "title": "Idioma predeterminado",
       "description": "Especifica el idioma predeterminado para todos los usuarios"
     }
   },
