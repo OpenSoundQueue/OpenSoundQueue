@@ -285,7 +285,8 @@
   },
   "languages": {
     "en": "Englisch",
-    "de": "Deutsch"
+    "de": "Deutsch",
+    "es": "Spanisch"
   },
   "volume": {
     "changeError": "Die Lautstärke konnte nicht geändert werden.",

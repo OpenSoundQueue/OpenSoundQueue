@@ -285,7 +285,8 @@
   },
   "languages": {
     "en": "Inglés",
-    "de": "Alemán"
+    "de": "Alemán",
+    "es": "Español"
   },
   "volume": {
     "changeError": "No se pudo cambiar el volumen.",
