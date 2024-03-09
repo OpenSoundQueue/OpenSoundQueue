@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import com.example.backend.Repository.Permissions;
 import com.example.backend.Repository.Role;
 import com.example.backend.Repository.RoleRepository;
 import com.example.backend.Repository.UserInfoRepository;
@@ -18,6 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class BackendApplication {
@@ -98,6 +102,31 @@ public class BackendApplication {
         for (Role r : roleRepository.findAll()) {
             r.setMembers(userInfoRepository.findAllByRolesContains(r));
             roleRepository.save(r);
+        }
+    }
+
+    @PostConstruct
+    public void createDefaultRoles() {
+        if (roleRepository.findAll().isEmpty()) {
+            LOG.info("Creating default Roles");
+            Role basic = new Role();
+            List<Permissions> basicPermissions = new ArrayList<>();
+            basicPermissions.add(Permissions.ADD_SONG);
+            basicPermissions.add(Permissions.VOTESKIP);
+            basicPermissions.add(Permissions.HISTORY_SEARCH);
+            basic.setPermissions(basicPermissions);
+            basic.setName("Basic");
+            roleRepository.save(basic);
+
+            Role advanced = new Role();
+            advanced.setPermissions(Stream.of(Permissions.values()).filter(x -> x != Permissions.NO_VALUE).toList());
+            advanced.setName("Advanced");
+            roleRepository.save(advanced);
+
+            Role owner = new Role();
+            owner.setPermissions(Stream.of(Permissions.values()).filter(x -> x != Permissions.NO_VALUE).toList());
+            owner.setName("Owner");
+            roleRepository.save(owner);
         }
     }
 }
