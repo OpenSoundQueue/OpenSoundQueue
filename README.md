@@ -105,7 +105,7 @@ Once the application is installed, it starts automatically. If you need to resta
 java -jar opensoundqueue.jar
 ```
 
-To access the web application from another device, you need to input the IP address of the host. You can determine it using the following PowerShell command:
+To access the web application from another device, you need to input the IP address of the host in a web browser. You can determine it using the following PowerShell command:
 
 ```powershell
 Get-NetIPAddress | Where-Object { $_.InterfaceAlias -eq 'Ethernet' -and $_.AddressFamily -eq 'IPv4' } | Select-Object IPAddress
