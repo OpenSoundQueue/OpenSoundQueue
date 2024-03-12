@@ -8,7 +8,7 @@
     <div v-else-if="queue.length===0" class="empty-queue">
       <div>{{ $translate('queueEmpty') }}</div>
     </div>
-    <div v-else-if="hasReorder">
+    <div v-else-if="hasReorder || hasDeleteSongs">
       <draggable
           tag="ul"
           :list="queue"
@@ -35,7 +35,7 @@
                      :duration="element.song.duration"
               />
             </span>
-            <span class="fa fa-align-justify handle">
+            <span v-if="hasReorder" class="fa fa-align-justify handle">
               <img src="@/assets/icons/drag_handle.svg" :alt="$translate('altTexts.dragHandle')"/>
             </span>
           </li>
