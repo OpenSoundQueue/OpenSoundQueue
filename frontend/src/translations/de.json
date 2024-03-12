@@ -89,9 +89,9 @@
     "error": "Zugangscode falsch",
     "placeholder": "Zugangscode eingeben",
     "title": "Zugangscode",
-    "validation": "Der Zugangscode ist genau 6 Zeichen lang"
+    "validation": "Der Zugangscode ist genau 6 Zeichen lang",
+    "empty": "Dieses Feld darf nicht leer bleiben"
   },
-  "forgotPassword": "Passwort vergessen?",
   "help": {
     "addSong": "Folgende Quellen werden unterstützt:",
     "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig)."
@@ -168,7 +168,8 @@
     "error": "Benutzername oder Passwort falsch",
     "placeholder": "Passwort eingeben",
     "title": "Passwort",
-    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen"
+    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen",
+    "empty": "Dieses Feld darf nicht leer bleiben"
   },
   "passwordRepeat": {
     "placeholder": "Passwort wiederholen",
@@ -213,7 +214,8 @@
     "placeholder": "Benutzername eingeben",
     "taken": "Benutzername bereits vergeben",
     "title": "Benutzername",
-    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten"
+    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten",
+    "empty": "Dieses Feld darf nicht leer bleiben"
   },
   "registration": {
     "change": "Ändern",

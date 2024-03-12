@@ -89,9 +89,9 @@
     "error": "Código de entrada incorrecto",
     "placeholder": "Ingresa el código de entrada",
     "title": "Código de entrada",
-    "validation": "El código de entrada debe tener exactamente 6 caracteres"
+    "validation": "El código de entrada debe tener exactamente 6 caracteres",
+    "empty": "Este campo no puede quedar vacío"
   },
-  "forgotPassword": "¿Olvidaste tu contraseña?",
   "help": {
     "addSong": "Las siguientes fuentes están soportadas:",
     "voteSkip": "Al hacer clic en el botón de saltar, puedes votar para omitir la canción actual (esto requiere el voto de la mitad de todos los usuarios activos)."
@@ -168,7 +168,8 @@
     "error": "Nombre de usuario o contraseña incorrecto",
     "placeholder": "Ingresa contraseña",
     "title": "Contraseña",
-    "validation": "Mínimo de 8 caracteres de longitud, debe incluir una letra mayúscula, una letra minúscula, un número y un carácter especial"
+    "validation": "Mínimo de 8 caracteres de longitud, debe incluir una letra mayúscula, una letra minúscula, un número y un carácter especial",
+    "empty": "Este campo no puede quedar vacío"
   },
   "passwordRepeat": {
     "placeholder": "Repite la contraseña",
@@ -213,7 +214,8 @@
     "placeholder": "Ingresa nombre de usuario",
     "taken": "El nombre de usuario ya ha sido tomado",
     "title": "Nombre de usuario",
-    "validation": "Mínimo de 4 caracteres, puede contener números, puntos (.) y guiones bajos (_)"
+    "validation": "Mínimo de 4 caracteres, puede contener números, puntos (.) y guiones bajos (_)",
+    "empty": "Este campo no puede quedar vacío"
   },
   "registration": {
     "change": "Cambiar",

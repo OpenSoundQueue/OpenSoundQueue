@@ -8,5 +8,6 @@ declare module "@vue/runtime-core" {
         $validateEmail: (value: string) => Function;
         $validatePassword: (value: string) => Function;
         $validateEntryCode: (value: string) => Function;
+        $isEmpty: (value: string) => Function;
     }
 }
