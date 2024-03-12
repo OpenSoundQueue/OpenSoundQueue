@@ -103,7 +103,7 @@ onMounted(async () => {
     }
   });
 
-  await getUsers();
+  await getRoleMembers();
 })
 
 function selectAll() {
@@ -164,8 +164,8 @@ function toUserCheck(users: Ref<User[]>): UserCheck[] {
   })
 }
 
-async function getUsers() {
-  await httpService.getUsers()
+async function getRoleMembers() {
+  await httpService.getRoleMembers()
       .then((data) => {
         users.value = data
         usersAreLoading.value = false;

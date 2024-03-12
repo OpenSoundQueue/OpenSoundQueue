@@ -140,4 +140,17 @@ public class RoleRest {
     public ResponseEntity<Object> getAllPermissions(@RequestHeader(value = "X-API-KEY") String token) {
         return new ResponseEntity<>(Arrays.stream(Permissions.values()).filter(x -> x != Permissions.NO_VALUE).toArray(), HttpStatus.OK);
     }
+
+    /**
+     * get all users that are registered in the system
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
+    @AuthRequest(requiredPermission = Permissions.MANAGE_ROLES)
+    @GetMapping("/roles/members")
+    public ResponseEntity<Object> roleMembers(@RequestHeader(value = "X-API-KEY") String token) {
+        userService.updateLastOnline(userService.getUserByToken(token));
+
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    }
 }
