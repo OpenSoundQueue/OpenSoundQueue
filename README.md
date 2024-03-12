@@ -64,38 +64,27 @@ the GitHub releases page.
 
 1. **Open the Terminal or Command Prompt (CMD):**
 
-    - On **Linux** or **macOS**, open your terminal.
-    - On **Windows**, open your command prompt (CMD).
-
 2. **Navigate to the Project Root:**
 
    Navigate to the folder where you've downloaded OpenSoundQueue. For example, if you've downloaded and extracted
    OpenSoundQueue to `Downloads/OpenSoundQueue`, you would enter:
 
-   On **Linux** or **macOS**:
-    ```bash
-    cd ~/Downloads/OpenSoundQueue
-    ```
-
-   On **Windows**:
     ```batch
     cd Downloads\OpenSoundQueue
     ```
 
 3. **Run the Installation Command:**
 
-   Based on your operating system, run the appropriate command from the project root.
-
-   For **Linux Ubuntu** users:
-    ```bash
-    ./installation_scripts/Linux\ Ubuntu/installation.bash
-    ```
-
-   For **Windows** users:
     ```batch
-    installation_scripts\windows\setup.bat
+    .\setup.bat
     ```
-   Make sure to navigate to the project root directory before running these commands, as they are relative to the root
+   Make sure to navigate to the project root directory before running this command, as it is relative to the root
+   of the project.
+
+    ```batch
+    .\setup.bat
+    ```
+   Make sure to navigate to the project root directory before running this command, as it is relative to the root
    of the project.
 
 4. **Follow the Web Installer Instructions:**
@@ -106,11 +95,23 @@ the GitHub releases page.
 
 ## Usage
 
-
 OpenSoundQueue is designed for communal music enjoyment, allowing groups to listen and manage a shared music queue collaboratively. It's perfect for private gatherings with friends or enhancing the atmosphere in public venues like restaurants, bars, and clubs. Tailor your music experience to fit any occasion with OpenSoundQueue.
 
 <img src='readme_assets/User_Group.png' width='400' alt="OpenSoundQueue Logo"/>
 
+Once the application is installed, it starts automatically. If you need to restart it after installation, you can do so by navigating to the project directory and entering the following command:
+
+```batch
+java -jar opensoundqueue.jar
+```
+
+To access the web application from another device, you need to input the IP address of the host. You can determine it using the following PowerShell command:
+
+```powershell
+Get-NetIPAddress | Where-Object { $_.InterfaceAlias -eq 'Ethernet' -and $_.AddressFamily -eq 'IPv4' } | Select-Object IPAddress
+```
+
+Please note that you should replace "Ethernet" in the command with the actual name of your network connection.
 
 ## Support
 
