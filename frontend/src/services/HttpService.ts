@@ -330,6 +330,19 @@ export class HttpService {
             });
     }
 
+    async getRoleMembers() {
+        return httpClient.get(`/roles/members`, cookieService.getApiKey())
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+
+                return response.json();
+            }).then((data: User[]) => {
+                return data;
+            });
+    }
+
     // Retrieves information about the current user.
     async getSelf() {
         return httpClient.get(`/self`, cookieService.getApiKey())
