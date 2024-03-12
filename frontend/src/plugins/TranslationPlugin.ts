@@ -1,12 +1,13 @@
-import type { App, Plugin } from "vue";
-import { ref } from "vue";
+import type {App, Plugin} from "vue";
+import {ref} from "vue";
 
 // Import translation files
 import enTranslations from "@/translations/en.json";
 import deTranslations from "@/translations/de.json";
+import esTranslations from "@/translations/es.json";
 
 // Import settings from the store
-import { settings } from "@/store/store";
+import {settings} from "@/store/store";
 
 // Define a utility type to flatten translation keys
 type FlattenTranslations<T, K extends string | number = ''> = {
@@ -24,7 +25,8 @@ const currentLanguage = ref('en');
 // Define an object to store translations for different languages
 export const translations: Record<string, Record<string, any>> = {
     en: enTranslations,
-    de: deTranslations
+    de: deTranslations,
+    es: esTranslations
 };
 
 // Function to set the current language
