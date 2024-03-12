@@ -62,6 +62,16 @@ export function validateEmail(value: string) {
     }
 }
 
+export function isEmpty(value: string) {
+    return () => {
+        if (value.length === 0) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 // Vue plugin definition
 export const ValidationPlugin: Plugin = {
     install: (app: App) => {
@@ -70,6 +80,7 @@ export const ValidationPlugin: Plugin = {
         app.config.globalProperties.$validatePassword = validatePassword;
         app.config.globalProperties.$validateEntryCode = validateEntryCode;
         app.config.globalProperties.$validateEmail = validateEmail;
+        app.config.globalProperties.$isEmpty = isEmpty;
 
         // Provide an empty object as a placeholder for future use
         app.provide('validationPlugin', {});
