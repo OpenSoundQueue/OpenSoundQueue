@@ -91,7 +91,6 @@
     "title": "Zugangscode",
     "validation": "Der Zugangscode ist genau 6 Zeichen lang"
   },
-  "forgotPassword": "Passwort vergessen?",
   "help": {
     "addSong": "Folgende Quellen werden unterstützt:",
     "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig)."

@@ -91,7 +91,6 @@
     "title": "Entry-Code",
     "validation": "The entry code is exactly 6 characters long"
   },
-  "forgotPassword": "Forgot Password?",
   "help": {
     "addSong": "The following sources are supported:",
     "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users)."
