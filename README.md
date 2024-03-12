@@ -81,12 +81,6 @@ the GitHub releases page.
    Make sure to navigate to the project root directory before running this command, as it is relative to the root
    of the project.
 
-    ```batch
-    .\setup.bat
-    ```
-   Make sure to navigate to the project root directory before running this command, as it is relative to the root
-   of the project.
-
 4. **Follow the Web Installer Instructions:**
 
    After executing the installation script, a web installer will launch in your default web browser. Follow the
