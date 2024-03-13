@@ -158,6 +158,7 @@ public class SoundQueueRest {
      * @param maxResults
      * @return all songs that match the search terms
      */
+    @AuthRequest(requiredPermission = Permissions.HISTORY_SEARCH)
     @GetMapping("/search/history/{search-term}/max-results/{max-results}")
     public ResponseEntity<Object> searchSongHistory(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "search-term") String searchTerm, @PathVariable(name = "max-results") int maxResults) {
         if (maxResults < 0) return new ResponseEntity<>(new ErrorDto("invalid value for 'max-results'"), HttpStatus.BAD_REQUEST);
