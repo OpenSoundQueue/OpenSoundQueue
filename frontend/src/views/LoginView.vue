@@ -11,7 +11,7 @@
         :isPrivate="isPrivate"
         :requireAuth="requireAuth"
     ></Login>
-    <div class="link-container">
+    <div v-if="requireAuth" class="link-container">
       <router-link class="link" to="/register">{{ $translate("createAccount") }}</router-link>
     </div>
   </main>
