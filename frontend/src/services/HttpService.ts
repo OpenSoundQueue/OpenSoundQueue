@@ -508,6 +508,19 @@ export class HttpService {
             });
     }
 
+
+    async getLoginState() {
+        return httpClient.get(`/system/loginstate`)
+            .then((response) => {
+                if (!response.ok) {
+                    return Promise.reject(response.status);
+                }
+                return response.json();
+            }).then((data) => {
+                return data;
+            });
+    }
+
     // Sets the privacy settings.
     async setPrivacy(privacySettings: object) {
         return httpClient.patch(`/system/privacy/set`, privacySettings)

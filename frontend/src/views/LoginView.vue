@@ -2,13 +2,14 @@
   <main class="scrollbar">
     <header>
       <router-link to="/">
-        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowBack')">
+        <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg"
+             :alt="$translate('altTexts.arrowBack')">
       </router-link>
       <img class="header-image" src="@/assets/logo/logo_white.svg" :alt="$translate('altTexts.logo')">
     </header>
     <Login
-        :isPrivate="true"
-        :requireAuth="true"
+        :isPrivate="isPrivate"
+        :requireAuth="requireAuth"
     ></Login>
     <div class="link-container">
       <router-link class="link" to="/forgot-password">{{ $translate("forgotPassword") }}</router-link>
@@ -19,6 +20,22 @@
 
 <script setup lang="ts">
 import Login from "@/components/Login.vue"
+import {onMounted, ref} from "vue";
+import {HttpService} from "@/services/HttpService";
+
+const httpService = new HttpService();
+const isPrivate = ref(true);
+const requireAuth = ref(true);
+
+onMounted(() => {
+  httpService.getLoginState()
+      .then((data) => {
+        isPrivate.value = data.isPrivate == 'true';
+        requireAuth.value = data.requireAuth == 'true';
+        console.log(isPrivate.value);
+        console.log(requireAuth.value);
+      })
+})
 </script>
 
 <style scoped>
@@ -59,8 +76,8 @@ header {
   text-decoration: underline;
 }
 
-@media screen and (min-width: 600px){
-  main{
+@media screen and (min-width: 600px) {
+  main {
     width: 600px;
     border-radius: var(--border-radius-big);
     margin: 50px auto 0 auto;
