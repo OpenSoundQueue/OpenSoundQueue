@@ -80,6 +80,18 @@ public class SystemRest {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/system/loginstate")
+    public ResponseEntity<Object> getLoginState(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
+        String isPrivate = propertyService.getProperty("system.is-private");
+        String emailAuth = propertyService.getProperty("system.email-auth");
+
+        Map<String, String> dto = new HashMap<>();
+        dto.put("isPrivate", isPrivate);
+        dto.put("requireAuth", emailAuth);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
     /**
      * set current privacy settings
      * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
