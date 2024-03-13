@@ -68,6 +68,7 @@ defineExpose({clearInput});
 const inputValue = ref("");
 const inputTypeDynamic = ref(props.inputType);
 const showPassword = ref(false);
+const isDirty = ref(false);
 
 const manualValue = computed(() => props.manualValue);
 
@@ -76,13 +77,19 @@ const inputId = computed(() => {
 })
 
 const displayInvalid = computed( () =>{
+  if (!isDirty.value) {
+    return false;
+  }
+
   if (props.validationFunction){
-    return !props.validationFunction(inputValue.value)()
+    return !props.validationFunction(inputValue.value)();
   }
   return false;
 })
 
 function setValue(event: Event) {
+  isDirty.value = true;
+
   inputValue.value = (event.target as HTMLInputElement).value;
   emit("update:modelValue", (event.target as HTMLInputElement).value);
   emit("userInput", inputValue.value);

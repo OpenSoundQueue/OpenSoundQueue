@@ -12,7 +12,6 @@
         :requireAuth="requireAuth"
     ></Login>
     <div class="link-container">
-      <router-link class="link" to="/forgot-password">{{ $translate("forgotPassword") }}</router-link>
       <router-link class="link" to="/register">{{ $translate("createAccount") }}</router-link>
     </div>
   </main>

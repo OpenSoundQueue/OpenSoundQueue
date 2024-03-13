@@ -62,18 +62,21 @@ To get OpenSoundQueue, download the latest release from the GitHub releases page
 Follow the instructions below after downloading the application from our project website or
 the GitHub releases page.
 
-1. **Open the Terminal or Command Prompt (CMD):**
+1. **Unzip the Downloaded File:**
 
-2. **Navigate to the Project Root:**
+   If you've downloaded a zip file, unzip it before proceeding further.
 
-   Navigate to the folder where you've downloaded OpenSoundQueue. For example, if you've downloaded and extracted
-   OpenSoundQueue to `Downloads/OpenSoundQueue`, you would enter:
+2. **Open the Terminal or Command Prompt (CMD)**
+
+3. **Navigate to the Project Root:**
+
+   Navigate to the folder where you've unzipped  OpenSoundQueue. For example, if you've downloaded and extracted OpenSoundQueue to `Downloads/OpenSoundQueue`, you would enter:
 
     ```batch
     cd Downloads\OpenSoundQueue
     ```
 
-3. **Run the Installation Command:**
+4. **Run the Installation Command:**
 
     ```batch
     .\setup.bat
@@ -81,7 +84,7 @@ the GitHub releases page.
    Make sure to navigate to the project root directory before running this command, as it is relative to the root
    of the project.
 
-4. **Follow the Web Installer Instructions:**
+5. **Follow the Web Installer Instructions:**
 
    After executing the installation script, a web installer will launch in your default web browser. Follow the
    on-screen instructions to complete the setup of OpenSoundQueue. This may include setting up an administrator account,

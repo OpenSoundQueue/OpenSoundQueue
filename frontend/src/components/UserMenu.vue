@@ -6,8 +6,6 @@
       </div>
       <div v-if="user">
         <p class="username">{{ user.username }}</p>
-        <p class="email">{{ user.email }}</p>
-        <p class="role"><span class="dot"></span>{{ user.role }}</p>
         <div class="button">
           <DefaultButton :is-disabled="waitingForResponse" text="Logout" @click="logout">
             <img src="@/assets/icons/logout.svg" :alt="$translate('altTexts.logout')"/>
@@ -113,31 +111,11 @@ function close() {
   justify-content: flex-end;
 }
 
-.username, .email, .role {
+.username {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   margin: 5px 0;
-}
-
-.dot {
-  height: 5px;
-  aspect-ratio: 1/1;
-  background-color: var(--tertiary-color);
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 5px;
-}
-
-.role {
-  font-size: var(--font-size-small);
-  background-color: var(--background-color);
-  width: fit-content;
-  max-width: 20%;
-  box-sizing: border-box;
-  padding: 5px;
-  border-radius: var(--border-radius-small);
-  text-align: left;
 }
 
 .button {

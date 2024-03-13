@@ -10,8 +10,8 @@
             :label="$translate('username.title')"
             :error-status="errorStatus[0]"
             :error-message="usernameError"
-            :validation-function="$validateUsername"
-            :validation-message="$translate('username.validation')"
+            :validation-function="$isEmpty"
+            :validation-message="$translate('username.empty')"
             :required="false"
             :placeholder="$translate('username.placeholder')">
         </InputField>
@@ -21,8 +21,8 @@
                     :label="$translate('password.title')"
                     :error-status="errorStatus[1]"
                     :error-message="$translate('password.error')"
-                    :validation-function="$validatePassword"
-                    :validation-message="$translate('password.validation')"
+                    :validation-function="$isEmpty"
+                    :validation-message="$translate('password.empty')"
                     :required="false"
                     input-type="password"
                     :placeholder="$translate('password.placeholder')">
@@ -34,28 +34,27 @@
                     :label="$translate('entryCode.title')"
                     :error-status="errorStatus[2]"
                     :error-message="$translate('entryCode.error')"
-                    :validation-function="$validateEntryCode"
-                    :validation-message="$translate('entryCode.validation')"
+                    :validation-function="$isEmpty"
+                    :validation-message="$translate('entryCode.empty')"
                     :required="false"
                     :placeholder="$translate('entryCode.placeholder')">
         </InputField>
       </div>
-      <DynamicButton bStyle="login" :status="formStatus" @click="loginCall">{{ $translate('login') }}</DynamicButton>
+      <DefaultButton :text="$translate('login')" @click="loginCall"/>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import DynamicButton from "@/components/buttons/DynamicButton.vue";
-import {computed, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import type {Ref} from "vue";
 import {useRoute} from "vue-router";
-import {validateEntryCode, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import router from "@/router";
 import {translate} from "@/plugins/TranslationPlugin";
 import {HttpService} from "@/services/HttpService";
 import * as cookieService from "@/services/cookieService";
+import DefaultButton from "@/components/buttons/DefaultButton.vue";
 
 interface Props {
   requireAuth?: boolean,
@@ -82,28 +81,7 @@ onMounted(() => {
   if (route.params.entryCode != undefined) entryCode.value = route.params.entryCode + "";
 })
 
-
-const formStatus = computed(() => {
-  let validationCheck = validateUsername(username.value)()
-
-  switch (true) {
-    case props.requireAuth && props.isPrivate:
-      validationCheck &&= validatePassword(password.value)()
-      validationCheck &&= validateEntryCode(entryCode.value)()
-      break;
-    case props.isPrivate:
-      validationCheck &&= validateEntryCode(entryCode.value)()
-      break;
-    case props.requireAuth:
-      validationCheck &&= validatePassword(password.value)()
-      break;
-  }
-
-  return validationCheck ? "active" : "inactive"
-})
-
 async function loginCall() {
-  if (formStatus.value === "active") {
     errorStatus.value = new Array(3).fill(false);
     switch (true) {
       case props.requireAuth && props.isPrivate:
@@ -175,7 +153,6 @@ async function loginCall() {
             })
         break;
     }
-  }
 }
 </script>
 

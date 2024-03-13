@@ -32,7 +32,8 @@ watch(language, (newValue) => {
 
 const languages = ref([
   {value: "de", text: "Deutsch"},
-  {value: "en", text: "English"}
+  {value: "en", text: "English"},
+  {value: "es", text: "Español"}
 ]);
 
 function goToHome() {

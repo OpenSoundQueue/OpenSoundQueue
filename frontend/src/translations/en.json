@@ -89,9 +89,9 @@
     "error": "Entry-Code wrong",
     "placeholder": "Enter Entry-Code",
     "title": "Entry-Code",
-    "validation": "The entry code is exactly 6 characters long"
+    "validation": "The entry code is exactly 6 characters long",
+    "empty": "This field can't be empty"
   },
-  "forgotPassword": "Forgot Password?",
   "help": {
     "addSong": "The following sources are supported:",
     "voteSkip": "By clicking the skip button, you can vote to skip the current song (this requires a vote of half of all active users)."
@@ -168,7 +168,8 @@
     "error": "Username or Password wrong",
     "placeholder": "Enter Password",
     "title": "Password",
-    "validation": "Minimum of 8 characters long, upper case letter, lower case letter, number and special character"
+    "validation": "Minimum of 8 characters long, upper case letter, lower case letter, number and special character",
+    "empty": "This field can't be empty"
   },
   "passwordRepeat": {
     "placeholder": "Repeat Password",
@@ -213,7 +214,8 @@
     "placeholder": "Enter Username",
     "taken": "Username is already taken",
     "title": "Username",
-    "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)"
+    "validation": "Minimum of 4 characters long, can contain numbers, dots (.) and underscores (_)",
+    "empty": "This field can't be empty"
   },
   "registration": {
     "change": "Change",
@@ -285,7 +287,8 @@
   },
   "languages": {
     "en": "English",
-    "de": "German"
+    "de": "German",
+    "es": "Spanish"
   },
   "volume": {
     "changeError": "Could not change volume.",
