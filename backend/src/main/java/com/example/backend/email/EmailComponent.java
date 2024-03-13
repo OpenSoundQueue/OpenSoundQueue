@@ -1,3 +1,7 @@
+/**
+ * This component is responsible for sending emails
+ */
+
 package com.example.backend.email;
 
 import org.slf4j.Logger;
@@ -23,6 +27,16 @@ public class EmailComponent {
     @Value("${email.password}")
     private String password;
 
+    /**
+     * This method sends an email to the specified user in order to verify their email address.
+     * It contains a verification code so that the email can be mapped to the user.
+     * The username is being used to make the email more personalized.
+     *
+     * @param email address of the recipient
+     * @param verificationCode email verification code
+     * @param username name of the recipient
+     * @throws MessagingException
+     */
     public void sendMail(String email, String verificationCode, String username) throws MessagingException {
         MimeMessage message = createMailTemplate(email);
         message.setSubject("OpenSoundQueue Email Verification");
@@ -52,6 +66,12 @@ public class EmailComponent {
         LOG.info("Email wurde versendet!");
     }
 
+    /**
+     * This function creates a simple template for emails that can be adjusted fairly easy
+     * @param email address of the recipient
+     * @return a mail template
+     * @throws MessagingException
+     */
     private MimeMessage createMailTemplate(String email) throws MessagingException {
         String to = email;
         String from = "registration@opensoundqueue.org";

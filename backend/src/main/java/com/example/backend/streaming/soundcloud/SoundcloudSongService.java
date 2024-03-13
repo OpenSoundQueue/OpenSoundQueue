@@ -1,3 +1,7 @@
+/**
+ * this service handles all actions with songs with SoundCloud as source
+ */
+
 package com.example.backend.streaming.soundcloud;
 
 import com.example.backend.Repository.SongInfoHistoryEntity;
@@ -37,6 +41,11 @@ public class SoundcloudSongService implements SongServiceInterface {
 
     private int timeoutCounter = 0;
 
+    /**
+     * validates that a song link is correct
+     * @param link of the song
+     * @return song infos if the song is correct otherwise null
+     */
     public Song validateSong(String link) {
         SongImplSoundcloud newSong = new SongImplSoundcloud(link);
         try {
@@ -49,6 +58,10 @@ public class SoundcloudSongService implements SongServiceInterface {
         return newSong;
     }
 
+    /**
+     * start playback of the song
+     * @param input the song that is to be started
+     */
     @Override
     public void play(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
@@ -123,12 +136,20 @@ public class SoundcloudSongService implements SongServiceInterface {
         });
     }
 
+    /**
+     * stop playback of given song
+     * @param input given song
+     */
     @Override
     public void stop(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
         song.getClip().stop();
     }
 
+    /**
+     * closes the audio stream of a given song
+     * @param input given song
+     */
     @Override
     public void close(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
@@ -139,6 +160,10 @@ public class SoundcloudSongService implements SongServiceInterface {
         }
     }
 
+    /**
+     * download audio file of the song
+     * @param input song that is to be downloaded
+     */
     @Override
     public void downloadDependencies(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
@@ -151,6 +176,10 @@ public class SoundcloudSongService implements SongServiceInterface {
         song.setDownloaded(true);
     }
 
+    /**
+     * renew infos of a given song from yt-dlp
+     * @param song given song
+     */
     public void fetchInfos(Song song) {
         song.setFetchingInfos(true);
         List<SongInfoHistoryEntity> foundSongs = songInfoRepository.findBySongLink(song.getLink());
@@ -174,6 +203,10 @@ public class SoundcloudSongService implements SongServiceInterface {
         song.setFetchingInfos(false);
     }
 
+    /**
+     * get infos of a given song
+     * @param input given song
+     */
     @Override
     public SongInfo getInfos(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
@@ -184,12 +217,21 @@ public class SoundcloudSongService implements SongServiceInterface {
         return ytDlpService.getInfos(input);
     }
 
+    /**
+     * restart playback of a given song
+     * @param input given song
+     */
     @Override
     public void replay(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
         song.getClip().setMicrosecondPosition(0);
     }
 
+    /**
+     * change playback volume of a given song
+     * @param input given song
+     * @param volume integer between 0 and 100
+     */
     @Override
     public void changeVolume(Song input, int volume) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;
@@ -200,6 +242,11 @@ public class SoundcloudSongService implements SongServiceInterface {
         gainControl.setValue(20f * (float) Math.log10((float) volume / 100.0));
     }
 
+    /**
+     * get playback volume of a given song
+     * @param input given song
+     * @return playback volume as integer between 0 and 100
+     */
     @Override
     public int getVolume(Song input) {
         SongImplSoundcloud song = (SongImplSoundcloud) input;

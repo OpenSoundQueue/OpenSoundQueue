@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="scrollbar">
     <header>
       <router-link to="/">
         <img class="header-image" src="@/assets/icons/arrows/keyboard_arrow_left.svg" :alt="$translate('altTexts.arrowBack')">
@@ -11,7 +11,6 @@
         :requireAuth="true"
     ></Login>
     <div class="link-container">
-      <router-link class="link" to="/forgot-password">{{ $translate("forgotPassword") }}</router-link>
       <router-link class="link" to="/register">{{ $translate("createAccount") }}</router-link>
     </div>
   </main>

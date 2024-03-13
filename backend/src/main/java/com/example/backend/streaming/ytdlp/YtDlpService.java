@@ -1,3 +1,7 @@
+/**
+ * This service serves as endpoint between application and yt-dlp
+ */
+
 package com.example.backend.streaming.ytdlp;
 
 import com.example.backend.Repository.SongInfoRepository;
@@ -31,6 +35,11 @@ public class YtDlpService {
     @Autowired
     ConvertSongTitle convertSongTitle;
 
+    /**
+     * retrieve infos of a given song link
+     * @param song song entity
+     * @return infos of the given song
+     */
     public SongInfo getInfos(Song song) {
         String title = "";
         String artist = "";
@@ -90,6 +99,13 @@ public class YtDlpService {
         return new SongInfo(artist, duration, title);
     }
 
+    /**
+     * sends a http request to a database of artists in order to verify whether the artist has been recognised correctly
+     * @param artist name of the artist as string
+     * @return boolean whether the artist is valid
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private boolean checkDatabaseForArtist(String artist) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -104,6 +120,12 @@ public class YtDlpService {
         return counter > 2;
     }
 
+    /**
+     * downloads the audio file of a song in .wav format
+     * @param song the song that is to be downloaded
+     * @param downloadPath path where the audio file will be saved to
+     * @param url link of the song that is to be downloaded
+     */
     public void downloadSong(Song song, String downloadPath, String url) {
         Process p;
         try {

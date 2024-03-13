@@ -61,15 +61,15 @@
     "sortingArrowDown": "Pfeil nach unten für absteigende Sortierreihenfolge",
     "sortingArrowUp": "Pfeil nach oben für aufsteigende Sortierreihenfolge",
     "time": "Uhrensymbol",
-    "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängi machen zu lassen",
+    "undo": "Ein Pfeil, der zurück zeigt, um die Änderungen rückgängig machen zu lassen",
     "user": "Benutzersymbol",
-    "userVerified": "Ein Benutzersymbol und eine Hacken, der anzeigt, dass dieser Benutzer verifiziert ist",
+    "userVerified": "Ein Benutzersymbol und eine Haken, der anzeigt, dass dieser Benutzer verifiziert ist",
     "selectAll": "Ein Gitter aus großen Rechtecken gleicher Höhe und Breite, das anzeigt, dass alle Rechtecke ausgewählt sind",
     "selectNone": "Ein Gitter aus kleinen Rechtecken gleicher Höhe und Breite, das anzeigt, dass keines der Rechtecke ausgewählt ist",
     "invertSelection": "Ein Gitter aus Rechtecken, bei dem die Hälfte der Rechtecke größer ist als der Rest, was bedeutet, dass die Auswahl invertiert werden kann",
     "volumeUp": "Plus-Symbol, das für eine Erhöhung der Lautstärke steht",
     "volumeDown": "Minus-Symbol, das für eine Verringerung der Lautstärke steht",
-    "volumeFull": "Ein Lautsprecher der volle Lautstärke anzeigt",
+    "volumeFull": "Ein Lautsprecher, der volle Lautstärke anzeigt",
     "volumeOff": "Ein stumm geschalteter Lautsprecher"
   },
   "createAccount": "Ein Konto erstellen",
@@ -89,9 +89,9 @@
     "error": "Zugangscode falsch",
     "placeholder": "Zugangscode eingeben",
     "title": "Zugangscode",
-    "validation": "Der Zugangscode ist genau 6 Zeichen lang"
+    "validation": "Der Zugangscode ist genau 6 Zeichen lang",
+    "empty": "Dieses Feld darf nicht leer bleiben"
   },
-  "forgotPassword": "Passwort vergessen?",
   "help": {
     "addSong": "Folgende Quellen werden unterstützt:",
     "voteSkip": "Mit einem Klick auf den Skip-Button kann für das Überspringen des aktuellen Songs gestimmt werden (dafür ist die Stimme der Hälfte aller aktiven Benutzer notwendig)."
@@ -168,7 +168,8 @@
     "error": "Benutzername oder Passwort falsch",
     "placeholder": "Passwort eingeben",
     "title": "Passwort",
-    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen"
+    "validation": "Mindestlänge 8 Zeichen, Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen",
+    "empty": "Dieses Feld darf nicht leer bleiben"
   },
   "passwordRepeat": {
     "placeholder": "Passwort wiederholen",
@@ -213,7 +214,8 @@
     "placeholder": "Benutzername eingeben",
     "taken": "Benutzername bereits vergeben",
     "title": "Benutzername",
-    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten"
+    "validation": "Mindestlänge 4 Zeichen, kann Zahlen, Punkt (.) und Unterstrich (_) enthalten",
+    "empty": "Dieses Feld darf nicht leer bleiben"
   },
   "registration": {
     "change": "Ändern",
@@ -285,7 +287,8 @@
   },
   "languages": {
     "en": "Englisch",
-    "de": "Deutsch"
+    "de": "Deutsch",
+    "es": "Spanisch"
   },
   "volume": {
     "changeError": "Die Lautstärke konnte nicht geändert werden.",
@@ -319,6 +322,9 @@
       "title": "Standardsprache",
       "description": "Legen Sie die Standardsprache für alle Benutzer fest"
     }
+  },
+  "deleteSongs": {
+    "label": "Löschen",
+    "error": "Die ausgewählten Songs konnten nicht gelöscht werden."
   }
-
 }

@@ -1,3 +1,7 @@
+/**
+ * all Rest endpoints related to users and permissions
+ */
+
 package com.example.backend.rest;
 
 import com.example.backend.Repository.Permissions;
@@ -41,6 +45,11 @@ public class UserRest {
         this.roleRepository = roleRepository;
     }
 
+    /**
+     * login endpoint for when the privacy settings are on not private and email authentication on
+     * @param requestBody
+     * @return
+     */
     @PostMapping("/login/public/auth")
     public ResponseEntity<Object> loginPublicAuth(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
@@ -67,6 +76,12 @@ public class UserRest {
         return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * login endpoint for when the privacy settings are on private and email authentication off
+     * @param requestBody
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/login/private")
     public ResponseEntity<Object> loginPrivate(@RequestBody Map<String, String> requestBody) throws IOException {
         String username = requestBody.get("username");
@@ -91,6 +106,12 @@ public class UserRest {
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
 
+    /**
+     * login endpoint for when the privacy settings are on private and email authentication on
+     * @param requestBody
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/login/private/auth")
     public ResponseEntity<Object> loginPrivateAuth(@RequestBody Map<String, String> requestBody) throws IOException {
         String username = requestBody.get("username");
@@ -123,6 +144,11 @@ public class UserRest {
         return new ResponseEntity<>(new ErrorDto("Incorrect username or password"), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * login endpoint for when the privacy settings are on not private and email authentication off
+     * @param requestBody
+     * @return
+     */
     @PostMapping("/login/public")
     public ResponseEntity<Object> loginPublic(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
@@ -147,6 +173,11 @@ public class UserRest {
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.OK);
     }
 
+    /**
+     * log current user out
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest
     @PostMapping("/logout")
     public ResponseEntity<Object> logout(@RequestHeader(value = "X-API-KEY") String token) {
@@ -159,6 +190,11 @@ public class UserRest {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * verify that the given token is valid
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest
     @GetMapping("/verify/api-key")
     public ResponseEntity<Object> verifyApiKey(@RequestHeader(value = "X-API-KEY") String token) {
@@ -167,6 +203,12 @@ public class UserRest {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * verify that the given entry code is valid
+     * @param requestBody
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/verify/entry-code")
     public ResponseEntity<Object> verifyEntryCode(@RequestBody Map<String, String> requestBody) throws IOException {
         String entryCode = requestBody.get("entry-code");
@@ -178,6 +220,11 @@ public class UserRest {
         }
     }
 
+    /**
+     * get all users that are registered in the system
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @GetMapping("/users")
     public ResponseEntity<Object> users(@RequestHeader(value = "X-API-KEY") String token) {
@@ -186,6 +233,12 @@ public class UserRest {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
+    /**
+     * get a certain user by their id
+     * @param id
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @GetMapping("/user/get/{id}")
     public ResponseEntity<Object> getUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
@@ -199,6 +252,12 @@ public class UserRest {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    /**
+     * delete a certain user by their id
+     * @param id
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id, @RequestHeader(value = "X-API-KEY") String token) {
@@ -217,6 +276,11 @@ public class UserRest {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
+    /**
+     * get data of the user that sent this request
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest
     @GetMapping("/self")
     public ResponseEntity<Object> self(@RequestHeader(value = "X-API-KEY") String token) {
@@ -226,6 +290,13 @@ public class UserRest {
         return new ResponseEntity<>(new UserDto(user.getId(), user.getUsername(), user.getLastOnline()), HttpStatus.OK);
     }
 
+    /**
+     * create a new user
+     * @param user
+     * @return
+     * @throws MessagingException
+     * @throws IOException
+     */
     @PostMapping("/register/create-account")
     public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws MessagingException, IOException {
         UserInfoEntity savedUser;
@@ -256,6 +327,11 @@ public class UserRest {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    /**
+     * verify the email authentication code for a registration
+     * @param input
+     * @return
+     */
     @PostMapping("/register/verify")
     public ResponseEntity<Object> verifyAccount(@RequestBody Map<String, String> input) {
         String code = input.get("code");
@@ -275,6 +351,13 @@ public class UserRest {
         return new ResponseEntity<>(new ApiKeyDto(token), HttpStatus.CREATED);
     }
 
+    /**
+     * resend a authentication email for a registration
+     * @param input
+     * @return
+     * @throws MessagingException
+     * @throws IOException
+     */
     @PostMapping("/register/resend-email")
     public ResponseEntity<Object> resendEmail(@RequestBody Map<String, String> input) throws MessagingException, IOException {
         String email = input.get("email");
@@ -287,6 +370,13 @@ public class UserRest {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * change the roles of the given id's user
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @param id
+     * @param roles
+     * @return
+     */
     @AuthRequest(requiredPermission = Permissions.MANAGE_USER)
     @PatchMapping("/user/{id}/roles")
     public ResponseEntity<Object> changeRolesOfUser(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "id") Long id, @RequestBody List<Role> roles) {
@@ -297,6 +387,11 @@ public class UserRest {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    /**
+     * get the permissions of the given user
+     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
+     * @return
+     */
     @AuthRequest
     @GetMapping("/user/permissions")
     public ResponseEntity<Object> getPermissionsOfUser(@RequestHeader(value = "X-API-KEY") String token) {
