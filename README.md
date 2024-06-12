@@ -1,11 +1,11 @@
 # OpenSoundQueue 
 ![Project Status: Finished](https://img.shields.io/badge/Project%20Status-Finished-%239747FF?style=for-the-badge&labelColor=%23191E2D&color=%239747FF) ![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FOpenSoundQueue%2FOpenSoundQueue&labelColor=%23191e2d&countColor=%239747ff)
 
-
 OpenSoundQueue is a cutting-edge, open-source application that transforms group music listening. Built with a modular architecture, it's robust and adaptable, ready for future updates to meet users' evolving needs.
 
 <img src='readme_assets/Logo_With_Text_Dark.png' width='800' alt="OpenSoundQueue Logo"/>
 
+https://github.com/OpenSoundQueue/OpenSoundQueue/assets/39237785/8393c432-c8c9-4d2b-b644-c8f6368f942b
 
 ## Empowering Your Shared Music Experience
 
