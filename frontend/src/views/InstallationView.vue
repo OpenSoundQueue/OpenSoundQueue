@@ -63,7 +63,7 @@ watch(installationProgress, (newValue) => {
 
 
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
-const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
+const installationSteps: RouteRecordName[] = ['language', 'privacy', 'sources', 'registration'];
 const readyForNextStep: Ref<boolean> = ref(false);
 
 const currentRouteName: ComputedRef<TranslationsKey> = computed(() => {
@@ -145,24 +145,27 @@ async function next() {
     switch (routeName) {
       case "language":
         await store.saveLanguage()
-        installationProgress.value = 'registration';
+        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
         break;
       case "registration":
-        installationProgress.value = 'privacy';
+        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
+
         break;
       case "privacy":
         await store.savePrivacy()
-        installationProgress.value = 'sources';
+        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
         break;
       case "sources":
         await store.saveSources();
-        await httpService.setInstallationStateComplete()
-            .then(()=>{
-              ToastService.sendNotification("Save Success","success",3000);
-            })
-            .catch(()=>{
-              ToastService.sendNotification("Save Error","error",3000);
-            });
+        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
+        // TODO: make finishing setup possible again
+        // await httpService.setInstallationStateComplete()
+            // .then(()=>{
+              // ToastService.sendNotification("Save Success","success",3000);
+            // })
+            // .catch(()=>{
+              // ToastService.sendNotification("Save Error","error",3000);
+            // });
         break;
     }
   } catch {

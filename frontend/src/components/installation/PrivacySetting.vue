@@ -5,13 +5,22 @@
       <ToggleSwitch :checked="store.requireEmailAuth"/>
     </div>
     <div class="description">{{ $translate('applicationSettings.privacy.emailAuth.description') }}</div>
+    <div v-if="store.requireEmailAuth">
+      <!-- TODO: change to real inputs -->
+      <InputField
+          placeholder="E-Mail Passwort"
+      />
+      <InputField
+          placeholder="E-Mail Host"
+      />
+    </div>
     <div class="hr"/>
     <div class="setting-container" @click="store.toggleIsPrivate()">
       <div class="setting-title">{{ $translate('applicationSettings.privacy.privateRoom.title') }}</div>
       <ToggleSwitch :checked="store.isPrivate"/>
     </div>
     <div class="description">{{ $translate('applicationSettings.privacy.privateRoom.description') }}</div>
-    <div class="entry-code-container">
+    <div class="entry-code-container" v-if="store.isPrivate">
       <div class="setting-title">{{ $translate('entryCode.title') }}</div>
       <InputField
           :required="false"

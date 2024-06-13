@@ -25,11 +25,11 @@ export default class HttpClient {
 
         // Constructs the API URL based on the environment and provided path.
         let url;
-        if (import.meta.env.DEV) {
-            url = "/api" + path;
-        } else {
+        // if (import.meta.env.DEV) {
+            // url = "/api" + path;
+        //} else {
             url = `http://${window.location.hostname}:8080/api` + path;
-        }
+        //}
 
         // Performs the HTTP request with the constructed URL, data, method, and headers.
         return this.request(url, data, method, headers);

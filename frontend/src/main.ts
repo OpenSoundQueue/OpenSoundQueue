@@ -12,7 +12,7 @@ import { createPinia } from 'pinia';
 
 // Check if in development mode and create Mirage server if true
 if (import.meta.env.DEV) {
-    makeServer();
+    // makeServer();
 }
 
 // Create Vue app instance
