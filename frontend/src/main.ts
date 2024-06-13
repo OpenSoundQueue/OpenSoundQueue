@@ -3,17 +3,11 @@ import './assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import { makeServer } from "@/mirage/server";
 import { TranslationPlugin } from "@/plugins/TranslationPlugin";
 import translations from "@/translations/en.json";
 import { ValidationPlugin } from "@/plugins/ValidationPlugin";
 import Closable from "@/directives/ClosableDirective";
 import { createPinia } from 'pinia';
-
-// Check if in development mode and create Mirage server if true
-if (import.meta.env.DEV) {
-    makeServer();
-}
 
 // Create Vue app instance
 const app = createApp(App);
