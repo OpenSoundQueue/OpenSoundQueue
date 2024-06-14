@@ -57,7 +57,7 @@ async function startStop() {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: rgb(var(--primary-color));
   display: flex;
   justify-content: center;
   align-items: center;

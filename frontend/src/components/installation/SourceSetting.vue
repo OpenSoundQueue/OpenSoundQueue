@@ -81,18 +81,18 @@ function toggleSource(source: string) {
   box-sizing: border-box;
 
   &&:hover {
-    background-color: var(--cool-gray);
-    color: var(--dark-blue);
+    background-color: rgb(var(--tertiary-color));
+    color: rgb(var(--background-color));
     font-weight: bold;
 
     && > .checkbox {
-      border-color: var(--dark-blue) !important;
+      border-color: rgb(var(--background-color)) !important;
     }
   }
 
   &&.selected {
-    background-color: var(--cool-gray);
-    border-color: var(--cool-gray);
+    background-color: rgb(var(--tertiary-color));
+    border-color: rgb(var(--tertiary-color));
   }
 }
 </style>

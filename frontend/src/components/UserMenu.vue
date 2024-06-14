@@ -97,8 +97,8 @@ function close() {
 }
 
 .user-menu-container {
-  background: var(--secondary-color);
-  border: 2px solid var(--tertiary-color);
+  background: rgb(var(--secondary-color));
+  border: 2px solid rgb(var(--tertiary-color));
   border-radius: var(--border-radius-big);
   display: flex;
   flex-direction: column;

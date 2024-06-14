@@ -57,7 +57,7 @@ function goToStep(pathName: RouteRecordName) {
 
   width: calc(100% - 80px);
   height: 3px;
-  background-color: var(--tertiary-color);
+  background-color: rgb(var(--tertiary-color));
 }
 
 .installation-step {
@@ -68,7 +68,7 @@ function goToStep(pathName: RouteRecordName) {
 
   z-index: 2;
   width: 80px;
-  color: var(--tertiary-color);
+  color: rgb(var(--tertiary-color));
 }
 
 .circle {
@@ -80,9 +80,9 @@ function goToStep(pathName: RouteRecordName) {
   aspect-ratio: 1;
   border-radius: 21px;
   height: 40px;
-  background-color: var(--secondary-color);
-  border: solid 1px var(--tertiary-color);
-  box-shadow: 0 0 0 4px var(--background-color);
+  background-color: rgb(var(--secondary-color));
+  border: solid 1px rgb(var(--tertiary-color));
+  box-shadow: 0 0 0 4px rgb(var(--background-color));
 }
 
 .installation-step:hover {
@@ -95,22 +95,22 @@ function goToStep(pathName: RouteRecordName) {
 
 .active {
   font-weight: bold;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   margin-top: -4px;
 
   .circle {
-    border: 3px solid var(--grayish-blue);
-    background-color: var(--primary-color);
+    border: 3px solid rgb(var(--secondary-color));
+    background-color: rgb(var(--primary-color));
     border-radius: 100px;
-    box-shadow: 0 0 0 2px var(--primary-color);
+    box-shadow: 0 0 0 2px rgb(var(--primary-color));
   }
 }
 
 .finished {
 
   .circle {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: rgb(var(--primary-color));
+    border-color: rgb(var(--primary-color));
 
     .check {
       display: initial;
@@ -124,7 +124,7 @@ function goToStep(pathName: RouteRecordName) {
 
 @media screen and (max-width: 600px) {
   .circle {
-    box-shadow: 0 0 0 4px var(--background-color);
+    box-shadow: 0 0 0 4px rgb(var(--background-color));
     height:30px;
   }
 
@@ -134,7 +134,7 @@ function goToStep(pathName: RouteRecordName) {
   }
 
   .active>.circle{
-    border-color: var(--background-color);
+    border-color: rgb(var(--background-color));
   }
 }
 </style>

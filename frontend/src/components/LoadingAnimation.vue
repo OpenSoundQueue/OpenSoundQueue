@@ -60,7 +60,7 @@ function animationStatus(index: number): string {
 .dot {
   aspect-ratio: 1/1;
   height: var(--font-size-small);
-  background-color: var(--light-gray);
+  background-color: rgb(var(--light-gray));
   border-radius: 9999px;
 }
 

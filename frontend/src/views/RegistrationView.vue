@@ -57,7 +57,7 @@ function linkBack() {
 
 <style scoped>
 main {
-  background-color: var(--grayish-blue);
+  background-color: rgb(var(--secondary-color));
   width: 100svw;
   min-height: 100vh;
   margin: 0;

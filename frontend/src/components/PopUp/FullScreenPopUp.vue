@@ -51,7 +51,7 @@ function accept(): void {
 
 .pop-up {
   border-radius: var(--border-radius-big);
-  background-color: var(--secondary-color);
+  background-color: rgb(var(--secondary-color));
   width: calc(100% - 50px);
   padding: 20px;
   box-sizing: border-box;

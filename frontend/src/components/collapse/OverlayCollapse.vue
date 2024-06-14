@@ -48,7 +48,7 @@ function toggleCollapse() {
 }
 
 .open-close-container {
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -82,7 +82,7 @@ function toggleCollapse() {
   margin-bottom: -400px;
   width: 100%;
   z-index: 2;
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
 }
 

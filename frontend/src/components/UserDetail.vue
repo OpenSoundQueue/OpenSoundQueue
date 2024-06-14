@@ -146,7 +146,7 @@ function toggleDropdown(): void {
 .detail-container {
   height: 100%;
   border-radius: var(--border-radius-big);
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   display: flex;
   flex-direction: column;
 }
@@ -201,12 +201,12 @@ p, a {
 
 .dashed-hr {
   height: 0;
-  border-top: dashed 2px var(--tertiary-color);
+  border-top: dashed 2px rgb(var(--tertiary-color));
 }
 
 .role > p {
   font-size: var(--font-size-small);
-  background-color: var(--background-color);
+  background-color: rgb(var(--background-color));
   width: fit-content;
   max-width: 100%;
   box-sizing: border-box;
@@ -218,7 +218,7 @@ p, a {
 .dot {
   height: 5px;
   aspect-ratio: 1/1;
-  background-color: var(--tertiary-color);
+  background-color: rgb(var(--tertiary-color));
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
@@ -243,7 +243,7 @@ p, a {
 
 @media screen and (max-width: 1250px) {
   .detail-container {
-    background-color: var(--background-color);
+    background-color: rgb(var(--background-color));
     height: fit-content;
   }
 
@@ -275,7 +275,7 @@ p, a {
   .hr {
     height: 10px;
     margin-top: 10px;
-    border-top: dashed 3px var(--secondary-color);
+    border-top: dashed 3px rgb(var(--secondary-color));
   }
 
   .arrow {
@@ -292,7 +292,7 @@ p, a {
   }
 
   .mobile {
-    border-bottom: solid 2px var(--secondary-color);
+    border-bottom: solid 2px rgb(var(--secondary-color));
   }
 
   .slide-in {

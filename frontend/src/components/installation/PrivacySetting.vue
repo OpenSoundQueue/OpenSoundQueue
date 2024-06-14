@@ -122,7 +122,7 @@ function toggleIsPrivate() {
   width: 100%;
   height: 2px;
   border-radius: 2px;
-  background-color: var(--cool-gray);
+  background-color: rgb(var(--tertiary-color));
   margin-top: 10px;
   margin-bottom: 25px;
 }

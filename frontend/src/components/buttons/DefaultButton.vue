@@ -30,7 +30,7 @@ defineProps<{
 
 button {
   width: 100%;
-  background: var(--primary-color);
+  background: rgb(var(--primary-color));
   height: 40px;
   border: none;
   border-radius: var(--border-radius-medium);
@@ -38,7 +38,7 @@ button {
 
 .button-container {
   width: 100%;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   font-size: var(--font-size-medium);
   display: flex;
   justify-content: center;
@@ -56,10 +56,10 @@ button:hover {
 }
 
 button.loading:disabled {
-  background: var(--primary-color);
+  background: rgb(var(--primary-color));
 }
 
 button:disabled {
-  background: var(--dark-gray);
+  background: rgb(var(--dark-gray));
 }
 </style>

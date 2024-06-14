@@ -94,7 +94,7 @@ label {
   box-sizing: border-box;
   width: 100%;
   height: 40px;
-  border: 2px solid var(--tertiary-color);
+  border: 2px solid rgb(var(--tertiary-color));
   border-radius: var(--border-radius-medium);
   position: relative;
   display: flex;
@@ -118,8 +118,8 @@ label {
   justify-content: center;
   box-sizing: border-box;
   position: absolute;
-  background: var(--secondary-color);
-  border: 2px solid var(--tertiary-color);
+  background: rgb(var(--secondary-color));
+  border: 2px solid rgb(var(--tertiary-color));
   border-radius: var(--border-radius-medium);
   width: 100%;
   visibility: hidden;
@@ -134,8 +134,8 @@ label {
 }
 
 .option:hover {
-  background: var(--tertiary-color);
-  color: var(--background-color);
+  background: rgb(var(--tertiary-color));
+  color: rgb(var(--background-color));
   font-weight: bold;
 }
 </style>

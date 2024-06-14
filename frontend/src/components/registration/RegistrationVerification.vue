@@ -176,7 +176,7 @@ form {
 
 .link {
   text-decoration: none;
-  color: var(--pink);
+  color: rgb(var(--primary-color-light));
   text-align: center;
   user-select: none;
 }

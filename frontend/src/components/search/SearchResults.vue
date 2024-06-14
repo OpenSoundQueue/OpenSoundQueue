@@ -171,7 +171,7 @@ function debounce<T extends Function>(func: T, timeout: number = 300): (...args:
 .error-container p {
   text-align: center;
   font-size: var(--font-size-medium);
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

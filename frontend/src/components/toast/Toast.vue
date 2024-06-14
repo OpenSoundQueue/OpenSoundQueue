@@ -36,7 +36,7 @@ function close() {
   width: 220px;
   max-height: 120px;
   border-radius: var(--border-radius-medium);
-  border: 1px solid var(--text-color);
+  border: 1px solid rgb(var(--text-color));
   position: fixed;
   top: 10px;
   right: 10px;
@@ -53,7 +53,7 @@ function close() {
 }
 
 .message-nav .close {
-  border: 1px solid var(--text-color);
+  border: 1px solid rgb(var(--text-color));
   border-radius: var(--border-radius-small);
 }
 
@@ -72,15 +72,15 @@ function close() {
 }
 
 .message-wrapper.information {
-  background: var(--tertiary-color-transparent);
+  background: rgba(var(--tertiary-color), 0.95);
 }
 
 .message-wrapper.error {
-  background: var(--red-tranparent);
+  background: rgba(var(--error), 0.95);
 }
 
 .message-wrapper.success {
-  background: var(--green-tranparent);
+  background: rgba(var(--success), 0.95);
 }
 
 .message-wrapper.visible {
