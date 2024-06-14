@@ -23,8 +23,8 @@
   position: relative;
   bottom: 0;
   font-size: var(--font-size-small);
-  background-color: var(--dark-blue);
-  border-top: solid 1px var(--dark-gray);
+  background-color: rgb(var(--background-color));
+  border-top: solid 1px rgb(var(--dark-gray));
   width: 100%;
 }
 
@@ -39,7 +39,7 @@
   justify-content: space-between;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
 }
 
 .logo {
@@ -71,7 +71,7 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
 }
 
 @media screen and (min-width: 1250px) {

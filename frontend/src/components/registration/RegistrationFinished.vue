@@ -67,7 +67,7 @@ onMounted(() => {
 }
 
 .field-title {
-  color: var(--pink);
+  color: rgb(var(--primary-color-light));
 }
 
 .verification {
@@ -76,12 +76,12 @@ onMounted(() => {
   gap: 10px;
   width: calc(100% - 50px);
 
-  color: var(--cool-gray);
+  color: rgb(var(--tertiary-color));
   text-align: center;
 
   padding: 20px;
   border-radius: var(--border-radius-medium);
-  border: solid 2px var(--cool-gray);
+  border: solid 2px rgb(var(--tertiary-color));
 
   img {
     height: 50px;

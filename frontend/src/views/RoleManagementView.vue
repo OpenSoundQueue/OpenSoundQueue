@@ -221,7 +221,7 @@ main {
     grid-column: 2;
     grid-row: 1;
     border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    background: rgb(var(--secondary-color));
     padding: 20px;
   }
 
@@ -250,7 +250,7 @@ main {
   }
 
   .nav-element.active .underline {
-    background: var(--primary-color);
+    background: rgb(var(--primary-color));
     margin-top: 4px;
     height: 3px;
     width: 100%;
@@ -264,7 +264,7 @@ main {
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    background: rgb(var(--secondary-color));
     display: flex;
     flex-direction: column;
   }

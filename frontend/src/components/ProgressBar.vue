@@ -40,7 +40,7 @@ const getValue = computed(() => {
 .progress-bar-container {
   overflow: hidden;
   border-radius: var(--border-radius-small);
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   height: 5px;
   width: 100%;
 }
@@ -52,7 +52,7 @@ const getValue = computed(() => {
 }
 
 .progress-bar {
-  background: var(--text-color);
+  background: rgb(var(--text-color));
   border-radius: var(--border-radius-small);
   position: relative;
   height: 5px;

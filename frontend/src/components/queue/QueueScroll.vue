@@ -231,7 +231,7 @@ function endDrag() {
   }
 
   .ghost {
-    background: var(--primary-color);
+    background: rgb(var(--primary-color));
     color: white;
     border-radius: var(--border-radius-small);
   }
@@ -250,7 +250,7 @@ function endDrag() {
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--tertiary-color);
+  color: rgb(var(--tertiary-color));
   font-weight: bold;
   font-size: var(--font-size-medium);
 }

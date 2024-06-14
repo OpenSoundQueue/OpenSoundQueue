@@ -2,8 +2,8 @@
 
 body {
     font-family: var(--primary-font);
-    background: var(--background-color);
-    color: var(--text-color);
+    background: rgb(var(--background-color));
+    color: rgb(var(--text-color));
     font-size: var(--font-size-medium);
     padding: 0;
     margin: 0;
@@ -32,7 +32,7 @@ button {
 .scrollbar {
     scrollbar-width: thin;
     overflow-y: scroll;
-    scrollbar-color: var(--tertiary-color) var(--background-color);
+    scrollbar-color: rgb(var(--tertiary-color)) rgb(var(--background-color));
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -42,7 +42,7 @@ button {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    background: var(--light-gray);
+    background: rgb(var(--light-gray));
     border-radius: 1rem;
 }
 .scrollbar:hover{

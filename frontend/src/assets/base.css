@@ -26,34 +26,28 @@
     --font-size-nav: 20px;
     --font-size-medium: 16px;
     --font-size-small: 12px;
-    --text-color: white;
+    --text-color: var(--white);
     --background-color: var(--dark-blue);
-    --background-color-transparent: var(--dark-blue-transparent);
     --primary-color: var(--magenta);
+    --primary-color-light: var(--pink);
     --secondary-color: var(--grayish-blue);
     --tertiary-color: var(--cool-gray);
-    --tertiary-color-transparent: var(--cool-gray-transparent);
-    --success-color-transparent: var(--green-tranparent);
-    --error-color-transparent: var(--red-tranparent);
-    --hover-color: var(--cool-gray-very-transparent);
+    --success: var(--green);
+    --error: var(--red);
     --border-radius-small: 3px;
     --border-radius-medium: 5px;
     --border-radius-big: 10px;
 }
 
 :root {
-    --light-gray: #D9D9D9;
-    --dark-gray: #6E717A;
-    --pink: #BB86FF;
-    --magenta: #9747FF;
-    --violet: #2D1966;
-    --cool-gray: #8491B8;
-    --grayish-blue: #2E364F;
-    --dark-blue: #191E2D;
-    --cool-gray-transparent: rgba(132, 145, 184, 0.95);
-    --green-tranparent: rgba(132, 184, 162, 0.95);
-    --red-tranparent: rgba(184, 132, 132, 0.95);
-    --dark-blue-transparent: rgba(25, 30, 45, 0.9);
-    --cool-gray-very-transparent: rgba(132, 145, 184, 0.2);
-    --red: #FF7373;
+    --white: 255, 255, 255;
+    --light-gray: 217, 217, 217;
+    --dark-gray: 110, 113, 122;
+    --pink: 187, 134, 255;
+    --magenta: 151, 71, 255;
+    --cool-gray: 132, 145, 184;
+    --grayish-blue: 46, 54, 79;
+    --dark-blue: 25, 30, 45;
+    --green: 132, 184, 162;
+    --red: 255, 115, 115;
 }

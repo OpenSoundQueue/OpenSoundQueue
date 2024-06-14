@@ -257,13 +257,13 @@ main {
 
 .checkbox-container:hover {
   cursor: pointer;
-  background-color: var(--hover-color);
+  background-color: rgba(var(--tertiary-color), 0.2);
   border-radius: var(--border-radius-medium);
 }
 
 .toggle-switch-wrapper:hover {
   cursor: pointer;
-  background-color: var(--hover-color);
+  background-color: rgba(var(--tertiary-color), 0.2);
   border-radius: var(--border-radius-medium);
 }
 
@@ -311,13 +311,13 @@ main {
 }
 
 .sources-container.error {
-  border: 2px solid var(--red);
+  border: 2px solid rgb(var(--error));
   border-radius: var(--border-radius-medium);
   box-sizing: border-box;
 }
 
 .sources-container .error-message {
-  color: var(--red);
+  color: rgb(var(--error));
 }
 
 .language-wrapper {
@@ -333,21 +333,21 @@ main {
   width: 100%;
   padding: calc(var(--font-size-medium) / 2);
 
-  border: solid 2px var(--cool-gray);
+  border: solid 2px rgb(var(--tertiary-color));
   border-radius: var(--border-radius-medium);
   box-sizing: border-box;
 
 
   &&.selected {
-    background-color: var(--cool-gray-transparent);
-    border-color: var(--cool-gray);
-    color: var(--dark-blue);
+    background-color: rgba(var(--tertiary-color), 0.95);
+    border-color: rgb(var(--tertiary-color));
+    color: rgb(var(--background-color));
     font-weight: bold;
   }
 
   svg {
     height: var(--font-size-medium);
-    fill: var(--dark-blue);
+    fill: rgb(var(--background-color));
     aspect-ratio: 1;
   }
 
@@ -379,7 +379,7 @@ main {
     width: 66%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    background: rgb(var(--secondary-color));
     display: flex;
     flex-direction: column;
   }

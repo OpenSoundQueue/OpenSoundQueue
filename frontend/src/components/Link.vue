@@ -30,7 +30,7 @@ defineProps<{
 
 .link {
   text-decoration: none;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   font-size: var(--font-size-nav);
 }
 
@@ -38,7 +38,7 @@ defineProps<{
   font-weight: bold;
 
   .underline {
-    background: var(--primary-color);
+    background: rgb(var(--primary-color));
     margin-top: 4px;
     height: 3px;
     width: 100%;
@@ -51,7 +51,7 @@ defineProps<{
 }
 
 .outer-area {
-  color: var(--tertiary-color);
+  color: rgb(var(--tertiary-color));
 }
 
 .icon-external {

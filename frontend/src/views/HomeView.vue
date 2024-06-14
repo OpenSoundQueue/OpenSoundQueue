@@ -162,9 +162,9 @@ main.show-mode-switcher {
   .link {
     height: 35px;
     width: 100%;
-    background: var(--background-color);
-    border: 3px solid var(--secondary-color);
-    color: var(--text-color);
+    background: rgb(var(--background-color));
+    border: 3px solid rgb(var(--secondary-color));
+    color: rgb(var(--text-color));
     font-size: var(--font-size-medium);
     border-radius: var(--border-radius-medium);
     display: flex;
@@ -179,9 +179,9 @@ main.show-mode-switcher {
   }
 
   .link.router-link-exact-active {
-    color: var(--background-color);
-    border-color: var(--tertiary-color);
-    background: var(--tertiary-color);
+    color: rgb(var(--background-color));
+    border-color: rgb(var(--tertiary-color));
+    background: rgb(var(--tertiary-color));
     font-weight: bold;
   }
 
@@ -202,7 +202,7 @@ main.show-mode-switcher {
 }
 
 .queue-scroll-container {
-  border-bottom: var(--secondary-color) dashed 2px;
+  border-bottom: rgb(var(--secondary-color)) dashed 2px;
   height: calc(100% - 100px - 190px);
   padding-top: 10px;
   box-sizing: border-box;
@@ -238,7 +238,7 @@ main.show-mode-switcher {
 
 .selection-options-container .delete-button:hover {
   cursor: pointer;
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
 }
 
 .control-panel-wrapper {
@@ -249,7 +249,7 @@ main.show-mode-switcher {
 
 .control-panel-container {
   margin: auto;
-  background: var(--background-color);
+  background: rgb(var(--background-color));
   height: 190px;
   display: flex;
   flex-direction: column;
@@ -319,7 +319,7 @@ main.show-mode-switcher {
     grid-row: 1;
     height: 100%;
     border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    background: rgb(var(--secondary-color));
   }
 
   .add-song.desktop {
@@ -334,7 +334,7 @@ main.show-mode-switcher {
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    background: rgb(var(--secondary-color));
     display: flex;
     flex-direction: column;
   }
@@ -342,7 +342,7 @@ main.show-mode-switcher {
   .hr {
     margin: auto;
     width: calc(100% - 20px);
-    border-bottom: var(--tertiary-color) 2px solid;
+    border-bottom: rgb(var(--tertiary-color)) 2px solid;
     height: 2px;
   }
 
@@ -389,7 +389,7 @@ main.show-mode-switcher {
 
   .control-panel-container {
     width: 100%;
-    border: var(--secondary-color) 3px solid;
+    border: rgb(var(--secondary-color)) 3px solid;
     border-radius: var(--border-radius-big);
     display: grid;
     place-items: center;
@@ -407,7 +407,7 @@ main.show-mode-switcher {
 
   .vote-skip-container {
     width: 100%;
-    border-left: var(--secondary-color) 3px solid;
+    border-left: rgb(var(--secondary-color)) 3px solid;
     height: 85%;
     box-sizing: border-box;
     grid-row: 1;

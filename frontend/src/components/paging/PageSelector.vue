@@ -132,8 +132,8 @@ function getFirstNPages(n: number): number[] {
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  color: var(--text-color);
-  border: solid 2px var(--secondary-color);
+  color: rgb(var(--text-color));
+  border: solid 2px rgb(var(--secondary-color));
 }
 
 .page-change > button {
@@ -144,8 +144,8 @@ function getFirstNPages(n: number): number[] {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  color: var(--text-color);
-  border: solid 2px var(--secondary-color);
+  color: rgb(var(--text-color));
+  border: solid 2px rgb(var(--secondary-color));
 }
 
 .page-change > button {

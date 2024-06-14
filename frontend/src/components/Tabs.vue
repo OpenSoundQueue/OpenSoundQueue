@@ -61,19 +61,19 @@ function setActiveTab(index: number) {
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-  border: var(--tertiary-color) 2px solid;
+  border: rgb(var(--tertiary-color)) 2px solid;
   border-bottom: none;
 }
 
 .tab.active {
-  background: var(--tertiary-color);
-  color: var(--secondary-color);
+  background: rgb(var(--tertiary-color));
+  color: rgb(var(--secondary-color));
   font-weight: bold;
 }
 
 .tab.inactive {
   background: none;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
 }
 
 .spacer {
@@ -81,7 +81,7 @@ function setActiveTab(index: number) {
 }
 
 .content-wrapper {
-  border: var(--tertiary-color) 5px solid;
+  border: rgb(var(--tertiary-color)) 5px solid;
   border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
   padding: 15px 20px;
   box-sizing: border-box;

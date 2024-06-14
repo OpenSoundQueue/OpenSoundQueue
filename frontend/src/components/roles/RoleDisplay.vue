@@ -129,13 +129,13 @@ const emit = defineEmits<{
 }
 
 .nav-button-wrapper {
-  background: var(--background-color);
+  background: rgb(var(--background-color));
   position: relative;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid var(--secondary-color);
+  border: 2px solid rgb(var(--secondary-color));
   border-radius: var(--border-radius-medium);
 }
 

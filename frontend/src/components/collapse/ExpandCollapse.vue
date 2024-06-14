@@ -36,7 +36,7 @@ function toggleCollapse() {
 }
 
 .open-close-container {
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   border-radius: var(--border-radius-medium);
   display: flex;
   justify-content: space-between;
@@ -58,7 +58,7 @@ function toggleCollapse() {
   border-radius: 0 0 var(--border-radius-big) var(--border-radius-medium);
   height: 20px;
   margin-top: 20px;
-  border: var(--secondary-color) 3px dashed;
+  border: rgb(var(--secondary-color)) 3px dashed;
   border-top: none;
 }
 </style>

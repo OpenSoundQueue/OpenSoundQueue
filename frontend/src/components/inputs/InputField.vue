@@ -159,13 +159,13 @@ watch(manualValue, (newValue) => {
   height: 40px;
   font-size: var(--font-size-medium);
   background: none;
-  border: 2px solid var(--tertiary-color);
-  color: var(--text-color);
+  border: 2px solid rgb(var(--tertiary-color));
+  color: rgb(var(--text-color));
   border-radius: var(--border-radius-medium);
 }
 
 .input-field::placeholder {
-  color: var(--tertiary-color);
+  color: rgb(var(--tertiary-color));
 }
 
 .input-field.has-icon {
@@ -197,10 +197,10 @@ watch(manualValue, (newValue) => {
 .error-message {
   margin-top: 5px;
   margin-bottom: 0;
-  color: var(--red);
+  color: rgb(var(--error));
 }
 
 .error{
-  border-color: var(--red);
+  border-color: rgb(var(--error));
 }
 </style>

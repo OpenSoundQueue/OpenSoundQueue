@@ -26,11 +26,11 @@ const disabled = computed(() => {
 <style scoped>
 button {
   width: 100%;
-  background: var(--primary-color);
+  background: rgb(var(--primary-color));
   height: 40px;
   border: none;
   border-radius: var(--border-radius-medium);
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   font-size: var(--font-size-medium);
   display: flex;
   justify-content: center;
@@ -57,19 +57,19 @@ button:hover {
 }
 
 .login.active {
-  color: var(--text-color);
-  background: var(--primary-color);
+  color: rgb(var(--text-color));
+  background: rgb(var(--primary-color));
 }
 
 .login.inactive {
-  color: var(--text-color);
-  background: var(--dark-gray);
+  color: rgb(var(--text-color));
+  background: rgb(var(--dark-gray));
 }
 
 .login.waiting {
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   border: solid 2px;
-  border-color: var(--primary-color);
+  border-color: rgb(var(--primary-color));
   background: transparent;
 }
 
@@ -79,52 +79,52 @@ button:hover {
 }
 
 .save.active {
-  color: var(--text-color);
-  background: var(--primary-color);
+  color: rgb(var(--text-color));
+  background: rgb(var(--primary-color));
 }
 
 .save.inactive {
-  color: var(--text-color);
-  background: var(--dark-gray);
+  color: rgb(var(--text-color));
+  background: rgb(var(--dark-gray));
 }
 
 .save.waiting {
-  color: var(--tertiary-color);
+  color: rgb(var(--tertiary-color));
   border: solid 2px;
-  border-color: var(--tertiary-color);
+  border-color: rgb(var(--tertiary-color));
   background-color: transparent;
 }
 
 .delete.active {
-  color: var(--red);
+  color: rgb(var(--error));
   background: transparent;
   border: solid 2px;
-  border-color: var(--red);
+  border-color: rgb(var(--error));
 }
 
 .delete:hover {
-  color: var(--secondary-color);
+  color: rgb(var(--secondary-color));
   font-weight: bold;
-  background: var(--red);
+  background: rgb(var(--error));
 
 }
 
 .delete.waiting {
-  color: var(--dark-gray);
+  color: rgb(var(--dark-gray));
   border: solid 2px;
-  border-color: var(--dark-gray);
+  border-color: rgb(var(--dark-gray));
   background: transparent;
 }
 
 .delete > svg {
-  fill: var(--red);
+  fill: rgb(var(--error));
 }
 
 .delete:hover > svg {
-  fill: var(--secondary-color);
+  fill: rgb(var(--secondary-color));
 }
 
 .delete.waiting > svg {
-  fill: var(--dark-gray);
+  fill: rgb(var(--dark-gray));
 }
 </style>
