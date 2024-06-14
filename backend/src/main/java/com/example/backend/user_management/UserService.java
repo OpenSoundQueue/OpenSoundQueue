@@ -189,7 +189,6 @@ public class UserService {
      */
     public void sendEmailVerification(UserInfoEntity user) throws MessagingException, IOException {
         String emailCode = emailUtils.generateEmailCode();
-        System.out.println(emailCode);
         emailVerificationCodes.put(user.getEmail(), emailCode);
         emailComponent.sendMail(user.getEmail(), emailCode, user.getUsername());
     }
