@@ -39,7 +39,7 @@ onMounted(() => {
 
 <style scoped>
 main {
-  background-color: var(--grayish-blue);
+  background-color: rgb(var(--secondary-color));
   width: 100svw;
   min-height: 100vh;
   margin: 0;
@@ -67,7 +67,7 @@ header {
 
 .link {
   text-decoration: none;
-  color: var(--pink);
+  color: rgb(var(--primary-color-light));
   text-align: center;
 }
 

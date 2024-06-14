@@ -73,9 +73,9 @@ function determineArea() {
   top: 0;
   height: 60px;
   width: 100%;
-  border-bottom: 2px var(--dark-gray) solid;
+  border-bottom: 2px rgb(var(--dark-gray)) solid;
   z-index: 3;
-  background: var(--background-color);
+  background: rgb(var(--background-color));
   display: flex;
 }
 
@@ -114,8 +114,8 @@ function determineArea() {
   top: 0;
   height: calc(100% - 10px);
   margin: 5px 0 0 5px;
-  background: var(--secondary-color);
-  border: 2px solid var(--tertiary-color);
+  background: rgb(var(--secondary-color));
+  border: 2px solid rgb(var(--tertiary-color));
   border-radius: var(--border-radius-big);
   box-sizing: border-box;
   display: flex;

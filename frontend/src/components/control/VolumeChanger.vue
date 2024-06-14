@@ -191,16 +191,16 @@ async function unmute() {
 
 .volume-changer-background {
   overflow: hidden;
-  background: var(--background-color);
+  background: rgb(var(--background-color));
   box-sizing: border-box;
-  border: 3px solid var(--secondary-color);
+  border: 3px solid rgb(var(--secondary-color));
   height: 100%;
   width: 100%;
   border-radius: 20px;
 }
 
 .volume-status-bar {
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   height: 100%;
   top: 0;
   transition: transform 0.1s linear;

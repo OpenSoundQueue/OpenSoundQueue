@@ -187,7 +187,7 @@ nav {
 }
 
 main {
-  background-color: var(--grayish-blue);
+  background-color: rgb(var(--secondary-color));
   border-radius: var(--border-radius-medium);
   width: calc(100svw - 20px);
   height: calc(100vh - 100px - 75px);
@@ -199,7 +199,7 @@ main {
 header {
   position: sticky;
   top: 0;
-  background-color: var(--grayish-blue);
+  background-color: rgb(var(--secondary-color));
 
   display: flex;
   flex-direction: row;
@@ -219,7 +219,7 @@ header {
     font-weight: bold;
 
     .darken {
-      color: var(--cool-gray);
+      color: rgb(var(--tertiary-color));
       min-width: 0;
       width: fit-content;
       overflow: hidden;
@@ -248,7 +248,7 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  background-color: var(--grayish-blue);
+  background-color: rgb(var(--secondary-color));
   border-radius: var(--border-radius-medium);
   padding: 5px 0 5px 0;
 
@@ -289,7 +289,7 @@ header {
 }
 
 .ready {
-  background-color: var(--primary-color);
+  background-color: rgb(var(--primary-color));
 }
 
 @media screen and (min-width: 600px) {

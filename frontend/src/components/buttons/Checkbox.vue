@@ -25,14 +25,14 @@ defineEmits<{
   aspect-ratio: 1/1;
   height: 20px;
   box-sizing: border-box;
-  border: 2px solid var(--tertiary-color);
+  border: 2px solid rgb(var(--tertiary-color));
   border-radius: 2px;
   background-color: transparent;
 }
 
 .checked {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: rgb(var(--primary-color));
+  border-color: rgb(var(--primary-color));
 }
 
 svg {

@@ -137,7 +137,7 @@ async function selectRole(roleId?: number) {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary-color);
+  background-color: rgb(var(--primary-color));
   border-radius: var(--border-radius-medium);
 }
 
@@ -154,10 +154,10 @@ async function selectRole(roleId?: number) {
 }
 
 .select-role-button-wrapper {
-  background: var(--background-color);
+  background: rgb(var(--background-color));
   position: relative;
   height: 40px;
-  border: 2px solid var(--secondary-color);
+  border: 2px solid rgb(var(--secondary-color));
   border-radius: var(--border-radius-medium);
   box-sizing: border-box;
   width: 100%;
@@ -193,7 +193,7 @@ async function selectRole(roleId?: number) {
 
 .select-role-button-container svg {
   height: 25px;
-  fill: var(--tertiary-color);
+  fill: rgb(var(--tertiary-color));
 }
 
 .select-role-button-container > div {
@@ -214,13 +214,13 @@ async function selectRole(roleId?: number) {
   }
 
   .select-role-button-wrapper.selected {
-    background: var(--tertiary-color);
-    color: var(--background-color);
+    background: rgb(var(--tertiary-color));
+    color: rgb(var(--background-color));
     font-weight: bold;
   }
 
   .select-role-button-wrapper.selected svg {
-    fill: var(--background-color);
+    fill: rgb(var(--background-color));
   }
 }
 </style>

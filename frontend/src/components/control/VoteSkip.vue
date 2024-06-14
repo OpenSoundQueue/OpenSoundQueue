@@ -139,11 +139,11 @@ function resetInterval() {
 }
 
 .slider.inactive {
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
 }
 
 .slider.active {
-  background: var(--tertiary-color);
+  background: rgb(var(--tertiary-color));
 }
 
 .button-label-container {
@@ -158,7 +158,7 @@ function resetInterval() {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: rgb(var(--primary-color));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -179,7 +179,7 @@ function resetInterval() {
 }
 
 .button.loading {
-  background: var(--dark-gray);
+  background: rgb(var(--dark-gray));
 }
 
 .label {
@@ -191,7 +191,7 @@ function resetInterval() {
 
 .label.active {
   transform: translateX(-30px);
-  color: var(--background-color);
+  color: rgb(var(--background-color));
   font-weight: bold;
 }
 

@@ -116,7 +116,7 @@ img {
   width: 200px;
   border-radius: var(--border-radius-medium);
   padding: var(--font-size-small);
-  background-color: var(--secondary-color);
+  background-color: rgb(var(--secondary-color));
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
   z-index: 4;

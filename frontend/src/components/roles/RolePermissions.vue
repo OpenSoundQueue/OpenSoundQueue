@@ -202,9 +202,9 @@ async function getPermissions() {
   gap: 5px;
   padding: 2px 5px;
 
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: solid 2px var(--primary-color);
+  background-color: rgb(var(--primary-color));
+  color: rgb(var(--text-color));
+  border: solid 2px rgb(var(--primary-color));
   border-radius: var(--border-radius-small);
   user-select: none;
   box-sizing: border-box;
@@ -217,7 +217,7 @@ async function getPermissions() {
 .selection-manipulator > img {
   aspect-ratio: 1;
   height: var(--font-size-medium);
-  border: solid 1px var(--primary-color);
+  border: solid 1px rgb(var(--primary-color));
   border-radius: 2px;
 }
 
@@ -237,7 +237,7 @@ async function getPermissions() {
 }
 
 .permission:hover {
-  background-color: var(--hover-color);
+  background-color: rgba(var(--tertiary-color), 0.2);
 }
 
 .skeleton{

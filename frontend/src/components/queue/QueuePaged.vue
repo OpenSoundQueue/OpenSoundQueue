@@ -93,7 +93,7 @@ async function requestPage(pageNumber: number) {
 
 .empty-queue{
   margin: auto 0 auto 0;
-  color: var(--tertiary-color);
+  color: rgb(var(--tertiary-color));
   align-self: center;
 }
 </style>

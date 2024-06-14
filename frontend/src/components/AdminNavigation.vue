@@ -26,10 +26,10 @@ nav {
 .link {
   height: 40px;
   width: 100%;
-  background: var(--background-color);
-  border: 3px solid var(--secondary-color);
+  background: rgb(var(--background-color));
+  border: 3px solid rgb(var(--secondary-color));
   box-sizing: border-box;
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   font-size: var(--font-size-medium);
   border-radius: var(--border-radius-medium);
   display: flex;
@@ -40,9 +40,9 @@ nav {
 }
 
 .link.router-link-active {
-  color: var(--background-color);
-  border-color: var(--tertiary-color);
-  background: var(--tertiary-color);
+  color: rgb(var(--background-color));
+  border-color: rgb(var(--tertiary-color));
+  background: rgb(var(--tertiary-color));
   font-weight: bold;
 }
 

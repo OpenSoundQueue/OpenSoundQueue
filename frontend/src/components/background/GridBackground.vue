@@ -20,7 +20,7 @@
 }
 
 .background .gradient {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, var(--background-color) 54.69%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgb(var(--background-color)) 54.69%);
   height: 100%;
   width: 100%;
 }

@@ -44,7 +44,7 @@ function goToHome() {
 
 <style scoped>
 .settings-wrapper {
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
   height: calc(100vh - 120px);
   padding: 30px;
   margin: 0 auto 0 auto;

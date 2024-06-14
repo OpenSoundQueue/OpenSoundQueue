@@ -22,9 +22,9 @@ defineEmits<{
   aspect-ratio: 2/1;
   width: 45px;
   height: 20px;
-  background-color: var(--secondary-color);
+  background-color: rgb(var(--secondary-color));
   border-radius: 999px;
-  border: solid 2px var(--tertiary-color);
+  border: solid 2px rgb(var(--tertiary-color));
   overflow: hidden;
 }
 
@@ -39,7 +39,7 @@ defineEmits<{
 }
 
 .background-fill {
-  background-color: var(--primary-color);
+  background-color: rgb(var(--primary-color));
   aspect-ratio: 2/1;
   height: 100%;
 }
@@ -49,15 +49,15 @@ defineEmits<{
   transform: translateX(calc(var(--font-size-medium) / -2));
   height: 20px;
   aspect-ratio: 1;
-  background-color: var(--tertiary-color);
+  background-color: rgb(var(--tertiary-color));
   border-radius: 50%;
   transition: 0.1s ease-in-out;
-  border: var(--secondary-color) 2px solid;
+  border: rgb(var(--secondary-color)) 2px solid;
   box-sizing: border-box;
 }
 
 .toggle-switch-container.checked {
-  border-color: var(--primary-color);
+  border-color: rgb(var(--primary-color));
 }
 
 .check-container.checked {
@@ -65,7 +65,7 @@ defineEmits<{
 }
 
 .circle.checked {
-  background-color: var(--light-gray);
-  border-color: var(--primary-color);
+  background-color: rgb(var(--light-gray));
+  border-color: rgb(var(--primary-color));
 }
 </style>

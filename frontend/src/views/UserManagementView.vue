@@ -149,7 +149,7 @@ main {
 .dot {
   height: 5px;
   aspect-ratio: 1/1;
-  background-color: var(--tertiary-color);
+  background-color: rgb(var(--tertiary-color));
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
@@ -181,7 +181,7 @@ main {
   padding: 0 10px 0 10px;
   height: calc(var(--font-size-medium) * 2.5);
   border-radius: var(--border-radius-medium);
-  background-color: var(--secondary-color);
+  background-color: rgb(var(--secondary-color));
   margin-top: 10px;
 }
 
@@ -190,12 +190,12 @@ main {
 }
 
 .user.selected {
-  background-color: var(--tertiary-color);
+  background-color: rgb(var(--tertiary-color));
 }
 
 .user.selected > .username,
 .user.selected > .email {
-  color: var(--background-color);
+  color: rgb(var(--background-color));
   font-weight: bold;
 }
 
@@ -206,7 +206,7 @@ main {
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  border-bottom: solid 3px var(--secondary-color);
+  border-bottom: solid 3px rgb(var(--secondary-color));
 }
 
 .role {
@@ -226,7 +226,7 @@ main {
 
 .user > .role {
   font-size: var(--font-size-small);
-  background-color: var(--background-color);
+  background-color: rgb(var(--background-color));
   width: fit-content;
   max-width: 20%;
   box-sizing: border-box;
@@ -291,7 +291,7 @@ main {
     height: 100%;
     border-bottom: none;
     border-radius: var(--border-radius-big);
-    background: var(--secondary-color);
+    background: rgb(var(--secondary-color));
     display: flex;
     flex-direction: column;
   }
@@ -299,7 +299,7 @@ main {
   .hr {
     margin: auto;
     width: calc(100% - 20px);
-    border-bottom: var(--tertiary-color) 2px solid;
+    border-bottom: rgb(var(--tertiary-color)) 2px solid;
     height: 2px;
   }
 

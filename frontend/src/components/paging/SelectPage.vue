@@ -19,6 +19,6 @@ const emit = defineEmits<{
 }
 
 .selected {
-  background: var(--secondary-color);
+  background: rgb(var(--secondary-color));
 }
 </style>
