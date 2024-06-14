@@ -214,8 +214,7 @@ main {
 header {
   position: sticky;
   top: 0;
-  background-color: rgb(var(--secondary-color));
-  background: linear-gradient(180deg, rgba(46,54,79,1) 0%, rgba(46,54,79,1) 75%, rgba(46,54,79,0) 100%);
+  background: linear-gradient(180deg, rgba(var(--secondary-color), 1) 0%, rgba(var(--secondary-color), 1) 75%, rgba(var(--secondary-color), 0) 100%);
   z-index: 1;
 
   display: flex;
