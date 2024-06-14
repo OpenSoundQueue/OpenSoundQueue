@@ -214,7 +214,8 @@ main {
 header {
   position: sticky;
   top: 0;
-  background-color: var(--grayish-blue);
+  background: linear-gradient(180deg, rgba(46,54,79,1) 0%, rgba(46,54,79,1) 75%, rgba(46,54,79,0) 100%);
+  z-index: 1;
 
   display: flex;
   flex-direction: row;
@@ -248,6 +249,10 @@ header {
   height: calc(var(--font-size-big) * 1.5);
   aspect-ratio: 2/1;
   padding: 25px;
+}
+
+.install-container {
+  z-index: 0;
 }
 
 .button-container {

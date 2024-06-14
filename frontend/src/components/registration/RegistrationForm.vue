@@ -1,7 +1,7 @@
 <template>
   <div class="registration-form-wrapper">
-    <h2 v-if="mode!=='installation'">{{ $translate('registration.heading') }}</h2>
-    <form :class="[mode=='installation'?'installation':'']" @submit.prevent>
+    <h2 v-if="mode !== 'installation'">{{ $translate('registration.heading') }}</h2>
+    <form :class="[mode== 'installation' ? 'installation' : '']" @submit.prevent>
       <!-- Username -->
       <InputField
           v-model="username.input"
@@ -58,7 +58,7 @@
                        @click="createAccount"/>
       </div>
     </form>
-    <div v-if="mode!=='installation'" class="link-container">
+    <div v-if="mode !== 'installation'" class="link-container">
       <router-link class="link" to="/login">{{ $translate("alreadyHaveAnAccount") }}</router-link>
     </div>
   </div>
@@ -187,7 +187,7 @@ form {
 }
 
 .submit-container {
-  margin-top: 20px;
+  margin: 0 0 20px 0;
 }
 
 .link-container {
