@@ -46,21 +46,18 @@ import RegistrationVerification from "@/components/registration/RegistrationVeri
 import router from "@/router";
 import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 import type {RouteRecordName} from "vue-router";
-import {useInstallationStore} from "@/stores/Installation";
 import {installation, registration} from "@/store/store";
 import {removeRegistration} from "@/store/registration";
 import RegistrationFinished from "@/components/registration/RegistrationFinished.vue";
-import {HttpService} from "@/services/HttpService";
 import {ToastService} from "@/services/ToastService";
+import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
 
-const httpService = new HttpService();
-const store = useInstallationStore();
+const store = useApplicationSettingsStore();
 const installationProgress = ref(installation.currentStep);
 
 watch(installationProgress, (newValue) => {
   installation.currentStep = newValue;
 })
-
 
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
 const installationSteps: RouteRecordName[] = ['language', 'privacy', 'sources', 'registration'];
@@ -77,6 +74,7 @@ const lastStep: ComputedRef<TranslationsKey> = computed(() => {
 });
 
 onMounted(() => {
+  store.fetchApplicationSettings();
   chooseComponent()
 })
 
@@ -144,28 +142,43 @@ async function next() {
   try {
     switch (routeName) {
       case "language":
-        await store.saveLanguage()
-        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
+        if (!store.editedApplicationSettings?.language) {
+          break;
+        }
+
+        store.setLanguage(store.editedApplicationSettings?.language);
+        await store.save();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
         break;
       case "registration":
-        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
 
         break;
       case "privacy":
-        await store.savePrivacy()
-        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
+        if (!store.editedApplicationSettings?.isPrivate || !store.editedApplicationSettings.emailAuth) {
+          break;
+        }
+
+        store.setIsPrivate(store.editedApplicationSettings.isPrivate);
+        store.setRequireEmailAuth(store.editedApplicationSettings.emailAuth);
+        await store.save();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
         break;
       case "sources":
-        await store.saveSources();
-        installationProgress.value =  installationSteps[installationSteps.indexOf(routeName) + 1];
+        if (!store.editedApplicationSettings?.enabledSources) {
+          break;
+        }
+
+        await store.save();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
         // TODO: make finishing setup possible again
         // await httpService.setInstallationStateComplete()
-            // .then(()=>{
-              // ToastService.sendNotification("Save Success","success",3000);
-            // })
-            // .catch(()=>{
-              // ToastService.sendNotification("Save Error","error",3000);
-            // });
+        // .then(()=>{
+        // ToastService.sendNotification("Save Success","success",3000);
+        // })
+        // .catch(()=>{
+        // ToastService.sendNotification("Save Error","error",3000);
+        // });
         break;
     }
   } catch {
@@ -179,7 +192,6 @@ async function next() {
   }
 
   await router.push({name: installationSteps[installationSteps.indexOf(routeName) + 1]});
-
 }
 </script>
 
