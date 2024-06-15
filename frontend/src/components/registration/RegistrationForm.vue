@@ -16,19 +16,21 @@
           @user-input="username.errorStatus=false"
       />
 
-      <!-- Email -->
-      <InputField
-          v-model="email.input"
-          :manual-value="email.input"
-          :label="$translate('email.title')"
-          :validation-function="$validateEmail"
-          :validation-message="$translate('email.validation')"
-          :error-status="email.errorStatus"
-          :error-message="$translate('email.taken')"
-          :required="false"
-          :placeholder="$translate('email.placeholder')"
-          @user-input="email.errorStatus=false"
-      />
+      <div v-if="applicationSettings?.emailAuth">
+        <!-- Email -->
+        <InputField
+            v-model="email.input"
+            :manual-value="email.input"
+            :label="$translate('email.title')"
+            :validation-function="$validateEmail"
+            :validation-message="$translate('email.validation')"
+            :error-status="email.errorStatus"
+            :error-message="$translate('email.taken')"
+            :required="false"
+            :placeholder="$translate('email.placeholder')"
+            @user-input="email.errorStatus=false"
+        />
+      </div>
 
       <!-- Password -->
       <InputField
@@ -66,12 +68,13 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, type Ref, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import {registration} from "@/store/store";
+import type {ApplicationSettings} from "@/models/ApplicationSettings";
 
 defineProps<{
   mode: "installation"
@@ -127,11 +130,18 @@ const formStatus = computed(() => {
       passwordRepeat.value.input != "");
 })
 
+const applicationSettings: Ref<ApplicationSettings | undefined> = ref();
+
 onMounted(() => {
   username.value.input = registration.username;
   email.value.input = registration.email;
   password.value.input = registration.password;
   passwordRepeat.value.input = registration.password;
+
+  httpService.getApplicationSettings()
+      .then((data) => {
+        applicationSettings.value = data;
+      })
 })
 
 function validatePasswordRepeat(value: string) {
@@ -207,7 +217,7 @@ form {
   text-decoration: underline;
 }
 
-.installation{
+.installation {
   margin-top: 0;
 }
 </style>

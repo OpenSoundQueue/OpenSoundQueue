@@ -60,18 +60,16 @@ onMounted(() => {
 
 function checkStatus() {
   if (!store.editedApplicationSettings?.entryCode) {
+    emit("notReady");
     return;
   }
 
-  if (validateEntryCode(store.editedApplicationSettings.entryCode)()) {
-    if (store.editedApplicationSettings.isPrivate) {
-      store.editedApplicationSettings.entryCode.length > 0 ? emit("ready") : emit("notReady");
-    } else {
-      emit("ready");
-    }
-  } else {
+  if (!validateEntryCode(store.editedApplicationSettings.entryCode)() && store.editedApplicationSettings.isPrivate) {
     emit("notReady");
+    return;
   }
+
+  emit("ready");
 }
 
 function toggleRequireEmailAuth() {

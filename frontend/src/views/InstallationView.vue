@@ -155,7 +155,7 @@ async function next() {
 
         break;
       case "privacy":
-        if (!store.editedApplicationSettings?.isPrivate || !store.editedApplicationSettings.emailAuth) {
+        if (store.editedApplicationSettings?.isPrivate == undefined) {
           break;
         }
 
