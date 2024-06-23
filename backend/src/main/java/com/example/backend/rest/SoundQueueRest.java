@@ -244,9 +244,6 @@ public class SoundQueueRest {
         int newVol = currentVol + volume;
         //Clamp result to 0<= volume <= 100
         newVol = Math.max(0, Math.min(100, newVol));
-        System.out.println("volume = " + volume);
-        System.out.println("currentVol = " + currentVol);
-        System.out.println("newVol = " + newVol);
         VolumeDto volumeDto = songQueueService.changeVolume(newVol);
 
         return new ResponseEntity<>(volumeDto, HttpStatus.OK);
