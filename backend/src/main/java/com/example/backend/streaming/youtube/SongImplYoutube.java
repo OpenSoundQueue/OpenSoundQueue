@@ -6,10 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.*;
+import java.io.File;
 
 public class SongImplYoutube implements Song {
     private static final Logger LOG = LoggerFactory.getLogger(SongImplYoutube.class);
-    private final String DOWNLOAD_PATH = System.getProperty("user.dir") + "\\.song_downloads\\";
+    private final String DOWNLOAD_PATH = System.getProperty("user.dir") + File.separator + ".song_downloads" + File.separator;
 
     private final String link;
     private boolean isDownloaded = false;
