@@ -73,7 +73,7 @@ async function volumeUp() {
 
   loading.value = true;
 
-  await httpService.postVolume(volume.value + props.stepSize)
+  await httpService.postVolume(props.stepSize)
       .then((data: { volume: number, isMuted: boolean }) => {
         volume.value = data.volume;
         isMuted.value = data.isMuted;
@@ -96,7 +96,7 @@ async function volumeDown() {
 
   loading.value = true;
 
-  await httpService.postVolume(volume.value - props.stepSize)
+  await httpService.postVolume(-props.stepSize)
       .then((data: { volume: number, isMuted: boolean }) => {
         volume.value = data.volume;
         isMuted.value = data.isMuted;

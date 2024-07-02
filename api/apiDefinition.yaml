@@ -859,15 +859,15 @@ paths:
       tags:
         - auth
         - queue
-      description: Change the volume (value between 0 and 100)
+      description: Change the volume by adding the specified delta to the current volume
       parameters:
         - in: path
           name: volume
           schema:
             type: integer
-            example: 75
+            example: 10
           required: true
-          description: the new volume of the queue
+          description: the positive or negative amount to change the volume for (e.g +10 or -10)
       responses:
         200:
           description: Volume has been changed
