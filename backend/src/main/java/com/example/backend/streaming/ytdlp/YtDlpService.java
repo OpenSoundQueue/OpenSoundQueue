@@ -24,6 +24,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 @Service
 public class YtDlpService {
@@ -61,7 +62,7 @@ public class YtDlpService {
                 artist = "";
                 artistTag = (rootNode.get("artist") + "").replaceAll("\"", "");
                 creatorTag = (rootNode.get("creator") + "").replaceAll("\"", "");
-                channelTag = (rootNode.get("channel") + "").replaceAll("\"", "");
+                channelTag = (Objects.requireNonNullElse(rootNode.get("channel"), rootNode.get("uploader")) + "").replaceAll("\"", "");
                 try {
                     duration = Math.round(Double.parseDouble(rootNode.get("duration") + ""));
                 } catch (NumberFormatException e) {
