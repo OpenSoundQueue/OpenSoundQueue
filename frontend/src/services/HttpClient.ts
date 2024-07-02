@@ -23,13 +23,7 @@ export default class HttpClient {
             headers["X-API-KEY"] = apiKey;
         }
 
-        // Constructs the API URL based on the environment and provided path.
-        let url;
-        // if (import.meta.env.DEV) {
-            // url = "/api" + path;
-        //} else {
-            url = `http://${window.location.hostname}:8080/api` + path;
-        //}
+        const url = `http://${window.location.hostname}:8080/api` + path;
 
         // Performs the HTTP request with the constructed URL, data, method, and headers.
         return this.request(url, data, method, headers);
@@ -41,7 +35,7 @@ export default class HttpClient {
     }
 
     // Makes a DELETE request to the specified path with an optional API key.
-    delete(path: string, data?: unknown,apiKey?: string) {
+    delete(path: string, data?: unknown, apiKey?: string) {
         return this.rest(path, data, "DELETE", apiKey);
     }
 

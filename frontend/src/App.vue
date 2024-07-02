@@ -4,7 +4,6 @@ import {computed} from "vue";
 import Toast from "@/components/toast/Toast.vue";
 import {ToastService} from "@/services/ToastService";
 import {PopUpService} from "@/services/PopUpService";
-import {useRoute} from "vue-router";
 import FullScreenPopUp from "@/components/PopUp/FullScreenPopUp.vue";
 import router from "@/router";
 
