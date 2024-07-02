@@ -50,7 +50,11 @@ public class YtDlpService {
         String artistFromTitle;
 
         try {
-            Process process = Runtime.getRuntime().exec("yt-dlp --dump-single-json \"" + song.getLink() + "\"");
+            LOG.info("Fetching song {}", song.getLink());
+            Process process = new ProcessBuilder("yt-dlp", "--dump-single-json", song.getLink())
+                    .redirectErrorStream(true)
+                    .start();
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
 
@@ -130,7 +134,7 @@ public class YtDlpService {
         Process p;
         try {
             String title = convertSongTitle.parseToFileName(song.getArtist() + " - " + song.getTitle());
-            p = Runtime.getRuntime().exec("yt-dlp --output \"" + downloadPath + title + ".%(ext)s\" --extract-audio --audio-format wav \"" + url + "\"");
+            p = new ProcessBuilder("yt-dlp", "--extract-audio", "--audio-format", "wav", "--output", downloadPath + title + ".%(ext)s", url).start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
