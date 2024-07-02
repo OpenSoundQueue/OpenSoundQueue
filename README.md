@@ -154,6 +154,11 @@ a new feature, or improving the documentation, your help is appreciated. Here's 
    are addressed and your code conforms to the project's standards. Our developers will review your contribution, run
    additional tests, and provide feedback or approve your changes.
 
+6. **Translate OpenSoundQueue**
+
+   We also welcome contributions to translate OpenSoundQueue into different languages. You can help by using our translation platform on Crowdin:
+   [Translate OpenSoundQueue on Crowdin](https://crowdin.com/project/opensoundqueue)
+
 By contributing to OpenSoundQueue, you're helping to create a more enjoyable and collaborative music experience for
 everyone. Thank you for your support and contributions!
 
