@@ -8,12 +8,23 @@
     <div v-if="store.editedApplicationSettings.emailAuth">
       <InputField
           placeholder="E-Mail-Adresse"
+          :required="false"
+          v-model="store.editedApplicationSettings.fromEmail"
+          :manual-value="store.editedApplicationSettings.fromEmail"
+          :validation-function="$validateEmail"
+          :validation-message="$translate('email.validation')"
       />
       <InputField
           placeholder="E-Mail Passwort"
+          :required="false"
+          v-model="store.editedApplicationSettings.emailPassword"
+          :manual-value="store.editedApplicationSettings.emailPassword"
       />
       <InputField
           placeholder="E-Mail Host"
+          :required="false"
+          v-model="store.editedApplicationSettings.emailHostString"
+          :manual-value="store.editedApplicationSettings.emailHostString"
       />
     </div>
     <div class="hr"/>

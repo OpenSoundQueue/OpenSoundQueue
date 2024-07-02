@@ -481,101 +481,8 @@ export class HttpService {
             });
     }
 
-    // Retrieves the current language settings.
-    async getLanguage() {
-        return httpClient.get(`/system/language`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Sets the language settings.
-    async setLanguage(language: string) {
-        return httpClient.patch(`/system/language/set/${language}`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                setLanguage(language);
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Retrieves the current privacy settings.
-    async getPrivacy() {
-        return httpClient.get(`/system/privacy`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-
     async getLoginState() {
         return httpClient.get(`/system/loginstate`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Sets the privacy settings.
-    async setPrivacy(privacySettings: object) {
-        return httpClient.patch(`/system/privacy/set`, privacySettings)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Retrieves the current authentication settings.
-    async getAuthentication() {
-        return httpClient.get(`/system/email-auth`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Sets the authentication settings.
-    async setAuthentication(requireEMailAuthentication: boolean) {
-        return httpClient.patch(`/system/email-auth/set/${requireEMailAuthentication}`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Retrieves a list of supported sources.
-    async getSupportedSources() {
-        return httpClient.get(`/system/supported-sources`)
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -589,19 +496,6 @@ export class HttpService {
     // Retrieves the current sources configuration.
     async getSources() {
         return httpClient.get(`/system/sources`)
-            .then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response.status);
-                }
-                return response.json();
-            }).then((data) => {
-                return data;
-            });
-    }
-
-    // Sets the sources configuration.
-    async setSources(sources: string[]) {
-        return httpClient.patch(`/system/sources/set`, {sources: sources})
             .then((response) => {
                 if (!response.ok) {
                     return Promise.reject(response.status);
@@ -626,6 +520,7 @@ export class HttpService {
     }
 
     // Sets the installation state to complete.
+    // TODO: implement set installation state complete again
     async setInstallationStateComplete() {
         return httpClient.patch(`/system/installation-state/complete`)
             .then((response) => {
