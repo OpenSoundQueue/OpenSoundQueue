@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import {onMounted, watchEffect} from "vue";
-import {translations} from "@/plugins/TranslationPlugin";
+import {setLanguage, translations} from "@/plugins/TranslationPlugin";
 import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
 
 const emit = defineEmits<{
@@ -37,6 +37,7 @@ onMounted(() => {
 
 function checkStatus() {
   if (store.editedApplicationSettings?.language) {
+    setLanguage(store.editedApplicationSettings.language);
     emit("ready");
   } else {
     emit("notReady");
