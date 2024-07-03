@@ -520,17 +520,13 @@ export class HttpService {
     }
 
     // Sets the installation state to complete.
-    // TODO: implement set installation state complete again
     async setInstallationStateComplete() {
         return httpClient.patch(`/system/installation-state/complete`)
             .then((response) => {
+                console.log(response);
                 if (!response.ok) {
                     return Promise.reject(response.status);
                 }
-
-                return response.json();
-            }).then((data) => {
-                return data;
             });
     }
 

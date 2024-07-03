@@ -51,7 +51,9 @@ import {removeRegistration} from "@/store/registration";
 import RegistrationFinished from "@/components/registration/RegistrationFinished.vue";
 import {ToastService} from "@/services/ToastService";
 import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
+import {HttpService} from "@/services/HttpService";
 
+const httpService = new HttpService();
 const store = useApplicationSettingsStore();
 const installationProgress = ref(installation.currentStep);
 
@@ -153,6 +155,13 @@ async function next() {
       case "registration":
         installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
 
+        await httpService.setInstallationStateComplete()
+            .then(() => {
+              ToastService.sendNotification("Save Success", "success", 3000);
+            })
+            .catch(() => {
+              ToastService.sendNotification("Save Error", "error", 3000);
+            });
         break;
       case "privacy":
         if (store.editedApplicationSettings?.isPrivate == undefined) {
@@ -171,15 +180,6 @@ async function next() {
 
         await store.save();
         installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
-        // TODO: make finishing setup possible again
-        // await httpService.setInstallationStateComplete()
-        // .then(()=>{
-        // ToastService.sendNotification("Save Success","success",3000);
-        // })
-        // .catch(()=>{
-        // ToastService.sendNotification("Save Error","error",3000);
-        // });
-        break;
     }
   } catch {
     return;
