@@ -110,8 +110,8 @@ public class SystemRest {
         response.put("entryCode", propertyService.getProperty("system.entry-code"));
         response.put("emailAuth", Boolean.parseBoolean(propertyService.getProperty("system.email-auth")));
         response.put("fromEmail", propertyService.getProperty("system.from-email"));
-        response.put("emailPassword", propertyService.getProperty("system.smtp-password"));
-        response.put("emailHostString", propertyService.getProperty("system.smtp-host-string"));
+        response.put("smtpPassword", propertyService.getProperty("system.smtp-password"));
+        response.put("smtpHostString", propertyService.getProperty("system.smtp-host-string"));
         response.put("supportedSources", propertyService.getPropertyAsList("system.sources.supported"));
         response.put("enabledSources", propertyService.getPropertyAsList("system.sources.enabled"));
 

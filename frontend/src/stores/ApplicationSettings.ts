@@ -61,7 +61,6 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
 
     // Save changes to application settings
     async function save() {
-        console.log(editedApplicationSettings.value);
         if (editedApplicationSettings.value === undefined) {
             // Notify user if edited application settings are undefined
             ToastService.sendNotification(translate("applicationSettings.saveError"), "error", 3000);
