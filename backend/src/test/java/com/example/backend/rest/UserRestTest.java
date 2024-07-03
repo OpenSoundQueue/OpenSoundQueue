@@ -81,7 +81,7 @@ public class UserRestTest {
 
         // Set up mock behavior
         Mockito.when(userService.getUserByUsername(username)).thenReturn(null);
-        Mockito.when(userService.registerNewUser(Mockito.any(UserInfoEntity.class))).thenReturn(userInfoEntity);
+        Mockito.when(userService.registerNewTempUser(Mockito.any(UserInfoEntity.class))).thenReturn(userInfoEntity);
         Mockito.when(tokenUtils.generateToken()).thenReturn(token);
 
         // Perform the test

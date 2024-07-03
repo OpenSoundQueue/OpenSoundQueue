@@ -257,9 +257,20 @@ export class HttpService {
             });
     }
 
+    async postRegisterCreatePasswordAccount(username: string, password: string) {
+        return httpClient.post(`/register/create-password-account`, {username: username, password: password})
+            .then(async response => {
+                if (!response.ok) {
+                    const data = await response.json()
+                    return Promise.reject(data);
+                }
+                return response;
+            });
+    }
+
     // Creates a new user account with the provided username, email, and password.
-    async postRegisterCreateAccount(username: string, email: string, password: string) {
-        return httpClient.post(`/register/create-account`, {username: username, email: email, password: password})
+    async postRegisterCreateAuthAccount(username: string, email: string, password: string) {
+        return httpClient.post(`/register/create-auth-account`, {username: username, email: email, password: password})
             .then(async response => {
                 if (!response.ok) {
                     const data = await response.json()

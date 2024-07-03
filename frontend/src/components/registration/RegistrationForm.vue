@@ -16,7 +16,7 @@
           @user-input="username.errorStatus=false"
       />
 
-      <div v-if="applicationSettings?.emailAuth">
+      <div v-if="requireEmailAuth">
         <!-- Email -->
         <InputField
             v-model="email.input"
@@ -68,30 +68,22 @@
 
 <script setup lang="ts">
 import InputField from "@/components/inputs/InputField.vue";
-import {computed, onMounted, type Ref, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import DefaultButton from "@/components/buttons/DefaultButton.vue";
 import {validateEmail, validatePassword, validateUsername} from "@/plugins/ValidationPlugin";
 import {HttpService} from "@/services/HttpService";
 import {translate} from "@/plugins/TranslationPlugin";
 import {registration} from "@/store/store";
-import type {ApplicationSettings} from "@/models/ApplicationSettings";
 
 defineProps<{
   mode: "installation"
 }>();
 
-type Form = {
-  username: string,
-  email: string,
-  password: string
-  timestamp: number
-}
-
-const httpService = new HttpService();
-
 const emits = defineEmits<{
   continue: []
 }>()
+
+const httpService = new HttpService();
 
 const waitingForResponse = ref(false);
 
@@ -120,6 +112,16 @@ const passwordRepeat = ref({
 });
 
 const formStatus = computed(() => {
+  if (!requireEmailAuth.value) {
+    return !(validateUsername(username.value.input)() &&
+        validatePassword(password.value.input)() &&
+        validatePasswordRepeat(passwordRepeat.value.input)() &&
+        username.value.input != "" &&
+        password.value.input != "" &&
+        passwordRepeat.value.input != ""
+    );
+  }
+
   return !(validateUsername(username.value.input)() &&
       validateEmail(email.value.input)() &&
       validatePassword(password.value.input)() &&
@@ -130,7 +132,7 @@ const formStatus = computed(() => {
       passwordRepeat.value.input != "");
 })
 
-const applicationSettings: Ref<ApplicationSettings | undefined> = ref();
+const requireEmailAuth = ref(false);
 
 onMounted(() => {
   username.value.input = registration.username;
@@ -138,10 +140,11 @@ onMounted(() => {
   password.value.input = registration.password;
   passwordRepeat.value.input = registration.password;
 
-  httpService.getApplicationSettings()
+  httpService.getLoginState()
       .then((data) => {
-        applicationSettings.value = data;
+        requireEmailAuth.value = data.requireAuth == 'true';
       })
+
 })
 
 function validatePasswordRepeat(value: string) {
@@ -157,7 +160,20 @@ function validatePasswordRepeat(value: string) {
 async function createAccount() {
   waitingForResponse.value = true;
 
-  await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
+  if (!requireEmailAuth.value) {
+    await httpService.postRegisterCreatePasswordAccount(username.value.input, password.value.input)
+        .then(() => {
+          registration.username = username.value.input;
+          registration.password = password.value.input;
+          registration.state = "finished"
+        });
+
+    waitingForResponse.value = false;
+
+    return;
+  }
+
+  await httpService.postRegisterCreateAuthAccount(username.value.input, email.value.input, password.value.input)
       .then(() => {
         registration.username = username.value.input;
         registration.email = email.value.input;
