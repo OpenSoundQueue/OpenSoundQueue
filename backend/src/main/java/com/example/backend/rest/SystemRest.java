@@ -110,8 +110,8 @@ public class SystemRest {
         response.put("entryCode", propertyService.getProperty("system.entry-code"));
         response.put("emailAuth", Boolean.parseBoolean(propertyService.getProperty("system.email-auth")));
         response.put("fromEmail", propertyService.getProperty("system.from-email"));
-        response.put("emailPassword", propertyService.getProperty("system.email-password"));
-        response.put("emailHostString", propertyService.getProperty("system.email-host-string"));
+        response.put("emailPassword", propertyService.getProperty("system.smtp-password"));
+        response.put("emailHostString", propertyService.getProperty("system.smtp-host-string"));
         response.put("supportedSources", propertyService.getPropertyAsList("system.sources.supported"));
         response.put("enabledSources", propertyService.getPropertyAsList("system.sources.enabled"));
 
@@ -134,8 +134,8 @@ public class SystemRest {
         propertyService.setProperty("system.entry-code", input.get("entryCode")+"");
         propertyService.setProperty("system.email-auth", input.get("emailAuth")+"");
         propertyService.setProperty("system.from-email", input.get("fromEmail")+"");
-        propertyService.setProperty("system.email-password", input.get("emailPassword")+"");
-        propertyService.setProperty("system.email-host-string", input.get("emailHostString")+"");
+        propertyService.setProperty("system.smtp-password", input.get("smtpPassword")+"");
+        propertyService.setProperty("system.smtp-host-string", input.get("smtpHostString")+"");
         propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supportedSources")) + "}");
         propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabledSources")) + "}");
 

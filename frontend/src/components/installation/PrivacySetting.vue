@@ -17,14 +17,14 @@
       <InputField
           placeholder="E-Mail Passwort"
           :required="false"
-          v-model="store.editedApplicationSettings.emailPassword"
-          :manual-value="store.editedApplicationSettings.emailPassword"
+          v-model="store.editedApplicationSettings.smtpPassword"
+          :manual-value="store.editedApplicationSettings.smtpPassword"
       />
       <InputField
           placeholder="E-Mail Host"
           :required="false"
-          v-model="store.editedApplicationSettings.emailHostString"
-          :manual-value="store.editedApplicationSettings.emailHostString"
+          v-model="store.editedApplicationSettings.smtpHostString"
+          :manual-value="store.editedApplicationSettings.smtpHostString"
       />
     </div>
     <div class="hr"/>
