@@ -230,17 +230,21 @@ public class SoundQueueRest {
     /**
      * change the volume of the playback
      * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @param volume
+     * @param volume the delta for volume. >0: louder, <0: quieter
      * @return status code
      */
     @AuthRequest(requiredPermission = Permissions.CHANGE_VOLUME)
     @PostMapping("/queue/volume/{volume}")
     public ResponseEntity<Object> changeVolume(@RequestHeader(value = "X-API-KEY") String token, @PathVariable(name = "volume") int volume) {
-        if (volume < 0 || volume > 100) {
+        if (volume < -100 || volume > 100) {
             return new ResponseEntity<>(new ErrorDto("invalid value for 'volume'"), HttpStatus.BAD_REQUEST);
         }
-
-        VolumeDto volumeDto = songQueueService.changeVolume(volume);
+        int currentVol = songQueueService.getVolume().getVolume();
+        //Apply delta
+        int newVol = currentVol + volume;
+        //Clamp result to 0<= volume <= 100
+        newVol = Math.max(0, Math.min(100, newVol));
+        VolumeDto volumeDto = songQueueService.changeVolume(newVol);
 
         return new ResponseEntity<>(volumeDto, HttpStatus.OK);
     }
