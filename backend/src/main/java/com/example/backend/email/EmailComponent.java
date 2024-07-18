@@ -4,6 +4,7 @@
 
 package com.example.backend.email;
 
+import com.example.backend.system_management.PropertyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +23,13 @@ import java.util.Properties;
 
 @Component
 public class EmailComponent {
-    private static final Logger LOG = LoggerFactory.getLogger(EmailComponent.class);
+    PropertyService propertyService;
 
-    @Value("${email.password}")
-    private String password;
+    public EmailComponent(PropertyService propertyService) {
+        this.propertyService = propertyService;
+    }
+
+    private static final Logger LOG = LoggerFactory.getLogger(EmailComponent.class);
 
     /**
      * This method sends an email to the specified user in order to verify their email address.
@@ -37,7 +41,7 @@ public class EmailComponent {
      * @param username name of the recipient
      * @throws MessagingException
      */
-    public void sendMail(String email, String verificationCode, String username) throws MessagingException {
+    public void sendMail(String email, String verificationCode, String username) throws MessagingException, IOException {
         MimeMessage message = createMailTemplate(email);
         message.setSubject("OpenSoundQueue Email Verification");
 
@@ -68,16 +72,17 @@ public class EmailComponent {
 
     /**
      * This function creates a simple template for emails that can be adjusted fairly easy
-     * @param email address of the recipient
+     * @param toEmail address of the recipient
      * @return a mail template
      * @throws MessagingException
      */
-    private MimeMessage createMailTemplate(String email) throws MessagingException {
-        String to = email;
-        String from = "registration@opensoundqueue.org";
-        String host = "smtp.easyname.eu";
+    private MimeMessage createMailTemplate(String toEmail) throws MessagingException, IOException {
+        String smtpPassword = propertyService.getProperty("system.smtp-password");
+        String smtpHostString = propertyService.getProperty("system.smtp-host-string");
+        String fromEmail = propertyService.getProperty("system.from-email");
+
         Properties properties = System.getProperties();
-        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.host", smtpHostString);
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.socketFactory.class",
@@ -87,12 +92,12 @@ public class EmailComponent {
 
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("registration@opensoundqueue.org", password);
+                return new PasswordAuthentication(fromEmail, smtpPassword);
             }
         });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setFrom(new InternetAddress(fromEmail));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 
         return message;
     }

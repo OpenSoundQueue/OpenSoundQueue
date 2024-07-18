@@ -105,9 +105,10 @@ public class UserService {
      * @param user
      * @return
      */
-    public UserInfoEntity registerNewAuthUser(UserInfoEntity user) {
+    public UserInfoEntity registerNewPasswordUser(UserInfoEntity user) {
         String clearTextPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(clearTextPassword));
+        user.setVerified(true);
 
         user = userInfoRepository.save(user);
 
@@ -121,7 +122,7 @@ public class UserService {
      * @param user
      * @return
      */
-    public UserInfoEntity registerNewUser(UserInfoEntity user) {
+    public UserInfoEntity registerNewTempUser(UserInfoEntity user) {
         user = userInfoRepository.save(user);
         changeRolesOfUser(user.getId(), List.of(roleRepository.findById(1).get()));
         return user;

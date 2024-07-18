@@ -272,15 +272,15 @@
     },
     "navigation": {
       "next": {
-        "language": "Weiter zur Registrierung",
-        "registration": "Weiter zur Zugangskontrolle",
+        "language": "Weiter zur Zugangskontrolle",
+        "registration": "Installation abschließen",
         "privacy": "Weiter zur Quellen-Auswahl",
-        "sources": "Installation abschließen"
+        "sources": "Weiter zur Registrierung"
       },
       "back": {
         "language": "Es gibt keinen Weg zurück",
-        "registration": "Zurück zur Sprachauswahl",
-        "privacy": "Zurück zur Registrierung",
+        "registration": "Zurück zur Quellen-Auswahl",
+        "privacy": "Zurück zur Sprachauswahl",
         "sources": "Zurück zur Zugangskontrolle"
       }
     }

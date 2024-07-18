@@ -1,7 +1,7 @@
 <template>
   <div class="registration-form-wrapper">
-    <h2 v-if="mode!=='installation'">{{ $translate('registration.heading') }}</h2>
-    <form :class="[mode=='installation'?'installation':'']" @submit.prevent>
+    <h2 v-if="mode !== 'installation'">{{ $translate('registration.heading') }}</h2>
+    <form :class="[mode== 'installation' ? 'installation' : '']" @submit.prevent>
       <!-- Username -->
       <InputField
           v-model="username.input"
@@ -16,19 +16,21 @@
           @user-input="username.errorStatus=false"
       />
 
-      <!-- Email -->
-      <InputField
-          v-model="email.input"
-          :manual-value="email.input"
-          :label="$translate('email.title')"
-          :validation-function="$validateEmail"
-          :validation-message="$translate('email.validation')"
-          :error-status="email.errorStatus"
-          :error-message="$translate('email.taken')"
-          :required="false"
-          :placeholder="$translate('email.placeholder')"
-          @user-input="email.errorStatus=false"
-      />
+      <div v-if="requireEmailAuth">
+        <!-- Email -->
+        <InputField
+            v-model="email.input"
+            :manual-value="email.input"
+            :label="$translate('email.title')"
+            :validation-function="$validateEmail"
+            :validation-message="$translate('email.validation')"
+            :error-status="email.errorStatus"
+            :error-message="$translate('email.taken')"
+            :required="false"
+            :placeholder="$translate('email.placeholder')"
+            @user-input="email.errorStatus=false"
+        />
+      </div>
 
       <!-- Password -->
       <InputField
@@ -58,7 +60,7 @@
                        @click="createAccount"/>
       </div>
     </form>
-    <div v-if="mode!=='installation'" class="link-container">
+    <div v-if="mode !== 'installation'" class="link-container">
       <router-link class="link" to="/login">{{ $translate("alreadyHaveAnAccount") }}</router-link>
     </div>
   </div>
@@ -77,18 +79,11 @@ defineProps<{
   mode: "installation"
 }>();
 
-type Form = {
-  username: string,
-  email: string,
-  password: string
-  timestamp: number
-}
-
-const httpService = new HttpService();
-
 const emits = defineEmits<{
   continue: []
 }>()
+
+const httpService = new HttpService();
 
 const waitingForResponse = ref(false);
 
@@ -117,6 +112,16 @@ const passwordRepeat = ref({
 });
 
 const formStatus = computed(() => {
+  if (!requireEmailAuth.value) {
+    return !(validateUsername(username.value.input)() &&
+        validatePassword(password.value.input)() &&
+        validatePasswordRepeat(passwordRepeat.value.input)() &&
+        username.value.input != "" &&
+        password.value.input != "" &&
+        passwordRepeat.value.input != ""
+    );
+  }
+
   return !(validateUsername(username.value.input)() &&
       validateEmail(email.value.input)() &&
       validatePassword(password.value.input)() &&
@@ -127,11 +132,19 @@ const formStatus = computed(() => {
       passwordRepeat.value.input != "");
 })
 
+const requireEmailAuth = ref(false);
+
 onMounted(() => {
   username.value.input = registration.username;
   email.value.input = registration.email;
   password.value.input = registration.password;
   passwordRepeat.value.input = registration.password;
+
+  httpService.getLoginState()
+      .then((data) => {
+        requireEmailAuth.value = data.requireAuth == 'true';
+      })
+
 })
 
 function validatePasswordRepeat(value: string) {
@@ -147,7 +160,20 @@ function validatePasswordRepeat(value: string) {
 async function createAccount() {
   waitingForResponse.value = true;
 
-  await httpService.postRegisterCreateAccount(username.value.input, email.value.input, password.value.input)
+  if (!requireEmailAuth.value) {
+    await httpService.postRegisterCreatePasswordAccount(username.value.input, password.value.input)
+        .then(() => {
+          registration.username = username.value.input;
+          registration.password = password.value.input;
+          registration.state = "finished"
+        });
+
+    waitingForResponse.value = false;
+
+    return;
+  }
+
+  await httpService.postRegisterCreateAuthAccount(username.value.input, email.value.input, password.value.input)
       .then(() => {
         registration.username = username.value.input;
         registration.email = email.value.input;
@@ -187,7 +213,7 @@ form {
 }
 
 .submit-container {
-  margin-top: 20px;
+  margin: 0 0 20px 0;
 }
 
 .link-container {
@@ -207,7 +233,7 @@ form {
   text-decoration: underline;
 }
 
-.installation{
+.installation {
   margin-top: 0;
 }
 </style>

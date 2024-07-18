@@ -272,16 +272,16 @@
     },
     "navigation": {
       "next": {
-        "language": "Continue to Registration",
-        "registration": "Continue to Privacy Settings",
+        "language": "Continue to Privacy Settings",
+         "registration": "Complete Installation",
         "privacy": "Continue to Source Selection",
-        "sources": "Complete Installation"
+        "sources": "Continue to Registration"
       },
       "back": {
         "language": "There is no going back",
-        "registration": "Back to Language Selection",
-        "privacy": "Back to Registration",
-        "sources": "Back to Access Control"
+        "registration": "Back to Source Selection",
+        "privacy": "Back to Language Selection",
+        "sources": "Back to Privacy Settings"
       }
     }
   },

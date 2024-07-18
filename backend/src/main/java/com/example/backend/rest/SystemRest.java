@@ -27,59 +27,6 @@ public class SystemRest {
         this.propertyService = propertyService;
     }
 
-    /**
-     * get current system language
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @GetMapping("/system/language")
-    public ResponseEntity<Object> getLanguage(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
-        String language = propertyService.getProperty("system.language");
-
-        Map<String, String> dto = new HashMap<>();
-        dto.put("language", language);
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    /**
-     * set current system language
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @param language
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @PatchMapping("/system/language/set/{language}")
-    public ResponseEntity<Object> setLanguage(@RequestHeader(value = "X-API-KEY", required = false) String token, @PathVariable(name = "language") String language) throws IOException {
-        propertyService.setProperty("system.language", language);
-
-        Map<String, String> dto = new HashMap<>();
-        dto.put("language", language);
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    /**
-     * get current privacy settings
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @GetMapping("/system/privacy")
-    public ResponseEntity<Object> getPrivacySettings(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
-        boolean isPrivate = Boolean.parseBoolean(propertyService.getProperty("system.is-private"));
-
-        Map<String, String> dto = new HashMap<>();
-        dto.put("isPrivate", isPrivate+"");
-        dto.put("entryCode", propertyService.getProperty("system.entry-code"));
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
     @GetMapping("/system/loginstate")
     public ResponseEntity<Object> getLoginState(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
         String isPrivate = propertyService.getProperty("system.is-private");
@@ -88,63 +35,6 @@ public class SystemRest {
         Map<String, String> dto = new HashMap<>();
         dto.put("isPrivate", isPrivate);
         dto.put("requireAuth", emailAuth);
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    /**
-     * set current privacy settings
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @param privacySettings
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @PatchMapping("/system/privacy/set")
-    public ResponseEntity<Object> setPrivacySettings(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody PrivacySettingsDto privacySettings) throws IOException {
-        propertyService.setProperty("system.is-private", privacySettings.isPrivate()+"");
-        if (privacySettings.isPrivate() && privacySettings.getEntryCode() != null) {
-            propertyService.setProperty("system.entry-code", privacySettings.getEntryCode());
-        }
-
-        Map<String, String> dto = new HashMap<>();
-        dto.put("isPrivate", privacySettings.isPrivate()+"");
-        dto.put("entryCode", propertyService.getProperty("system.entry-code"));
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    /**
-     * get current settings for email authentication
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @GetMapping("/system/email-auth")
-    public ResponseEntity<Object> getEmailAuth(@RequestHeader(value = "X-API-KEY", required = false) String token) throws IOException {
-        String emailAuth = propertyService.getProperty("system.email-auth");
-
-        Map<String, String> dto = new HashMap<>();
-        dto.put("emailAuth", emailAuth);
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    /**
-     * set settings for email authentication
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @param emailAuth
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @PatchMapping("/system/email-auth/set/{email-auth}")
-    public ResponseEntity<Object> setEmailAuth(@RequestHeader(value = "X-API-KEY", required = false) String token, @PathVariable(name = "email-auth") String emailAuth) throws IOException {
-        propertyService.setProperty("system.email-auth", emailAuth);
-
-        Map<String, String> dto = new HashMap<>();
-        dto.put("emailAuth", emailAuth);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -205,26 +95,6 @@ public class SystemRest {
     }
 
     /**
-     * set enabled sources
-     * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
-     * @param input
-     * @return
-     * @throws IOException
-     */
-    @AuthRequest(requiredPermission = Permissions.MANAGE_SYSTEM_SETTINGS)
-    @PatchMapping("/system/sources/set")
-    public ResponseEntity<Object> setSources(@RequestHeader(value = "X-API-KEY", required = false) String token, @RequestBody Map<String, List<String>> input) throws IOException {
-        String[] supported = propertyService.getPropertyAsList("system.sources.supported");
-        for (String s :input.get("sources")) {
-            if (!List.of(supported).contains(s)) return new ResponseEntity<>(new ErrorDto("'" + s + "' is not supported by this current version"), HttpStatus.I_AM_A_TEAPOT);
-        }
-        propertyService.setProperty("system.sources.enabled", "{" + String.join(",", input.get("sources")) + "}");
-        String[] sources = propertyService.getPropertyAsList("system.sources.enabled");
-
-        return new ResponseEntity<>(sources, HttpStatus.OK);
-    }
-
-    /**
      * get all system settings
      * @param token is the access token of the user that sent the request. It is necessary if the @AuthRequest annotation is being used
      * @return
@@ -239,6 +109,9 @@ public class SystemRest {
         response.put("isPrivate", Boolean.parseBoolean(propertyService.getProperty("system.is-private")));
         response.put("entryCode", propertyService.getProperty("system.entry-code"));
         response.put("emailAuth", Boolean.parseBoolean(propertyService.getProperty("system.email-auth")));
+        response.put("fromEmail", propertyService.getProperty("system.from-email"));
+        response.put("smtpPassword", propertyService.getProperty("system.smtp-password"));
+        response.put("smtpHostString", propertyService.getProperty("system.smtp-host-string"));
         response.put("supportedSources", propertyService.getPropertyAsList("system.sources.supported"));
         response.put("enabledSources", propertyService.getPropertyAsList("system.sources.enabled"));
 
@@ -260,6 +133,9 @@ public class SystemRest {
         propertyService.setProperty("system.is-private", input.get("isPrivate")+"");
         propertyService.setProperty("system.entry-code", input.get("entryCode")+"");
         propertyService.setProperty("system.email-auth", input.get("emailAuth")+"");
+        propertyService.setProperty("system.from-email", input.get("fromEmail")+"");
+        propertyService.setProperty("system.smtp-password", input.get("smtpPassword")+"");
+        propertyService.setProperty("system.smtp-host-string", input.get("smtpHostString")+"");
         propertyService.setProperty("system.sources.supported", "{" + String.join(",", (List<String>)input.get("supportedSources")) + "}");
         propertyService.setProperty("system.sources.enabled", "{" + String.join(",", (List<String>)input.get("enabledSources")) + "}");
 
