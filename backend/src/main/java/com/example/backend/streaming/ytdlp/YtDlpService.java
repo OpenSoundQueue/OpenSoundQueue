@@ -52,7 +52,7 @@ public class YtDlpService {
         try {
             LOG.info("Fetching song {}", song.getLink());
             Process process = new ProcessBuilder("yt-dlp", "--dump-single-json", song.getLink())
-                    .redirectErrorStream(true)
+                    .redirectError(ProcessBuilder.Redirect.INHERIT)
                     .start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
