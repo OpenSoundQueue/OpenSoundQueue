@@ -1,17 +1,23 @@
 export class ApplicationSettings {
     private _language: string;
     private _emailAuth: boolean;
+    private _fromEmail: string;
+    private _smtpPassword: string;
+    private _smtpHostString: string;
     private _isPrivate: boolean;
     private _entryCode: string;
     private _enabledSources: string[];
     private _supportedSources: string[];
 
-    constructor(language: string, requireEmailAuth: boolean, isPrivate: boolean, entryCode: string, sources: string[], supportedSources: string[]) {
+    constructor(language: string, emailAuth: boolean, fromEmail: string, emailPassword: string, emailHostString: string, isPrivate: boolean, entryCode: string, enabledSources: string[], supportedSources: string[]) {
         this._language = language;
-        this._emailAuth = requireEmailAuth;
+        this._emailAuth = emailAuth;
+        this._fromEmail = fromEmail;
+        this._smtpPassword = emailPassword;
+        this._smtpHostString = emailHostString;
         this._isPrivate = isPrivate;
         this._entryCode = entryCode;
-        this._enabledSources = sources;
+        this._enabledSources = enabledSources;
         this._supportedSources = supportedSources;
     }
 
@@ -21,6 +27,18 @@ export class ApplicationSettings {
         }
 
         if (applicationSettings1.emailAuth !== applicationSettings2.emailAuth) {
+            return false;
+        }
+
+        if (applicationSettings1.fromEmail !== applicationSettings2.fromEmail) {
+            return false;
+        }
+
+        if (applicationSettings1.smtpPassword !== applicationSettings2.smtpPassword) {
+            return false;
+        }
+
+        if (applicationSettings1.smtpHostString !== applicationSettings2.smtpHostString) {
             return false;
         }
 
@@ -59,6 +77,9 @@ export class ApplicationSettings {
         return new ApplicationSettings(
             applicationSettings.language,
             applicationSettings.emailAuth,
+            applicationSettings.fromEmail,
+            applicationSettings.smtpPassword,
+            applicationSettings.smtpHostString,
             applicationSettings.isPrivate,
             applicationSettings.entryCode,
             [...applicationSettings.enabledSources],
@@ -110,10 +131,37 @@ export class ApplicationSettings {
         this._enabledSources = value;
     }
 
+    get fromEmail(): string {
+        return this._fromEmail;
+    }
+
+    set fromEmail(value: string) {
+        this._fromEmail = value;
+    }
+
+    get smtpPassword(): string {
+        return this._smtpPassword;
+    }
+
+    set smtpPassword(value: string) {
+        this._smtpPassword = value;
+    }
+
+    get smtpHostString(): string {
+        return this._smtpHostString;
+    }
+
+    set smtpHostString(value: string) {
+        this._smtpHostString = value;
+    }
+
     toDto(): object {
         return {
             language: this._language,
             emailAuth: this._emailAuth,
+            fromEmail: this._fromEmail,
+            smtpPassword: this._smtpPassword,
+            smtpHostString: this._smtpHostString,
             isPrivate: this._isPrivate,
             entryCode: this._entryCode,
             enabledSources: this._enabledSources,

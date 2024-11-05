@@ -34,6 +34,9 @@ export const useApplicationSettingsStore = defineStore('applicationSettings', ()
                     persistedApplicationSettings.value = new ApplicationSettings(
                         data.language,
                         data.emailAuth,
+                        data.fromEmail,
+                        data.smtpPassword,
+                        data.smtpHostString,
                         data.isPrivate,
                         data.entryCode,
                         data.enabledSources,

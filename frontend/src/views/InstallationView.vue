@@ -46,24 +46,23 @@ import RegistrationVerification from "@/components/registration/RegistrationVeri
 import router from "@/router";
 import type {TranslationsKey} from "@/plugins/TranslationPlugin";
 import type {RouteRecordName} from "vue-router";
-import {useInstallationStore} from "@/stores/Installation";
 import {installation, registration} from "@/store/store";
 import {removeRegistration} from "@/store/registration";
 import RegistrationFinished from "@/components/registration/RegistrationFinished.vue";
-import {HttpService} from "@/services/HttpService";
 import {ToastService} from "@/services/ToastService";
+import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
+import {HttpService} from "@/services/HttpService";
 
 const httpService = new HttpService();
-const store = useInstallationStore();
+const store = useApplicationSettingsStore();
 const installationProgress = ref(installation.currentStep);
 
 watch(installationProgress, (newValue) => {
   installation.currentStep = newValue;
 })
 
-
 const component: ShallowRef<Component | undefined> = shallowRef(LanguageSetting);
-const installationSteps: RouteRecordName[] = ['language', 'registration', 'privacy', 'sources'];
+const installationSteps: RouteRecordName[] = ['language', 'privacy', 'sources', 'registration'];
 const readyForNextStep: Ref<boolean> = ref(false);
 
 const currentRouteName: ComputedRef<TranslationsKey> = computed(() => {
@@ -77,6 +76,7 @@ const lastStep: ComputedRef<TranslationsKey> = computed(() => {
 });
 
 onMounted(() => {
+  store.fetchApplicationSettings();
   chooseComponent()
 })
 
@@ -144,26 +144,42 @@ async function next() {
   try {
     switch (routeName) {
       case "language":
-        await store.saveLanguage()
-        installationProgress.value = 'registration';
+        if (!store.editedApplicationSettings?.language) {
+          break;
+        }
+
+        store.setLanguage(store.editedApplicationSettings?.language);
+        await store.save();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
         break;
       case "registration":
-        installationProgress.value = 'privacy';
-        break;
-      case "privacy":
-        await store.savePrivacy()
-        installationProgress.value = 'sources';
-        break;
-      case "sources":
-        await store.saveSources();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
+
         await httpService.setInstallationStateComplete()
-            .then(()=>{
-              ToastService.sendNotification("Save Success","success",3000);
+            .then(() => {
+              ToastService.sendNotification("Save Success", "success", 3000);
             })
-            .catch(()=>{
-              ToastService.sendNotification("Save Error","error",3000);
+            .catch(() => {
+              ToastService.sendNotification("Save Error", "error", 3000);
             });
         break;
+      case "privacy":
+        if (store.editedApplicationSettings?.isPrivate == undefined) {
+          break;
+        }
+
+        store.setIsPrivate(store.editedApplicationSettings.isPrivate);
+        store.setRequireEmailAuth(store.editedApplicationSettings.emailAuth);
+        await store.save();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
+        break;
+      case "sources":
+        if (!store.editedApplicationSettings?.enabledSources) {
+          break;
+        }
+
+        await store.save();
+        installationProgress.value = installationSteps[installationSteps.indexOf(routeName) + 1];
     }
   } catch {
     return;
@@ -176,7 +192,6 @@ async function next() {
   }
 
   await router.push({name: installationSteps[installationSteps.indexOf(routeName) + 1]});
-
 }
 </script>
 
@@ -199,7 +214,8 @@ main {
 header {
   position: sticky;
   top: 0;
-  background-color: rgb(var(--secondary-color));
+  background: linear-gradient(180deg, rgba(var(--secondary-color), 1) 0%, rgba(var(--secondary-color), 1) 75%, rgba(var(--secondary-color), 0) 100%);
+  z-index: 1;
 
   display: flex;
   flex-direction: row;
@@ -233,6 +249,10 @@ header {
   height: calc(var(--font-size-big) * 1.5);
   aspect-ratio: 2/1;
   padding: 25px;
+}
+
+.install-container {
+  z-index: 0;
 }
 
 .button-container {

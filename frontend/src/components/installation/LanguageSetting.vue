@@ -1,13 +1,14 @@
 <template>
-  <div class="language-container scrollbar">
+  <div class="language-container scrollbar" v-if="store.editedApplicationSettings">
     <div class="description">{{ $translate('applicationSettings.defaultLanguage.description') }}</div>
-    <div v-for="(language,index) of Object.keys(translations)"
+    <div v-for="(language, index) of Object.keys(translations)"
          :key="index"
          @click="store.setLanguage(language)"
          class="language-wrapper"
-         :class="[store.language==language?'selected':'']">
+         :class="[store.editedApplicationSettings.language == language ? 'selected':'']">
       <div>{{ $translate(`languages.${language}`) }}</div>
-      <svg v-show="store.language==language" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" :alt="$translate('altTexts.check')">
+      <svg v-show="store.editedApplicationSettings.language == language" xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 -960 960 960">
         <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
       </svg>
     </div>
@@ -15,11 +16,16 @@
 </template>
 
 <script setup lang="ts">
-import {useInstallationStore} from "@/stores/Installation";
 import {onMounted, watchEffect} from "vue";
-import {translations} from "@/plugins/TranslationPlugin";
+import {setLanguage, translations} from "@/plugins/TranslationPlugin";
+import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
 
-const store = useInstallationStore();
+const emit = defineEmits<{
+  ready: [],
+  notReady: []
+}>()
+
+const store = useApplicationSettingsStore();
 
 onMounted(() => {
   checkStatus()
@@ -29,19 +35,14 @@ onMounted(() => {
   });
 })
 
-
 function checkStatus() {
-  if (store.language != null) {
+  if (store.editedApplicationSettings?.language) {
+    setLanguage(store.editedApplicationSettings.language);
     emit("ready");
   } else {
     emit("notReady");
   }
 }
-
-const emit = defineEmits<{
-  ready: [],
-  notReady: []
-}>()
 </script>
 
 <style scoped>

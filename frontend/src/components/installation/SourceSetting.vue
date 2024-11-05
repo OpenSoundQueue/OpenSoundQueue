@@ -1,33 +1,29 @@
 <template>
-  <div class="source-container scrollbar">
+  <div class="source-container scrollbar" v-if="store.editedApplicationSettings">
     <div class="description">{{ $translate('applicationSettings.sources.description') }}</div>
-    <div v-for="(source,index) of supportedSources"
+    <div v-for="(source, index) of store.editedApplicationSettings.supportedSources"
          :key="index"
-         @click="store.toggleSource(source)"
+         @click="toggleSource(source)"
          class="source-wrapper">
       <div>{{ source }}</div>
-      <Checkbox :checked="store.sources.includes(source)"/>
+      <Checkbox :checked="store.editedApplicationSettings.enabledSources.includes(source)"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useInstallationStore} from "@/stores/Installation";
-import {onMounted, ref, watchEffect} from "vue";
-import type {Ref} from "vue";
-import {HttpService} from "@/services/HttpService";
+import {onMounted, watchEffect} from "vue";
 import Checkbox from "@/components/buttons/Checkbox.vue";
+import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
 
-const store = useInstallationStore();
-const httpService = new HttpService();
+const emit = defineEmits<{
+  ready: [],
+  notReady: []
+}>()
 
-const supportedSources:Ref<string[]> = ref([]);
+const store = useApplicationSettingsStore();
 
 onMounted(async () => {
-  await httpService.getSupportedSources()
-      .then(data => {
-        supportedSources.value = data
-      })
   checkStatus()
 
   watchEffect(() => {
@@ -35,23 +31,31 @@ onMounted(async () => {
   });
 })
 
-
 function checkStatus() {
-  if (store.sources.length > 0) {
-    emit("ready");
-  } else {
+  if (!store.editedApplicationSettings?.enabledSources) {
     emit("notReady");
+    return;
   }
+
+  if (store.editedApplicationSettings?.enabledSources.length === 0) {
+    emit("notReady");
+    return;
+  }
+
+  emit("ready");
 }
 
-const emit = defineEmits<{
-  ready: [],
-  notReady: []
-}>()
+function toggleSource(source: string) {
+  if (!store.editedApplicationSettings) {
+    return;
+  }
+
+  store.toggleSource(source);
+}
 </script>
 
 <style scoped>
-.source-container{
+.source-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -60,11 +64,11 @@ const emit = defineEmits<{
   padding: 25px;
 }
 
-.description{
+.description {
   font-style: italic;
 }
 
-.source-wrapper{
+.source-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -76,17 +80,17 @@ const emit = defineEmits<{
   border-radius: var(--border-radius-medium);
   box-sizing: border-box;
 
-  &&:hover{
+  &&:hover {
     background-color: rgb(var(--tertiary-color));
     color: rgb(var(--background-color));
     font-weight: bold;
 
-     && > .checkbox {
+    && > .checkbox {
       border-color: rgb(var(--background-color)) !important;
     }
   }
 
-  &&.selected{
+  &&.selected {
     background-color: rgb(var(--tertiary-color));
     border-color: rgb(var(--tertiary-color));
   }

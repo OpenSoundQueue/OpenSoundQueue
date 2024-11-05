@@ -1,23 +1,47 @@
 <template>
-  <div class="privacy-container scrollbar">
-    <div class="setting-container" @click="store.toggleEmailAuth()">
+  <div class="privacy-container scrollbar" v-if="store.editedApplicationSettings">
+    <div class="setting-container" @click="toggleRequireEmailAuth">
       <div class="setting-title">{{ $translate('applicationSettings.privacy.emailAuth.title') }}</div>
-      <ToggleSwitch :checked="store.requireEmailAuth"/>
+      <ToggleSwitch :checked="store.editedApplicationSettings.emailAuth"/>
     </div>
     <div class="description">{{ $translate('applicationSettings.privacy.emailAuth.description') }}</div>
+    <div v-if="store.editedApplicationSettings.emailAuth">
+      <InputField
+          placeholder="E-Mail-Adresse"
+          :required="false"
+          v-model="store.editedApplicationSettings.fromEmail"
+          :manual-value="store.editedApplicationSettings.fromEmail"
+          :validation-function="$validateEmail"
+          :validation-message="$translate('email.validation')"
+      />
+      <InputField
+          placeholder="E-Mail Passwort"
+          :required="false"
+          v-model="store.editedApplicationSettings.smtpPassword"
+          :manual-value="store.editedApplicationSettings.smtpPassword"
+      />
+      <InputField
+          placeholder="E-Mail Host"
+          :required="false"
+          v-model="store.editedApplicationSettings.smtpHostString"
+          :manual-value="store.editedApplicationSettings.smtpHostString"
+      />
+    </div>
     <div class="hr"/>
-    <div class="setting-container" @click="store.toggleIsPrivate()">
+    <div class="setting-container" @click="toggleIsPrivate">
       <div class="setting-title">{{ $translate('applicationSettings.privacy.privateRoom.title') }}</div>
-      <ToggleSwitch :checked="store.isPrivate"/>
+      <ToggleSwitch :checked="store.editedApplicationSettings.isPrivate"/>
     </div>
     <div class="description">{{ $translate('applicationSettings.privacy.privateRoom.description') }}</div>
-    <div class="entry-code-container">
+    <div class="entry-code-container" v-if="store.editedApplicationSettings.isPrivate">
       <div class="setting-title">{{ $translate('entryCode.title') }}</div>
       <InputField
           :required="false"
           :placeholder="$translate('entryCode.placeholder')"
-          @user-input="(entryCode)=>store.setEntryCode(entryCode)"
-          :manual-value="store.entryCode"
+          v-model="store.editedApplicationSettings.entryCode"
+          :manual-value="store.editedApplicationSettings.entryCode"
+          :validation-function="$validateEntryCode"
+          :validation-message="$translate('entryCode.validation')"
       />
     </div>
   </div>
@@ -28,9 +52,14 @@ import ToggleSwitch from "@/components/buttons/ToggleSwitch.vue";
 import {onMounted, watchEffect} from "vue";
 import InputField from "@/components/inputs/InputField.vue";
 import {validateEntryCode} from "@/plugins/ValidationPlugin";
-import {useInstallationStore} from "@/stores/Installation";
+import {useApplicationSettingsStore} from "@/stores/ApplicationSettings";
 
-const store = useInstallationStore();
+const emit = defineEmits<{
+  ready: [],
+  notReady: []
+}>()
+
+const store = useApplicationSettingsStore();
 
 onMounted(() => {
   checkStatus()
@@ -40,23 +69,35 @@ onMounted(() => {
   });
 })
 
-
 function checkStatus() {
-  if (validateEntryCode(store.entryCode)()) {
-    if (store.isPrivate) {
-      store.entryCode.length > 0 ? emit("ready") : emit("notReady");
-    } else {
-      emit("ready");
-    }
-  } else {
+  if (!store.editedApplicationSettings?.entryCode) {
     emit("notReady");
+    return;
   }
+
+  if (!validateEntryCode(store.editedApplicationSettings.entryCode)() && store.editedApplicationSettings.isPrivate) {
+    emit("notReady");
+    return;
+  }
+
+  emit("ready");
 }
 
-const emit = defineEmits<{
-  ready: [],
-  notReady: []
-}>()
+function toggleRequireEmailAuth() {
+  if (!store.editedApplicationSettings) {
+    return;
+  }
+
+  store.setRequireEmailAuth(!store.editedApplicationSettings.emailAuth);
+}
+
+function toggleIsPrivate() {
+  if (!store.editedApplicationSettings) {
+    return;
+  }
+
+  store.setIsPrivate(!store.editedApplicationSettings.isPrivate);
+}
 </script>
 
 <style scoped>

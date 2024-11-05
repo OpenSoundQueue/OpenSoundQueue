@@ -272,16 +272,16 @@
     },
     "navigation": {
       "next": {
-        "language": "Continuar al registro",
-        "registration": "Continuar a configuraciones de privacidad",
-        "privacy": "Continuar a selección de fuentes",
-        "sources": "Completar instalación"
+        "language": "Continuar a Configuración de Privacidad",
+        "registration": "Completar Instalación",
+        "privacy": "Continuar a Selección de Fuentes",
+        "sources": "Continuar a Registro"
       },
       "back": {
         "language": "No es posible retroceder",
-        "registration": "Regresar a selección de Idioma",
-        "privacy": "Regresar a registro",
-        "sources": "Regresar a control de acceso"
+        "registration": "Regresar a Selección de Fuentes",
+        "privacy": "Regresar a Selección de Idioma",
+        "sources": "Regresar a Configuración de Privacidad"
       }
     }
   },

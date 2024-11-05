@@ -97,7 +97,7 @@ public class UserRest {
             return new ResponseEntity<>(new ErrorDto("Username already in use"), HttpStatus.BAD_REQUEST);
         }
 
-        userInfoEntity = userService.registerNewUser(new UserInfoEntity(username));
+        userInfoEntity = userService.registerNewTempUser(new UserInfoEntity(username));
 
         String token = tokenUtils.generateToken();
         userService.updateToken(userInfoEntity.getId(), token);
@@ -163,7 +163,7 @@ public class UserRest {
             }
         }
 
-        userInfoEntity = userService.registerNewUser(new UserInfoEntity(username));
+        userInfoEntity = userService.registerNewTempUser(new UserInfoEntity(username));
 
         String token = tokenUtils.generateToken();
 
@@ -290,15 +290,34 @@ public class UserRest {
         return new ResponseEntity<>(new UserDto(user.getId(), user.getUsername(), user.getLastOnline()), HttpStatus.OK);
     }
 
+    @PostMapping("register/create-password-account")
+    public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws IOException {
+        if (Boolean.parseBoolean(propertyService.getProperty("system.email-auth"))) {
+            return new ResponseEntity<>(new ErrorDto("only authenticated are allowed"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (userService.getUserByUsername(user.getUsername()) != null) {
+            return new ResponseEntity<>(new ErrorDto("username is already taken"), HttpStatus.BAD_REQUEST);
+        }
+
+        UserInfoEntity savedUser = userService.registerNewPasswordUser(user);
+
+        if (!Boolean.parseBoolean(propertyService.getProperty("system.installed"))) {
+            userService.changeRolesOfUser(savedUser.getId(), List.of(roleRepository.findByName("Owner")));
+        }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     /**
-     * create a new user
+     * create a new auth user
      * @param user
      * @return
      * @throws MessagingException
      * @throws IOException
      */
-    @PostMapping("/register/create-account")
-    public ResponseEntity<Object> createAccount(@RequestBody UserInfoEntity user) throws MessagingException, IOException {
+    @PostMapping("/register/create-auth-account")
+    public ResponseEntity<Object> createAuthAccount(@RequestBody UserInfoEntity user) throws MessagingException, IOException {
         UserInfoEntity savedUser;
         if (userService.getUserByUsername(user.getUsername()) != null && userService.getUserByUsername(user.getUsername()).getVerified()) return new ResponseEntity<>(new ErrorDto("username is already taken"), HttpStatus.BAD_REQUEST);
         if (userService.getUserByEmail(user.getEmail()) != null) {
@@ -311,7 +330,7 @@ public class UserRest {
             }
         } else {
             if (userService.getUserByUsername(user.getUsername()) == null) {
-                savedUser = userService.registerNewAuthUser(user);
+                savedUser = userService.registerNewPasswordUser(user);
                 if (!Boolean.parseBoolean(propertyService.getProperty("system.installed"))) {
                     userService.changeRolesOfUser(savedUser.getId(), List.of(roleRepository.findByName("Owner")));
                 }
